@@ -10,21 +10,22 @@ public enum ActionState
     Action1,
     Action2
 }
-
+[CreateAssetMenu(fileName = "ModuleInputPlay", menuName = "AddOn Module/Input Play", order = 1)]
 public class _ModuleInputPlay : ScriptableObject
 {
-    public UnityEvent<ActionState> OnAction {get; set;}
+    public UnityAction<ActionState> OnAction { get; set; }
 
     private InputActions input;
 
-    public Vector3 LookHandler
-    {
-        get {
-        var axisX = input.Player.Look.ReadValue<Vector2>().x;
-        var axisY = input.Player.Look.ReadValue<Vector2>().y;
-        return new Vector3(axisX, axisY, 0);
-        }
-    }
+    // public Vector3 LookHandler
+    // {
+    //     get {
+    //     var axisX = input.Player.Look.ReadValue<Vector2>().x;
+    //     var axisY = input.Player.Look.ReadValue<Vector2>().y;
+    //     return new Vector3(axisX, axisY, 0);
+    //     }
+    // }
+
     private void ActionAwake()
     {
         input.Player.Sprint.performed += (e) =>
