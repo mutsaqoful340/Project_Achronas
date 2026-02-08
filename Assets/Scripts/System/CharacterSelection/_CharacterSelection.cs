@@ -20,6 +20,8 @@ public class _CharacterSelection : MonoBehaviour
     [Header("Cursors")]
     public GameObject player1CursorTransform;
     public GameObject player2CursorTransform;
+    public GameObject player1CusorVisual;
+    public GameObject player2CusorVisual;
     
     [Header("Selection Positions")]
     [Tooltip("Individual positions for each player's cursor at each state")]
@@ -55,6 +57,8 @@ public class _CharacterSelection : MonoBehaviour
     {
         player1CursorTransform.SetActive(false);
         player2CursorTransform.SetActive(false);
+        player1CusorVisual.SetActive(false);
+        player2CusorVisual.SetActive(false);
         
         // Initialize cursor images if not assigned
         if (player1CursorImage == null && player1CursorTransform != null)
@@ -110,6 +114,7 @@ public class _CharacterSelection : MonoBehaviour
                     player1Device = gamepad;
                     player1LoggedIn = true;
                     player1CursorTransform.SetActive(true);
+                    player1CusorVisual.SetActive(true);
                     Debug.Log("Player 1 logged in with device: " + gamepad.deviceId);
                     
                     // Update debug UI
@@ -122,6 +127,7 @@ public class _CharacterSelection : MonoBehaviour
                     player2Device = gamepad;
                     player2LoggedIn = true;
                     player2CursorTransform.SetActive(true);
+                    player2CusorVisual.SetActive(true);
                     Debug.Log("Player 2 logged in with device: " + gamepad.deviceId);
                     
                     // Update debug UI

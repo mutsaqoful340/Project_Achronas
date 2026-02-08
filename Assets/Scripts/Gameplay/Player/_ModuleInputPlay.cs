@@ -83,7 +83,7 @@ public class _ModuleInputPlay : ScriptableObject
     private void OnEnable()
     {
         input = new();
-        input.Enable();
+        input.Player.Enable(); // Only enable Player action map
         ActionAwake();
     }
 

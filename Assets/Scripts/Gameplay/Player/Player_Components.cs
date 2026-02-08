@@ -71,7 +71,7 @@ public class Player_Components : GameplayBehaviour
     {
         // Reset velocity when entering gameplay mode
         velocity = Vector3.zero;
-        Debug.Log("Player controls enabled");
+        Debug.Log($"<color=green>Player controls ENABLED - isActive={isActive}</color>");
     }
 
     protected override void OnGameplayDisabled()
@@ -81,13 +81,16 @@ public class Player_Components : GameplayBehaviour
         currentMoveValue = 0f;
         if (anim != null)
             anim.SetFloat("Move", 0f);
-        Debug.Log("Player controls disabled");
+        Debug.Log($"<color=red>Player controls DISABLED - isActive={isActive}</color>");
     }
 
     private void Update()
     {
         // Only allow player control during Gameplay mode
-        if (!isActive) return;
+        if (!isActive)
+        {
+            return;
+        }
 
         isGrounded = controller.isGrounded;
         if (isGrounded && velocity.y < 0)

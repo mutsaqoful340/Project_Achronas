@@ -25,6 +25,7 @@ public class _GameModeSwitch : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            Debug.Log("<color=magenta>_GameModeSwitch Instance created</color>");
         }
         else
         {
@@ -34,25 +35,43 @@ public class _GameModeSwitch : MonoBehaviour
 
     public void SwitchMode()
     {
+        Debug.Log($"<color=magenta>SwitchMode called - Current mode: {currentMode}</color>");
+        
         if (currentMode == GameMode.UI)
         {
             currentMode = GameMode.Player;
-            foreach (var playerInput in PlayerInput)
+            
+            // Switch PlayerInput action maps if any are assigned
+            if (PlayerInput != null && PlayerInput.Length > 0)
             {
-                playerInput.SwitchCurrentActionMap("Player");
+                foreach (var playerInput in PlayerInput)
+                {
+                    if (playerInput != null)
+                        playerInput.SwitchCurrentActionMap("Player");
+                }
             }
+            
+            Debug.Log($"<color=green>Invoking OnGameModeChanged event with GameMode.Player. Subscribers: {OnGameModeChanged?.GetInvocationList()?.Length ?? 0}</color>");
             OnGameModeChanged?.Invoke(GameMode.Player);
-            Debug.Log("Switched to Player Action Map");
+            Debug.Log("<color=green>Switched to Player mode</color>");
         }
         else
         {
             currentMode = GameMode.UI;
-            foreach (var playerInput in PlayerInput)
+            
+            // Switch PlayerInput action maps if any are assigned
+            if (PlayerInput != null && PlayerInput.Length > 0)
             {
-                playerInput.SwitchCurrentActionMap("UI");
+                foreach (var playerInput in PlayerInput)
+                {
+                    if (playerInput != null)
+                        playerInput.SwitchCurrentActionMap("UI");
+                }
             }
+            
+            Debug.Log($"<color=red>Invoking OnGameModeChanged event with GameMode.UI. Subscribers: {OnGameModeChanged?.GetInvocationList()?.Length ?? 0}</color>");
             OnGameModeChanged?.Invoke(GameMode.UI);
-            Debug.Log("Switched to UI Action Map");
+            Debug.Log("<color=red>Switched to UI mode</color>");
         }
     }
 }
