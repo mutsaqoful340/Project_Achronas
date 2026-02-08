@@ -3,19 +3,30 @@ using UnityEngine.Events;
 
 public enum ActionState
 {
+    Idle,
     Sprint,
     Crouch,
     Jump,
     Interact,
     Action1,
-    Action2
+    Action2,
+    Confirm
 }
+
 [CreateAssetMenu(fileName = "ModuleInputPlay", menuName = "AddOn Module/Input Play", order = 1)]
 public class _ModuleInputPlay : ScriptableObject
 {
     public UnityAction<ActionState> OnAction { get; set; }
 
     private InputActions input;
+
+    public Vector3 MoveHandler {
+        get {
+            var axisX = input.Player.Move.ReadValue<Vector2>().x;
+            var axisZ = input.Player.Move.ReadValue<Vector2>().y;
+            return new Vector3(axisX, 0, axisZ);
+        }
+    }
 
     // public Vector3 LookHandler
     // {
@@ -28,9 +39,14 @@ public class _ModuleInputPlay : ScriptableObject
 
     private void ActionAwake()
     {
-        input.Player.Sprint.performed += (e) =>
+        input.Player.Sprint.started += (e) =>
         {
             OnAction?.Invoke(ActionState.Sprint);
+        };
+
+        input.Player.Sprint.canceled += (e) =>
+        {
+            OnAction?.Invoke(ActionState.Idle);
         };
 
         input.Player.Crouch.performed += (e) =>
@@ -56,6 +72,11 @@ public class _ModuleInputPlay : ScriptableObject
         input.Player.Interact.performed += (e) =>
         {
             OnAction?.Invoke(ActionState.Interact);
+        };
+
+        input.UI.Confirm.performed += (e) =>
+        {
+            OnAction?.Invoke(ActionState.Confirm);
         };
     }
 
