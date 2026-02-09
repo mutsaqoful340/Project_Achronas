@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
+// Module for handling player input from assigned gamepad
 public enum ActionState
 {
     Idle,
@@ -18,77 +20,94 @@ public class _ModuleInputPlay : ScriptableObject
 {
     public UnityAction<ActionState> OnAction { get; set; }
 
-    private InputActions input;
+    private bool wasSprintPressed = false;
 
-    public Vector3 MoveHandler {
-        get {
-            var axisX = input.Player.Move.ReadValue<Vector2>().x;
-            var axisZ = input.Player.Move.ReadValue<Vector2>().y;
-            return new Vector3(axisX, 0, axisZ);
+    /// <summary>
+    /// Get movement input from a specific gamepad
+    /// </summary>
+    public Vector3 GetMoveInput(InputDevice device)
+    {
+        Gamepad gamepad = device as Gamepad;
+        if (gamepad == null)
+        {
+            if (Time.frameCount % 120 == 0) // Log every 2 seconds
+            {
+                Debug.LogWarning($"<color=orange>GetMoveInput: Device is not a Gamepad! Type: {device?.GetType().Name}</color>");
+            }
+            return Vector3.zero;
         }
+        
+        var stick = gamepad.leftStick.ReadValue();
+        
+        // Debug log for first few frames or when movement detected
+        if (Time.frameCount < 300 || stick.magnitude > 0.1f)
+        {
+            if (Time.frameCount % 30 == 0 || stick.magnitude > 0.1f)
+            {
+                Debug.Log($"<color=yellow>GetMoveInput: Stick = ({stick.x:F2}, {stick.y:F2})</color>");
+            }
+        }
+        
+        return new Vector3(stick.x, 0, stick.y);
     }
 
-    // public Vector3 LookHandler
-    // {
-    //     get {
-    //     var axisX = input.Player.Look.ReadValue<Vector2>().x;
-    //     var axisY = input.Player.Look.ReadValue<Vector2>().y;
-    //     return new Vector3(axisX, axisY, 0);
-    //     }
-    // }
-
-    private void ActionAwake()
+    /// <summary>
+    /// Update method - call this from Player_Components.Update() to check for button presses
+    /// </summary>
+    public void UpdateInput(InputDevice device)
     {
-        input.Player.Sprint.started += (e) =>
+        Gamepad gamepad = device as Gamepad;
+        if (gamepad == null) return;
+
+        // Sprint (hold)
+        bool isSprintPressed = gamepad.leftTrigger.ReadValue() > 0.5f || 
+                               gamepad.rightTrigger.ReadValue() > 0.5f;
+        
+        if (isSprintPressed && !wasSprintPressed)
         {
             OnAction?.Invoke(ActionState.Sprint);
-        };
-
-        input.Player.Sprint.canceled += (e) =>
+        }
+        else if (!isSprintPressed && wasSprintPressed)
         {
             OnAction?.Invoke(ActionState.Idle);
-        };
+        }
+        wasSprintPressed = isSprintPressed;
 
-        input.Player.Crouch.performed += (e) =>
+        // Crouch (toggle)
+        if (gamepad.buttonEast.wasPressedThisFrame) // B button
         {
             OnAction?.Invoke(ActionState.Crouch);
-        };
+        }
 
-        input.Player.Jump.performed += (e) =>
+        // Jump
+        if (gamepad.buttonSouth.wasPressedThisFrame) // A button
         {
             OnAction?.Invoke(ActionState.Jump);
-        };
+        }
 
-        input.Player.Action1.performed += (e) =>
+        // Action1
+        if (gamepad.buttonWest.wasPressedThisFrame) // X button
         {
             OnAction?.Invoke(ActionState.Action1);
-        };
+        }
 
-        input.Player.Action2.performed += (e) =>
+        // Action2
+        if (gamepad.buttonNorth.wasPressedThisFrame) // Y button
         {
             OnAction?.Invoke(ActionState.Action2);
-        };
+        }
 
-        input.Player.Interact.performed += (e) =>
+        // Interact
+        if (gamepad.leftShoulder.wasPressedThisFrame || 
+            gamepad.rightShoulder.wasPressedThisFrame)
         {
             OnAction?.Invoke(ActionState.Interact);
-        };
-
-        input.UI.Confirm.performed += (e) =>
-        {
-            OnAction?.Invoke(ActionState.Confirm);
-        };
-    }
-
-    private void OnEnable()
-    {
-        input = new();
-        input.Player.Enable(); // Only enable Player action map
-        ActionAwake();
+        }
     }
 
     private void OnDisable()
     {
-        input.Disable();
+        // Reset state when disabled
+        wasSprintPressed = false;
     }
 }

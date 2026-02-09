@@ -2,12 +2,17 @@ using System.Reflection;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
 public class Player_Components : GameplayBehaviour
 {
     [Header("Module Input Play")]
     public _ModuleInputPlay moduleInputPlay;
+    
+    [Header("Assigned Gamepad")]
+    [Tooltip("The specific gamepad assigned to this player (set by CharacterAssignmentManager)")]
+    private InputDevice assignedDevice;
 
     public Transform cameraTransform;
     public float walkSpeed = 4f;
@@ -59,6 +64,48 @@ public class Player_Components : GameplayBehaviour
         }
     }
 
+    /// <summary>
+    /// Assign a specific gamepad to this player
+    /// </summary>
+    public void AssignDevice(InputDevice device)
+    {
+        Debug.Log($"<color=magenta>>>> AssignDevice() called on {gameObject.name}</color>");
+        Debug.Log($"<color=magenta>    Before: assignedDevice = {(assignedDevice != null ? assignedDevice.name : "NULL")}</color>");
+        
+        assignedDevice = device;
+        
+        Debug.Log($"<color=magenta>    After: assignedDevice = {(assignedDevice != null ? assignedDevice.name : "NULL")}</color>");
+        Debug.Log($"<color=cyan>✓ {gameObject.name}: Device assigned - {device?.name} (ID: {device?.deviceId})</color>");
+        Debug.Log($"<color=cyan>moduleInputPlay is {(moduleInputPlay != null ? "ASSIGNED" : "NULL")}</color>");
+    }
+
+    /// <summary>
+    /// Check if this player has a device assigned
+    /// </summary>
+    public bool HasDevice()
+    {
+        return assignedDevice != null;
+    }
+    
+    /// <summary>
+    /// Debug method to check player status
+    /// </summary>
+    [ContextMenu("Debug Player Status")]
+    private void DebugPlayerStatus()
+    {
+        Debug.Log($"=== {gameObject.name} Status ===");
+        Debug.Log($"isActive: {isActive}");
+        Debug.Log($"assignedDevice: {(assignedDevice != null ? $"{assignedDevice.name} (ID: {assignedDevice.deviceId})" : "NULL")}");
+        Debug.Log($"moduleInputPlay: {(moduleInputPlay != null ? "Assigned" : "NULL")}");
+        Debug.Log($"controller: {(controller != null ? "Assigned" : "NULL")}");
+        
+        if (assignedDevice != null && moduleInputPlay != null)
+        {
+            Vector3 input = moduleInputPlay.GetMoveInput(assignedDevice);
+            Debug.Log($"Current Input: ({input.x:F2}, {input.y:F2}, {input.z:F2})");
+        }
+    }
+
     private void OnDestroy()
     {
         if (moduleInputPlay != null)
@@ -71,7 +118,8 @@ public class Player_Components : GameplayBehaviour
     {
         // Reset velocity when entering gameplay mode
         velocity = Vector3.zero;
-        Debug.Log($"<color=green>Player controls ENABLED - isActive={isActive}</color>");
+        Debug.Log($"<color=green>{gameObject.name}: Player controls ENABLED - isActive={isActive}</color>");
+        Debug.Log($"<color=green>{gameObject.name}: assignedDevice={assignedDevice?.name}, moduleInputPlay={moduleInputPlay != null}</color>");
     }
 
     protected override void OnGameplayDisabled()
@@ -92,6 +140,19 @@ public class Player_Components : GameplayBehaviour
             return;
         }
 
+        // Update input from assigned gamepad
+        if (moduleInputPlay != null && assignedDevice != null)
+        {
+            moduleInputPlay.UpdateInput(assignedDevice);
+        }
+        else
+        {
+            if (Time.frameCount % 120 == 0) // Log every 2 seconds at 60fps
+            {
+                Debug.LogWarning($"<color=orange>{gameObject.name}: Cannot read input - moduleInputPlay={moduleInputPlay != null}, assignedDevice={assignedDevice != null}</color>");
+            }
+        }
+
         isGrounded = controller.isGrounded;
         if (isGrounded && velocity.y < 0)
             velocity.y = -2f;
@@ -105,7 +166,9 @@ public class Player_Components : GameplayBehaviour
     #region Movement Helpers
     private Vector3 GetMovementInput()
     {
-        Vector3 inputDir = moduleInputPlay != null ? moduleInputPlay.MoveHandler : Vector3.zero;
+        Vector3 inputDir = (moduleInputPlay != null && assignedDevice != null) 
+            ? moduleInputPlay.GetMoveInput(assignedDevice) 
+            : Vector3.zero;
         
         // Resolve camera transform
         Transform cam = cameraTransform != null ? cameraTransform : Camera.main != null ? Camera.main.transform : null;
@@ -133,7 +196,9 @@ public class Player_Components : GameplayBehaviour
     private float CalculateTargetSpeed()
     {
         bool isSprinting = moduleInputPlay != null && currentActionState == ActionState.Sprint;
-        Vector3 inputDir = moduleInputPlay != null ? moduleInputPlay.MoveHandler : Vector3.zero;
+        Vector3 inputDir = (moduleInputPlay != null && assignedDevice != null) 
+            ? moduleInputPlay.GetMoveInput(assignedDevice) 
+            : Vector3.zero;
         bool isMoving = inputDir.sqrMagnitude > 0.01f;
         
         float targetMoveValue = 0f;

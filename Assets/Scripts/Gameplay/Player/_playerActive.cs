@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;
+using UnityEngine.InputSystem;
 
 
 public class _playerActive : MonoBehaviour
@@ -11,6 +12,10 @@ public class _playerActive : MonoBehaviour
 
     [Header("Character Modules")]
     public _ModuleInputPlay moduleInputPlay;
+    
+    [Header("Assigned Gamepad")]
+    [Tooltip("The specific gamepad assigned to this player (set by CharacterAssignmentManager)")]
+    private InputDevice assignedDevice;
 
     [Header("Player States")]
     public bool IsIdle;
@@ -26,10 +31,29 @@ public class _playerActive : MonoBehaviour
     private Vector3 _moveUpdate;
     private float _moveSpeed;
     #endregion
+    
+    /// <summary>
+    /// Assign a specific gamepad to this player
+    /// </summary>
+    public void AssignDevice(InputDevice device)
+    {
+        assignedDevice = device;
+        Debug.Log($"<color=cyan>{gameObject.name}: Device assigned - {device?.name} (ID: {device?.deviceId})</color>");
+    }
+    
+    /// <summary>
+    /// Check if this player has a device assigned
+    /// </summary>
+    public bool HasDevice()
+    {
+        return assignedDevice != null;
+    }
 
     public void Movement()
     {
-        var vector = moduleInputPlay ? moduleInputPlay.MoveHandler.normalized : Vector3.zero;
+        var vector = (moduleInputPlay != null && assignedDevice != null) 
+            ? moduleInputPlay.GetMoveInput(assignedDevice).normalized 
+            : Vector3.zero;
         IsIdle = (vector.x, vector.z) == (0, 0);
         // anim.SetFloat("AxisX", IsStance ? vector.x : 0f);   // Nilai axis kiri kanan yang digunakan untuk strafing
         // anim.SetFloat("AxisZ", IsStance ? vector.z : 0f);   // Nilai axis depan belakang yang digunakan untuk strafing
@@ -102,6 +126,18 @@ public class _playerActive : MonoBehaviour
         // Components Setup
         anim = GetComponent<Animator>();
 
-        moduleInputPlay.OnAction = Action;
+        if (moduleInputPlay != null)
+        {
+            moduleInputPlay.OnAction = Action;
+        }
+    }
+    
+    private void Update()
+    {
+        // Update input from assigned gamepad
+        if (moduleInputPlay != null && assignedDevice != null)
+        {
+            moduleInputPlay.UpdateInput(assignedDevice);
+        }
     }
 }

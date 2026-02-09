@@ -79,6 +79,9 @@ public class _CharacterSelection : MonoBehaviour
 
     void Update()
     {
+        // Stop processing after both players confirmed
+        if (bothPlayersConfirmed) return;
+        
         // Handle player login
         if (!player1LoggedIn || !player2LoggedIn)
         {
@@ -408,10 +411,25 @@ public class _CharacterSelection : MonoBehaviour
     
     void SaveSelections()
     {
-        // Save to PlayerPrefs
+        // Save to PlayerPrefs (for backwards compatibility)
         PlayerPrefs.SetInt("Player1CharacterIndex", player1SelectedCharacter);
         PlayerPrefs.SetInt("Player2CharacterIndex", player2SelectedCharacter);
         PlayerPrefs.Save();
+        
+        // Save to PlayerSessionData (for gamepad assignments)
+        if (PlayerSessionData.Instance != null)
+        {
+            PlayerSessionData.Instance.SavePlayerData(
+                player1Device,
+                player2Device,
+                player1SelectedCharacter,
+                player2SelectedCharacter
+            );
+        }
+        else
+        {
+            Debug.LogWarning("PlayerSessionData.Instance is NULL - gamepad assignments won't persist!");
+        }
         
         Debug.Log($"💾 Selections saved: P1={player1SelectedCharacter}, P2={player2SelectedCharacter}");
     }
