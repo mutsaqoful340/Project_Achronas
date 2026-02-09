@@ -51,14 +51,10 @@ public class CharacterAssignmentManager : MonoBehaviour
             return;
         }
 
-        Debug.Log("<color=cyan>=== CharacterAssignmentManager: Starting character assignment ===</color>");
+        Debug.Log("<color=cyan>=== CharacterAssignmentManager: Starting assignment ===</color>");
 
         // Get session data
         var sessionData = PlayerSessionData.Instance;
-        
-        Debug.Log($"<color=cyan>Session Data:</color>");
-        Debug.Log($"  P1: Device ID={sessionData.player1Device?.deviceId}, Character Index={sessionData.player1CharacterIndex}");
-        Debug.Log($"  P2: Device ID={sessionData.player2Device?.deviceId}, Character Index={sessionData.player2CharacterIndex}");
         
         // Assign Player 1
         AssignPlayer(
@@ -106,9 +102,7 @@ public class CharacterAssignmentManager : MonoBehaviour
         if (targetCharacter != null)
         {
             targetCharacter.AssignDevice(device);
-            bool hasDevice = targetCharacter.HasDevice();
-            Debug.Log($"<color=green>✓ Player {playerNum} → {characterName} character (Device: {device?.name}, ID: {device?.deviceId})</color>");
-            Debug.Log($"<color=cyan>Device assignment verified: {(hasDevice ? "SUCCESS" : "FAILED")}</color>");
+            Debug.Log($"<color=green>✓ Player {playerNum} → {characterName} character</color>");
         }
         else
         {

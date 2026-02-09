@@ -598,6 +598,42 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""BtnY"",
+                    ""type"": ""Button"",
+                    ""id"": ""351be29a-eab9-4378-b332-62b081e7c322"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""BtnB"",
+                    ""type"": ""Button"",
+                    ""id"": ""10d3d966-e520-43c5-b89d-b351599b2d12"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""BtnX"",
+                    ""type"": ""Button"",
+                    ""id"": ""4a4afb0f-6956-4bc5-8141-73adbccbb822"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""BtnA"",
+                    ""type"": ""Button"",
+                    ""id"": ""d8d63a46-6406-4571-9026-278e77250603"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1018,6 +1054,50 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""TrackedDeviceOrientation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""35400dac-3cd5-45b6-b748-ebbe789c8fbd"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BtnY"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""844c8119-3a60-4744-86a2-f58a591e42de"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BtnB"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""21c06967-97cb-4ca7-9ed6-2f1a457a5a68"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BtnX"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c6d981db-0e3c-42cf-a85a-ab2a837d49e8"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BtnA"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -1109,6 +1189,10 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_UI_ScrollWheel = m_UI.FindAction("ScrollWheel", throwIfNotFound: true);
         m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
+        m_UI_BtnY = m_UI.FindAction("BtnY", throwIfNotFound: true);
+        m_UI_BtnB = m_UI.FindAction("BtnB", throwIfNotFound: true);
+        m_UI_BtnX = m_UI.FindAction("BtnX", throwIfNotFound: true);
+        m_UI_BtnA = m_UI.FindAction("BtnA", throwIfNotFound: true);
     }
 
     ~@InputActions()
@@ -1395,6 +1479,10 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_ScrollWheel;
     private readonly InputAction m_UI_TrackedDevicePosition;
     private readonly InputAction m_UI_TrackedDeviceOrientation;
+    private readonly InputAction m_UI_BtnY;
+    private readonly InputAction m_UI_BtnB;
+    private readonly InputAction m_UI_BtnX;
+    private readonly InputAction m_UI_BtnA;
     /// <summary>
     /// Provides access to input actions defined in input action map "UI".
     /// </summary>
@@ -1446,6 +1534,22 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "UI/TrackedDeviceOrientation".
         /// </summary>
         public InputAction @TrackedDeviceOrientation => m_Wrapper.m_UI_TrackedDeviceOrientation;
+        /// <summary>
+        /// Provides access to the underlying input action "UI/BtnY".
+        /// </summary>
+        public InputAction @BtnY => m_Wrapper.m_UI_BtnY;
+        /// <summary>
+        /// Provides access to the underlying input action "UI/BtnB".
+        /// </summary>
+        public InputAction @BtnB => m_Wrapper.m_UI_BtnB;
+        /// <summary>
+        /// Provides access to the underlying input action "UI/BtnX".
+        /// </summary>
+        public InputAction @BtnX => m_Wrapper.m_UI_BtnX;
+        /// <summary>
+        /// Provides access to the underlying input action "UI/BtnA".
+        /// </summary>
+        public InputAction @BtnA => m_Wrapper.m_UI_BtnA;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1502,6 +1606,18 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @TrackedDeviceOrientation.started += instance.OnTrackedDeviceOrientation;
             @TrackedDeviceOrientation.performed += instance.OnTrackedDeviceOrientation;
             @TrackedDeviceOrientation.canceled += instance.OnTrackedDeviceOrientation;
+            @BtnY.started += instance.OnBtnY;
+            @BtnY.performed += instance.OnBtnY;
+            @BtnY.canceled += instance.OnBtnY;
+            @BtnB.started += instance.OnBtnB;
+            @BtnB.performed += instance.OnBtnB;
+            @BtnB.canceled += instance.OnBtnB;
+            @BtnX.started += instance.OnBtnX;
+            @BtnX.performed += instance.OnBtnX;
+            @BtnX.canceled += instance.OnBtnX;
+            @BtnA.started += instance.OnBtnA;
+            @BtnA.performed += instance.OnBtnA;
+            @BtnA.canceled += instance.OnBtnA;
         }
 
         /// <summary>
@@ -1543,6 +1659,18 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @TrackedDeviceOrientation.started -= instance.OnTrackedDeviceOrientation;
             @TrackedDeviceOrientation.performed -= instance.OnTrackedDeviceOrientation;
             @TrackedDeviceOrientation.canceled -= instance.OnTrackedDeviceOrientation;
+            @BtnY.started -= instance.OnBtnY;
+            @BtnY.performed -= instance.OnBtnY;
+            @BtnY.canceled -= instance.OnBtnY;
+            @BtnB.started -= instance.OnBtnB;
+            @BtnB.performed -= instance.OnBtnB;
+            @BtnB.canceled -= instance.OnBtnB;
+            @BtnX.started -= instance.OnBtnX;
+            @BtnX.performed -= instance.OnBtnX;
+            @BtnX.canceled -= instance.OnBtnX;
+            @BtnA.started -= instance.OnBtnA;
+            @BtnA.performed -= instance.OnBtnA;
+            @BtnA.canceled -= instance.OnBtnA;
         }
 
         /// <summary>
@@ -1796,5 +1924,33 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "BtnY" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnBtnY(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "BtnB" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnBtnB(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "BtnX" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnBtnX(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "BtnA" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnBtnA(InputAction.CallbackContext context);
     }
 }

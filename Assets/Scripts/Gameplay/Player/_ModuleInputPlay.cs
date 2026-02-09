@@ -20,94 +20,119 @@ public class _ModuleInputPlay : ScriptableObject
 {
     public UnityAction<ActionState> OnAction { get; set; }
 
-    private bool wasSprintPressed = false;
+    private InputActions inputActions;
+    private InputDevice assignedDevice;
+    private bool isInitialized = false;
 
     /// <summary>
-    /// Get movement input from a specific gamepad
+    /// Initialize InputActions and assign a specific device
     /// </summary>
-    public Vector3 GetMoveInput(InputDevice device)
+    public void Initialize(InputDevice device)
     {
-        Gamepad gamepad = device as Gamepad;
-        if (gamepad == null)
+        assignedDevice = device;
+        
+        // Create InputActions if not already created
+        if (inputActions == null)
         {
-            if (Time.frameCount % 120 == 0) // Log every 2 seconds
-            {
-                Debug.LogWarning($"<color=orange>GetMoveInput: Device is not a Gamepad! Type: {device?.GetType().Name}</color>");
-            }
-            return Vector3.zero;
+            inputActions = new InputActions();
         }
         
-        var stick = gamepad.leftStick.ReadValue();
+        // Disable all devices first
+        InputSystem.DisableDevice(Keyboard.current);
         
-        // Debug log for first few frames or when movement detected
-        if (Time.frameCount < 300 || stick.magnitude > 0.1f)
+        // Set device requirements to only listen to the assigned device
+        if (device != null)
         {
-            if (Time.frameCount % 30 == 0 || stick.magnitude > 0.1f)
-            {
-                Debug.Log($"<color=yellow>GetMoveInput: Stick = ({stick.x:F2}, {stick.y:F2})</color>");
-            }
+            inputActions.devices = new[] { device };
+            Debug.Log($"<color=green>_ModuleInputPlay: Initialized with device {device.name} (ID: {device.deviceId})</color>");
+        }
+        else
+        {
+            Debug.LogWarning("<color=orange>_ModuleInputPlay: Initialized with NULL device!</color>");
         }
         
-        return new Vector3(stick.x, 0, stick.y);
+        // Subscribe to action events
+        SubscribeToActions();
+        
+        // Enable Player action map
+        inputActions.Player.Enable();
+        isInitialized = true;
+    }
+
+    private void SubscribeToActions()
+    {
+        // Sprint
+        inputActions.Player.Sprint.started += ctx => OnAction?.Invoke(ActionState.Sprint);
+        inputActions.Player.Sprint.canceled += ctx => OnAction?.Invoke(ActionState.Idle);
+        
+        // Crouch
+        inputActions.Player.Crouch.performed += ctx => OnAction?.Invoke(ActionState.Crouch);
+        
+        // Jump
+        inputActions.Player.Jump.performed += ctx => OnAction?.Invoke(ActionState.Jump);
+        
+        // Action1
+        inputActions.Player.Action1.performed += ctx => OnAction?.Invoke(ActionState.Action1);
+        
+        // Action2
+        inputActions.Player.Action2.performed += ctx => OnAction?.Invoke(ActionState.Action2);
+        
+        // Interact
+        inputActions.Player.Interact.performed += ctx => OnAction?.Invoke(ActionState.Interact);
     }
 
     /// <summary>
-    /// Update method - call this from Player_Components.Update() to check for button presses
+    /// Get movement input from InputActions (filtered by assigned device)
+    /// </summary>
+    public Vector3 GetMoveInput(InputDevice device)
+    {
+        // If not initialized with this device, initialize now
+        if (!isInitialized || assignedDevice == null || assignedDevice.deviceId != device.deviceId)
+        {
+            Initialize(device);
+        }
+        
+        if (inputActions == null || !isInitialized)
+        {
+            return Vector3.zero;
+        }
+        
+        Vector2 moveInput = inputActions.Player.Move.ReadValue<Vector2>();
+        return new Vector3(moveInput.x, 0, moveInput.y);
+    }
+
+    /// <summary>
+    /// Update method - InputActions handles button presses via events
+    /// This method exists for compatibility but doesn't need to do anything
     /// </summary>
     public void UpdateInput(InputDevice device)
     {
-        Gamepad gamepad = device as Gamepad;
-        if (gamepad == null) return;
-
-        // Sprint (hold)
-        bool isSprintPressed = gamepad.leftTrigger.ReadValue() > 0.5f || 
-                               gamepad.rightTrigger.ReadValue() > 0.5f;
-        
-        if (isSprintPressed && !wasSprintPressed)
+        // InputActions handles everything via events, but we ensure initialization
+        if (!isInitialized || assignedDevice == null || assignedDevice.deviceId != device.deviceId)
         {
-            OnAction?.Invoke(ActionState.Sprint);
-        }
-        else if (!isSprintPressed && wasSprintPressed)
-        {
-            OnAction?.Invoke(ActionState.Idle);
-        }
-        wasSprintPressed = isSprintPressed;
-
-        // Crouch (toggle)
-        if (gamepad.buttonEast.wasPressedThisFrame) // B button
-        {
-            OnAction?.Invoke(ActionState.Crouch);
-        }
-
-        // Jump
-        if (gamepad.buttonSouth.wasPressedThisFrame) // A button
-        {
-            OnAction?.Invoke(ActionState.Jump);
-        }
-
-        // Action1
-        if (gamepad.buttonWest.wasPressedThisFrame) // X button
-        {
-            OnAction?.Invoke(ActionState.Action1);
-        }
-
-        // Action2
-        if (gamepad.buttonNorth.wasPressedThisFrame) // Y button
-        {
-            OnAction?.Invoke(ActionState.Action2);
-        }
-
-        // Interact
-        if (gamepad.leftShoulder.wasPressedThisFrame || 
-            gamepad.rightShoulder.wasPressedThisFrame)
-        {
-            OnAction?.Invoke(ActionState.Interact);
+            Initialize(device);
         }
     }
 
     private void OnDisable()
     {
-        // Reset state when disabled
-        wasSprintPressed = false;
+        // Unsubscribe from events
+        if (inputActions != null)
+        {
+            inputActions.Player.Sprint.started -= ctx => OnAction?.Invoke(ActionState.Sprint);
+            inputActions.Player.Sprint.canceled -= ctx => OnAction?.Invoke(ActionState.Idle);
+            inputActions.Player.Crouch.performed -= ctx => OnAction?.Invoke(ActionState.Crouch);
+            inputActions.Player.Jump.performed -= ctx => OnAction?.Invoke(ActionState.Jump);
+            inputActions.Player.Action1.performed -= ctx => OnAction?.Invoke(ActionState.Action1);
+            inputActions.Player.Action2.performed -= ctx => OnAction?.Invoke(ActionState.Action2);
+            inputActions.Player.Interact.performed -= ctx => OnAction?.Invoke(ActionState.Interact);
+            
+            inputActions.Player.Disable();
+            inputActions.Dispose();
+            inputActions = null;
+        }
+        
+        assignedDevice = null;
+        isInitialized = false;
     }
 }

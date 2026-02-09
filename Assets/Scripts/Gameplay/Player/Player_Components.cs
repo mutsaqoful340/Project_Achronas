@@ -69,14 +69,8 @@ public class Player_Components : GameplayBehaviour
     /// </summary>
     public void AssignDevice(InputDevice device)
     {
-        Debug.Log($"<color=magenta>>>> AssignDevice() called on {gameObject.name}</color>");
-        Debug.Log($"<color=magenta>    Before: assignedDevice = {(assignedDevice != null ? assignedDevice.name : "NULL")}</color>");
-        
         assignedDevice = device;
-        
-        Debug.Log($"<color=magenta>    After: assignedDevice = {(assignedDevice != null ? assignedDevice.name : "NULL")}</color>");
         Debug.Log($"<color=cyan>✓ {gameObject.name}: Device assigned - {device?.name} (ID: {device?.deviceId})</color>");
-        Debug.Log($"<color=cyan>moduleInputPlay is {(moduleInputPlay != null ? "ASSIGNED" : "NULL")}</color>");
     }
 
     /// <summary>
@@ -118,8 +112,7 @@ public class Player_Components : GameplayBehaviour
     {
         // Reset velocity when entering gameplay mode
         velocity = Vector3.zero;
-        Debug.Log($"<color=green>{gameObject.name}: Player controls ENABLED - isActive={isActive}</color>");
-        Debug.Log($"<color=green>{gameObject.name}: assignedDevice={assignedDevice?.name}, moduleInputPlay={moduleInputPlay != null}</color>");
+        Debug.Log($"<color=green>{gameObject.name}: Player controls ENABLED</color>");
     }
 
     protected override void OnGameplayDisabled()
@@ -144,13 +137,6 @@ public class Player_Components : GameplayBehaviour
         if (moduleInputPlay != null && assignedDevice != null)
         {
             moduleInputPlay.UpdateInput(assignedDevice);
-        }
-        else
-        {
-            if (Time.frameCount % 120 == 0) // Log every 2 seconds at 60fps
-            {
-                Debug.LogWarning($"<color=orange>{gameObject.name}: Cannot read input - moduleInputPlay={moduleInputPlay != null}, assignedDevice={assignedDevice != null}</color>");
-            }
         }
 
         isGrounded = controller.isGrounded;

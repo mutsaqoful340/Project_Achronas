@@ -35,8 +35,6 @@ public class _GameModeSwitch : MonoBehaviour
 
     public void SwitchMode()
     {
-        Debug.Log($"<color=magenta>SwitchMode called - Current mode: {currentMode}</color>");
-        
         if (currentMode == GameMode.UI)
         {
             SetMode(GameMode.Player);
@@ -54,8 +52,7 @@ public class _GameModeSwitch : MonoBehaviour
     {
         if (currentMode == mode)
         {
-            Debug.Log($"<color=yellow>Already in {mode} mode, skipping</color>");
-            return;
+            return; // Already in this mode
         }
         
         currentMode = mode;
@@ -72,8 +69,7 @@ public class _GameModeSwitch : MonoBehaviour
         }
         
         // Invoke event
-        Debug.Log($"<color={(mode == GameMode.Player ? "green" : "red")}>Invoking OnGameModeChanged event with GameMode.{mode}. Subscribers: {OnGameModeChanged?.GetInvocationList()?.Length ?? 0}</color>");
         OnGameModeChanged?.Invoke(mode);
-        Debug.Log($"<color={(mode == GameMode.Player ? "green" : "red")}>Switched to {mode} mode</color>");
+        Debug.Log($"<color={(mode == GameMode.Player ? "green" : "yellow")}>Switched to {mode} mode</color>");
     }
 }

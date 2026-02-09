@@ -33,36 +33,25 @@ public abstract class GameplayBehaviour : MonoBehaviour
     {
         if (hasSubscribed) return; // Already subscribed
         
-        Debug.Log($"<color=cyan>GameplayBehaviour trying to subscribe for {gameObject.name}</color>");
-        
         if (_GameModeSwitch.Instance != null)
         {
             _GameModeSwitch.Instance.OnGameModeChanged += OnGameModeChanged;
             hasSubscribed = true;
-            Debug.Log($"<color=cyan>Subscribed to OnGameModeChanged. Initial mode: {_GameModeSwitch.Instance.currentMode}</color>");
             // Set initial state based on current mode
             OnGameModeChanged(_GameModeSwitch.Instance.currentMode);
-        }
-        else
-        {
-            Debug.LogWarning($"<color=orange>_GameModeSwitch.Instance is NULL for {gameObject.name} - will retry in Start()</color>");
         }
     }
 
     private void OnGameModeChanged(_GameModeSwitch.GameMode mode)
     {
-        Debug.Log($"<color=cyan>GameplayBehaviour.OnGameModeChanged called: mode={mode}</color>");
-        
         if (mode == _GameModeSwitch.GameMode.Player)
         {
             isActive = true;
-            Debug.Log($"<color=green>Setting isActive=TRUE for {gameObject.name}</color>");
             OnGameplayEnabled();
         }
         else
         {
             isActive = false;
-            Debug.Log($"<color=red>Setting isActive=FALSE for {gameObject.name}</color>");
             OnGameplayDisabled();
         }
     }
