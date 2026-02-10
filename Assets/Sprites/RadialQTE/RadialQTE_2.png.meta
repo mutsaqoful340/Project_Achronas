@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5d906f69c6976304a96b07c18b6dacbc
+guid: 8529c60b3dfc90745b2632fb233c4a0c
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: RadialQTE_Zone
+      name: RadialQTE_Core_2
       rect:
         serializedVersion: 2
-        x: 46
-        y: 318
-        width: 66
-        height: 118
+        x: 102
+        y: 48
+        width: 567
+        height: 557
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -125,20 +125,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 54d9ac51d0e69434e9009e7a179b099f
-      internalID: 159301227
+      spriteID: d01550166a1b000448b97dc73c127877
+      internalID: -2001805864
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: RadialQTE_Core
+      name: RadialQTE_Zone_2
       rect:
         serializedVersion: 2
-        x: 180
-        y: 209
-        width: 357
-        height: 349
+        x: 738
+        y: 153
+        width: 154
+        height: 278
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -147,20 +147,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b258efe9a33ee2447aeb52d9654cf836
-      internalID: -560366744
+      spriteID: ee8d7827844504a4b9626e03a139d79e
+      internalID: -1721319645
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BtnX
+      name: RadialQTE_Pointer_2
       rect:
         serializedVersion: 2
-        x: 643
-        y: 424
-        width: 102
-        height: 114
+        x: 948
+        y: 168
+        width: 55
+        height: 264
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -169,96 +169,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ee7abe405535cf645a1a91e20eccb9b6
-      internalID: -1028281926
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BtnA
-      rect:
-        serializedVersion: 2
-        x: 745
-        y: 420
-        width: 94
-        height: 115
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e86947cd394d7af48a99427d8ca57fa7
-      internalID: 793581565
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BtnB
-      rect:
-        serializedVersion: 2
-        x: 846
-        y: 419
-        width: 74
-        height: 118
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: efbff60547d095049bbe3b3c11e38a0f
-      internalID: -1655107290
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BtnY
-      rect:
-        serializedVersion: 2
-        x: 926
-        y: 431
-        width: 80
-        height: 100
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 140d6fa954ad5d94d9477f1fe2f2f6ea
-      internalID: -443920801
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: RadialQTE_Pointer
-      rect:
-        serializedVersion: 2
-        x: 123
-        y: 123
-        width: 165
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ac605a144f8aeaa4b98937e7f452e6bc
-      internalID: -1083406930
+      spriteID: b854d7c5a5054f240b2044653ecd347b
+      internalID: 310906894
       vertices: []
       indices: 
       edges: []
@@ -267,7 +179,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 75e3a4d9160eec444ae7bc56155de611
+    spriteID: 77d64ccfd372738438b0cc770fbb2156
     internalID: 0
     vertices: []
     indices: 
@@ -279,13 +191,9 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      BtnA: 793581565
-      BtnB: -1655107290
-      BtnX: -1028281926
-      BtnY: -443920801
-      RadialQTE_Core: -560366744
-      RadialQTE_Pointer: -1083406930
-      RadialQTE_Zone: 159301227
+      RadialQTE_Core_2: -2001805864
+      RadialQTE_Pointer_2: 310906894
+      RadialQTE_Zone_2: -1721319645
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

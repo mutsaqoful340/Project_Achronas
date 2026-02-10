@@ -186,14 +186,20 @@ public class _RadialQTE_CollisionDiagnostic : MonoBehaviour
         Debug.Log($"<color=yellow>╚══════════════════════════════════════════════════════╝</color>");
         
         // Summary
-        int errors = 0;
-        if (myCollider == null) errors++;
-        if (myRigidbody == null) errors++;
-        if (zoneCollider == null) errors++;
-        if (myCollider != null && !myCollider.isTrigger) errors++;
-        if (zoneCollider != null && !zoneCollider.isTrigger) errors++;
+        System.Collections.Generic.List<string> issues = new System.Collections.Generic.List<string>();
         
-        if (errors == 0)
+        if (myCollider == null)
+            issues.Add("Pointer is missing Collider2D");
+        if (myRigidbody == null)
+            issues.Add("Pointer is missing Rigidbody2D (REQUIRED for 2D collisions!)");
+        if (zoneCollider == null)
+            issues.Add("Success Zone is missing Collider2D");
+        if (myCollider != null && !myCollider.isTrigger)
+            issues.Add("Pointer collider IsTrigger is FALSE (must be TRUE)");
+        if (zoneCollider != null && !zoneCollider.isTrigger)
+            issues.Add("Success Zone collider IsTrigger is FALSE (must be TRUE)");
+        
+        if (issues.Count == 0)
         {
             Debug.Log($"<color=lime>★ DIAGNOSTIC COMPLETE: No obvious issues found!</color>");
             Debug.Log($"<color=yellow>If collisions still don't work, check:</color>");
@@ -203,7 +209,27 @@ public class _RadialQTE_CollisionDiagnostic : MonoBehaviour
         }
         else
         {
-            Debug.LogError($"<color=red>✗ FOUND {errors} CRITICAL ISSUES! Fix them above.</color>");
+            Debug.LogError($"<color=red>╔══════════════════════════════════════════════════════╗</color>");
+            Debug.LogError($"<color=red>║ FOUND {issues.Count} CRITICAL ISSUE(S):</color>");
+            Debug.LogError($"<color=red>╠══════════════════════════════════════════════════════╣</color>");
+            
+            for (int i = 0; i < issues.Count; i++)
+            {
+                Debug.LogError($"<color=red>║ {i + 1}. {issues[i]}</color>");
+            }
+            
+            Debug.LogError($"<color=red>╠══════════════════════════════════════════════════════╣</color>");
+            Debug.LogError($"<color=red>║ FIX:</color>");
+            
+            if (myRigidbody == null)
+            {
+                Debug.LogError($"<color=red>║ → Select Pointer GameObject</color>");
+                Debug.LogError($"<color=red>║ → Add Component → Rigidbody2D</color>");
+                Debug.LogError($"<color=red>║ → Set Body Type = Kinematic</color>");
+                Debug.LogError($"<color=red>║ → Check Simulated = On</color>");
+            }
+            
+            Debug.LogError($"<color=red>╚══════════════════════════════════════════════════════╝</color>");
         }
     }
 }

@@ -15,6 +15,9 @@ public class _RadialQTE : MonoBehaviour
 
     private string currentExpectedInput;
 
+    // Callback to Manager when button is pressed
+    public System.Action<_RadialQTE, string> OnButtonPressedCallback;
+
     [Header("QTE Components")]
     [Tooltip("Transform yang akan berputar mengelilingi pusat (pointer)")]
     public Transform pointerTransform;
@@ -31,10 +34,6 @@ public class _RadialQTE : MonoBehaviour
     
     [Tooltip("Sudut rotasi maksimal untuk success zone (0-360)")]
     public float maxSuccessZoneAngle = 360f;
-
-    [Header("Events")]
-    public UnityEvent onQTESuccess;
-    public UnityEvent onQTEFail;
 
     [SerializeField] private bool isInSuccessZone = false;
     [SerializeField] private bool isQTEActive = false;
@@ -119,30 +118,8 @@ public class _RadialQTE : MonoBehaviour
 
             if (!string.IsNullOrEmpty(pressedButton))
             {
-                Debug.Log($"<color=magenta>╔══════════════════════════════════════╗</color>");
-                Debug.Log($"<color=magenta>║ [{gameObject.name}] BUTTON DETECTED</color>");
-                Debug.Log($"<color=magenta>║ Gamepad: {assignedGamepad.name} (ID: {assignedGamepad.deviceId})</color>");
-                Debug.Log($"<color=magenta>║ Button Pressed: {pressedButton}</color>");
-                Debug.Log($"<color=magenta>║ Expected Button: {currentExpectedInput}</color>");
-                Debug.Log($"<color=magenta>║ isInSuccessZone: {isInSuccessZone}</color>");
-                Debug.Log($"<color=magenta>║ Pointer Rotation: {currentRotation:F1}°</color>");
-                Debug.Log($"<color=magenta>╚══════════════════════════════════════╝</color>");
-                OnButtonPressed(pressedButton);
-            }
-        }
-        else
-        {
-            // Check if ANY gamepad is being pressed (debugging)
-            foreach (var gamepad in Gamepad.all)
-            {
-                if (gamepad.buttonNorth.wasPressedThisFrame || 
-                    gamepad.buttonEast.wasPressedThisFrame || 
-                    gamepad.buttonSouth.wasPressedThisFrame || 
-                    gamepad.buttonWest.wasPressedThisFrame)
-                {
-                    Debug.LogWarning($"<color=red>[{gameObject.name}] assignedGamepad is NULL but detected input from {gamepad.name} (ID: {gamepad.deviceId})</color>");
-                    break;
-                }
+                // Report to Manager for evaluation
+                OnButtonPressedCallback?.Invoke(this, pressedButton);
             }
         }
     }
@@ -190,10 +167,6 @@ public class _RadialQTE : MonoBehaviour
         assignedDevice = device;
         assignedGamepad = device as Gamepad;
         
-        Debug.Log($"<color=cyan>[{gameObject.name}] AssignDevice called:</color>");
-        Debug.Log($"  Device: {device?.name} (ID: {device?.deviceId})");
-        Debug.Log($"  Gamepad: {assignedGamepad != null}");
-        
         if (inputActions != null && device != null)
         {
             inputActions.devices = new[] { device };
@@ -206,7 +179,7 @@ public class _RadialQTE : MonoBehaviour
     public void OnPointerEnterSuccessZone()
     {
         isInSuccessZone = true;
-        Debug.Log($"<color=lime>✓✓✓ [{gameObject.name}] isInSuccessZone = TRUE (Time: {Time.time:F2}s, Rotation: {currentRotation:F1}°) ✓✓✓</color>");
+        Debug.Log("Pointer entered success zone");
     }
 
     /// <summary>
@@ -215,39 +188,17 @@ public class _RadialQTE : MonoBehaviour
     public void OnPointerExitSuccessZone()
     {
         isInSuccessZone = false;
-        Debug.Log($"<color=orange>✗✗✗ [{gameObject.name}] isInSuccessZone = FALSE (Time: {Time.time:F2}s, Rotation: {currentRotation:F1}°) ✗✗✗</color>");
+        Debug.Log("Pointer exited success zone");
     }
 
-    private void OnButtonPressed(string pressedButton)
+    // Public getters for Manager to check state
+    public bool IsInSuccessZone => isInSuccessZone;
+    public string CurrentExpectedInput => currentExpectedInput;
+    public bool IsQTEActive => isQTEActive;
+
+    // Called by Manager to disable QTE after evaluation
+    public void DisableQTE()
     {
-        if (!isQTEActive) return;
-
-        Debug.Log($"<color=white>════════════════════════════════════════════════════════</color>");
-        Debug.Log($"<color=white>[{gameObject.name}] EVALUATING QTE (Time: {Time.time:F2}s)</color>");
-        Debug.Log($"<color=white>  Button Pressed: {pressedButton}</color>");
-        Debug.Log($"<color=white>  Expected Button: {currentExpectedInput}</color>");
-        Debug.Log($"<color=white>  isInSuccessZone: {isInSuccessZone}</color>");
-        Debug.Log($"<color=white>  Pointer Rotation: {currentRotation:F1}°</color>");
-
-        // Check if correct button was pressed
-        bool correctButton = (pressedButton == currentExpectedInput);
-
-        // Evaluasi success/fail (must be in success zone AND press correct button)
-        if (isInSuccessZone && correctButton)
-        {
-            Debug.Log($"<color=green>★★★★★ [{gameObject.name}] QTE SUCCESS! ★★★★★</color>");
-            onQTESuccess?.Invoke();
-        }
-        else
-        {
-            string reason = !correctButton ? $"Wrong button (Expected: {currentExpectedInput}, Pressed: {pressedButton})" : "Not in success zone";
-            Debug.Log($"<color=red>✗✗✗✗✗ [{gameObject.name}] QTE FAILED! ✗✗✗✗✗</color>");
-            Debug.Log($"<color=red>  Reason: {reason}</color>");
-            onQTEFail?.Invoke();
-        }
-        Debug.Log($"<color=white>════════════════════════════════════════════════════════</color>");
-
-        // Disable QTE setelah input diterima
         isQTEActive = false;
         gameObject.SetActive(false);
     }
