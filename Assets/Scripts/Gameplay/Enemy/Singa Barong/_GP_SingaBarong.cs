@@ -4,9 +4,27 @@ using UnityEngine.Events;
 using NUnit.Framework.Internal;
 using Unity.Collections;
 using UnityEngine.UI;
+using System;
 
 public class _GP_SingaBarong : MonoBehaviour
 {
+    public enum EnemyType
+    {
+        Jaranan,
+        SingaBarong
+    }
+
+    enum EnemyState
+    {
+        Idle,
+        Patrol,
+        Chase,
+        Flee
+    }
+
+    [Header("Enemy Type")]
+    public EnemyType enemyType;
+
     [Header("Light Reaction")]
     public UnityEvent onLitByPlayerLight;
 

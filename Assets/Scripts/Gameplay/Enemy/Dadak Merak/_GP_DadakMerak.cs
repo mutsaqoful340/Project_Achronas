@@ -19,6 +19,8 @@ public class _GP_DadakMerak : MonoBehaviour
     [Tooltip("Layer mask for line of sight detection")]
     [SerializeField] private LayerMask _DetectionLayer;
     public float raycastOffset = 1f;
+    [Tooltip("How often to check for player (in seconds). Lower = more accurate, higher = better performance")]
+    [SerializeField] private float detectionInterval = 0.15f;
     #endregion
 
     [Header("Target Locking Settings")]
@@ -33,6 +35,10 @@ public class _GP_DadakMerak : MonoBehaviour
     [SerializeField] private float _CurrentLockThreshold = 0f;
     private bool _IsPlayerDetected = false;
     private bool _IsLockedOn = false;
+    
+    // Optimization variables
+    private GameObject _cachedPlayer;
+    private float _nextDetectionTime;
 
     [Header("Debug")]
     #region Debug
@@ -41,6 +47,21 @@ public class _GP_DadakMerak : MonoBehaviour
 
     public UnityEvent playerGotLockedOn;
 
+    #region Performance Tracking (Remove after testing)
+    private int detectionChecksThisSecond = 0;
+    private float lastResetTime = 0f;
+    #endregion
+
+    private GameObject GetPlayer()
+    {
+        // Cache player reference, re-find if null (handles respawn)
+        if (_cachedPlayer == null)
+        {
+            _cachedPlayer = GameObject.FindGameObjectWithTag("Player");
+        }
+        return _cachedPlayer;
+    }
+
     private bool IsPlayerInLOS(out GameObject player)
     {
         player = null;
@@ -48,65 +69,91 @@ public class _GP_DadakMerak : MonoBehaviour
         if (_DetectionSpotlight == null)
             return false;
 
-        // Find ALL players in scene
-        GameObject[] allPlayers = GameObject.FindGameObjectsWithTag("Player");
-        if (allPlayers.Length == 0)
+        // Get cached player reference
+        GameObject targetPlayer = GetPlayer();
+        if (targetPlayer == null)
             return false;
 
         Vector3 spotlightPosition = _DetectionSpotlight.transform.position;
         Vector3 spotlightForward = _DetectionSpotlight.transform.forward;
-
-        // Check each player
-        foreach (GameObject potentialPlayer in allPlayers)
+        
+        // Aim at player's center (chest height) instead of feet for more reliable detection
+        Vector3 playerCenter = targetPlayer.transform.position + Vector3.up * raycastOffset;
+        Vector3 toPlayer = playerCenter - spotlightPosition;
+        
+        // 1. Distance check (optimized with sqrMagnitude - no sqrt!)
+        float sqrDistance = toPlayer.sqrMagnitude;
+        float sqrRange = _DetectionSpotlight.range * _DetectionSpotlight.range;
+        if (sqrDistance > sqrRange)
         {
-            // Aim at player's center (chest height) instead of feet for more reliable detection
-            Vector3 playerCenter = potentialPlayer.transform.position + Vector3.up * raycastOffset;
-            Vector3 directionToPlayer = (playerCenter - spotlightPosition).normalized;
-            float distanceToPlayer = Vector3.Distance(spotlightPosition, playerCenter);
-
-            // 1. Distance check - is player within spotlight range?
-            if (distanceToPlayer > _DetectionSpotlight.range)
-                continue;
-
-            // 2. Angle check - is player within spotlight cone?
-            float angleToPlayer = Vector3.Angle(spotlightForward, directionToPlayer);
-            if (angleToPlayer > _DetectionSpotlight.spotAngle / 2f)
-                continue;
-
-            // 3. Raycast check - is there clear line of sight?
-            if (Physics.Raycast(spotlightPosition, directionToPlayer, out RaycastHit hit, distanceToPlayer))
-            {
-                if (hit.collider.CompareTag("Player"))
-                {
-                    Debug.DrawRay(spotlightPosition, directionToPlayer * distanceToPlayer, Color.green);
-                    player = potentialPlayer;
-                    return true;
-                }
-                else
-                {
-                    // Hit something else (wall, obstacle)
-                    Debug.DrawRay(spotlightPosition, directionToPlayer * distanceToPlayer, Color.yellow);
-                    continue;
-                }
-            }
-
-            Debug.DrawRay(spotlightPosition, directionToPlayer * distanceToPlayer, Color.red);
+            Debug.DrawRay(spotlightPosition, toPlayer.normalized * _DetectionSpotlight.range, Color.red);
+            return false;
         }
 
+        // 2. Angle check - is player within spotlight cone?
+        Vector3 directionToPlayer = toPlayer.normalized;
+        float angleToPlayer = Vector3.Angle(spotlightForward, directionToPlayer);
+        if (angleToPlayer > _DetectionSpotlight.spotAngle / 2f)
+        {
+            Debug.DrawRay(spotlightPosition, directionToPlayer * Mathf.Sqrt(sqrDistance), Color.red);
+            return false;
+        }
+
+        // 3. Raycast check - is there clear line of sight? (most expensive, done last)
+        float actualDistance = Mathf.Sqrt(sqrDistance);
+        if (Physics.Raycast(spotlightPosition, directionToPlayer, out RaycastHit hit, actualDistance, _DetectionLayer))
+        {
+            if (hit.collider.CompareTag("Player"))
+            {
+                Debug.DrawRay(spotlightPosition, directionToPlayer * actualDistance, Color.green);
+                player = targetPlayer;
+                return true;
+            }
+            else
+            {
+                // Hit something else (wall, obstacle) blocking the view
+                Debug.DrawRay(spotlightPosition, directionToPlayer * actualDistance, Color.yellow);
+                return false;
+            }
+        }
+
+        // Raycast didn't hit anything (no obstacles in the way, but also didn't reach player)
+        Debug.DrawRay(spotlightPosition, directionToPlayer * actualDistance, Color.red);
         return false;
     }
 
     private void Update()
     {
-        _IsPlayerDetected = false;
-        
-        // Check if player is in line of sight
-        if (IsPlayerInLOS(out GameObject detectedPlayer))
+        // OPTIMIZATION: Only check line of sight at intervals, not every frame
+        if (Time.time >= _nextDetectionTime)
         {
-            _TargetObject = detectedPlayer;
-            _TargetObjectName = _TargetObject.name;
-            _IsPlayerDetected = true;
-
+            _nextDetectionTime = Time.time + detectionInterval;
+            
+            // Performance tracking
+            detectionChecksThisSecond++;
+            if (Time.time - lastResetTime >= 1f)
+            {
+                Debug.Log($"[PERFORMANCE] Detection checks per second: {detectionChecksThisSecond} (Target: ~{1f/detectionInterval:F0})");
+                detectionChecksThisSecond = 0;
+                lastResetTime = Time.time;
+            }
+            
+            // Perform the expensive detection check
+            if (IsPlayerInLOS(out GameObject detectedPlayer))
+            {
+                _TargetObject = detectedPlayer;
+                _TargetObjectName = _TargetObject.name;
+                _IsPlayerDetected = true;
+            }
+            else
+            {
+                _IsPlayerDetected = false;
+            }
+        }
+        
+        // Update threshold every frame for smooth behavior (based on last detection result)
+        if (_IsPlayerDetected)
+        {
             // Increase lock threshold
             _CurrentLockThreshold += _ThresholdFillRate * Time.deltaTime;
             _CurrentLockThreshold = Mathf.Clamp(_CurrentLockThreshold, 0f, _MaxLockThreshold);
@@ -122,17 +169,16 @@ public class _GP_DadakMerak : MonoBehaviour
             }
 
             // Only rotate to face player after locked on
-            if (_IsLockedOn)
+            if (_IsLockedOn && _TargetObject != null)
             {
                 Vector3 targetDirection = (_TargetObject.transform.position - transform.position).normalized;
                 Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _RotationSpeed * Time.deltaTime);
             }
         }
-        
-        // Decrease threshold when player is not detected
-        if (!_IsPlayerDetected)
+        else
         {
+            // Decrease threshold when player is not detected
             _CurrentLockThreshold -= _ThresholdDecreaseRate * Time.deltaTime;
             _CurrentLockThreshold = Mathf.Clamp(_CurrentLockThreshold, 0f, _MaxLockThreshold);
             
