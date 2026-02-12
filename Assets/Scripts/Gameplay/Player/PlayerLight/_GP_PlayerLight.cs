@@ -1,9 +1,27 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class _GP_PlayerLight : MonoBehaviour
 {
-    public _ModuleInputPlay _inputPlayer;
+    [Header("Player Light Settings")]
     public Light playerLight;
+
+    [Header("Detection Settings")]
+    [Tooltip("Layer mask for line of sight detection")]
+    [SerializeField] private LayerMask detectionLayer;
+    [Tooltip("Raycast offset from target position")]
+    public float raycastOffset = 1f;
+
+    [Header("Events")]
+    public UnityEvent onEnemyDetected;
+
+    [Header("References")]
+    public _ModuleInputPlay _inputPlayer;
+
+    #region Private Variables
+    private bool isEnemyDetected = false;
+    private GameObject detectedEnemy = null;
+    #endregion
 
     private void OnEnable()
     {
@@ -35,5 +53,83 @@ public class _GP_PlayerLight : MonoBehaviour
                 playerLight.enabled = !playerLight.enabled;
             }
         }
+    }
+
+    void Update()
+    {
+        // Only check for enemies when light is enabled
+        if (playerLight != null && playerLight.enabled)
+        {
+            isEnemyDetected = IsEnemyInLOS(out detectedEnemy);
+            
+            if (isEnemyDetected && detectedEnemy != null)
+            {
+                // Trigger event when enemy is detected
+                onEnemyDetected?.Invoke();
+                
+                // Call reaction method on the detected enemy
+                detectedEnemy.GetComponent<_GP_SingaBarong>()?.OnLitByPlayerLight();
+            }
+        }
+        else
+        {
+            isEnemyDetected = false;
+            detectedEnemy = null;
+        }
+    }
+
+    private bool IsEnemyInLOS(out GameObject enemy)
+    {
+        enemy = null;
+
+        if (playerLight == null || !playerLight.enabled)
+            return false;
+
+        // Find all enemies with _GP_SingaBarong component
+        _GP_SingaBarong[] allEnemies = FindObjectsByType<_GP_SingaBarong>(FindObjectsSortMode.None);
+        if (allEnemies.Length == 0)
+            return false;
+
+        Vector3 lightPosition = playerLight.transform.position;
+        Vector3 lightForward = playerLight.transform.forward;
+
+        // Check each enemy
+        foreach (_GP_SingaBarong potentialEnemy in allEnemies)
+        {
+            // Aim at enemy's center instead of feet for more reliable detection
+            Vector3 enemyCenter = potentialEnemy.transform.position + Vector3.up * raycastOffset;
+            Vector3 directionToEnemy = (enemyCenter - lightPosition).normalized;
+            float distanceToEnemy = Vector3.Distance(lightPosition, enemyCenter);
+
+            // 1. Distance check - is enemy within light range?
+            if (distanceToEnemy > playerLight.range)
+                continue;
+
+            // 2. Angle check - is enemy within light cone?
+            float angleToEnemy = Vector3.Angle(lightForward, directionToEnemy);
+            if (angleToEnemy > playerLight.spotAngle / 2f)
+                continue;
+
+            // 3. Raycast check - is there clear line of sight?
+            if (Physics.Raycast(lightPosition, directionToEnemy, out RaycastHit hit, distanceToEnemy, detectionLayer))
+            {
+                if (hit.collider.GetComponent<_GP_SingaBarong>() != null)
+                {
+                    Debug.DrawRay(lightPosition, directionToEnemy * distanceToEnemy, Color.green);
+                    enemy = potentialEnemy.gameObject;
+                    return true;
+                }
+                else
+                {
+                    // Hit something else (wall, obstacle)
+                    Debug.DrawRay(lightPosition, directionToEnemy * distanceToEnemy, Color.yellow);
+                    continue;
+                }
+            }
+
+            Debug.DrawRay(lightPosition, directionToEnemy * distanceToEnemy, Color.red);
+        }
+
+        return false;
     }
 }
