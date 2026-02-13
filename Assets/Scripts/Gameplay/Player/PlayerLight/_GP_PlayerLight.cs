@@ -67,8 +67,8 @@ public class _GP_PlayerLight : MonoBehaviour
                 // Trigger event when enemy is detected
                 onEnemyDetected?.Invoke();
                 
-                // Call reaction method on the detected enemy
-                detectedEnemy.GetComponent<_GP_SingaBarong>()?.OnLitByPlayerLight();
+                // Call reaction method on the detected enemy (enemy decides behavior based on its type)
+                detectedEnemy.GetComponentInChildren<_Enemy_Mannequin>()?.OnLitByPlayerLight();
             }
         }
         else
@@ -85,8 +85,8 @@ public class _GP_PlayerLight : MonoBehaviour
         if (playerLight == null || !playerLight.enabled)
             return false;
 
-        // Find all enemies with _GP_SingaBarong component
-        _GP_SingaBarong[] allEnemies = FindObjectsByType<_GP_SingaBarong>(FindObjectsSortMode.None);
+        // Find all enemies with _Enemy_WeepingAngel component
+        _Enemy_Mannequin[] allEnemies = FindObjectsByType<_Enemy_Mannequin>(FindObjectsSortMode.None);
         if (allEnemies.Length == 0)
             return false;
 
@@ -94,7 +94,7 @@ public class _GP_PlayerLight : MonoBehaviour
         Vector3 lightForward = playerLight.transform.forward;
 
         // Check each enemy
-        foreach (_GP_SingaBarong potentialEnemy in allEnemies)
+        foreach (_Enemy_Mannequin potentialEnemy in allEnemies)
         {
             // Aim at enemy's center instead of feet for more reliable detection
             Vector3 enemyCenter = potentialEnemy.transform.position + Vector3.up * raycastOffset;
@@ -113,7 +113,7 @@ public class _GP_PlayerLight : MonoBehaviour
             // 3. Raycast check - is there clear line of sight?
             if (Physics.Raycast(lightPosition, directionToEnemy, out RaycastHit hit, distanceToEnemy, detectionLayer))
             {
-                if (hit.collider.GetComponent<_GP_SingaBarong>() != null)
+                if (hit.collider.GetComponent<_Enemy_Mannequin>() != null)
                 {
                     Debug.DrawRay(lightPosition, directionToEnemy * distanceToEnemy, Color.green);
                     enemy = potentialEnemy.gameObject;
