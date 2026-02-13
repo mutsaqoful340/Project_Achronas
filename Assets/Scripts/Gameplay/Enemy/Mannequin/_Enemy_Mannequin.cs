@@ -70,6 +70,10 @@ public class _Enemy_Mannequin : MonoBehaviour
     [Tooltip("How long to investigate last known player position")]
     [SerializeField] private float investigationDuration = 5f; // How long to search before giving up
     
+    [Header("Chase Settings")]
+    [Tooltip("How fast enemy rotates when chasing player (degrees per second)")]
+    [SerializeField] private float chaseRotationSpeed = 360f;
+    
     [Header("Light Reaction")]
     public UnityEvent onLitByPlayerLight;
 
@@ -88,6 +92,10 @@ public class _Enemy_Mannequin : MonoBehaviour
     private float nextDetectionTime;
     private bool isPlayerVisible = false;
     private Vector3 lastKnownPlayerPosition;
+    private bool hasSetInvestigationDestination = false;
+    
+    // Chase variables
+    private float defaultAngularSpeed;
 
     private void Start()
     {
@@ -97,6 +105,15 @@ public class _Enemy_Mannequin : MonoBehaviour
         {
             Debug.LogError($"{gameObject.name}: NavMeshAgent component is missing!");
             return;
+        }
+        
+        // Store default angular speed for restoration
+        defaultAngularSpeed = navAgent.angularSpeed;
+        
+        // Ensure updateRotation is enabled (critical for angularSpeed to work)
+        if (!navAgent.updateRotation)
+        {
+            navAgent.updateRotation = true;
         }
 
         // Determine initial state based on waypoints
@@ -130,10 +147,12 @@ public class _Enemy_Mannequin : MonoBehaviour
 
     private void Update()
     {
-        // OPTIMIZATION: Check for player at intervals
+        // OPTIMIZATION: Check for player at intervals (more frequently during chase)
+        float currentInterval = currentState == EnemyState.Chase ? 0.05f : detectionInterval;
+        
         if (Time.time >= nextDetectionTime)
         {
-            nextDetectionTime = Time.time + detectionInterval;
+            nextDetectionTime = Time.time + currentInterval;
             isPlayerVisible = IsPlayerInLOS();
         }
 
@@ -202,7 +221,27 @@ public class _Enemy_Mannequin : MonoBehaviour
 
     private void HandleChase()
     {
-        // TODO: Implement chase behavior
+        // Set chase rotation speed
+        if (navAgent.angularSpeed != chaseRotationSpeed)
+        {
+            navAgent.angularSpeed = chaseRotationSpeed;
+        }
+        
+        // Chase the player while they're visible
+        if (isPlayerVisible && cachedPlayer != null)
+        {
+            // Continuously update destination to player's current position
+            navAgent.SetDestination(cachedPlayer.transform.position);
+            lastKnownPlayerPosition = cachedPlayer.transform.position;
+        }
+        else
+        {
+            // Lost sight of player - transition to Investigate
+            Debug.Log($"{gameObject.name}: Lost sight of player. Investigating last known position...");
+            navAgent.angularSpeed = defaultAngularSpeed; // Restore default rotation speed
+            hasSetInvestigationDestination = false; // Reset flag for new investigation
+            currentState = EnemyState.Investigate;
+        }
     }
 
     private void HandleFlee()
@@ -213,10 +252,11 @@ public class _Enemy_Mannequin : MonoBehaviour
     private void HandleInvestigate()
     {
         // Move to last known player position
-        if (navAgent.destination != lastKnownPlayerPosition)
+        if (!hasSetInvestigationDestination)
         {
             navAgent.SetDestination(lastKnownPlayerPosition);
             investigateTimer = investigationDuration;
+            hasSetInvestigationDestination = true;
         }
 
         // Wait at last known position, looking around
@@ -226,10 +266,12 @@ public class _Enemy_Mannequin : MonoBehaviour
             
             // TODO: Add looking around behavior (rotate, check surroundings)
             
-            // If player found again, could transition to Chase
+            // If player found again, transition to Chase
             if (isPlayerVisible)
             {
-                investigateTimer = investigationDuration; // Reset timer
+                Debug.Log($"{gameObject.name}: Player spotted during investigation! Chasing...");
+                currentState = EnemyState.Chase;
+                return;
             }
             
             // Give up after timer expires
@@ -237,10 +279,14 @@ public class _Enemy_Mannequin : MonoBehaviour
             {
                 Debug.Log($"{gameObject.name}: Investigation complete. Returning to patrol.");
                 currentAwareness = 0f;
+                navAgent.angularSpeed = defaultAngularSpeed; // Restore default rotation speed
                 
                 // Return to appropriate state
                 if (patrolWaypoints.Length > 0)
                 {
+                    // Find and move to nearest waypoint for smart return
+                    currentWaypointIndex = FindNearestWaypoint();
+                    Debug.Log($"{gameObject.name}: Returning to nearest waypoint {currentWaypointIndex}.");
                     currentState = EnemyState.Patrol;
                     MoveToCurrentWaypoint();
                 }
@@ -304,17 +350,20 @@ public class _Enemy_Mannequin : MonoBehaviour
             float actualDistance = Mathf.Sqrt(sqrDistance);
             if (Physics.Raycast(enemyPosition, directionToPlayer, out RaycastHit hit, actualDistance, detectionLayer))
             {
-                if (hit.collider.CompareTag("Player"))
+                // CRITICAL: Check if we hit THIS specific player, not just any player
+                bool hitThisPlayer = hit.collider.gameObject == player || hit.collider.transform.IsChildOf(player.transform);
+                
+                if (hitThisPlayer)
                 {
-                    Debug.DrawRay(enemyPosition, directionToPlayer * actualDistance, Color.green);
+                    Debug.DrawRay(enemyPosition, directionToPlayer * hit.distance, Color.green);
                     detectedPlayers.Add(player); // Add to detected players list
                     lastKnownPlayerPosition = playerCenter;
                     cachedPlayer = player; // Cache for single-player targeting
                 }
                 else
                 {
-                    // Hit obstacle
-                    Debug.DrawRay(enemyPosition, directionToPlayer * actualDistance, Color.yellow);
+                    // Hit something else (wall or different player) - this player is BLOCKED
+                    Debug.DrawRay(enemyPosition, directionToPlayer * hit.distance, Color.yellow);
                 }
             }
             else
@@ -335,13 +384,24 @@ public class _Enemy_Mannequin : MonoBehaviour
             currentAwareness += awarenessIncreaseRate * Time.deltaTime;
             currentAwareness = Mathf.Clamp(currentAwareness, 0f, awarenessThreshold);
 
-            // Transition to Investigate when threshold reached (only for Jaranan and SingaBarong)
+            // Transition to Chase or Investigate when threshold reached (only for Jaranan and SingaBarong)
             if (currentAwareness >= awarenessThreshold && currentState != EnemyState.Chase && currentState != EnemyState.Investigate)
             {
                 if (enemyType == EnemyType.Jaranan || enemyType == EnemyType.SingaBarong)
                 {
-                    Debug.Log($"{gameObject.name}: Player detected! Investigating...");
-                    currentState = EnemyState.Investigate;
+                    // If player is still visible, chase them directly
+                    if (isPlayerVisible && cachedPlayer != null)
+                    {
+                        Debug.Log($"{gameObject.name}: Player detected and visible! Chasing...");
+                        currentState = EnemyState.Chase;
+                    }
+                    else
+                    {
+                        // Player was detected but lost sight, investigate last known position
+                        Debug.Log($"{gameObject.name}: Player detected but lost sight. Investigating...");
+                        hasSetInvestigationDestination = false; // Reset flag for new investigation
+                        currentState = EnemyState.Investigate;
+                    }
                 }
                 else
                 {
@@ -401,6 +461,30 @@ public class _Enemy_Mannequin : MonoBehaviour
             Quaternion targetRotation = Quaternion.LookRotation(directionToNext);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, waypointRotationSpeed * Time.deltaTime);
         }
+    }
+
+    private int FindNearestWaypoint()
+    {
+        if (patrolWaypoints.Length == 0)
+            return 0;
+
+        int nearestIndex = 0;
+        float nearestDistance = float.MaxValue;
+
+        for (int i = 0; i < patrolWaypoints.Length; i++)
+        {
+            if (patrolWaypoints[i] == null)
+                continue;
+
+            float distance = Vector3.Distance(transform.position, patrolWaypoints[i].position);
+            if (distance < nearestDistance)
+            {
+                nearestDistance = distance;
+                nearestIndex = i;
+            }
+        }
+
+        return nearestIndex;
     }
     #endregion
 
