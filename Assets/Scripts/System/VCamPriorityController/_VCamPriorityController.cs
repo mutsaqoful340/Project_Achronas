@@ -15,7 +15,19 @@ public class _VCamPriorityController : MonoBehaviour
     }
 
     // Convenience methods for common priorities
-    public void SetHighPriority() => SetPriority(10);
-    public void SetLowPriority() => SetPriority(0);
-    public void SetMediumPriority() => SetPriority(5);
+    public void SetHighPriority() 
+    { 
+        SetPriority(10); 
+        Debug.Log($"<color=cyan>Set {virtualCamera.name} to HIGH priority</color>");
+    }
+    public void SetLowPriority() 
+    { 
+        SetPriority(0); 
+        Debug.Log($"<color=cyan>Set {virtualCamera.name} to LOW priority</color>");
+    }
+    public void SetMediumPriority() 
+    { 
+        SetPriority(5); 
+        Debug.Log($"<color=cyan>Set {virtualCamera.name} to MEDIUM priority</color>");
+    }
 }
