@@ -2239,7 +2239,7 @@ Transform:
   m_GameObject: {fileID: 326501730}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.67, y: 0, z: -1.418}
+  m_LocalPosition: {x: 20.5, y: 0, z: -1.418}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7825,21 +7825,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5995b1731260994478874515fee3883e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_GP_EnemySingaBarong
-  _TargetObject: {fileID: 0}
-  _TargetObjectName: 
-  _DetectionSpotlight: {fileID: 2057185049}
-  _DetectionLayer:
+  enemyType: 0
+  detectionLight: {fileID: 0}
+  animator: {fileID: 0}
+  detectionRange: 10
+  detectionAngle: 60
+  detectionLayer:
     serializedVersion: 2
-    m_Bits: 9
+    m_Bits: 0
   raycastOffset: 1
   detectionInterval: 0.15
-  _MaxLockThreshold: 100
-  _ThresholdFillRate: 50
-  _ThresholdDecreaseRate: 30
-  _RotationSpeed: 2
-  _CurrentLockThreshold: 0
-  debugText: {fileID: 1471253317}
-  playerGotLockedOn:
+  awarenessThreshold: 2
+  awarenessIncreaseRate: 1
+  awarenessDecreaseRate: 0.5
+  currentAwareness: 0
+  enemyMannequin: []
+  onLitByPlayerLight:
+    m_PersistentCalls:
+      m_Calls: []
+  OnSpottingPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!65 &1870421685
@@ -9751,7 +9755,7 @@ Transform:
   m_GameObject: {fileID: 2088984125}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.67, y: 0, z: 2.0419998}
+  m_LocalPosition: {x: 20.5, y: 0, z: 2.0419998}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

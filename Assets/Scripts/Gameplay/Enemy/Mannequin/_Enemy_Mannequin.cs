@@ -181,7 +181,6 @@ public class _Enemy_Mannequin : MonoBehaviour
     }
 
     #region State Handlers
-
     private void HandleIdle()
     {
         // Stationary guard - stays at post, watches for player
@@ -297,11 +296,9 @@ public class _Enemy_Mannequin : MonoBehaviour
             }
         }
     }
-
     #endregion
 
     #region Detection Methods
-
     private bool IsPlayerInLOS()
     {
         // Clear previous detections
@@ -417,11 +414,9 @@ public class _Enemy_Mannequin : MonoBehaviour
             currentAwareness = Mathf.Max(0f, currentAwareness);
         }
     }
-
     #endregion
 
     #region Patrol Methods
-
     private void MoveToCurrentWaypoint()
     {
         if (patrolWaypoints.Length == 0 || currentWaypointIndex >= patrolWaypoints.Length)
@@ -483,7 +478,6 @@ public class _Enemy_Mannequin : MonoBehaviour
                 nearestIndex = i;
             }
         }
-
         return nearestIndex;
     }
     #endregion
@@ -512,6 +506,20 @@ public class _Enemy_Mannequin : MonoBehaviour
         
         // Invoke Unity Event for Inspector-assigned reactions
         onLitByPlayerLight?.Invoke();
+    }
+
+    public void OnDadakMerakCommand()
+    {
+        switch (enemyType)
+        {
+            case EnemyType.Jaranan:
+            case EnemyType.SingaBarong:
+                Debug.Log($"{gameObject.name} ({enemyType}): Received Dadak Merak command! Fleeing...");
+                break;
+            case EnemyType.Normal:
+                Debug.Log($"{gameObject.name} (Normal): Received Dadak Merak command! No special reaction.");
+                break;
+        }                
     }
     #endregion
 
