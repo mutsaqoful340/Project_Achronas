@@ -514,7 +514,7 @@ public class _Enemy_Mannequin : MonoBehaviour
         {
             case EnemyType.Jaranan:
             case EnemyType.SingaBarong:
-                Debug.Log($"{gameObject.name} ({enemyType}): Received Dadak Merak command! Fleeing...");
+                Debug.Log($"{gameObject.name} ({enemyType}): Received Dadak Merak command! Execute order 66!");
                 break;
             case EnemyType.Normal:
                 Debug.Log($"{gameObject.name} (Normal): Received Dadak Merak command! No special reaction.");

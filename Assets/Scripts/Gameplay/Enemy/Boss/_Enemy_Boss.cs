@@ -11,8 +11,7 @@ using UnityEditor.EditorTools;
 
 public class _Enemy_Boss : MonoBehaviour
 {
-    // 
-    public enum EnemyType
+    public enum BossType
     {
         DadakMerak,
         Leak,
@@ -22,11 +21,12 @@ public class _Enemy_Boss : MonoBehaviour
     enum EnemyState
     {
         Idle,
-        Alerted
+        Alerted,
+        CaughtPlayer
     }
 
     [Header("Enemy Type")]
-    public EnemyType enemyType;
+    public BossType bossType;
 
     [Header("Enemy Properties")]
     public Light detectionLight;
@@ -53,11 +53,13 @@ public class _Enemy_Boss : MonoBehaviour
     [SerializeField] private float awarenessDecreaseRate = 0.5f;
     [SerializeField] private float currentAwareness = 0f;
 
+    [Header("Catch Player Settings")]
+    [Tooltip("Slot for caught player (e.g., for parenting or animation)")]
+    public Transform caughtPlayerSlot;
+    [SerializeField] private Player_Components caughtPlayerComponent; // Reference to caught player's components for control
+
     [Header("Mannequinn Interaction")]
     public _Enemy_Mannequin[] enemyMannequin;
-    
-    [Header("Light Reaction")]
-    public UnityEvent onLitByPlayerLight;
 
     [Header("Spotting Events")]
     public UnityEvent OnSpottingPlayer;
@@ -77,8 +79,6 @@ public class _Enemy_Boss : MonoBehaviour
     
     // Chase variables
     private float defaultAngularSpeed;
-    
-    // Enemy references
 
     private void Start()
     {
@@ -100,11 +100,18 @@ public class _Enemy_Boss : MonoBehaviour
         }
 
         // Start in idle state
-        currentState = EnemyState.Idle;
+        TransitionToState(EnemyState.Idle);
         Debug.Log($"{gameObject.name}: Initialized. Waiting for player detection.");
         detectionLight.enabled = true; // Ensure detection light is on at start
-        
-        // Cache Mannequin reference if available
+
+        // Validate mannequins ONLY for DadakMerak (the only type that needs them)
+        if (bossType == BossType.DadakMerak)
+        {
+            if (enemyMannequin == null || enemyMannequin.Length == 0)
+            {
+                Debug.LogWarning($"{gameObject.name} (DadakMerak): No mannequins assigned! Cannot control mannequins.");
+            }
+        }
     }
 
     private void Update()
@@ -130,6 +137,9 @@ public class _Enemy_Boss : MonoBehaviour
             case EnemyState.Alerted:
                 HandleAlerted();
                 break;
+            case EnemyState.CaughtPlayer:
+                HandleCatchingPlayer();
+                break;
         }
     }
 
@@ -144,12 +154,51 @@ public class _Enemy_Boss : MonoBehaviour
 
     private void HandleAlerted()
     {
-        switch (enemyType)
+        switch (bossType)
         {
-            case EnemyType.Hanoman:
-            case EnemyType.Leak:
+            case BossType.Hanoman:
+            case BossType.Leak:
                 break;
-            case EnemyType.DadakMerak:
+            case BossType.DadakMerak:
+                break;
+        }
+    }
+
+    private void HandleCatchingPlayer()
+    {
+        // Continuous behavior while catching player (e.g., play animation, lock player)
+        // One-time event (OnPlayerCaught) is called in TransitionToState when entering this state
+    }
+    #endregion
+
+    #region State Transition
+    private void TransitionToState(EnemyState newState)
+    {
+        // Guard clause: prevent duplicate transitions
+        if (currentState == newState) return;
+
+        // // Exit current state (if cleanup needed)
+        // switch (currentState)
+        // {
+        //     // Add exit logic here if needed
+        // }
+
+        currentState = newState;
+
+        // Enter new state - ONE-TIME EVENTS GO HERE
+        switch (newState)
+        {
+            case EnemyState.Idle:
+                // Idle entry behavior
+                break;
+
+            case EnemyState.Alerted:
+                OnSpottingPlayer?.Invoke(); // Invoked once when player is spotted
+                OnPlayerSpotted(); // Call spotted method
+                break;
+
+            case EnemyState.CaughtPlayer:
+                OnPlayerCaught(); // Called once when player is caught
                 break;
         }
     }
@@ -240,8 +289,7 @@ public class _Enemy_Boss : MonoBehaviour
             // Invoke event when threshold reached
             if (currentAwareness >= awarenessThreshold && currentState != EnemyState.Alerted)
             {
-                currentState = EnemyState.Alerted;
-                OnSpottingPlayer?.Invoke();
+                TransitionToState(EnemyState.Alerted);
             }
         }
         else
@@ -253,69 +301,125 @@ public class _Enemy_Boss : MonoBehaviour
     }
     #endregion
 
-    #region Public Methods
-    public void OnTriggerEnter(Collider other)
+    #region Catching Methods
+    private void CatchPlayer()
     {
-        if (other.gameObject.CompareTag("PlayerLight"))
+        if (cachedPlayer != null)
         {
-            OnPlayerCaught();
+            // Attempt to get Player_Components from the caught player
+            caughtPlayerComponent = cachedPlayer.GetComponent<Player_Components>();
+            
+            if (caughtPlayerComponent != null)
+            {
+                // Parent player to the caught player slot
+                if (caughtPlayerSlot != null)
+                {
+                    cachedPlayer.transform.SetParent(caughtPlayerSlot);
+                    cachedPlayer.transform.localPosition = Vector3.zero;
+                    cachedPlayer.transform.localRotation = Quaternion.identity;
+                    Debug.Log($"{gameObject.name}: Player parented to caught slot.");
+                }
+                else
+                {
+                    Debug.LogWarning($"{gameObject.name}: caughtPlayerSlot is not assigned!");
+                }
+                
+                // Freeze player movement
+                FreezePlayer();
+            }
+            else
+            {
+                Debug.LogError($"{gameObject.name}: Caught player {cachedPlayer.name} does not have Player_Components!");
+            }
+        }
+        else
+        {
+            Debug.LogError($"{gameObject.name}: No cached player to catch!");
         }
     }
 
-    public void OnLitByPlayerLight()
+    private void FreezePlayer()
     {
-        // Behavior based on enemy type
-        switch (enemyType)
+        if (cachedPlayer == null)
         {
-            case EnemyType.DadakMerak:
-                Debug.Log($"{gameObject.name} (Dadak Merak): Spotted by light! Fleeing...");
-                // TODO: Implement Dadak Merak-specific behavior (flee from light)
-                break;
-                
-            case EnemyType.Hanoman:
-                Debug.Log($"{gameObject.name} (Hanoman): Spotted by light! Becoming aggressive...");
-                // TODO: Implement Hanoman-specific behavior (chase player)
-                break;
-                
-            case EnemyType.Leak:
-                Debug.Log($"{gameObject.name} (Leak): Spotted by light!");
-                // TODO: Implement Leak-specific behavior
-                break;
+            Debug.LogWarning($"{gameObject.name}: Cannot freeze player - cachedPlayer is null!");
+            return;
+        }
+
+        // Method 1: Disable CharacterController
+        CharacterController controller = cachedPlayer.GetComponent<CharacterController>();
+        if (controller != null)
+        {
+            controller.enabled = false;
+            Debug.Log($"{gameObject.name}: Disabled CharacterController on {cachedPlayer.name}");
         }
         
-        // Invoke Unity Event for Inspector-assigned reactions
-        onLitByPlayerLight?.Invoke();
+        // Method 2: Disable Rigidbody physics
+        Rigidbody rb = cachedPlayer.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.isKinematic = true;
+            rb.linearVelocity = Vector3.zero;
+            Debug.Log($"{gameObject.name}: Froze Rigidbody on {cachedPlayer.name}");
+        }
+        
+        // Method 3: Disable input (if using Unity Input System)
+        UnityEngine.InputSystem.PlayerInput playerInput = cachedPlayer.GetComponent<UnityEngine.InputSystem.PlayerInput>();
+        if (playerInput != null)
+        {
+            playerInput.DeactivateInput();
+            Debug.Log($"{gameObject.name}: Deactivated input on {cachedPlayer.name}");
+        }
+        
+        // Method 4: Call Player_Components freeze method (if it exists)
+        if (caughtPlayerComponent != null)
+        {
+            // TODO: Call specific freeze methods on Player_Components
+            // Example: caughtPlayerComponent.SetMovementLocked(true);
+            // Example: caughtPlayerComponent.DisableControl();
+        }
+    }
+    #endregion
+
+    #region Public Methods
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log($"{gameObject.name}: Player entered trigger zone.");
+            TransitionToState(EnemyState.CaughtPlayer);
+        }
     }
 
     public void OnPlayerCaught()
     {
-        switch (enemyType)
+        switch (bossType)
         {
-            case EnemyType.DadakMerak:
-                Debug.Log($"{gameObject.name} (Dadak Merak): Caught by player light!");
-                // Call method on all Mannequins
-                if (enemyMannequin != null && enemyMannequin.Length > 0)
-                {
-                    foreach (_Enemy_Mannequin mannequin in enemyMannequin)
-                    {
-                        if (mannequin != null)
-                        {
-                            mannequin.OnDadakMerakCommand();
-                        }
-                    }
-                }
-                else
-                {
-                    Debug.LogWarning($"{gameObject.name}: No _Enemy_Mannequin components assigned!");
-                }
+            case BossType.DadakMerak:
                 break;
                 
-            case EnemyType.Hanoman:
-                Debug.Log($"{gameObject.name} (Hanoman): Caught by player light!");
+            case BossType.Hanoman:
+                Debug.Log($"{gameObject.name} (Hanoman): Player caught! You are ded!");
+                CatchPlayer();
                 break;
                 
-            case EnemyType.Leak:
-                Debug.Log($"{gameObject.name} (Leak): Caught by player light!");
+            case BossType.Leak:
+                Debug.Log($"{gameObject.name} (Leak): Player caught! You are ded!");
+                CatchPlayer();
+                break;
+        }
+    }
+
+    public void OnPlayerSpotted()
+    {
+        switch (bossType)
+        {
+            case BossType.DadakMerak:
+                Debug.Log($"{gameObject.name} (Dadak Merak): Player spotted! ");
+                break;
+            case BossType.Hanoman:
+            case BossType.Leak:
+                Debug.Log($"{gameObject.name} ({bossType}): Player spotted! Do nothing.");
                 break;
         }
     }
