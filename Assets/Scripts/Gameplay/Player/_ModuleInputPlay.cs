@@ -12,7 +12,7 @@ public enum ActionState
     Interact,
     Action1,
     Action2,
-    Confirm
+    PauseMenu
 }
 
 [CreateAssetMenu(fileName = "ModuleInputPlay", menuName = "AddOn Module/Input Play", order = 1)]
@@ -79,6 +79,9 @@ public class _ModuleInputPlay : ScriptableObject
         
         // Interact
         inputActions.Player.Interact.performed += ctx => OnAction?.Invoke(ActionState.Interact);
+
+        // Pause Menu
+        inputActions.Player.PauseMenu.performed += ctx => OnAction?.Invoke(ActionState.PauseMenu);
     }
 
     /// <summary>
@@ -126,6 +129,7 @@ public class _ModuleInputPlay : ScriptableObject
             inputActions.Player.Action1.performed -= ctx => OnAction?.Invoke(ActionState.Action1);
             inputActions.Player.Action2.performed -= ctx => OnAction?.Invoke(ActionState.Action2);
             inputActions.Player.Interact.performed -= ctx => OnAction?.Invoke(ActionState.Interact);
+            inputActions.Player.PauseMenu.performed -= ctx => OnAction?.Invoke(ActionState.PauseMenu);
             
             inputActions.Player.Disable();
             inputActions.Dispose();
