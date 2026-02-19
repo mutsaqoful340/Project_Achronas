@@ -22,8 +22,6 @@ public class _Sys_VCamPriorityTriggerArea : MonoBehaviour
     private bool isAreaActive = false;
     
     // Static cooldown shared across all trigger areas
-
-
     private void Update()
     {
         // Decrement global cooldown timer

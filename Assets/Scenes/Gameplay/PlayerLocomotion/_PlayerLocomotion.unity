@@ -7367,7 +7367,12 @@ MonoBehaviour:
   doorAnimator: {fileID: 1053876025}
   player1Reference: {fileID: 543450653027901915}
   player2Reference: {fileID: 1484980248}
+  player1InteractPosition: {fileID: 0}
+  player2InteractPosition: {fileID: 0}
+  doorInteractionCollider: {fileID: 0}
   doorInteractionIcon: {fileID: 1865391258}
+  firstPlayerEntered: {fileID: 0}
+  secondPlayerEntered: {fileID: 0}
 --- !u!95 &1053876025
 Animator:
   serializedVersion: 7
@@ -7409,8 +7414,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 4.633223, y: 1, z: 1.3291669}
-  m_Center: {x: 0, y: 0, z: -0.61223817}
+  m_Size: {x: 1.2779754, y: 1, z: 0.41389465}
+  m_Center: {x: 0, y: 0, z: -0.15460205}
 --- !u!1 &1054350076
 GameObject:
   m_ObjectHideFlags: 0
@@ -11575,7 +11580,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 63
+    m_Bits: 1536
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_GenerateLinks: 1
@@ -15010,7 +15015,7 @@ GameObject:
   - component: {fileID: 7184499553952910242}
   - component: {fileID: 8839853224628820706}
   - component: {fileID: 1236377988}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.045
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15419,7 +15424,7 @@ GameObject:
   - component: {fileID: 8522317338086687232}
   - component: {fileID: 2392002994761414488}
   - component: {fileID: 1078347322}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Display.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15438,7 +15443,7 @@ GameObject:
   - component: {fileID: 2050809774961886739}
   - component: {fileID: 1079662025383165326}
   - component: {fileID: 2012443676}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.008
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15535,7 +15540,7 @@ GameObject:
   - component: {fileID: 683379068993761547}
   - component: {fileID: 9111420966785863195}
   - component: {fileID: 370163198}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Tiang.Lantai 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15683,7 +15688,7 @@ GameObject:
   - component: {fileID: 2287992253145519295}
   - component: {fileID: 6605585260913624864}
   - component: {fileID: 3506178597552744261}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LorongKiri_Tiang (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16087,7 +16092,7 @@ GameObject:
   - component: {fileID: 3564568211450821136}
   - component: {fileID: 6803844443977844084}
   - component: {fileID: 1616800495}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TembokTaman
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16597,7 +16602,7 @@ GameObject:
   - component: {fileID: 6887909772181802860}
   - component: {fileID: 4543844214236428065}
   - component: {fileID: 1923762638}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Patung.004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16679,7 +16684,7 @@ GameObject:
   - component: {fileID: 4327454312294799391}
   - component: {fileID: 3468639198434553102}
   - component: {fileID: 430682060}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.034
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16880,7 +16885,7 @@ GameObject:
   - component: {fileID: 9034921825232512675}
   - component: {fileID: 2011522253972679885}
   - component: {fileID: 2095572625}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Display.016
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16914,7 +16919,7 @@ GameObject:
   - component: {fileID: 3934189819314253264}
   - component: {fileID: 1217615562223855589}
   - component: {fileID: 167418278}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: KursiPengunjung.2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16981,7 +16986,7 @@ GameObject:
   - component: {fileID: 6715832775548508772}
   - component: {fileID: 1386603684501704659}
   - component: {fileID: 4908285090086118101}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LorongKiri_Tiang (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17023,7 +17028,7 @@ GameObject:
   - component: {fileID: 4013624596416570085}
   - component: {fileID: 1895653867256851032}
   - component: {fileID: 202253887}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SlideDoor.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17042,7 +17047,7 @@ GameObject:
   - component: {fileID: 5334037119096122300}
   - component: {fileID: 4539702728617932643}
   - component: {fileID: 253458056}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17275,7 +17280,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 543450651789133383}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Blocking Map.2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17664,7 +17669,7 @@ GameObject:
   - component: {fileID: 5967063034995146362}
   - component: {fileID: 870948806349369583}
   - component: {fileID: 636126334}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Tangga.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18111,7 +18116,7 @@ GameObject:
   - component: {fileID: 6935104695276681448}
   - component: {fileID: 8925326982930756732}
   - component: {fileID: 934959734}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Tangga
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18283,7 +18288,7 @@ GameObject:
   - component: {fileID: 5273481792433108697}
   - component: {fileID: 2147670491959503782}
   - component: {fileID: 1238888882}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Tombol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18621,7 +18626,7 @@ GameObject:
   - component: {fileID: 1771647021262290371}
   - component: {fileID: 1783288422072474822}
   - component: {fileID: 166497163}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LampuTaman.2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19159,7 +19164,7 @@ GameObject:
   - component: {fileID: 4605955992940120715}
   - component: {fileID: 6011908232082952738}
   - component: {fileID: 1576696618}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: EtalaseRendah
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19178,7 +19183,7 @@ GameObject:
   - component: {fileID: 5386575050390714586}
   - component: {fileID: 327064009115664926}
   - component: {fileID: 2050948354}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.014
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19276,7 +19281,7 @@ GameObject:
   - component: {fileID: 5367661002109897810}
   - component: {fileID: 2292870669146035923}
   - component: {fileID: 2037922088}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Tiang.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19406,7 +19411,7 @@ GameObject:
   - component: {fileID: 7578393032181591962}
   - component: {fileID: 4203392019393077068}
   - component: {fileID: 887794332}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Gamelan
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19473,7 +19478,7 @@ GameObject:
   - component: {fileID: 3418485908946537057}
   - component: {fileID: 976723959615050186}
   - component: {fileID: 925833641}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.044
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19492,7 +19497,7 @@ GameObject:
   - component: {fileID: 8897240365509359894}
   - component: {fileID: 3129779574809395690}
   - component: {fileID: 2034149636}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19511,7 +19516,7 @@ GameObject:
   - component: {fileID: 9084301506173284081}
   - component: {fileID: 716103147018246816}
   - component: {fileID: 1740036182}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Patung.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19810,7 +19815,7 @@ GameObject:
   - component: {fileID: 3905359922479908796}
   - component: {fileID: 4972596390321101544}
   - component: {fileID: 1792195101}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LampuTaman.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19923,7 +19928,7 @@ GameObject:
   - component: {fileID: 3441275453191819762}
   - component: {fileID: 953134145192448233}
   - component: {fileID: 616152664}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.024
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19973,7 +19978,7 @@ GameObject:
   - component: {fileID: 7514678666420617705}
   - component: {fileID: 5666219068148045350}
   - component: {fileID: 634311563}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Tiang.004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20212,7 +20217,7 @@ GameObject:
   - component: {fileID: 5109987458583274691}
   - component: {fileID: 895425838032383327}
   - component: {fileID: 20739679}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.033
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20272,7 +20277,7 @@ GameObject:
   - component: {fileID: 8350334570582428740}
   - component: {fileID: 7172677787774231381}
   - component: {fileID: 62735881}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: KursiPengunjung.1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20570,7 +20575,7 @@ GameObject:
   - component: {fileID: 1295866399976356061}
   - component: {fileID: 2355982397547771124}
   - component: {fileID: 1734303042}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.013
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20589,7 +20594,7 @@ GameObject:
   - component: {fileID: 7202294152521698634}
   - component: {fileID: 410344471942868566}
   - component: {fileID: 1762204020}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TanggaKeAtas.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20791,7 +20796,7 @@ GameObject:
   - component: {fileID: 39647709283484833}
   - component: {fileID: 5812254187718987540}
   - component: {fileID: 1071492314}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Tangan.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20810,7 +20815,7 @@ GameObject:
   - component: {fileID: 8482381506539521671}
   - component: {fileID: 8418640413191391442}
   - component: {fileID: 923602487}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21110,7 +21115,7 @@ GameObject:
   - component: {fileID: 4876933052053176219}
   - component: {fileID: 1305037035172791158}
   - component: {fileID: 366605395}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21591,7 +21596,7 @@ GameObject:
   - component: {fileID: 2892150280060571716}
   - component: {fileID: 3880488292773858685}
   - component: {fileID: 920570379}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TembokTaman.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21706,7 +21711,7 @@ GameObject:
   - component: {fileID: 3344103428032073162}
   - component: {fileID: 8666666831838570936}
   - component: {fileID: 755514635}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Display.006
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21725,7 +21730,7 @@ GameObject:
   - component: {fileID: 4828581498277421608}
   - component: {fileID: 5622605938496085146}
   - component: {fileID: 2128992411}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Tiang.3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21827,7 +21832,7 @@ GameObject:
   - component: {fileID: 5327219485667953375}
   - component: {fileID: 1551822759793081041}
   - component: {fileID: 1482718695}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SlideDoor.004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21924,7 +21929,7 @@ GameObject:
   - component: {fileID: 5171513275838217150}
   - component: {fileID: 289912645275914547}
   - component: {fileID: 432150681}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LampuTaman.007
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21951,7 +21956,7 @@ GameObject:
   - component: {fileID: 4668013533851070167}
   - component: {fileID: 8567716999067858638}
   - component: {fileID: 542480521}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.010
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21985,7 +21990,7 @@ GameObject:
   - component: {fileID: 3628662070137135886}
   - component: {fileID: 5100227403698972830}
   - component: {fileID: 1029627091}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BangkuSave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22004,7 +22009,7 @@ GameObject:
   - component: {fileID: 3110541137054284201}
   - component: {fileID: 5496309747399826378}
   - component: {fileID: 1868252568}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Display.009
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22116,7 +22121,7 @@ GameObject:
   - component: {fileID: 2400268636644504133}
   - component: {fileID: 1881606788891091495}
   - component: {fileID: 1503741648}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Display.008
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22231,7 +22236,7 @@ GameObject:
   - component: {fileID: 4690198520362812783}
   - component: {fileID: 998223641131676549}
   - component: {fileID: 1868306943}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Pohon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22759,7 +22764,7 @@ GameObject:
   - component: {fileID: 7464481322879686622}
   - component: {fileID: 4029612820545269879}
   - component: {fileID: 697196490}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Tiang.007
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22778,7 +22783,7 @@ GameObject:
   - component: {fileID: 3699189491559991416}
   - component: {fileID: 676036010114387554}
   - component: {fileID: 63788705}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Kaca.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22828,7 +22833,7 @@ GameObject:
   - component: {fileID: 8227416543116385137}
   - component: {fileID: 5345196668311847276}
   - component: {fileID: 1633760741}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Tangan.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22855,7 +22860,7 @@ GameObject:
   - component: {fileID: 6564069480575686083}
   - component: {fileID: 1630949864885221744}
   - component: {fileID: 605408015}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: KursiPengunjung.005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22874,7 +22879,7 @@ GameObject:
   - component: {fileID: 6259173406249335651}
   - component: {fileID: 2491236294240654268}
   - component: {fileID: 1525631955}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Display
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23031,7 +23036,7 @@ GameObject:
   - component: {fileID: 5769769542063905419}
   - component: {fileID: 248944219689154008}
   - component: {fileID: 326360745}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: KursiPengunjung.012
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23207,7 +23212,7 @@ GameObject:
   - component: {fileID: 1315086996625950510}
   - component: {fileID: 9127277229461991786}
   - component: {fileID: 1343277259}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Tiang.1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23226,7 +23231,7 @@ GameObject:
   - component: {fileID: 8651204361778411312}
   - component: {fileID: 6101401150495827149}
   - component: {fileID: 872136916}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BangkuSave.1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23253,7 +23258,7 @@ GameObject:
   - component: {fileID: 2744004336749390902}
   - component: {fileID: 3684545315307202098}
   - component: {fileID: 1734006863}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LampuTaman.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23335,7 +23340,7 @@ GameObject:
   - component: {fileID: 2453480698774572553}
   - component: {fileID: 8093022263429391023}
   - component: {fileID: 449164498}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Pintu masuk.2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23514,7 +23519,7 @@ GameObject:
   - component: {fileID: 5495271439146012935}
   - component: {fileID: 1111472421873235963}
   - component: {fileID: 1960847046}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: KursiPengunjung.4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23669,7 +23674,7 @@ GameObject:
   - component: {fileID: 414770625651949232}
   - component: {fileID: 8055824366121593884}
   - component: {fileID: 1014665674}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Display.019
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23688,7 +23693,7 @@ GameObject:
   - component: {fileID: 3862513750698055208}
   - component: {fileID: 75550177978684777}
   - component: {fileID: 74290904}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Tangan.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23715,7 +23720,7 @@ GameObject:
   - component: {fileID: 4261987648590856813}
   - component: {fileID: 7671185063338245800}
   - component: {fileID: 2013602297}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LampuTaman.009
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23784,7 +23789,7 @@ GameObject:
   - component: {fileID: 5898958501115566766}
   - component: {fileID: 1431928629319567368}
   - component: {fileID: 1963909241}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.025
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23851,7 +23856,7 @@ GameObject:
   - component: {fileID: 4117960853357132759}
   - component: {fileID: 8425783089844402112}
   - component: {fileID: 1167378729}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LampuTaman.006
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23918,7 +23923,7 @@ GameObject:
   - component: {fileID: 2928514859333258853}
   - component: {fileID: 6947464326081216498}
   - component: {fileID: 1433436376}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.029
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24217,7 +24222,7 @@ GameObject:
   - component: {fileID: 6859188955023636311}
   - component: {fileID: 1457128880355301038}
   - component: {fileID: 577791170}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Rumput
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24282,7 +24287,7 @@ GameObject:
   - component: {fileID: 5366159434514930153}
   - component: {fileID: 7202271456024352627}
   - component: {fileID: 1772105292}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24309,7 +24314,7 @@ GameObject:
   - component: {fileID: 8999426500641188434}
   - component: {fileID: 3923160687661511304}
   - component: {fileID: 21988591}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Pohon.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24392,7 +24397,7 @@ GameObject:
   - component: {fileID: 7271075352665524097}
   - component: {fileID: 4927415369121969312}
   - component: {fileID: 374937456}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Tangan.005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24438,7 +24443,7 @@ GameObject:
   - component: {fileID: 3013841365825862119}
   - component: {fileID: 3228314783659851240}
   - component: {fileID: 1210047077}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Display.012
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24457,7 +24462,7 @@ GameObject:
   - component: {fileID: 8840007578566779790}
   - component: {fileID: 6824073464158377731}
   - component: {fileID: 1660899692}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Tangan
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24491,7 +24496,7 @@ GameObject:
   - component: {fileID: 2253747363556234622}
   - component: {fileID: 233641124273182657}
   - component: {fileID: 1526817947}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: KursiPengunjung.008
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24510,7 +24515,7 @@ GameObject:
   - component: {fileID: 9147224609733001604}
   - component: {fileID: 8976383177786414866}
   - component: {fileID: 1597157689}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Rinda
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24585,7 +24590,7 @@ GameObject:
   - component: {fileID: 1315269131900481222}
   - component: {fileID: 1395436888381972894}
   - component: {fileID: 981077153}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Tiang
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25209,7 +25214,7 @@ GameObject:
   - component: {fileID: 5496894220706565945}
   - component: {fileID: 4395629341736507526}
   - component: {fileID: 1325914357}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: KursiPengunjung.010
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25347,7 +25352,7 @@ GameObject:
   - component: {fileID: 2266785287781725241}
   - component: {fileID: 2880658425583540110}
   - component: {fileID: 1659519556}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SlideDoor.009
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25366,7 +25371,7 @@ GameObject:
   - component: {fileID: 167417958096202182}
   - component: {fileID: 6538484121802347710}
   - component: {fileID: 1579673811}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Kaca
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25601,7 +25606,7 @@ GameObject:
   - component: {fileID: 2690996183645395934}
   - component: {fileID: 6481270529618775316}
   - component: {fileID: 138576464}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Tiang.008
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25713,7 +25718,7 @@ GameObject:
   - component: {fileID: 6772912781648509044}
   - component: {fileID: 1914653230778780321}
   - component: {fileID: 381845805}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.019
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25822,7 +25827,7 @@ GameObject:
   - component: {fileID: 3055866476167252202}
   - component: {fileID: 1340057206395534877}
   - component: {fileID: 1438467877}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PanggungWayang
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25849,7 +25854,7 @@ GameObject:
   - component: {fileID: 2210192937075403749}
   - component: {fileID: 1738776582113425576}
   - component: {fileID: 835743966}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.018
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26009,7 +26014,7 @@ GameObject:
   - component: {fileID: 8678946766910563131}
   - component: {fileID: 6275833175470876251}
   - component: {fileID: 1508884191}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.020
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26191,7 +26196,7 @@ GameObject:
   - component: {fileID: 8839206160111479923}
   - component: {fileID: 6433965186372136551}
   - component: {fileID: 1629167716}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Display.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26456,7 +26461,7 @@ GameObject:
   - component: {fileID: 5586100459535302626}
   - component: {fileID: 3389213606118316620}
   - component: {fileID: 1791681479}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Pohon.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26769,7 +26774,7 @@ GameObject:
   - component: {fileID: 4750123734361806100}
   - component: {fileID: 6359122996451682271}
   - component: {fileID: 926623965}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Pohon.004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26788,7 +26793,7 @@ GameObject:
   - component: {fileID: 5044661318728453425}
   - component: {fileID: 3127898189533765355}
   - component: {fileID: 1981720202}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Kaca.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26822,7 +26827,7 @@ GameObject:
   - component: {fileID: 5638556858057901315}
   - component: {fileID: 8632315030325294875}
   - component: {fileID: 77099408}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Panggung
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26889,7 +26894,7 @@ GameObject:
   - component: {fileID: 8641111709864924290}
   - component: {fileID: 6467997640208024284}
   - component: {fileID: 2116997123}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: KursiPengunjung.011
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27043,7 +27048,7 @@ GameObject:
   - component: {fileID: 2417813843177099744}
   - component: {fileID: 5558828517552605864}
   - component: {fileID: 172794073}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SlideDoor.010
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27125,7 +27130,7 @@ GameObject:
   - component: {fileID: 3348973978286649690}
   - component: {fileID: 2445712274702926072}
   - component: {fileID: 1451888153}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: KursiPengunjung.009
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27258,7 +27263,7 @@ GameObject:
   - component: {fileID: 6697621764211732990}
   - component: {fileID: 882129738706468585}
   - component: {fileID: 1758223717}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Plane.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27277,7 +27282,7 @@ GameObject:
   - component: {fileID: 567369141345050905}
   - component: {fileID: 8449476314803999816}
   - component: {fileID: 2032091778}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LantaiTaman.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27460,7 +27465,7 @@ GameObject:
   - component: {fileID: 2001263134890773056}
   - component: {fileID: 3859947754745154256}
   - component: {fileID: 1242761281}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.016
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27573,7 +27578,7 @@ GameObject:
   - component: {fileID: 1706688489503472870}
   - component: {fileID: 5059029589791120930}
   - component: {fileID: 692547761}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TanggaKeAtas.Flat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27592,7 +27597,7 @@ GameObject:
   - component: {fileID: 7829542527255695270}
   - component: {fileID: 2244981055696511354}
   - component: {fileID: 1398282563}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: KursiPengunjung.007
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27809,7 +27814,7 @@ GameObject:
   - component: {fileID: 7248271846880185494}
   - component: {fileID: 1348292271564014230}
   - component: {fileID: 328549949}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Display.018
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28340,6 +28345,14 @@ PrefabInstance:
     - target: {fileID: 3116610777229672256, guid: 58b5b122f36ab6d40af815a51f5a4421, type: 3}
       propertyPath: m_Layer
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3127102278718373537, guid: 58b5b122f36ab6d40af815a51f5a4421, type: 3}
+      propertyPath: runSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3127102278718373537, guid: 58b5b122f36ab6d40af815a51f5a4421, type: 3}
+      propertyPath: walkSpeed
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3127102278718373537, guid: 58b5b122f36ab6d40af815a51f5a4421, type: 3}
       propertyPath: cameraTransform
@@ -29081,7 +29094,7 @@ GameObject:
   - component: {fileID: 2040280108185791079}
   - component: {fileID: 5008022236943694709}
   - component: {fileID: 810413468}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.021
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29108,7 +29121,7 @@ GameObject:
   - component: {fileID: 5021132624972780624}
   - component: {fileID: 3260993754250013220}
   - component: {fileID: 2048077708}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TanggaKeAtas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29127,7 +29140,7 @@ GameObject:
   - component: {fileID: 1928331524801904058}
   - component: {fileID: 6814378512079279883}
   - component: {fileID: 340738799}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LampuTaman.005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29252,7 +29265,7 @@ GameObject:
   - component: {fileID: 199857934456870681}
   - component: {fileID: 7048632787274267977}
   - component: {fileID: 1734498436}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: KursiPengunjung.3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29271,7 +29284,7 @@ GameObject:
   - component: {fileID: 1193064336578658543}
   - component: {fileID: 1591314694525085187}
   - component: {fileID: 441296148}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LampuTaman.008
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29514,7 +29527,7 @@ GameObject:
   - component: {fileID: 3812333170151929489}
   - component: {fileID: 7836279353969780273}
   - component: {fileID: 1632805065}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Pintu masuk.1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29715,7 +29728,7 @@ GameObject:
   - component: {fileID: 9170846854096050610}
   - component: {fileID: 355894165442920434}
   - component: {fileID: 924624582}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.030
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29734,7 +29747,7 @@ GameObject:
   - component: {fileID: 1950422418935055241}
   - component: {fileID: 7143166387784739194}
   - component: {fileID: 813955547}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SlideDoor.008
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29816,7 +29829,7 @@ GameObject:
   - component: {fileID: 1305369085705053481}
   - component: {fileID: 9220855410212586552}
   - component: {fileID: 1821287267}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LampuTaman
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30052,7 +30065,7 @@ GameObject:
   - component: {fileID: 5383179512856378751}
   - component: {fileID: 8616184512877904934}
   - component: {fileID: 1775699514}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.028
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30094,7 +30107,7 @@ GameObject:
   - component: {fileID: 7845702355961703450}
   - component: {fileID: 5671390607929644032}
   - component: {fileID: 2031258537}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Tuas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30140,7 +30153,7 @@ GameObject:
   - component: {fileID: 3061460584143593594}
   - component: {fileID: 1248219044370733542}
   - component: {fileID: 715402491}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Display.007
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30159,7 +30172,7 @@ GameObject:
   - component: {fileID: 2326968315999856628}
   - component: {fileID: 3284397715745676643}
   - component: {fileID: 1196088706}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SlideDoor.006
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30177,6 +30190,7 @@ GameObject:
   - component: {fileID: 2125899373862516062}
   - component: {fileID: 6536261548203243051}
   - component: {fileID: 1389124316111248951}
+  - component: {fileID: 6536261548203243052}
   m_Layer: 0
   m_Name: LorongKiri_SlideDoor_Right
   m_TagString: Untagged
@@ -30260,7 +30274,7 @@ GameObject:
   - component: {fileID: 3926026048684990474}
   - component: {fileID: 9183533324218490360}
   - component: {fileID: 522884034}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Tiang.009
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30395,7 +30409,7 @@ GameObject:
   - component: {fileID: 1048724833837346976}
   - component: {fileID: 4432071488706120054}
   - component: {fileID: 1222251427}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.015
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30596,7 +30610,7 @@ GameObject:
   - component: {fileID: 789173351021284482}
   - component: {fileID: 2549569356363805445}
   - component: {fileID: 518049271}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.037
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30832,7 +30846,7 @@ GameObject:
   - component: {fileID: 2227593447772963291}
   - component: {fileID: 8220479755140043234}
   - component: {fileID: 956458509}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Tiang.005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30859,7 +30873,7 @@ GameObject:
   - component: {fileID: 891299303537487423}
   - component: {fileID: 4195812928253943435}
   - component: {fileID: 655078867}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Patung.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30945,7 +30959,7 @@ GameObject:
   - component: {fileID: 3517951209645384309}
   - component: {fileID: 1512191505863002528}
   - component: {fileID: 1247551416}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.039
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31151,7 +31165,7 @@ GameObject:
   - component: {fileID: 1253075624987422990}
   - component: {fileID: 6670079940174248499}
   - component: {fileID: 403961615}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Display.010
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31170,7 +31184,7 @@ GameObject:
   - component: {fileID: 7352892905425911992}
   - component: {fileID: 4705936935162279123}
   - component: {fileID: 2118588705}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Naya
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31204,7 +31218,7 @@ GameObject:
   - component: {fileID: 1723629720422038644}
   - component: {fileID: 5366800996604527488}
   - component: {fileID: 1938657944}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.031
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31402,7 +31416,7 @@ GameObject:
   - component: {fileID: 475926142098393974}
   - component: {fileID: 466608245383320443}
   - component: {fileID: 843230961}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.022
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31608,7 +31622,7 @@ GameObject:
   - component: {fileID: 508709922942730443}
   - component: {fileID: 7339356832723545224}
   - component: {fileID: 1387608876}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Plane.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31642,7 +31656,7 @@ GameObject:
   - component: {fileID: 1585037207868685506}
   - component: {fileID: 6224906459677460196}
   - component: {fileID: 352038010}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Display.015
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31664,6 +31678,28 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5936161627206272380}
+  m_Mesh: {fileID: -1238688865522426410, guid: dede1e8051111be44b00f02a72e7db4f, type: 3}
+--- !u!64 &6536261548203243052
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5936161627206272380}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
   m_Mesh: {fileID: -1238688865522426410, guid: dede1e8051111be44b00f02a72e7db4f, type: 3}
 --- !u!23 &6538484121802347710
 MeshRenderer:
@@ -31834,7 +31870,7 @@ GameObject:
   - component: {fileID: 7859441555814005497}
   - component: {fileID: 8033244436207815498}
   - component: {fileID: 1053575364}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LantaiTaman
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32006,7 +32042,7 @@ GameObject:
   - component: {fileID: 9155275839972615814}
   - component: {fileID: 6749947462515885982}
   - component: {fileID: 946987896}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.036
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32025,7 +32061,7 @@ GameObject:
   - component: {fileID: 5575352548973470427}
   - component: {fileID: 6056686158655678340}
   - component: {fileID: 1176801752}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: MejaLoket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32256,7 +32292,7 @@ GameObject:
   - component: {fileID: 1649900276460070270}
   - component: {fileID: 6823049835566201675}
   - component: {fileID: 1996652441}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SlideDoor.005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32467,7 +32503,7 @@ GameObject:
   - component: {fileID: 7480908305584451580}
   - component: {fileID: 2839056190102415222}
   - component: {fileID: 1270755252}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Pohon.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33172,6 +33208,14 @@ PrefabInstance:
     - target: {fileID: 3565316352070649420, guid: 35a7a809cdd312248b5cf07968c46809, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0.088095084
+      objectReference: {fileID: 0}
+    - target: {fileID: 3700615922603029752, guid: 35a7a809cdd312248b5cf07968c46809, type: 3}
+      propertyPath: runSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3700615922603029752, guid: 35a7a809cdd312248b5cf07968c46809, type: 3}
+      propertyPath: walkSpeed
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3700615922603029752, guid: 35a7a809cdd312248b5cf07968c46809, type: 3}
       propertyPath: cameraTransform
@@ -33967,7 +34011,7 @@ GameObject:
   - component: {fileID: 3276683269813141851}
   - component: {fileID: 1474979730603719672}
   - component: {fileID: 185566727}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Display.013
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33986,7 +34030,7 @@ GameObject:
   - component: {fileID: 908013681335724964}
   - component: {fileID: 1005944459951844918}
   - component: {fileID: 1925877949}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Display.017
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34005,7 +34049,7 @@ GameObject:
   - component: {fileID: 8075915963562698294}
   - component: {fileID: 1261270641009699192}
   - component: {fileID: 927141988}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: GerbangPenghubung
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34072,7 +34116,7 @@ GameObject:
   - component: {fileID: 4870004671466267000}
   - component: {fileID: 1442450553175650497}
   - component: {fileID: 1856928345}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.017
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34214,7 +34258,7 @@ GameObject:
   - component: {fileID: 370415573564555131}
   - component: {fileID: 2927593090210857370}
   - component: {fileID: 91346287}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.038
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34431,7 +34475,7 @@ GameObject:
   - component: {fileID: 215592837173175635}
   - component: {fileID: 1558643248152324737}
   - component: {fileID: 1031706400}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.009
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34450,7 +34494,7 @@ GameObject:
   - component: {fileID: 4348440453426504595}
   - component: {fileID: 8628502784878872375}
   - component: {fileID: 1536331277}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.023
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34655,7 +34699,7 @@ GameObject:
   - component: {fileID: 7520167278572358485}
   - component: {fileID: 1604705452467672749}
   - component: {fileID: 1929297039}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Tiang.006
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34764,7 +34808,7 @@ GameObject:
   - component: {fileID: 6894958316445023346}
   - component: {fileID: 5071869837051525198}
   - component: {fileID: 836645995}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Patung.006
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34783,7 +34827,7 @@ GameObject:
   - component: {fileID: 3901834440152244010}
   - component: {fileID: 6272350533430752769}
   - component: {fileID: 245699141}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.042
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34850,7 +34894,7 @@ GameObject:
   - component: {fileID: 7885108380046504235}
   - component: {fileID: 5696549651299116418}
   - component: {fileID: 1259214904}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Display.004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34892,7 +34936,7 @@ GameObject:
   - component: {fileID: 3571953033701253634}
   - component: {fileID: 3029200091357483379}
   - component: {fileID: 77904167}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Tiang.011
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35139,7 +35183,7 @@ GameObject:
   - component: {fileID: 7868686662396356947}
   - component: {fileID: 3508313946837181200}
   - component: {fileID: 1762018741}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Tiang.010
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35158,7 +35202,7 @@ GameObject:
   - component: {fileID: 7112469705002018195}
   - component: {fileID: 3897634128712595254}
   - component: {fileID: 770081890}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Display.014
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35208,7 +35252,7 @@ GameObject:
   - component: {fileID: 980934937019590922}
   - component: {fileID: 8433928584993918679}
   - component: {fileID: 743095104}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Display.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35243,7 +35287,7 @@ GameObject:
   - component: {fileID: 6291378977286134499}
   - component: {fileID: 1780481731000444170}
   - component: {fileID: 1811926751}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Patung.007
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35318,7 +35362,7 @@ GameObject:
   - component: {fileID: 8401952776743203054}
   - component: {fileID: 7416691523509774367}
   - component: {fileID: 352406544}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35337,7 +35381,7 @@ GameObject:
   - component: {fileID: 7577986123774486397}
   - component: {fileID: 2025491278165339423}
   - component: {fileID: 109745498}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Patung.005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35530,7 +35574,7 @@ GameObject:
   - component: {fileID: 8542036704856841832}
   - component: {fileID: 3251961986057946728}
   - component: {fileID: 318433909}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.035
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35660,7 +35704,7 @@ GameObject:
   - component: {fileID: 5119677896250695011}
   - component: {fileID: 322589530502635436}
   - component: {fileID: 1398811184}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Tiang.2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35679,7 +35723,7 @@ GameObject:
   - component: {fileID: 616646951903218714}
   - component: {fileID: 2674696394082069386}
   - component: {fileID: 21907212}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Display.011
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35746,7 +35790,7 @@ GameObject:
   - component: {fileID: 2818274069368727928}
   - component: {fileID: 8854982755476732960}
   - component: {fileID: 1345887686}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BangkuSave.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35984,6 +36028,7 @@ GameObject:
   - component: {fileID: 6498325495629805329}
   - component: {fileID: 259620284687934050}
   - component: {fileID: 7685482333583955235}
+  - component: {fileID: 7864695586491266322}
   m_Layer: 0
   m_Name: LorongKiri_SlideDoor_Left
   m_TagString: Untagged
@@ -35991,6 +36036,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!64 &7864695586491266322
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7864695586491266321}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -5554566448299085859, guid: dede1e8051111be44b00f02a72e7db4f, type: 3}
 --- !u!33 &7868686662396356947
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -36373,7 +36440,7 @@ GameObject:
   - component: {fileID: 7606442909298996550}
   - component: {fileID: 4321514657482183977}
   - component: {fileID: 755058907}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.011
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36930,7 +36997,7 @@ GameObject:
   - component: {fileID: 4701739425569777886}
   - component: {fileID: 8223143457587619935}
   - component: {fileID: 577344505}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: KursiPengunjung.006
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37341,7 +37408,7 @@ GameObject:
   - component: {fileID: 3908404621772056736}
   - component: {fileID: 1892616890022459670}
   - component: {fileID: 407550683}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Display.005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37383,7 +37450,7 @@ GameObject:
   - component: {fileID: 3010172807679413884}
   - component: {fileID: 8544783546691552865}
   - component: {fileID: 480241638}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37631,7 +37698,7 @@ GameObject:
   - component: {fileID: 6178967139895184604}
   - component: {fileID: 387331256559951618}
   - component: {fileID: 1970910305}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Patung.1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37869,7 +37936,7 @@ GameObject:
   - component: {fileID: 3404236368259187446}
   - component: {fileID: 6027543247612722264}
   - component: {fileID: 895476492}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.012
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37888,7 +37955,7 @@ GameObject:
   - component: {fileID: 7397443153678606078}
   - component: {fileID: 1892186956126918679}
   - component: {fileID: 686791362}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SlideDoor.007
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38141,7 +38208,7 @@ GameObject:
   - component: {fileID: 6094484958990010712}
   - component: {fileID: 8436230606750103667}
   - component: {fileID: 1713353384}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.043
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38168,7 +38235,7 @@ GameObject:
   - component: {fileID: 4780790649057677729}
   - component: {fileID: 7621133393822525340}
   - component: {fileID: 912351055}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.032
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38187,7 +38254,7 @@ GameObject:
   - component: {fileID: 6002047175432333938}
   - component: {fileID: 8875530300370894155}
   - component: {fileID: 1127453366}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TanggaKeAtas.flat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38489,7 +38556,7 @@ GameObject:
   - component: {fileID: 4812060308548506929}
   - component: {fileID: 1129496808866368021}
   - component: {fileID: 1367350332}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cylinder.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38545,7 +38612,7 @@ GameObject:
   - component: {fileID: 3260616447190653484}
   - component: {fileID: 7762067044067689405}
   - component: {fileID: 65124693}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38564,7 +38631,7 @@ GameObject:
   - component: {fileID: 2351668095871702740}
   - component: {fileID: 8058238664389980210}
   - component: {fileID: 165902527}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: VasBunga
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38613,7 +38680,7 @@ GameObject:
   - component: {fileID: 8894691111556374190}
   - component: {fileID: 6745302440654906979}
   - component: {fileID: 1544480490}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.006
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39143,7 +39210,7 @@ GameObject:
   - component: {fileID: 7872414863319428841}
   - component: {fileID: 8792155962349941524}
   - component: {fileID: 1976894788}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Tangan.004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39407,7 +39474,7 @@ GameObject:
   - component: {fileID: 1703912659782363973}
   - component: {fileID: 8102382927871098391}
   - component: {fileID: 1351867845}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.007
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39538,7 +39605,7 @@ GameObject:
   - component: {fileID: 6101560367840321287}
   - component: {fileID: 456745358274111454}
   - component: {fileID: 1667043419}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LampuTaman.004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39557,7 +39624,7 @@ GameObject:
   - component: {fileID: 19156295154159006}
   - component: {fileID: 649251792544843015}
   - component: {fileID: 606712328}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.026
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39600,7 +39667,7 @@ GameObject:
   - component: {fileID: 5014101516396263794}
   - component: {fileID: 4114778796868002478}
   - component: {fileID: 678089046}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: DindingLoket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39778,7 +39845,7 @@ GameObject:
   - component: {fileID: 2989901908256461557}
   - component: {fileID: 2380718649832444796}
   - component: {fileID: 1993420974}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.027
   m_TagString: Untagged
   m_Icon: {fileID: 0}
