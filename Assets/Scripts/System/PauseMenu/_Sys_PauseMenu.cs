@@ -84,13 +84,13 @@ public class _Sys_PauseMenu : MonoBehaviour
         {
             Resume();
             if (gameModeSwitch != null)
-                gameModeSwitch.SwitchMode(); // Switch back to gameplay mode when resuming
+                gameModeSwitch.SetMode(_Sys_GameModeSwitch.GameMode.Player); // Switch back to Player mode when resuming
         }
         else
         {
             Pause();
             if (gameModeSwitch != null)
-                gameModeSwitch.SwitchMode(); // Switch to UI mode when pausing
+                gameModeSwitch.SetMode(_Sys_GameModeSwitch.GameMode.UI); // Switch to UI mode when paused
         }
     }
 

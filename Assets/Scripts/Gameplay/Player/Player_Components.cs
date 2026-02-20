@@ -12,7 +12,7 @@ public class Player_Components : GameplayBehaviour
     
     [Header("Assigned Gamepad")]
     [Tooltip("The specific gamepad assigned to this player (set by CharacterAssignmentManager)")]
-    private InputDevice assignedDevice;
+    [HideInInspector] public InputDevice assignedDevice;
 
     public Transform cameraTransform;
     public float walkSpeed = 4f;

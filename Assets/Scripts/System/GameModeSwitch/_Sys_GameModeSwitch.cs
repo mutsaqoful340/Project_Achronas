@@ -15,9 +15,15 @@ public class _Sys_GameModeSwitch : MonoBehaviour
     }
 
     public GameMode currentMode = GameMode.UI;
+    
+    // Per-player mode tracking
+    private GameMode[] playerModes;
 
-    // Event that fires when game mode changes
+    // Event that fires when game mode changes (global - affects all players)
     public event Action<GameMode> OnGameModeChanged;
+    
+    // Event that fires when a specific player's mode changes (playerIndex, newMode)
+    public event Action<int, GameMode> OnPlayerModeChanged;
     
     private void Awake()
     {
@@ -25,6 +31,17 @@ public class _Sys_GameModeSwitch : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            
+            // Initialize per-player modes
+            if (PlayerInput != null)
+            {
+                playerModes = new GameMode[PlayerInput.Length];
+                for (int i = 0; i < playerModes.Length; i++)
+                {
+                    playerModes[i] = currentMode;
+                }
+            }
+            
             Debug.Log("<color=magenta>_GameModeSwitch Instance created</color>");
         }
         else
@@ -61,15 +78,65 @@ public class _Sys_GameModeSwitch : MonoBehaviour
         if (PlayerInput != null && PlayerInput.Length > 0)
         {
             string actionMap = (mode == GameMode.Player) ? "Player" : "UI";
-            foreach (var playerInput in PlayerInput)
+            for (int i = 0; i < PlayerInput.Length; i++)
             {
-                if (playerInput != null)
-                    playerInput.SwitchCurrentActionMap(actionMap);
+                if (PlayerInput[i] != null)
+                {
+                    PlayerInput[i].SwitchCurrentActionMap(actionMap);
+                    if (playerModes != null && i < playerModes.Length)
+                    {
+                        playerModes[i] = mode;
+                    }
+                }
             }
         }
         
         // Invoke event
         OnGameModeChanged?.Invoke(mode);
-        Debug.Log($"<color={(mode == GameMode.Player ? "green" : "yellow")}>Switched to {mode} mode</color>");
+        Debug.Log($"<color={(mode == GameMode.Player ? "green" : "yellow")}>Switched ALL players to {mode} mode</color>");
+    }
+    
+    /// <summary>
+    /// Set the game mode for a specific player by index
+    /// </summary>
+    public void SetPlayerMode(int playerIndex, GameMode mode)
+    {
+        if (PlayerInput == null || playerIndex < 0 || playerIndex >= PlayerInput.Length)
+        {
+            Debug.LogWarning($"Invalid player index: {playerIndex}");
+            return;
+        }
+        
+        if (playerModes != null && playerIndex < playerModes.Length && playerModes[playerIndex] == mode)
+        {
+            return; // Already in this mode
+        }
+        
+        // Switch the specific player's action map
+        string actionMap = (mode == GameMode.Player) ? "Player" : "UI";
+        if (PlayerInput[playerIndex] != null)
+        {
+            PlayerInput[playerIndex].SwitchCurrentActionMap(actionMap);
+            if (playerModes != null && playerIndex < playerModes.Length)
+            {
+                playerModes[playerIndex] = mode;
+            }
+        }
+        
+        // Invoke per-player event
+        OnPlayerModeChanged?.Invoke(playerIndex, mode);
+        Debug.Log($"<color={(mode == GameMode.Player ? "green" : "yellow")}>Switched Player {playerIndex} to {mode} mode</color>");
+    }
+    
+    /// <summary>
+    /// Get the current mode for a specific player
+    /// </summary>
+    public GameMode GetPlayerMode(int playerIndex)
+    {
+        if (playerModes != null && playerIndex >= 0 && playerIndex < playerModes.Length)
+        {
+            return playerModes[playerIndex];
+        }
+        return currentMode; // Fallback to global mode
     }
 }
