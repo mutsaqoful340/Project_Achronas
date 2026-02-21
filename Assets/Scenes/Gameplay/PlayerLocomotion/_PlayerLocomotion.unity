@@ -7541,6 +7541,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4041f040befb5b419945fab391c0844, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_GP_DoorInteract_Mng
+  currentDoorState: 0
   doorAnimator: {fileID: 1053876025}
   player1Reference: {fileID: 543450653027901915}
   player2Reference: {fileID: 1484980248}
@@ -28637,6 +28638,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3127102278718373537, guid: 58b5b122f36ab6d40af815a51f5a4421, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 5431400107632533972}
+    - target: {fileID: 3127102278718373537, guid: 58b5b122f36ab6d40af815a51f5a4421, type: 3}
       propertyPath: runSpeed
       value: 5
       objectReference: {fileID: 0}
@@ -28652,6 +28657,10 @@ PrefabInstance:
       propertyPath: moduleInputPlay
       value: 
       objectReference: {fileID: 11400000, guid: bb8b0a1ac513aa849babc01bce4908bd, type: 2}
+    - target: {fileID: 3127102278718373537, guid: 58b5b122f36ab6d40af815a51f5a4421, type: 3}
+      propertyPath: moveAnimationSpeed
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3132347606042218574, guid: 58b5b122f36ab6d40af815a51f5a4421, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.99575895
@@ -29372,6 +29381,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _inputPlayer: {fileID: 11400000, guid: bb8b0a1ac513aa849babc01bce4908bd, type: 2}
+--- !u!95 &5431400107632533972 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5476456536093535983, guid: 58b5b122f36ab6d40af815a51f5a4421, type: 3}
+  m_PrefabInstance: {fileID: 5431400107632533967}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5444727772123915224
 GameObject:
   m_ObjectHideFlags: 0
@@ -33500,6 +33514,10 @@ PrefabInstance:
       value: 0.088095084
       objectReference: {fileID: 0}
     - target: {fileID: 3700615922603029752, guid: 35a7a809cdd312248b5cf07968c46809, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 6971293052501955221}
+    - target: {fileID: 3700615922603029752, guid: 35a7a809cdd312248b5cf07968c46809, type: 3}
       propertyPath: runSpeed
       value: 5
       objectReference: {fileID: 0}
@@ -33511,6 +33529,10 @@ PrefabInstance:
       propertyPath: cameraTransform
       value: 
       objectReference: {fileID: 1114321725}
+    - target: {fileID: 3700615922603029752, guid: 35a7a809cdd312248b5cf07968c46809, type: 3}
+      propertyPath: moveAnimationSpeed
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3715709550183328972, guid: 35a7a809cdd312248b5cf07968c46809, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.94076216
@@ -34251,6 +34273,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _inputPlayer: {fileID: 11400000, guid: 5bb98387395ea44438e9077ac6ecc766, type: 2}
+--- !u!95 &6971293052501955221 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 2690328864903382244, guid: 35a7a809cdd312248b5cf07968c46809, type: 3}
+  m_PrefabInstance: {fileID: 6971293052501955214}
+  m_PrefabAsset: {fileID: 0}
 --- !u!33 &6995187564522919549
 MeshFilter:
   m_ObjectHideFlags: 0

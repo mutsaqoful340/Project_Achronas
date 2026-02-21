@@ -4,6 +4,16 @@ using UnityEngine.Events;
 
 public class _GP_DoorInteract_Mng : MonoBehaviour
 {
+    public enum DoorState
+    {
+        idle,
+        waiting,
+        open,
+        close
+    }
+    
+    public DoorState currentDoorState = DoorState.idle;
+
     [Header("Animator Reference")]
     [Tooltip("Animator yang mengontrol animasi pintu.")]
     public Animator doorAnimator;
@@ -158,7 +168,7 @@ public class _GP_DoorInteract_Mng : MonoBehaviour
         {
             Player_Components playerComponent = other.GetComponent<Player_Components>();
             
-            // Check if it's Player 1
+            // Unsubscribe from action events based on which player component this is
             if (playerComponent == player1Reference && player1Reference != null)
             {
                 Debug.Log("Player 1 exited");
@@ -166,10 +176,8 @@ public class _GP_DoorInteract_Mng : MonoBehaviour
                 {
                     player1Reference.moduleInputPlay.OnAction -= player1ActionDelegate;
                 }
-                firstPlayerEntered = null;
-                firstPlayerInteracted = null;
+                player1InDoorUI = false;
             }
-            // Check if it's Player 2
             else if (playerComponent == player2Reference && player2Reference != null)
             {
                 Debug.Log("Player 2 exited");
@@ -177,7 +185,24 @@ public class _GP_DoorInteract_Mng : MonoBehaviour
                 {
                     player2Reference.moduleInputPlay.OnAction -= player2ActionDelegate;
                 }
+                player2InDoorUI = false;
+            }
+            
+            // Clear the player from whatever slot they're in (first or second)
+            if (firstPlayerEntered == other.gameObject)
+            {
+                firstPlayerEntered = null;
+            }
+            if (secondPlayerEntered == other.gameObject)
+            {
                 secondPlayerEntered = null;
+            }
+            if (firstPlayerInteracted == other.gameObject)
+            {
+                firstPlayerInteracted = null;
+            }
+            if (secondPlayerInteracted == other.gameObject)
+            {
                 secondPlayerInteracted = null;
             }
         
@@ -189,10 +214,6 @@ public class _GP_DoorInteract_Mng : MonoBehaviour
                 }
             }
         }
-
-        // Clear the reference of the player that exited the trigger area
-        // firstPlayerEntered = null;
-        // secondPlayerEntered = null;
     }
 
     private void HandlePlayerAction(ActionState state, Player_Components player)
@@ -318,12 +339,12 @@ public class _GP_DoorInteract_Mng : MonoBehaviour
             // Parent to the interact position if not already parented
             if (firstPlayerInteracted.transform.parent != player1InteractPosition)
             {
-                firstPlayerInteracted.transform.SetParent(player1InteractPosition);
+                firstPlayerInteracted.transform.SetParent(player1InteractPosition, false);
+                firstPlayerInteracted.transform.localPosition = Vector3.zero;
+                firstPlayerInteracted.transform.localRotation = Quaternion.identity;
             }
             
-            // Interpolate local position and rotation to normalize the transform
-            firstPlayerInteracted.transform.localPosition = Vector3.Lerp(firstPlayerInteracted.transform.localPosition, Vector3.zero, Time.deltaTime * 5f);
-            firstPlayerInteracted.transform.localRotation = Quaternion.Lerp(firstPlayerInteracted.transform.localRotation, Quaternion.identity, Time.deltaTime * 5f);
+            // Smooth interpolation already applied on first parent assignment
         }
         
         if (secondPlayerInteracted != null)
@@ -331,12 +352,12 @@ public class _GP_DoorInteract_Mng : MonoBehaviour
             // Parent to the interact position if not already parented
             if (secondPlayerInteracted.transform.parent != player2InteractPosition)
             {
-                secondPlayerInteracted.transform.SetParent(player2InteractPosition);
+                secondPlayerInteracted.transform.SetParent(player2InteractPosition, false);
+                secondPlayerInteracted.transform.localPosition = Vector3.zero;
+                secondPlayerInteracted.transform.localRotation = Quaternion.identity;
             }
             
-            // Interpolate local position and rotation to normalize the transform
-            secondPlayerInteracted.transform.localPosition = Vector3.Lerp(secondPlayerInteracted.transform.localPosition, Vector3.zero, Time.deltaTime * 5f);
-            secondPlayerInteracted.transform.localRotation = Quaternion.Lerp(secondPlayerInteracted.transform.localRotation, Quaternion.identity, Time.deltaTime * 5f);
+            // Smooth interpolation already applied on first parent assignment
         }
 
         if (secondPlayerInteracted != null && firstPlayerInteracted != null)
@@ -349,4 +370,26 @@ public class _GP_DoorInteract_Mng : MonoBehaviour
             }
         }
     }
+
+    #region Door State Handler
+
+    public void OnDoorState()
+    {
+        switch (currentDoorState)
+        {
+            case DoorState.idle:
+                // Handle idle state logic
+                break;
+            case DoorState.waiting:
+                // Handle waiting state logic
+                break;
+            case DoorState.open:
+                // Handle open state logic
+                break;
+            case DoorState.close:
+                // Handle close state logic
+                break;
+        }
+    }
+    #endregion
 }

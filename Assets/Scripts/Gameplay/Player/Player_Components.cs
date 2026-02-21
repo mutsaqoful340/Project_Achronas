@@ -9,12 +9,20 @@ public class Player_Components : GameplayBehaviour
 {
     [Header("Module Input Play")]
     public _ModuleInputPlay moduleInputPlay;
-    
+
+    [Header("Animator")]
+    [Tooltip("Animator component untuk mengendalikan animasi karakter.")]
+    public Animator animator;
+
     [Header("Assigned Gamepad")]
     [Tooltip("The specific gamepad assigned to this player (set by CharacterAssignmentManager)")]
     [HideInInspector] public InputDevice assignedDevice;
 
+    [Header("Camera")]
+    [Tooltip("Kamera yang akan digunakan untuk menentukan arah gerakan relatif terhadap pandangan pemain.")]
     public Transform cameraTransform;
+
+    [Header("Movement Settings")]
     public float walkSpeed = 4f;
     public float runSpeed = 7f;
     public float jumpHeight = 1.2f;
@@ -287,6 +295,7 @@ public class Player_Components : GameplayBehaviour
         if (isGrounded && !isCrouching)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            animator.SetTrigger("IsJump");
             Debug.Log("Jump executed.");
         }
         else if (isCrouching)
