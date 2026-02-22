@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,6 +13,7 @@ public class _GP_DoorInteract_Mng : MonoBehaviour
         close
     }
     
+    // Current state of the door, default is "idle"
     public DoorState currentDoorState = DoorState.idle;
 
     [Header("Animator Reference")]
@@ -56,6 +58,9 @@ public class _GP_DoorInteract_Mng : MonoBehaviour
     // Track which players are in UI mode at the door
     private bool player1InDoorUI = false;
     private bool player2InDoorUI = false;
+    
+    // Track the last state to prevent redundant state changes
+    private DoorState lastDoorState = DoorState.idle;
 
 
     // Listents for player "Interact" input
@@ -216,6 +221,74 @@ public class _GP_DoorInteract_Mng : MonoBehaviour
         }
     }
 
+    // Detach Players and clear player references when exiting door interaction, can be called from animation event or other scripts when needed
+    public void OnDetachPlayers()
+    {
+        Debug.Log("OnDetachPlayers called - releasing players from door interaction");
+        
+        if (firstPlayerInteracted != null)
+        {
+            // Unparent the first player
+            firstPlayerInteracted.transform.SetParent(null);
+            
+            // Re-enable player components and switch back to Player mode
+            Player_Components player1 = firstPlayerInteracted.GetComponent<Player_Components>();
+            if (player1 != null)
+            {
+                player1.enabled = true;
+                if (_Sys_GameModeSwitch.Instance != null)
+                {
+                    _Sys_GameModeSwitch.Instance.SetPlayerMode(0, _Sys_GameModeSwitch.GameMode.Player);
+                }
+                
+                // Resubscribe to action events
+                if (player1Reference != null && player1Reference.moduleInputPlay != null)
+                {
+                    player1ActionDelegate = (state) => HandlePlayerAction(state, player1Reference);
+                    player1Reference.moduleInputPlay.OnAction += player1ActionDelegate;
+                }
+            }
+        }
+        
+        if (secondPlayerInteracted != null)
+        {
+            // Unparent the second player
+            secondPlayerInteracted.transform.SetParent(null);
+            
+            // Re-enable player components and switch back to Player mode
+            Player_Components player2 = secondPlayerInteracted.GetComponent<Player_Components>();
+            if (player2 != null)
+            {
+                player2.enabled = true;
+                if (_Sys_GameModeSwitch.Instance != null)
+                {
+                    _Sys_GameModeSwitch.Instance.SetPlayerMode(1, _Sys_GameModeSwitch.GameMode.Player);
+                }
+                
+                // Resubscribe to action events
+                if (player2Reference != null && player2Reference.moduleInputPlay != null)
+                {
+                    player2ActionDelegate = (state) => HandlePlayerAction(state, player2Reference);
+                    player2Reference.moduleInputPlay.OnAction += player2ActionDelegate;
+                }
+            }
+        }
+
+        // Reset door state back to idle
+        currentDoorState = DoorState.idle;
+        Debug.Log("Players detached, door reset to idle state");
+    }
+
+    public void OnClearPlayerReferences()
+    {
+        player1InDoorUI = false;
+        player2InDoorUI = false;
+        firstPlayerEntered = null;
+        secondPlayerEntered = null;
+        firstPlayerInteracted = null;
+        secondPlayerInteracted = null;
+    }
+
     private void HandlePlayerAction(ActionState state, Player_Components player)
     {
         // Check if the action is Interact
@@ -360,36 +433,63 @@ public class _GP_DoorInteract_Mng : MonoBehaviour
             // Smooth interpolation already applied on first parent assignment
         }
 
+        if (firstPlayerInteracted != null && secondPlayerInteracted == null)
+        {
+            // If only one player has interacted, set the door state to waiting
+            if (currentDoorState != DoorState.open)
+            {
+                currentDoorState = DoorState.open;
+                OnDoorState();
+                Debug.Log("Waiting for second player to interact...");
+            }
+        }
+
         if (secondPlayerInteracted != null && firstPlayerInteracted != null)
         {
             // Trigger the door animation when both players are in position
-            if (doorAnimator != null)
+            if (currentDoorState != DoorState.close)
             {
-                doorAnimator.SetTrigger(doorOpenTriggerName);
-                Debug.Log("Both players interacted, opening door.");
+                currentDoorState = DoorState.close;
+                OnDoorState();
+                Debug.Log("Both players interacted, closing door.");
             }
         }
     }
 
     #region Door State Handler
-
     public void OnDoorState()
     {
+        if (doorAnimator == null)
+        {
+            Debug.LogError("Door Animator is null! Cannot change door state.");
+            return;
+        }
+        
+        Debug.Log($"OnDoorState called with state: {currentDoorState}");
+        
         switch (currentDoorState)
         {
             case DoorState.idle:
                 // Handle idle state logic
+                Debug.Log("Door state: IDLE");
                 break;
             case DoorState.waiting:
                 // Handle waiting state logic
+                Debug.Log("Door state: WAITING - One player ready");
                 break;
             case DoorState.open:
                 // Handle open state logic
+                doorAnimator.SetTrigger("DoorOpen");
+                Debug.Log("Door state: OPEN - Triggering 'DoorOpen' animation");
                 break;
             case DoorState.close:
                 // Handle close state logic
+                doorAnimator.SetTrigger("DoorClose");
+                Debug.Log("Door state: CLOSE - Triggering 'DoorClose' animation");
                 break;
         }
+        
+        lastDoorState = currentDoorState;
     }
     #endregion
 }
