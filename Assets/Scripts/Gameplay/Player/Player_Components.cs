@@ -343,6 +343,13 @@ public class Player_Components : GameplayBehaviour
         }
     }
 
+    private void HandleThrow()
+    {
+        // This method can be called when the Throw action is triggered
+        // You can implement the logic to throw an item here, such as instantiating a projectile or applying force to a held object
+        Debug.Log("Throw action executed.");
+    }
+
     private bool OnSteepSlope(out Vector3 slopeDir)
     {
         slopeDir = Vector3.zero;
@@ -358,7 +365,7 @@ public class Player_Components : GameplayBehaviour
         return false;
     }
 
-        #region Action States
+    #region Action States
     private void Action(ActionState state)
     {
         switch (state)
@@ -392,6 +399,11 @@ public class Player_Components : GameplayBehaviour
             case ActionState.Interact:
                 currentActionState = ActionState.Interact;
                 Debug.Log("Interact Action Triggered");
+                break;
+            case ActionState.Throw:
+                currentActionState = ActionState.Throw;
+                HandleThrow();
+                Debug.Log("Throw Action Triggered");
                 break;
             case ActionState.Action1:
                 currentActionState = ActionState.Action1;

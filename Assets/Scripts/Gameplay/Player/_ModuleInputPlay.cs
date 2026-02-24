@@ -10,6 +10,7 @@ public enum ActionState
     Crouch,
     Jump,
     Interact,
+    Throw,
     Action1,
     Action2,
     PauseMenu
@@ -82,6 +83,9 @@ public class _ModuleInputPlay : ScriptableObject
 
         // Pause Menu
         inputActions.Player.PauseMenu.performed += ctx => OnAction?.Invoke(ActionState.PauseMenu);
+
+        // Throw
+        inputActions.Player.Throw.performed += ctx => OnAction?.Invoke(ActionState.Throw);
     }
 
     /// <summary>
@@ -129,6 +133,7 @@ public class _ModuleInputPlay : ScriptableObject
             inputActions.Player.Action1.performed -= ctx => OnAction?.Invoke(ActionState.Action1);
             inputActions.Player.Action2.performed -= ctx => OnAction?.Invoke(ActionState.Action2);
             inputActions.Player.Interact.performed -= ctx => OnAction?.Invoke(ActionState.Interact);
+            inputActions.Player.Throw.performed -= ctx => OnAction?.Invoke(ActionState.Throw);
             inputActions.Player.PauseMenu.performed -= ctx => OnAction?.Invoke(ActionState.PauseMenu);
             
             inputActions.Player.Disable();
