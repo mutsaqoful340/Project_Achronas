@@ -34,6 +34,7 @@ public class _GP_DoorInteract_Mng : MonoBehaviour
 
     [Header("Door Animation Control Collider")]
     public string doorOpenTriggerName = "DoorsOpen"; // Nama trigger di Animator untuk membuka pintu
+    private Collider collider; // Collider yang digunakan untuk mendeteksi interaksi dengan pintu
 
     [Header("Door Interaction Icon")]
     [Tooltip("Icon interaction yang muncul di pintu saat player mendekat.")]
@@ -70,6 +71,10 @@ public class _GP_DoorInteract_Mng : MonoBehaviour
         if (doorInteractionIcon != null)
         {
             doorInteractionIcon.SetActive(false);
+            if (collider == null)
+            {
+                collider = GetComponent<Collider>();
+            }
         }
     }
     
@@ -274,19 +279,26 @@ public class _GP_DoorInteract_Mng : MonoBehaviour
             }
         }
 
-        // Reset door state back to idle
-        currentDoorState = DoorState.idle;
-        Debug.Log("Players detached, door reset to idle state");
-    }
-
-    public void OnClearPlayerReferences()
-    {
         player1InDoorUI = false;
         player2InDoorUI = false;
         firstPlayerEntered = null;
         secondPlayerEntered = null;
         firstPlayerInteracted = null;
         secondPlayerInteracted = null;
+
+        // Reset door state back to idle
+        currentDoorState = DoorState.idle;
+        
+        // IMPORTANT: Clear all references and flags so OnTriggerStay/OnPlayerEnterDoorArea
+        // does not immediately re-parent and re-lock the players after detach.
+        OnClearPlayerReferences();
+        
+        Debug.Log("Players detached, door reset to idle state");
+    }
+
+    public void OnClearPlayerReferences()
+    {
+
     }
 
     private void HandlePlayerAction(ActionState state, Player_Components player)
@@ -405,6 +417,7 @@ public class _GP_DoorInteract_Mng : MonoBehaviour
         }
     }
 
+    // 
     private void OnPlayerEnterDoorArea()
     {
         if (firstPlayerInteracted != null)
@@ -413,10 +426,14 @@ public class _GP_DoorInteract_Mng : MonoBehaviour
             if (firstPlayerInteracted.transform.parent != player1InteractPosition)
             {
                 firstPlayerInteracted.transform.SetParent(player1InteractPosition, false);
+            }
+            // Normalize position and rotation to the interact point
+            if (firstPlayerInteracted.transform.localPosition != Vector3.zero || firstPlayerInteracted.transform.localRotation != Quaternion.identity)
+            {
                 firstPlayerInteracted.transform.localPosition = Vector3.zero;
                 firstPlayerInteracted.transform.localRotation = Quaternion.identity;
+                Debug.Log("Normalized first player position and rotation to interact point.");
             }
-            
             // Smooth interpolation already applied on first parent assignment
         }
         
@@ -426,10 +443,14 @@ public class _GP_DoorInteract_Mng : MonoBehaviour
             if (secondPlayerInteracted.transform.parent != player2InteractPosition)
             {
                 secondPlayerInteracted.transform.SetParent(player2InteractPosition, false);
+            }
+            // Normalize position and rotation to the interact point
+            if (secondPlayerInteracted.transform.localPosition != Vector3.zero || secondPlayerInteracted.transform.localRotation != Quaternion.identity)
+            {
                 secondPlayerInteracted.transform.localPosition = Vector3.zero;
                 secondPlayerInteracted.transform.localRotation = Quaternion.identity;
+                Debug.Log("Normalized second player position and rotation to interact point.");
             }
-            
             // Smooth interpolation already applied on first parent assignment
         }
 
@@ -485,6 +506,7 @@ public class _GP_DoorInteract_Mng : MonoBehaviour
             case DoorState.close:
                 // Handle close state logic
                 doorAnimator.SetTrigger("DoorClose");
+                collider.enabled = false; // Disable the collider to prevent further interactions while door is closing
                 Debug.Log("Door state: CLOSE - Triggering 'DoorClose' animation");
                 break;
         }
