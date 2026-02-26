@@ -42,6 +42,14 @@ public class Player_Components : GameplayBehaviour
     public float slideGravity = 10f;
     public float slopeRayLength = 1.5f;
 
+    [Header("Ground Check Settings")]
+    [Tooltip("Distance to check for ground below the character")]
+    public float groundCheckDistance = 0.2f;
+    [Tooltip("Radius of the ground check sphere")]
+    public float groundCheckRadius = 0.3f;
+    [Tooltip("Layers that count as ground")]
+    public LayerMask groundLayers = ~0; // Default to everything
+
     [Header("Player States")]
     public bool IsIdle;
     public bool IsFall;
@@ -55,7 +63,6 @@ public class Player_Components : GameplayBehaviour
     private Vector3 velocity;
     private bool isGrounded;
     private bool isCrouching = false;
-    private Animator anim;
     private ActionState currentActionState;
     private float currentMoveValue = 0f;
     public float moveAnimationSpeed = 5f;
@@ -68,7 +75,6 @@ public class Player_Components : GameplayBehaviour
         if (moduleInputPlay != null)
         {
             moduleInputPlay.OnAction += Action;
-            anim = GetComponent<Animator>();
         }
     }
 
@@ -128,8 +134,8 @@ public class Player_Components : GameplayBehaviour
         // Stop player movement when leaving gameplay mode
         velocity = Vector3.zero;
         currentMoveValue = 0f;
-        if (anim != null)
-            anim.SetFloat("Move", 0f);
+        if (animator != null)
+            animator.SetFloat("Move", 0f);
         Debug.Log($"<color=red>Player controls DISABLED - isActive={isActive}</color>");
     }
 
@@ -147,7 +153,8 @@ public class Player_Components : GameplayBehaviour
             moduleInputPlay.UpdateInput(assignedDevice);
         }
 
-        isGrounded = controller.isGrounded;
+        // Improved ground check using SphereCast
+        isGrounded = CheckGround();
         if (isGrounded && velocity.y < 0)
             velocity.y = -2f;
 
@@ -158,6 +165,18 @@ public class Player_Components : GameplayBehaviour
     }
 
     #region Movement Helpers
+    private bool CheckGround()
+    {
+        // Get the bottom center of the CharacterController (player's feet)
+        Vector3 spherePosition = transform.position + (Vector3.down * controller.height / 2f) + (Vector3.up * controller.center.y);
+        
+        // Perform sphere check at the feet
+        bool grounded = Physics.CheckSphere(spherePosition, groundCheckRadius, groundLayers, QueryTriggerInteraction.Ignore);
+        
+        // Optional: Also check with controller.isGrounded as a fallback
+        return grounded || controller.isGrounded;
+    }
+
     private Vector3 GetMovementInput()
     {
         Vector3 inputDir = (moduleInputPlay != null && assignedDevice != null) 
@@ -229,8 +248,8 @@ public class Player_Components : GameplayBehaviour
             currentMoveValue = targetMoveValue;
         }
         
-        if (anim != null)
-            anim.SetFloat("Move", currentMoveValue);
+        if (animator != null)
+            animator.SetFloat("Move", currentMoveValue);
 
         return targetSpeed;
     }
@@ -345,9 +364,32 @@ public class Player_Components : GameplayBehaviour
 
     private void HandleThrow()
     {
-        // This method can be called when the Throw action is triggered
-        // You can implement the logic to throw an item here, such as instantiating a projectile or applying force to a held object
-        Debug.Log("Throw action executed.");
+        _GP_ThrowItem throwModule = GetComponent<_GP_ThrowItem>();
+        if (throwModule != null)
+        {
+            if (throwModule._itemToThrow != null)
+            {
+                animator.SetTrigger("IsThrow");
+            }
+            else
+            {
+                Debug.Log("No item to throw.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("No _GP_ThrowItem component found on this player or no item to throw.");
+        }
+    }
+
+    private void HandleInteract()
+    {
+        _GP_ThrowItem throwModule = GetComponent<_GP_ThrowItem>();
+        if (throwModule != null)
+        {
+            throwModule.OnPickUpItem();
+            Debug.Log("Interact/Pickup action executed.");
+        }
     }
 
     private bool OnSteepSlope(out Vector3 slopeDir)
@@ -398,6 +440,7 @@ public class Player_Components : GameplayBehaviour
                 break;
             case ActionState.Interact:
                 currentActionState = ActionState.Interact;
+                HandleInteract();
                 Debug.Log("Interact Action Triggered");
                 break;
             case ActionState.Throw:
@@ -407,15 +450,27 @@ public class Player_Components : GameplayBehaviour
                 break;
             case ActionState.Action1:
                 currentActionState = ActionState.Action1;
-                anim.SetTrigger("IsAction1");
+                animator.SetTrigger("IsAction1");
                 Debug.Log("Action1 Triggered");
                 break;
             case ActionState.Action2:
                 currentActionState = ActionState.Action2;
-                anim.SetTrigger("IsAction2");
+                animator.SetTrigger("IsAction2");
                 Debug.Log("Action2 Triggered");
                 break;
         }
+    }
+    #endregion
+
+    #region Debug Visualization
+    private void OnDrawGizmosSelected()
+    {
+        if (controller == null) return;
+
+        // Visualize ground check sphere at player's feet
+        Vector3 spherePosition = transform.position + (Vector3.down * controller.height / 2f) + (Vector3.up * controller.center.y);
+        Gizmos.color = isGrounded ? Color.green : Color.red;
+        Gizmos.DrawWireSphere(spherePosition, groundCheckRadius);
     }
     #endregion
 }

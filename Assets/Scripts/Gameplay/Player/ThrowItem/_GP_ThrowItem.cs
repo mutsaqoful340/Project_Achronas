@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class _GP_ThrowItem : MonoBehaviour
 {
@@ -7,7 +6,7 @@ public class _GP_ThrowItem : MonoBehaviour
     [Tooltip("GameObject yang akan di-pickup.")]
     [SerializeField] private GameObject _itemToPickup;
     [Tooltip("GameObject yang akan di-throw.")]
-    [SerializeField] private GameObject _itemToThrow;
+    public GameObject _itemToThrow;
 
     [Header("Throwing References")]
     [SerializeField] private Transform _throwItemSlot;
@@ -15,41 +14,9 @@ public class _GP_ThrowItem : MonoBehaviour
     [Header("Throwing Settings")]
     [SerializeField] private float _throwForce = 10f;
 
-    private InputActions _inputActions;
-
     void Start()
     {
         _itemToThrow = null;
-    }
-
-    private void OnEnable()
-    {
-        if (_inputActions == null)
-            _inputActions = new InputActions();
-
-        _inputActions.Player.Interact.performed += OnInteractPerformed;
-        _inputActions.Player.Throw.performed += OnThrowPerformed;
-        _inputActions.Player.Enable();
-    }
-
-    private void OnDisable()
-    {
-        if (_inputActions != null)
-        {
-            _inputActions.Player.Interact.performed -= OnInteractPerformed;
-            _inputActions.Player.Throw.performed -= OnThrowPerformed;
-            _inputActions.Player.Disable();
-        }
-    }
-
-    private void OnInteractPerformed(InputAction.CallbackContext context)
-    {
-        OnPickUpItem();
-    }
-
-    private void OnThrowPerformed(InputAction.CallbackContext context)
-    {
-        ThrowItem();
     }
 
     public void OnTriggerEnter(Collider other)
@@ -68,7 +35,7 @@ public class _GP_ThrowItem : MonoBehaviour
         }
     }
 
-    private void OnPickUpItem()
+    public void OnPickUpItem()
     {
         if (_itemToPickup != null)
         {
