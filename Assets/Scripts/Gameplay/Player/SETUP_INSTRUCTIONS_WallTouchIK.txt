@@ -1,0 +1,220 @@
+═══════════════════════════════════════════════════════════════
+  WALL TOUCH IK - SETUP INSTRUCTIONS (Animation Rigging Method)
+═══════════════════════════════════════════════════════════════
+
+PREREQUISITES:
+-------------
+1. Unity Animation Rigging package installed
+   - Window → Package Manager → Search "Animation Rigging" → Install
+   
+2. Your character model must have bones/joints for arms and hands
+
+
+STEP-BY-STEP SETUP:
+------------------
+
+PART 1: CREATE RIG HIERARCHY
+────────────────────────────
+
+1. Select your Player character in Hierarchy
+
+2. Add Rig Builder component:
+   - Inspector → Add Component → "Rig Builder"
+
+3. Create Rig GameObject:
+   - Right-click Player → Create Empty → Rename to "Rig"
+   - Make sure "Rig" is a child of Player
+
+4. Add Rig component to the Rig GameObject:
+   - Select "Rig" → Add Component → "Rig"
+
+5. Assign Rig to Rig Builder:
+   - Select Player → In Rig Builder component
+   - Drag "Rig" GameObject into "Rig Layers" list
+
+
+PART 2: CREATE IK TARGETS
+─────────────────────────
+
+6. Create IK Target GameObjects (children of Player):
+   - Right-click Player → Create Empty → Rename to "LeftHandTarget"
+   - Right-click Player → Create Empty → Rename to "RightHandTarget"
+   
+   Position them roughly where hands would touch a wall in front:
+   - LeftHandTarget:  Position (0.3, 1.2, 0.6)  [adjust to your character]
+   - RightHandTarget: Position (-0.3, 1.2, 0.6) [adjust to your character]
+
+
+PART 3: CREATE LEFT HAND IK CONSTRAINT
+──────────────────────────────────────
+
+7. Create Left Hand IK:
+   - Right-click "Rig" → Animation Rigging → Two Bone IK Constraint
+   - Rename to "LeftHandIK"
+
+8. Configure Left Hand IK Constraint:
+   - Select "LeftHandIK"
+   - In Two Bone IK Constraint component:
+     
+     a) Root: Drag your character's LEFT SHOULDER bone
+        (usually named "LeftShoulder" or "LeftUpperArm")
+     
+     b) Mid: Drag your character's LEFT ELBOW bone
+        (usually named "LeftLowerArm" or "LeftForeArm")
+     
+     c) Tip: Drag your character's LEFT HAND bone
+        (usually named "LeftHand")
+     
+     d) Target: Drag "LeftHandTarget" GameObject
+     
+     e) Hint: (Optional) Drag LEFT ELBOW bone if you want hint control
+     
+     f) Target Position Weight: Set to 1
+     
+     g) Target Rotation Weight: Set to 0 or 0.5 (depends on preference)
+
+
+PART 4: CREATE RIGHT HAND IK CONSTRAINT
+───────────────────────────────────────
+
+9. Create Right Hand IK:
+   - Right-click "Rig" → Animation Rigging → Two Bone IK Constraint
+   - Rename to "RightHandIK"
+
+10. Configure Right Hand IK Constraint:
+    - Select "RightHandIK"
+    - Same as Left Hand, but use RIGHT bones:
+      
+      a) : RIGHT SHOULDER bone
+      b) Mid: RIGHT ELBOW bone
+      c) Tip: RIGHT HAND bone
+      d) Target: "RightHandTarget" GameObject
+      e) Hint: (Optional) RIGHT ELBOW bone
+      f) Weights: Position = 1, Rotation = 0 or 0.5
+
+
+PART 5: ADD THE SCRIPT
+─────────────────────
+
+11. Add Player_WallTouchIK script to Player:
+    - Select Player
+    - Add Component → Player_WallTouchIK
+
+12. Assign references in Inspector:
+    - Left Hand IK: Drag "LeftHandIK" GameObject
+    - Right Hand IK: Drag "RightHandIK" GameObject
+    - Left Hand Target: Drag "LeftHandTarget" GameObject
+    - Right Hand Target: Drag "RightHandTarget" GameObject
+
+13. Configure settings (optional):
+    - Detection Distance: 1.5 (how far to detect walls)
+    - Touch Distance: 0.6 (distance when hands fully touch)
+    - Hand Height Offset: 0.3 (vertical offset from center)
+    - Hand Spacing: 0.4 (horizontal spacing between hands)
+    - Blend Speed: 5 (how fast IK activates)
+    - Wall Layers: Set to layers that should be touchable
+
+
+PART 6: SET INITIAL IK WEIGHTS TO ZERO
+──────────────────────────────────────
+
+14. IMPORTANT - Disable IK by default:
+    - Select "LeftHandIK"
+    - In Two Bone IK Constraint component
+    - Set "Weight" slider to 0
+    
+    - Select "RightHandIK"
+    - In Two Bone IK Constraint component
+    - Set "Weight" slider to 0
+    
+    (The script will control these weights at runtime)
+
+
+TESTING:
+-------
+
+15. Enter Play Mode
+
+16. Move your character close to a wall
+
+17. Hands should automatically reach out and touch the wall!
+
+18. Enable "Show Debug Rays" in Player_WallTouchIK to see detection
+
+
+TROUBLESHOOTING:
+---------------
+
+Problem: Hands don't move
+Solution: 
+  - Check that all bone references are correct
+  - Check that Rig Builder has the Rig assigned
+  - Check that script has all references assigned
+
+Problem: Hands bend weirdly
+Solution:
+  - Adjust the "Hint" targets (elbow position guides)
+  - Check bone hierarchy is correct
+  - Adjust "Target Rotation Weight" to 0
+
+Problem: Hands don't reach wall
+Solution:
+  - Increase "Detection Distance" in script
+  - Adjust "Hand Height Offset" and "Hand Spacing"
+  - Check "Wall Layers" mask includes your wall objects
+
+Problem: IK activates too early/late
+Solution:
+  - Adjust "Touch Distance" in script
+  - Adjust "Blend Speed" for smoother transitions
+
+
+HIERARCHY STRUCTURE (Final):
+────────────────────────────
+
+Player
+├── Rig Builder (component)
+├── Player_WallTouchIK (component)
+├── Animator (component)
+├── CharacterController (component)
+├── [Other components...]
+├── Rig
+│   ├── Rig (component)
+│   ├── LeftHandIK
+│   │   └── Two Bone IK Constraint (component)
+│   └── RightHandIK
+│       └── Two Bone IK Constraint (component)
+├── LeftHandTarget (Transform)
+├── RightHandTarget (Transform)
+└── [Character Mesh/Armature...]
+
+
+FINDING YOUR CHARACTER'S BONES:
+───────────────────────────────
+
+1. Select your character in Hierarchy
+2. Expand all child objects
+3. Look for skeleton/armature structure
+4. Common bone names:
+   - Shoulders: "LeftShoulder", "RightShoulder", "LeftUpperArm", "RightUpperArm"
+   - Elbows: "LeftLowerArm", "RightLowerArm", "LeftForeArm", "RightForeArm"
+   - Hands: "LeftHand", "RightHand"
+
+5. If you can't find them:
+   - Select character model in Project window
+   - Inspector → Rig tab
+   - Click "Configure..." button
+   - This shows the avatar mapping with all bones
+
+
+OPTIONAL ENHANCEMENTS:
+─────────────────────
+
+- Add more raycasts for better detection (increase "Raycast Count")
+- Adjust hand rotation to match wall angle
+- Add different hand poses for different wall angles
+- Integrate with animation layers for procedural hand animation
+- Add finger IK for individual finger placement
+
+
+═══════════════════════════════════════════════════════════════

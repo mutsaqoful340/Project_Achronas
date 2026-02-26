@@ -1,0 +1,301 @@
+═══════════════════════════════════════════════════════════════
+  FOOT IK - SETUP INSTRUCTIONS (Built-in Animator IK Method)
+═══════════════════════════════════════════════════════════════
+
+PREREQUISITES:
+-------------
+1. Your character model MUST be set to Humanoid rig type
+   - Select your character model in Project window
+   - Inspector → Rig tab → Animation Type: "Humanoid"
+   - Click "Apply"
+
+2. Your character must have an Animator component with an Avatar assigned
+
+
+STEP-BY-STEP SETUP:
+------------------
+
+PART 1: VERIFY HUMANOID RIG
+───────────────────────────
+
+1. Select your character model asset in Project window
+   (NOT the instance in the scene, the .fbx or model file)
+
+2. In Inspector, click the "Rig" tab
+
+3. Check "Animation Type" is set to "Humanoid"
+   - If it says "Generic" or "Legacy", change to "Humanoid"
+   - Click "Apply" button
+
+4. (Optional) Click "Configure..." to verify bone mapping
+   - Should show green checkmarks for all major bones
+   - Especially check: Hips, Legs, Feet are mapped correctly
+
+
+PART 2: ADD THE SCRIPT
+──────────────────────
+
+5. Select your Player character in Hierarchy (the scene instance)
+
+6. Add Component → Player_FootIK
+
+7. That's it! The script will automatically find the Animator
+
+8. The script validates the setup on Start:
+   - If setup is correct: Green success message in Console
+   - If setup is wrong: Red error message explaining the issue
+
+
+PART 3: CONFIGURE SETTINGS (Optional)
+─────────────────────────────────────
+
+Default settings work well for most cases, but you can adjust:
+
+9. Select your Player in Hierarchy
+
+10. In Player_FootIK component, adjust settings:
+
+    IK SETTINGS:
+    ────────────
+    ✓ Enable Foot IK: Checked (turn on/off entire system)
+    ✓ IK Weight: 1.0 (master weight for all IK, 0-1)
+
+    RAYCAST SETTINGS:
+    ─────────────────
+    ✓ Raycast Up Offset: 0.5 (how high above foot to start raycast)
+    ✓ Raycast Down Distance: 1.5 (max distance to check for ground)
+    ✓ Ground Layers: Everything (or set specific ground layers)
+    ✓ Foot Height Offset: 0.0 (raise/lower feet, use if clipping into ground)
+
+    PELVIS ADJUSTMENT:
+    ──────────────────
+    ✓ Adjust Pelvis Height: Checked (prevents leg over-stretching)
+    ✓ Pelvis Adjustment Weight: 0.5 (how much to adjust body height)
+    ✓ Min Pelvis Offset: -0.3 (prevents extreme crouching)
+    ✓ Max Pelvis Offset: 0.1 (prevents extreme stretching)
+
+    SMOOTHING:
+    ──────────
+    ✓ Smooth IK: Checked (smooth transitions, recommended)
+    ✓ Smooth Speed: 10 (higher = faster transitions)
+
+    FOOT ROTATION:
+    ──────────────
+    ✓ Enable Foot Rotation: Checked (rotate feet to match ground angle)
+    ✓ Foot Rotation Weight: 1.0 (how much to rotate)
+    ✓ Max Foot Rotation Angle: 45 (prevents extreme ankle bending)
+
+    DEBUG:
+    ──────
+    ✓ Show Debug Rays: Checked (see raycasts in Scene view)
+    ✓ Show Debug Info: Unchecked (prints IK weights to console)
+
+
+TESTING:
+-------
+
+11. Create uneven terrain in your scene:
+    - Add some slopes, stairs, or uneven ground
+    - Make sure ground objects have Colliders
+    - Make sure ground is on the correct Layer (set in "Ground Layers")
+
+12. Enter Play Mode
+
+13. Move your character onto uneven terrain
+
+14. Feet should automatically adapt to ground height and angle!
+
+15. Watch the Scene view with Debug Rays enabled:
+    - GREEN rays = ground detected, IK active
+    - RED rays = no ground detected
+    - BLUE rays = ground normal (perpendicular to surface)
+
+
+TROUBLESHOOTING:
+---------------
+
+Problem: "Avatar must be Humanoid" error
+Solution: 
+  - Select character MODEL in Project window (not scene)
+  - Inspector → Rig tab → Set to "Humanoid"
+  - Click Apply
+  - May need to restart Unity
+
+Problem: Feet don't move at all
+Solution:
+  - Check character has Animator component
+  - Check Avatar is assigned in Animator
+  - Check "Enable Foot IK" is checked
+  - Check "IK Weight" is set to 1.0
+  - Enter Play Mode (IK only works at runtime)
+
+Problem: Feet clip through ground
+Solution:
+  - Increase "Foot Height Offset" (try 0.02 to 0.05)
+  - Check "Ground Layers" includes your ground objects
+  - Increase "Raycast Down Distance"
+
+Problem: Feet hover above ground
+Solution:
+  - Decrease "Foot Height Offset" (try -0.02 to -0.05)
+  - Check your character's scale is (1, 1, 1)
+
+Problem: Legs stretch weirdly
+Solution:
+  - Enable "Adjust Pelvis Height"
+  - Increase "Pelvis Adjustment Weight" (try 0.7-1.0)
+  - Adjust "Min/Max Pelvis Offset" values
+
+Problem: Feet snap/jitter
+Solution:
+  - Enable "Smooth IK"
+  - Increase "Smooth Speed" (try 15-20)
+  - Check ground colliders aren't too complex/jagged
+
+Problem: Feet rotate too much
+Solution:
+  - Decrease "Foot Rotation Weight" (try 0.5-0.7)
+  - Decrease "Max Foot Rotation Angle" (try 30-35)
+  - Disable "Enable Foot Rotation" entirely
+
+Problem: One foot works, other doesn't
+Solution:
+  - Check Avatar mapping in model import settings
+  - Configure Avatar and verify both legs are mapped
+  - Check Console for specific error messages
+
+Problem: IK only works when standing still
+Solution:
+  - This is normal! OnAnimatorIK works with animations
+  - Make sure you have walk/run animations playing
+  - IK applies on top of animations
+
+
+HOW IT WORKS (Technical):
+─────────────────────────
+
+Every frame during animation:
+1. Character plays walk/run animation normally
+2. OnAnimatorIK() is called by Unity
+3. Script gets animated foot positions
+4. Raycasts down from each foot to find ground
+5. Adjusts foot position to ground height
+6. Rotates foot to match ground angle
+7. Adjusts pelvis height to prevent leg stretching
+8. Unity renders final pose with IK applied
+
+Result: Feet stick to ground while still following animation!
+
+
+NO HIERARCHY CHANGES NEEDED:
+────────────────────────────
+
+Unlike Animation Rigging (used for hands), built-in IK requires:
+✓ NO extra GameObjects
+✓ NO Rig hierarchy
+✓ NO constraint components
+✓ NO target transforms
+
+Just add the script and go!
+
+
+INTEGRATION WITH HAND IK:
+─────────────────────────
+
+Both systems work together perfectly:
+- Player_WallTouchIK handles hand IK (Animation Rigging)
+- Player_FootIK handles foot IK (Built-in Animator IK)
+- No conflicts, they use different systems
+- Both can be active simultaneously
+
+
+PERFORMANCE NOTES:
+─────────────────
+
+- Very lightweight (~0.1-0.2ms per character)
+- 2 raycasts per frame (one per foot)
+- Minimal overhead from IK calculations
+- Suitable for multiple characters
+- OnAnimatorIK only runs when Animator is active
+
+
+ADVANCED USAGE:
+──────────────
+
+Enable/Disable via script:
+```csharp
+Player_FootIK footIK = GetComponent<Player_FootIK>();
+footIK.SetFootIKEnabled(false); // Disable IK
+footIK.SetFootIKEnabled(true);  // Enable IK
+```
+
+Fade IK in/out:
+```csharp
+Player_FootIK footIK = GetComponent<Player_FootIK>();
+footIK.SetIKWeight(0.5f); // 50% IK weight
+```
+
+Check if IK is active:
+```csharp
+if (footIK.IsIKActive())
+{
+    Debug.Log("Feet are adapting to terrain");
+}
+```
+
+
+COMMON USE CASES:
+────────────────
+
+✓ Characters walking on stairs
+✓ Characters on slopes and hills
+✓ Uneven rocky terrain
+✓ Characters standing on ledges
+✓ Procedurally generated terrain
+✓ Any surface with height variation
+
+
+WHAT FOOT IK DOES NOT DO:
+─────────────────────────
+
+✗ Does NOT plant feet when character rotates
+✗ Does NOT prevent foot sliding during animation
+✗ Does NOT fix bad walk cycle animations
+✗ Does NOT work in Edit mode (runtime only)
+
+For those features, you'd need additional systems like:
+- Root motion for foot planting
+- Custom animation blending
+- Foot step matching
+
+
+COMPARISON TO HAND IK:
+─────────────────────
+
+Hand IK (Animation Rigging):
+- Visual setup with constraints
+- Works with any rig type
+- More components/GameObjects
+- Better for situational IK (wall touching)
+
+Foot IK (Built-in Animator IK):
+- Code-only setup
+- Requires Humanoid rig
+- No extra hierarchy
+- Better for continuous IK (ground adaptation)
+
+Both are great for their specific purposes!
+
+
+═══════════════════════════════════════════════════════════════
+
+QUICK START CHECKLIST:
+─────────────────────
+□ Model set to Humanoid rig
+□ Animator component with Avatar assigned
+□ Player_FootIK script added
+□ Ground objects have colliders
+□ Test on uneven terrain
+□ Done!
+
+═══════════════════════════════════════════════════════════════
