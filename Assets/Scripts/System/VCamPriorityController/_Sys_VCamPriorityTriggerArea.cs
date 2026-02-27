@@ -13,29 +13,13 @@ public class _Sys_VCamPriorityTriggerArea : MonoBehaviour
     
     [Header("Settings")]
     [SerializeField] private string areaName = "TriggerArea"; // For debug logging
-    [SerializeField] private float cameraSwitchCooldown = 1f; // Cooldown time before camera can switch again
-    [SerializeField] private static float globalCooldownTimer = 0f;
+    [Tooltip("Kalau ingin pindah section, check ini dan ")]
+    public bool isSwitchSection = false; // Optional setting to indicate if this area is a section switch
 
     public TextMeshProUGUI debugText; // Optional UI text element for debugging purposes
     
     private int playersInside = 0;
     private bool isAreaActive = false;
-    
-    // Static cooldown shared across all trigger areas
-    private void Update()
-    {
-        // Decrement global cooldown timer
-        if (globalCooldownTimer > 0f)
-        {
-            globalCooldownTimer -= Time.deltaTime;
-        }
-    }
-
-    private void OnGUI()
-    {
-        // Display cooldown timer on screen
-        GUI.Label(new Rect(10, 10, 300, 30), $"Camera Cooldown: {globalCooldownTimer:F2}s");
-    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -43,11 +27,10 @@ public class _Sys_VCamPriorityTriggerArea : MonoBehaviour
         {
             playersInside++;
             
-            // Both players entered the trigger area and global cooldown has expired
-            if (playersInside == 2 && !isAreaActive && globalCooldownTimer <= 0f)
+            // Both players entered the trigger area
+            if (playersInside == 2 && !isAreaActive)
             {
                 isAreaActive = true;
-                globalCooldownTimer = cameraSwitchCooldown; // Start global cooldown
                 
                 if (priorityController != null && areaCinemachineCamera != null)
                 {
