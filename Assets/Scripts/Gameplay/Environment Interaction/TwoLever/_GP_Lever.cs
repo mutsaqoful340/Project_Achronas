@@ -9,6 +9,7 @@ public class _GP_Lever : MonoBehaviour
     [SerializeField] private Animator playerAnimator;
     [Tooltip("Animator milik lever.")]
     [SerializeField] private Animator leverAnimator;
+    public Animator leverManagerAnimator;
 
     [Tooltip("Posisi yang akan digunakan untuk memindahkan player saat berinteraksi dengan lever.")]
     public Transform playerOnLeverPosition;
@@ -32,7 +33,7 @@ public class _GP_Lever : MonoBehaviour
             if (playerComponents != null && playerComponents.moduleInputPlay != null)
             {
                 playerInputModule = playerComponents.moduleInputPlay;
-                playerInputModule.OnAction += HandlePlayerAction;
+                playerInputModule.OnAction += HandlePlayerAction; // Subscribe to player's action input
             }
         }
     }
