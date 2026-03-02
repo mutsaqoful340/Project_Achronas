@@ -458,6 +458,11 @@ public class Player_Components : GameplayBehaviour
                 animator.SetTrigger("IsAction2");
                 Debug.Log("Action2 Triggered");
                 break;
+            case ActionState.HandHold:
+                currentActionState = ActionState.HandHold;
+                // Hand hold logic will be handled in Player_HandHoldController
+                Debug.Log("Hand Hold Action Triggered");
+                break;
         }
     }
     #endregion

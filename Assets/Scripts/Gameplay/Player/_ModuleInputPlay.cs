@@ -13,7 +13,8 @@ public enum ActionState
     Throw,
     Action1,
     Action2,
-    PauseMenu
+    PauseMenu,
+    HandHold
 }
 
 [CreateAssetMenu(fileName = "ModuleInputPlay", menuName = "AddOn Module/Input Play", order = 1)]
@@ -86,6 +87,9 @@ public class _ModuleInputPlay : ScriptableObject
 
         // Throw
         inputActions.Player.Throw.performed += ctx => OnAction?.Invoke(ActionState.Throw);
+
+        // Hand Hold
+        inputActions.Player.HandHold.performed += ctx => OnAction?.Invoke(ActionState.HandHold);
     }
 
     /// <summary>
@@ -135,7 +139,7 @@ public class _ModuleInputPlay : ScriptableObject
             inputActions.Player.Interact.performed -= ctx => OnAction?.Invoke(ActionState.Interact);
             inputActions.Player.Throw.performed -= ctx => OnAction?.Invoke(ActionState.Throw);
             inputActions.Player.PauseMenu.performed -= ctx => OnAction?.Invoke(ActionState.PauseMenu);
-            
+            inputActions.Player.HandHold.performed -= ctx => OnAction?.Invoke(ActionState.HandHold);
             inputActions.Player.Disable();
             inputActions.Dispose();
             inputActions = null;

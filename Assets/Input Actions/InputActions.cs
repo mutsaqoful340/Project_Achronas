@@ -190,6 +190,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""HandHold"",
+                    ""type"": ""Button"",
+                    ""id"": ""49533183-b99e-4a40-9495-2f6e6c8b9ff4"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -531,6 +540,17 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
                     ""action"": ""Throw"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""47a15370-c9fb-4c24-8e55-f7f694a6972e"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""HandHold"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1209,6 +1229,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Player_Action1 = m_Player.FindAction("Action1", throwIfNotFound: true);
         m_Player_Action2 = m_Player.FindAction("Action2", throwIfNotFound: true);
         m_Player_PauseMenu = m_Player.FindAction("PauseMenu", throwIfNotFound: true);
+        m_Player_HandHold = m_Player.FindAction("HandHold", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1317,6 +1338,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Action1;
     private readonly InputAction m_Player_Action2;
     private readonly InputAction m_Player_PauseMenu;
+    private readonly InputAction m_Player_HandHold;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1372,6 +1394,10 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/PauseMenu".
         /// </summary>
         public InputAction @PauseMenu => m_Wrapper.m_Player_PauseMenu;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/HandHold".
+        /// </summary>
+        public InputAction @HandHold => m_Wrapper.m_Player_HandHold;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1431,6 +1457,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @PauseMenu.started += instance.OnPauseMenu;
             @PauseMenu.performed += instance.OnPauseMenu;
             @PauseMenu.canceled += instance.OnPauseMenu;
+            @HandHold.started += instance.OnHandHold;
+            @HandHold.performed += instance.OnHandHold;
+            @HandHold.canceled += instance.OnHandHold;
         }
 
         /// <summary>
@@ -1475,6 +1504,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @PauseMenu.started -= instance.OnPauseMenu;
             @PauseMenu.performed -= instance.OnPauseMenu;
             @PauseMenu.canceled -= instance.OnPauseMenu;
+            @HandHold.started -= instance.OnHandHold;
+            @HandHold.performed -= instance.OnHandHold;
+            @HandHold.canceled -= instance.OnHandHold;
         }
 
         /// <summary>
@@ -1896,6 +1928,13 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnPauseMenu(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "HandHold" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnHandHold(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

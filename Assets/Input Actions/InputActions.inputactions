@@ -104,6 +104,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "HandHold",
+                    "type": "Button",
+                    "id": "49533183-b99e-4a40-9495-2f6e6c8b9ff4",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -445,6 +454,17 @@
                     "processors": "",
                     "groups": ";Gamepad",
                     "action": "Throw",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "47a15370-c9fb-4c24-8e55-f7f694a6972e",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "HandHold",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
