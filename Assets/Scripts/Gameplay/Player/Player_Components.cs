@@ -463,6 +463,9 @@ public class Player_Components : GameplayBehaviour
                 // Hand hold logic will be handled in Player_HandHoldController
                 Debug.Log("Hand Hold Action Triggered");
                 break;
+            case ActionState.Back:
+                currentActionState = ActionState.Back;
+                break;
         }
     }
     #endregion

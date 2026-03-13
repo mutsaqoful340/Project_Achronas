@@ -59,6 +59,7 @@ public class _GP_HandHold_Naya : MonoBehaviour
         if (playerComponents != null && playerComponents.moduleInputPlay != null)
         {
             playerComponents.moduleInputPlay.OnAction += HandleHandHoldAction;
+            playerComponents.moduleInputPlay.OnAction += HandleBackAction;
         }
         else
         {
@@ -72,6 +73,7 @@ public class _GP_HandHold_Naya : MonoBehaviour
         if (playerComponents != null && playerComponents.moduleInputPlay != null)
         {
             playerComponents.moduleInputPlay.OnAction -= HandleHandHoldAction;
+            playerComponents.moduleInputPlay.OnAction -= HandleBackAction;
         }
     }
 
@@ -84,38 +86,60 @@ public class _GP_HandHold_Naya : MonoBehaviour
 
         Debug.Log($"{gameObject.name}: HandHold button pressed!");
 
-        currentNayaState = NayaState.Reaching; // Set state to Reaching when button is pressed
-
-        // TODO: Implement hand-hold logic
         if (otherPlayerTransform != null)
         {
             _GP_HandHold_Rinda rindaScript = otherPlayerTransform.GetComponent<_GP_HandHold_Rinda>();
             if (rindaScript != null)
             {
-                if (rindaScript.currentRindaState != _GP_HandHold_Rinda.RindaState.Reaching && currentNayaState != NayaState.Reaching)
+                // If other is reaching, both start holding
+                if (rindaScript.currentRindaState == _GP_HandHold_Rinda.RindaState.Reaching)
                 {
-                    // Set Naya's state to Holding
-                    currentNayaState = NayaState.Reaching;
-                    Debug.Log($"{gameObject.name}: Ready to hold hands with {otherPlayerTransform.name}");
-                    // Add your hand-hold logic here
-                }
-                else if (rindaScript.currentRindaState == _GP_HandHold_Rinda.RindaState.Reaching)
-                {
-                    // Set Naya's state to Holding
                     currentNayaState = NayaState.Holding;
                     rindaScript.currentRindaState = _GP_HandHold_Rinda.RindaState.Holding;
                     Debug.Log($"{gameObject.name}: Successfully holding hands with {otherPlayerTransform.name}");
-                    // Add your hand-hold logic here
                 }
-                else if (currentNayaState != NayaState.Reaching)
+                //
+                else if (currentNayaState == NayaState.Reaching)
                 {
-                    currentNayaState = NayaState.None; 
+                    currentNayaState = NayaState.None;
+                }
+                // Otherwise, just set to reaching
+                else
+                {
+                    currentNayaState = NayaState.Reaching;
+                    Debug.Log($"{gameObject.name}: Ready to hold hands with {otherPlayerTransform.name}");
                 }
             }
         }
         else
         {
             Debug.Log($"{gameObject.name}: No other player nearby to hold hands with");
+        }
+    }
+
+    /// <summary>
+    /// Handler untuk input Back - releases hand-hold
+    /// </summary>
+    private void HandleBackAction(ActionState action)
+    {
+        if (action != ActionState.Back) return;
+
+        // Only process if currently holding or reaching
+        if (currentNayaState == NayaState.Holding || currentNayaState == NayaState.Reaching)
+        {
+            Debug.Log($"{gameObject.name}: Back button pressed - releasing hand hold!");
+
+            if (otherPlayerTransform != null)
+            {
+                _GP_HandHold_Rinda rindaScript = otherPlayerTransform.GetComponent<_GP_HandHold_Rinda>();
+                if (rindaScript != null)
+                {
+                    rindaScript.currentRindaState = _GP_HandHold_Rinda.RindaState.None;
+                }
+            }
+
+            currentNayaState = NayaState.None;
+            Debug.Log($"{gameObject.name}: Released hand hold");
         }
     }
     #endregion

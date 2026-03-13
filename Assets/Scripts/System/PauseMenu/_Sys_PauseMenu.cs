@@ -24,6 +24,11 @@ public class _Sys_PauseMenu : MonoBehaviour
     
     private CinemachineVirtualCameraBase previousCamera; // Store the camera that was active before pause
 
+    private bool isPlayer2ParentedToPauseMenu = false;
+    private CharacterController player2CharacterController;
+    private Rigidbody player2Rigidbody;
+    private bool player2RigidbodyWasKinematic;
+
     private void OnEnable()
     {
         // Subscribe to both players' input events
@@ -94,6 +99,11 @@ public class _Sys_PauseMenu : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        OnPlayerPosPauseMenu();
+    }
+
     private void Pause()
     {
         isPaused = true;
@@ -137,10 +147,30 @@ public class _Sys_PauseMenu : MonoBehaviour
     {
         if (player2Reference != null && player2PauseMenuPosition != null)
         {
-            player2Reference.transform.SetParent(player2PauseMenuPosition);
-            player2Reference.transform.localPosition = Vector3.zero; // Optional: reset local position to align with the pause menu position
-            player2Reference.transform.localRotation = Quaternion.identity; // Optional: reset local rotation
-            Debug.Log("<color=cyan>[PauseMenu] Parented Player 2 to pause menu position</color>");
+            if (isPaused)
+            {
+                if (!isPlayer2ParentedToPauseMenu)
+                {
+                    player2Reference.transform.SetParent(player2PauseMenuPosition);
+                    
+                    // Disable physics components
+                    player2CharacterController = player2Reference.GetComponent<CharacterController>();
+                    if (player2CharacterController != null) player2CharacterController.enabled = false;
+                    
+                    player2Rigidbody = player2Reference.GetComponent<Rigidbody>();
+                    if (player2Rigidbody != null)
+                    {
+                        player2RigidbodyWasKinematic = player2Rigidbody.isKinematic;
+                        player2Rigidbody.isKinematic = true;
+                    }
+                    
+                    Debug.Log("<color=cyan>[PauseMenu] Parent Player 2 to pause menu position</color>");
+                    isPlayer2ParentedToPauseMenu = true;
+                }
+
+                player2Reference.transform.localPosition = Vector3.zero;
+                player2Reference.transform.localRotation = Quaternion.identity;
+            }
         }
     }
 
@@ -149,6 +179,12 @@ public class _Sys_PauseMenu : MonoBehaviour
         if (player2Reference != null)
         {
             player2Reference.transform.SetParent(null);
+            
+            // Re-enable physics components
+            if (player2CharacterController != null) player2CharacterController.enabled = true;
+            if (player2Rigidbody != null) player2Rigidbody.isKinematic = player2RigidbodyWasKinematic;
+            
+            isPlayer2ParentedToPauseMenu = false;
             Debug.Log("<color=cyan>[PauseMenu] Unparented Player 2 from pause menu position</color>");
         }
     }
