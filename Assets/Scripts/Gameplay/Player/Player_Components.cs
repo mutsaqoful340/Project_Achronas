@@ -1,5 +1,3 @@
-using System.Reflection;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -50,6 +48,14 @@ public class Player_Components : GameplayBehaviour
     [Tooltip("Layers that count as ground")]
     public LayerMask groundLayers = ~0; // Default to everything
 
+    [Header("Strafe Detection Settings")]
+    public float strafeInputThreshold = 0.3f;  // Lateral input magnitude to trigger strafe detection
+    public float strafeDurationThreshold = 4f;
+    public float strafeGracePeriod = 0.1f;  // Allow brief input dips without resetting strafe state
+
+    [Header("Stumble Settings")]
+    public float stumbleDuration = 1.5f; // Duration of stumble effect in seconds
+
     [Header("Player States")]
     public bool IsIdle;
     public bool IsFall;
@@ -66,7 +72,14 @@ public class Player_Components : GameplayBehaviour
     private ActionState currentActionState;
     private float currentMoveValue = 0f;
     public float moveAnimationSpeed = 5f;
+
+    // Strafe Detection
+    private bool isStrafing = false;
+    private float strafeDuration = 0f;
+    private bool strafeTriggered = false;
+    private float timeSinceInputDropped = 0f;  // Tracks how long input has been below threshold
     #endregion
+
 
     private void Awake()
     {
@@ -158,6 +171,9 @@ public class Player_Components : GameplayBehaviour
         if (isGrounded && velocity.y < 0)
             velocity.y = -2f;
 
+        // Track strafe duration
+        UpdateStrafeDuration();
+
         HandleMove();
         
         // Apply gravity
@@ -177,11 +193,15 @@ public class Player_Components : GameplayBehaviour
         return grounded || controller.isGrounded;
     }
 
+    // Get movement input from InputActions, resolve camera-relative direction, and return normalized movement vector
     private Vector3 GetMovementInput()
     {
         Vector3 inputDir = (moduleInputPlay != null && assignedDevice != null) 
             ? moduleInputPlay.GetMoveInput(assignedDevice) 
             : Vector3.zero;
+        
+        // Detect strafe behavior based on input direction changes
+        DetectStrafe(inputDir);
         
         // Resolve camera transform
         Transform cam = cameraTransform != null ? cameraTransform : Camera.main != null ? Camera.main.transform : null;
@@ -206,6 +226,67 @@ public class Player_Components : GameplayBehaviour
         return moveDir.normalized;
     }
 
+    // Detect strafe input based on lateral (left-right) movement component
+    private void DetectStrafe(Vector3 inputDir)
+    {
+        Debug.Log($"Input Direction: ({inputDir.x:F2}, {inputDir.y:F2}, {inputDir.z:F2})");
+
+        // Check if input has significant lateral (strafe) component
+        float lateralInput = Mathf.Abs(inputDir.x);
+        
+        if (lateralInput > strafeInputThreshold)
+        {
+            // Valid strafe input detected - reset the input drop timer
+            isStrafing = true;
+            timeSinceInputDropped = 0f;
+        }
+        else
+        {
+            // Input dropped below threshold - start counting down grace period
+            timeSinceInputDropped += Time.deltaTime;
+            
+            // Only exit strafe state if grace period is exceeded
+            if (timeSinceInputDropped > strafeGracePeriod)
+            {
+                isStrafing = false;
+            }
+        }
+    }
+
+    // Track strafe duration and trigger action when threshold is met
+    private void UpdateStrafeDuration()
+    {
+        if (isStrafing)
+        {
+            strafeDuration += Time.deltaTime;
+
+            // Trigger action once when threshold is met
+            if (strafeDuration >= strafeDurationThreshold && !strafeTriggered)
+            {
+                strafeTriggered = true;
+                Debug.Log($"Strafe duration exceeded: {strafeDuration:F2}s (Threshold: {strafeDurationThreshold}s)");
+                OnStrafeTrigger();
+            }
+        }
+        else if (timeSinceInputDropped > strafeGracePeriod && strafeDuration > 0f)
+        {
+            // Only reset duration after grace period truly expires and we had accumulated time
+            strafeDuration = 0f;
+            strafeTriggered = false;
+            Debug.Log("Strafe ended, duration reset.");
+        }
+    }
+
+    // Called when strafe duration threshold is exceeded — override with your logic
+    private void OnStrafeTrigger()
+    {
+        // TODO: Implement strafe trigger action
+        // Examples: drain stamina, play sound, apply speed boost, trigger animation, etc.
+        HandleStumble();
+        Debug.Log("Strafe threshold triggered!");
+    }
+
+    // Determines the target speed based on player state and input, and updates the Move parameter for animations
     private float CalculateTargetSpeed()
     {
         bool isSprinting = moduleInputPlay != null && currentActionState == ActionState.Sprint;
@@ -254,6 +335,7 @@ public class Player_Components : GameplayBehaviour
         return targetSpeed;
     }
 
+    // Applies acceleration and deceleration to the player's movement, as well as ground friction and slope sliding
     private Vector3 ApplyMovementPhysics(Vector3 moveDir, float targetSpeed)
     {
         Vector3 desiredVelocity = moveDir * targetSpeed;
@@ -285,6 +367,7 @@ public class Player_Components : GameplayBehaviour
         return currentHorizontal;
     }
 
+    // Rotate player to face movement direction smoothly
     private void RotateTowardsMovement(Vector3 horizontalVelocity)
     {
         Vector3 lookDir = new Vector3(horizontalVelocity.x, 0f, horizontalVelocity.z);
@@ -407,6 +490,18 @@ public class Player_Components : GameplayBehaviour
         return false;
     }
 
+    private void HandleStumble()
+    {
+        currentActionState = ActionState.Stumble;
+        CharacterController cc = GetComponent<CharacterController>();
+        if (cc != null)
+        {
+            cc.enabled = false;
+        }
+        animator.SetTrigger("IsStumble");
+        Debug.Log("Stumble action executed.");
+    }
+
     #region Action States
     private void Action(ActionState state)
     {
@@ -465,6 +560,9 @@ public class Player_Components : GameplayBehaviour
                 break;
             case ActionState.Back:
                 currentActionState = ActionState.Back;
+                break;
+            case ActionState.Stumble:
+                currentActionState = ActionState.Stumble;
                 break;
         }
     }

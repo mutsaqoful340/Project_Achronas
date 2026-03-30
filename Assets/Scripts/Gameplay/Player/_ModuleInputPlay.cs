@@ -15,7 +15,8 @@ public enum ActionState
     Action2,
     PauseMenu,
     HandHold,
-    Back
+    Back,
+    Stumble
 }
 
 [CreateAssetMenu(fileName = "ModuleInputPlay", menuName = "AddOn Module/Input Play", order = 1)]
