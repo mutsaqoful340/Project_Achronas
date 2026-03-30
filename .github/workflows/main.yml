@@ -21,9 +21,8 @@ jobs:
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           status: ${{ job.status }}
-          nodetail: true  # Keeps it clean and avoids duplicates
+          nodetail: true
           title: "Update for ${{ github.event.repository.name }}"
-          # Added extra newlines (\n) for that "spaced" feeling
           description: |
             **Message:**
             ${{ steps.vars.outputs.commit_title }}
@@ -33,17 +32,17 @@ jobs:
 
             **Author:**
             ${{ github.actor }}
-          # This creates the side-by-side Repository and Branch columns
+          # This JSON block creates the side-by-side columns
           fields: |
             [
               {
                 "name": "Repository",
-                "value": "${{ github.repository }}",
+                "value": "[${{ github.event.repository.name }}](https://github.com/${{ github.repository }})",
                 "inline": true
               },
               {
                 "name": "Branch",
-                "value": "${{ github.ref_name }}",
+                "value": "`${{ github.ref_name }}`",
                 "inline": true
               }
             ]
