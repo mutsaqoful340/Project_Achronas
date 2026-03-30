@@ -22,7 +22,7 @@ jobs:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           status: ${{ job.status }}
           # The Programmer role is now linked via its ID
-          content: "Attention <@&1468586352797810821>: A new update for Project_Achronas has been pushed!"
+          content: "Attention <@&1468586352797810821>"
           nodetail: true
           title: "Update for ${{ github.event.repository.name }}"
           description: |
