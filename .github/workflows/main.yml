@@ -6,17 +6,28 @@ jobs:
   discord-notification:
     runs-on: ubuntu-latest
     steps:
+      - name: Format Commit Message
+        id: vars
+        run: |
+          # This splits the first line (Title) from the rest of the text (Body)
+          MSG="${{ github.event.head_commit.message }}"
+          TITLE=$(echo "$MSG" | head -n 1)
+          BODY=$(echo "$MSG" | tail -n +2 | xargs) # xargs cleans up extra whitespace
+          echo "commit_title=$TITLE" >> $GITHUB_OUTPUT
+          echo "commit_body=$BODY" >> $GITHUB_OUTPUT
+
       - name: Send Message to Discord
         uses: sarisia/actions-status-discord@v1
-        if: always() # Runs even if a build step (added later) fails
+        if: always()
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           status: ${{ job.status }}
+          nodetail: true  # <--- THIS removes that bottom section you didn't like
           title: "Update for ${{ github.event.repository.name }}"
-          # This section pulls your commit description
           description: |
-            **Message:** ${{ github.event.head_commit.message }}
+            **Message:** ${{ steps.vars.outputs.commit_title }}
+            **Description:** ${{ steps.vars.outputs.commit_body }}
             **Author:** ${{ github.actor }}
             **Branch:** ${{ github.ref_name }}
-          color: 0x7289da # Discord Blurple
+          color: 0x7289da
           url: "https://github.com/${{ github.repository }}/commit/${{ github.sha }}"
