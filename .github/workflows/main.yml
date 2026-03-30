@@ -23,6 +23,7 @@ jobs:
           status: ${{ job.status }}
           nodetail: true
           title: "Update for ${{ github.event.repository.name }}"
+          # Everything is moved here for 100% reliability
           description: |
             **Message:**
             ${{ steps.vars.outputs.commit_title }}
@@ -30,9 +31,8 @@ jobs:
             **Description:**
             ${{ steps.vars.outputs.commit_body }}
 
-            **Author:**
-            ${{ github.actor }}
-          # This one-liner ensures the JSON format is perfect
-          fields: '[{"name": "Repository", "value": "[${{ github.repository }}](https://github.com/${{ github.repository }})", "inline": true}, {"name": "Branch", "value": "`${{ github.ref_name }}`", "inline": true}]'
+            **Author:** ${{ github.actor }}
+
+            **Repo:** [${{ github.repository }}](https://github.com/${{ github.repository }})  |  **Branch:** `${{ github.ref_name }}`
           color: 0x7289da
           url: "https://github.com/${{ github.repository }}/commit/${{ github.sha }}"
