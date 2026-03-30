@@ -9,10 +9,9 @@ jobs:
       - name: Format Commit Message
         id: vars
         run: |
-          # This splits the first line (Title) from the rest of the text (Body)
           MSG="${{ github.event.head_commit.message }}"
           TITLE=$(echo "$MSG" | head -n 1)
-          BODY=$(echo "$MSG" | tail -n +2 | xargs) # xargs cleans up extra whitespace
+          BODY=$(echo "$MSG" | tail -n +2 | xargs)
           echo "commit_title=$TITLE" >> $GITHUB_OUTPUT
           echo "commit_body=$BODY" >> $GITHUB_OUTPUT
 
@@ -22,12 +21,31 @@ jobs:
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           status: ${{ job.status }}
-          nodetail: true  # <--- THIS removes that bottom section you didn't like
+          nodetail: true  # Keeps it clean and avoids duplicates
           title: "Update for ${{ github.event.repository.name }}"
+          # Added extra newlines (\n) for that "spaced" feeling
           description: |
-            **Message:** ${{ steps.vars.outputs.commit_title }}
-            **Description:** ${{ steps.vars.outputs.commit_body }}
-            **Author:** ${{ github.actor }}
-            **Branch:** ${{ github.ref_name }}
+            **Message:**
+            ${{ steps.vars.outputs.commit_title }}
+
+            **Description:**
+            ${{ steps.vars.outputs.commit_body }}
+
+            **Author:**
+            ${{ github.actor }}
+          # This creates the side-by-side Repository and Branch columns
+          fields: |
+            [
+              {
+                "name": "Repository",
+                "value": "${{ github.repository }}",
+                "inline": true
+              },
+              {
+                "name": "Branch",
+                "value": "${{ github.ref_name }}",
+                "inline": true
+              }
+            ]
           color: 0x7289da
           url: "https://github.com/${{ github.repository }}/commit/${{ github.sha }}"
