@@ -1,0 +1,22 @@
+name: Unity Project Notifier
+
+on: [push]
+
+jobs:
+  discord-notification:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Message to Discord
+        uses: sarisia/actions-status-discord@v1
+        if: always() # Runs even if a build step (added later) fails
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+          title: "Update for ${{ github.event.repository.name }}"
+          # This section pulls your commit description
+          description: |
+            **Message:** ${{ github.event.head_commit.message }}
+            **Author:** ${{ github.actor }}
+            **Branch:** ${{ github.ref_name }}
+          color: 0x7289da # Discord Blurple
+          url: "https://github.com/${{ github.repository }}/commit/${{ github.sha }}"
