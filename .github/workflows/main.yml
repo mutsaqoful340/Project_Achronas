@@ -32,19 +32,7 @@ jobs:
 
             **Author:**
             ${{ github.actor }}
-          # This JSON block creates the side-by-side columns
-          fields: |
-            [
-              {
-                "name": "Repository",
-                "value": "[${{ github.event.repository.name }}](https://github.com/${{ github.repository }})",
-                "inline": true
-              },
-              {
-                "name": "Branch",
-                "value": "`${{ github.ref_name }}`",
-                "inline": true
-              }
-            ]
+          # This one-liner ensures the JSON format is perfect
+          fields: '[{"name": "Repository", "value": "[${{ github.repository }}](https://github.com/${{ github.repository }})", "inline": true}, {"name": "Branch", "value": "`${{ github.ref_name }}`", "inline": true}]'
           color: 0x7289da
           url: "https://github.com/${{ github.repository }}/commit/${{ github.sha }}"
