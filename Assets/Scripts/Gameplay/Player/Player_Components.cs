@@ -55,6 +55,7 @@ public class Player_Components : GameplayBehaviour
 
     [Header("Stumble Settings")]
     public float stumbleDuration = 1.5f; // Duration of stumble effect in seconds
+    [SerializeField] private bool isStumbling = false;
 
     [Header("Player States")]
     public bool IsIdle;
@@ -89,6 +90,8 @@ public class Player_Components : GameplayBehaviour
         {
             moduleInputPlay.OnAction += Action;
         }
+
+        isStumbling = false;
     }
 
     /// <summary>
@@ -264,6 +267,7 @@ public class Player_Components : GameplayBehaviour
             if (strafeDuration >= strafeDurationThreshold && !strafeTriggered)
             {
                 strafeTriggered = true;
+                isStumbling = true;
                 Debug.Log($"Strafe duration exceeded: {strafeDuration:F2}s (Threshold: {strafeDurationThreshold}s)");
                 OnStrafeTrigger();
             }
@@ -282,7 +286,10 @@ public class Player_Components : GameplayBehaviour
     {
         // TODO: Implement strafe trigger action
         // Examples: drain stamina, play sound, apply speed boost, trigger animation, etc.
-        HandleStumble();
+        if (isStumbling)
+        {
+            HandleStumble();
+        }
         Debug.Log("Strafe threshold triggered!");
     }
 
@@ -379,6 +386,7 @@ public class Player_Components : GameplayBehaviour
     }
     #endregion
 
+    #region Action Handlers
     private void HandleMove()
     {
         Vector3 moveDir = GetMovementInput();
@@ -501,6 +509,18 @@ public class Player_Components : GameplayBehaviour
         animator.SetTrigger("IsStumble");
         Debug.Log("Stumble action executed.");
     }
+
+    public void HandleRecoverFromStumble()
+    {
+        isStumbling = false;
+        CharacterController cc = GetComponent<CharacterController>();
+        if (cc != null)
+        {
+            cc.enabled = true;
+        }
+        Debug.Log("Recovered from stumble.");
+    }
+    #endregion
 
     #region Action States
     private void Action(ActionState state)
