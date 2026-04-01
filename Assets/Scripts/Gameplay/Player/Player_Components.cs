@@ -1,3 +1,4 @@
+using UnityEditor.EditorTools;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -29,6 +30,8 @@ public class Player_Components : GameplayBehaviour
     public float crouchHeight = 1f;
     public float standingHeight = 2f;
     public float crouchSpeed = 2f;
+    [Tooltip("Speed at which the Move parameter in the animator transitions to the target value")]
+    public float moveAnimationSpeed = 5f;
 
     [Header("Acceleration Settings")]
     public float maxAcceleration = 20f;
@@ -49,12 +52,20 @@ public class Player_Components : GameplayBehaviour
     public LayerMask groundLayers = ~0; // Default to everything
 
     [Header("Strafe Detection Settings")]
+    [Tooltip("Minimum input magnitude to consider for strafe detection (e.g., 0.3 means 30% of stick deflection)")]
     public float strafeInputThreshold = 0.3f;  // Lateral input magnitude to trigger strafe detection
-    public float strafeDurationThreshold = 4f;
+    [Tooltip("Grace period after last detected strafe input to allow brief input dips without resetting strafe state")]
     public float strafeGracePeriod = 0.1f;  // Allow brief input dips without resetting strafe state
+    [Tooltip("Time window to count rotation direction changes")]
+    public float rotationChangeWindow = 1f;  // Time window to count rotation direction changes
+    [Tooltip("Number of direction reversals to trigger strafe")]
+    public int rotationChangesForStrafe = 3;  // Number of direction reversals to trigger strafe
+    [Tooltip("Minimum rotation change to count as a change (degrees)")]
+    public float minRotationDeltaForDetection = 15f;  // Minimum rotation change to count as a change (degrees)
 
     [Header("Stumble Settings")]
-    public float stumbleDuration = 1.5f; // Duration of stumble effect in seconds
+    // public float stumbleDuration = 1.5f; // Duration of stumble effect in seconds
+    [Tooltip("DO NOT TICK MANUALLY, THIS IS FOR DEBUGGING ONLY!")]
     [SerializeField] private bool isStumbling = false;
 
     [Header("Player States")]
@@ -72,13 +83,16 @@ public class Player_Components : GameplayBehaviour
     private bool isCrouching = false;
     private ActionState currentActionState;
     private float currentMoveValue = 0f;
-    public float moveAnimationSpeed = 5f;
 
-    // Strafe Detection
+    // Strafe Detection (Rotation-based)
     private bool isStrafing = false;
-    private float strafeDuration = 0f;
     private bool strafeTriggered = false;
-    private float timeSinceInputDropped = 0f;  // Tracks how long input has been below threshold
+    private float timeSinceLastRotationChange = 0f;
+    
+    // Rotation tracking for strafe detection
+    private float previousYRotation = 0f;
+    private int rotationDirectionChangeCount = 0;
+    private float rotationChangeTimer = 0f;
     #endregion
 
 
@@ -203,7 +217,7 @@ public class Player_Components : GameplayBehaviour
             ? moduleInputPlay.GetMoveInput(assignedDevice) 
             : Vector3.zero;
         
-        // Detect strafe behavior based on input direction changes
+        // Detect strafe behavior based on rotation changes
         DetectStrafe(inputDir);
         
         // Resolve camera transform
@@ -229,63 +243,78 @@ public class Player_Components : GameplayBehaviour
         return moveDir.normalized;
     }
 
-    // Detect strafe input based on lateral (left-right) movement component
+    // Detect strafe based on rapid back-and-forth Y-axis rotation
     private void DetectStrafe(Vector3 inputDir)
     {
-        Debug.Log($"Input Direction: ({inputDir.x:F2}, {inputDir.y:F2}, {inputDir.z:F2})");
-
-        // Check if input has significant lateral (strafe) component
-        float lateralInput = Mathf.Abs(inputDir.x);
+        float currentYRotation = transform.eulerAngles.y;
         
-        if (lateralInput > strafeInputThreshold)
+        // Calculate rotation delta, accounting for 360 degree wraparound
+        float rotationDelta = Mathf.DeltaAngle(previousYRotation, currentYRotation);
+        
+        Debug.Log($"Y Rotation: {currentYRotation:F1}° | Delta: {rotationDelta:F1}° | Direction Changes: {rotationDirectionChangeCount}");
+        
+        // Update direction change timer
+        rotationChangeTimer += Time.deltaTime;
+        
+        // Detect rotation direction reversals (rotating left → right or right → left)
+        if (Mathf.Abs(rotationDelta) > minRotationDeltaForDetection)
         {
-            // Valid strafe input detected - reset the input drop timer
-            isStrafing = true;
-            timeSinceInputDropped = 0f;
-        }
-        else
-        {
-            // Input dropped below threshold - start counting down grace period
-            timeSinceInputDropped += Time.deltaTime;
-            
-            // Only exit strafe state if grace period is exceeded
-            if (timeSinceInputDropped > strafeGracePeriod)
+            if (Mathf.Sign(rotationDelta) != Mathf.Sign(timeSinceLastRotationChange) && timeSinceLastRotationChange != 0f)
             {
-                isStrafing = false;
+                rotationDirectionChangeCount++;
+                Debug.Log($"Rotation direction change detected! Count: {rotationDirectionChangeCount}");
             }
+            timeSinceLastRotationChange = rotationDelta;
         }
-    }
-
-    // Track strafe duration and trigger action when threshold is met
-    private void UpdateStrafeDuration()
-    {
-        if (isStrafing)
+        
+        // Reset direction change count if time window expires
+        if (rotationChangeTimer > rotationChangeWindow)
         {
-            strafeDuration += Time.deltaTime;
-
-            // Trigger action once when threshold is met
-            if (strafeDuration >= strafeDurationThreshold && !strafeTriggered)
+            rotationDirectionChangeCount = 0;
+            rotationChangeTimer = 0f;
+            Debug.Log("Rotation change window reset.");
+        }
+        
+        // Strafing detected if enough direction changes occur
+        bool isStrafingMovement = rotationDirectionChangeCount >= rotationChangesForStrafe;
+        
+        if (isStrafingMovement)
+        {
+            isStrafing = true;
+            
+            // Trigger stumble immediately when direction change threshold is met
+            if (!strafeTriggered)
             {
                 strafeTriggered = true;
                 isStumbling = true;
-                Debug.Log($"Strafe duration exceeded: {strafeDuration:F2}s (Threshold: {strafeDurationThreshold}s)");
+                Debug.Log($"Strafe triggered! Direction changes: {rotationDirectionChangeCount}");
                 OnStrafeTrigger();
             }
         }
-        else if (timeSinceInputDropped > strafeGracePeriod && strafeDuration > 0f)
+        else
         {
-            // Only reset duration after grace period truly expires and we had accumulated time
-            strafeDuration = 0f;
-            strafeTriggered = false;
-            Debug.Log("Strafe ended, duration reset.");
+            // Only exit strafe state if grace period is exceeded
+            timeSinceLastRotationChange += Time.deltaTime;
+            if (timeSinceLastRotationChange > strafeGracePeriod)
+            {
+                isStrafing = false;
+                strafeTriggered = false;
+                Debug.Log("Non-strafe rotation detected. Strafe reset.");
+            }
         }
+        
+        previousYRotation = currentYRotation;
+    }
+
+    // Track strafe state (now simplified since trigger happens in DetectStrafe)
+    private void UpdateStrafeDuration()
+    {
+        // Strafe triggering is now handled directly in DetectStrafe()
     }
 
     // Called when strafe duration threshold is exceeded — override with your logic
     private void OnStrafeTrigger()
     {
-        // TODO: Implement strafe trigger action
-        // Examples: drain stamina, play sound, apply speed boost, trigger animation, etc.
         if (isStumbling)
         {
             HandleStumble();
@@ -396,8 +425,15 @@ public class Player_Components : GameplayBehaviour
         velocity.x = horizontalVelocity.x;
         velocity.z = horizontalVelocity.z;
         
-        RotateTowardsMovement(horizontalVelocity);
-        controller.Move(velocity * Time.deltaTime);
+        if (!isStumbling)
+        {
+            RotateTowardsMovement(horizontalVelocity);
+        }
+        
+        if (controller.enabled != false)
+        {
+            controller.Move(velocity * Time.deltaTime);
+        }
     }
 
     private void HandleJump()

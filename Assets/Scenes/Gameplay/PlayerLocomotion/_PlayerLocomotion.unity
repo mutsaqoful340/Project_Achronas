@@ -30294,12 +30294,28 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1114321725}
     - target: {fileID: 3127102278718373537, guid: 58b5b122f36ab6d40af815a51f5a4421, type: 3}
+      propertyPath: strafeGracePeriod
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3127102278718373537, guid: 58b5b122f36ab6d40af815a51f5a4421, type: 3}
       propertyPath: strafeInputThreshold
-      value: 0.1
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 3127102278718373537, guid: 58b5b122f36ab6d40af815a51f5a4421, type: 3}
       propertyPath: strafeDurationThreshold
-      value: 1
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3127102278718373537, guid: 58b5b122f36ab6d40af815a51f5a4421, type: 3}
+      propertyPath: rotationChangesForStrafe
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3127102278718373537, guid: 58b5b122f36ab6d40af815a51f5a4421, type: 3}
+      propertyPath: minRotationDeltaForDetection
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5476456536093535983, guid: 58b5b122f36ab6d40af815a51f5a4421, type: 3}
+      propertyPath: m_WarningMessage
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5600471638717457897, guid: 58b5b122f36ab6d40af815a51f5a4421, type: 3}
       propertyPath: m_LocalPosition.x
@@ -34038,12 +34054,24 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1114321725}
     - target: {fileID: 3700615922603029752, guid: 35a7a809cdd312248b5cf07968c46809, type: 3}
+      propertyPath: strafeGracePeriod
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3700615922603029752, guid: 35a7a809cdd312248b5cf07968c46809, type: 3}
       propertyPath: strafeInputThreshold
-      value: 0.1
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 3700615922603029752, guid: 35a7a809cdd312248b5cf07968c46809, type: 3}
       propertyPath: strafeDurationThreshold
-      value: 1
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3700615922603029752, guid: 35a7a809cdd312248b5cf07968c46809, type: 3}
+      propertyPath: rotationChangesForStrafe
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3700615922603029752, guid: 35a7a809cdd312248b5cf07968c46809, type: 3}
+      propertyPath: minRotationDeltaForDetection
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5878393361300348186, guid: 35a7a809cdd312248b5cf07968c46809, type: 3}
       propertyPath: m_Name
