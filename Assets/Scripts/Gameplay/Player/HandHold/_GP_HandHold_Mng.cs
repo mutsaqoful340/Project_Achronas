@@ -113,6 +113,11 @@ public class _GP_HandHold_Mng : MonoBehaviour
         else if (currentRindaState == RindaState.Holding)
         {
             currentRindaState = RindaState.None;
+            CharacterController rindaController = playerRinda.GetComponent<CharacterController>();
+            if (rindaController != null)
+            {
+                rindaController.enabled = true; // Re-enable CharacterController when releasing hand-hold
+            }
         }
         // Logika untuk menangani input hand-hold dari Rinda
         Debug.Log("Rinda melakukan aksi hand-hold.");
@@ -133,6 +138,11 @@ public class _GP_HandHold_Mng : MonoBehaviour
         else if (currentNayaState == NayaState.Holding)
         {
             currentNayaState = NayaState.None;
+            CharacterController nayaController = playerNaya.GetComponent<CharacterController>();
+            if (nayaController != null)
+            {
+                nayaController.enabled = true; // Re-enable CharacterController when releasing hand-hold
+            }
         }
         // Logika untuk menangani input hand-hold dari Naya
         Debug.Log("Naya melakukan aksi hand-hold.");
