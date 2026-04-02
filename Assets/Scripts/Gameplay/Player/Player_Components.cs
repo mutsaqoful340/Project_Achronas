@@ -251,8 +251,6 @@ public class Player_Components : GameplayBehaviour
         // Calculate rotation delta, accounting for 360 degree wraparound
         float rotationDelta = Mathf.DeltaAngle(previousYRotation, currentYRotation);
         
-        Debug.Log($"Y Rotation: {currentYRotation:F1}° | Delta: {rotationDelta:F1}° | Direction Changes: {rotationDirectionChangeCount}");
-        
         // Update direction change timer
         rotationChangeTimer += Time.deltaTime;
         

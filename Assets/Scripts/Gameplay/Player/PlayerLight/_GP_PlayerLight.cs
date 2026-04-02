@@ -86,7 +86,7 @@ public class _GP_PlayerLight : MonoBehaviour
             return false;
 
         // Find all enemies with _Enemy_WeepingAngel component
-        _Enemy_Mannequin[] allEnemies = FindObjectsByType<_Enemy_Mannequin>(FindObjectsSortMode.None);
+        _Enemy_Mannequin[] allEnemies = FindObjectsByType<_Enemy_Mannequin>();
         if (allEnemies.Length == 0)
             return false;
 
