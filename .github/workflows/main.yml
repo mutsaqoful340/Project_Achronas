@@ -11,14 +11,14 @@ jobs:
         run: |
           MSG="${{ github.event.head_commit.message }}"
           
-          # Get the first line as Title
+          # Capture first line as Title
           TITLE=$(echo "$MSG" | head -n 1)
           echo "commit_title=$TITLE" >> $GITHUB_OUTPUT
           
-          # Get everything ELSE as the Body and preserve newlines
+          # Capture the rest, but TRIM all leading empty lines immediately
           {
             echo "commit_body<<EOF"
-            echo "$MSG" | tail -n +2
+            echo "$MSG" | tail -n +2 | sed '/./,$!d'
             echo "EOF"
           } >> "$GITHUB_OUTPUT"
 
