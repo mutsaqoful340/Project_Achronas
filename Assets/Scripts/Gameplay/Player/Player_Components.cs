@@ -95,6 +95,10 @@ public class Player_Components : GameplayBehaviour
     private float rotationChangeTimer = 0f;
     #endregion
 
+    #region Public Properties
+    public Vector3 Velocity => velocity;
+    #endregion
+
 
     private void Awake()
     {
@@ -123,6 +127,14 @@ public class Player_Components : GameplayBehaviour
     public bool HasDevice()
     {
         return assignedDevice != null;
+    }
+
+    /// <summary>
+    /// Trigger a jump directly (as if the player pressed the jump button)
+    /// </summary>
+    public void TriggerJump()
+    {
+        HandleJump();
     }
     
     /// <summary>

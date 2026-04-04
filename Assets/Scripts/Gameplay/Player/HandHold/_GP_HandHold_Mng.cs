@@ -47,13 +47,19 @@ public class _GP_HandHold_Mng : MonoBehaviour
     [Header("HandHold Settings")]
     [Tooltip("Referensi Transform object yang akan diikuti gameobject Rinda ketika hand-holding.")]
     public Transform handHoldPivotTransform;
-    public float handHoldFollowSpeedXZ = 10f;
-    public float handHoldFollowSpeedY = 10f;
+    public float handHoldFollowSpeedX = 10f;
+    public float handHoldFollowSpeedZ = 10f;
     public float handHoldRotationFollowSpeed = 10f;
+    [Tooltip("Delay in seconds before Rinda jumps after Naya jumps.")]
+    public float jumpDelaySeconds = 0f;
 
     [Header("Detection Settings")]
     [Tooltip("Jarak deteksi minimal untuk menentukan apakah pemain sedang berdekatan.")]
     public float handHoldDetectionRange = 2f;
+
+    #region Private Variables
+    private float pendingRindaJumpTime = -999f;
+    #endregion
 
     void Awake()
     {
@@ -94,6 +100,7 @@ public class _GP_HandHold_Mng : MonoBehaviour
         OnRindaState();
         OnNayaState();
         HandleHandHoldState();
+        UpdatePendingJump();
         OnHandHold();
     }
 
@@ -125,27 +132,36 @@ public class _GP_HandHold_Mng : MonoBehaviour
 
     private void HandleNayaHandHoldAction(ActionState actionState)
     {
-        if (actionState != ActionState.HandHold) return;
-
-        if (currentNayaState == NayaState.None)
+        // Handle hand-hold action
+        if (actionState == ActionState.HandHold)
         {
-            currentNayaState = NayaState.Reaching;
-        }
-        else if (currentNayaState == NayaState.Reaching)
-        {
-            currentNayaState = NayaState.None;
-        }
-        else if (currentNayaState == NayaState.Holding)
-        {
-            currentNayaState = NayaState.None;
-            CharacterController nayaController = playerNaya.GetComponent<CharacterController>();
-            if (nayaController != null)
+            if (currentNayaState == NayaState.None)
             {
-                nayaController.enabled = true; // Re-enable CharacterController when releasing hand-hold
+                currentNayaState = NayaState.Reaching;
             }
+            else if (currentNayaState == NayaState.Reaching)
+            {
+                currentNayaState = NayaState.None;
+            }
+            else if (currentNayaState == NayaState.Holding)
+            {
+                currentNayaState = NayaState.None;
+                CharacterController nayaController = playerNaya.GetComponent<CharacterController>();
+                if (nayaController != null)
+                {
+                    nayaController.enabled = true; // Re-enable CharacterController when releasing hand-hold
+                }
+            }
+            Debug.Log("Naya melakukan aksi hand-hold.");
         }
-        // Logika untuk menangani input hand-hold dari Naya
-        Debug.Log("Naya melakukan aksi hand-hold.");
+        
+        // Handle jump action - queue Rinda's jump with delay
+        if (actionState == ActionState.Jump && currentNayaState == NayaState.Holding && currentRindaState == RindaState.Holding)
+        {
+            // Queue Rinda's jump to happen after the delay
+            pendingRindaJumpTime = Time.time + jumpDelaySeconds;
+            Debug.Log("Naya jumped! Rinda will jump in " + jumpDelaySeconds + " seconds");
+        }
     }
     #endregion
 
@@ -166,6 +182,15 @@ public class _GP_HandHold_Mng : MonoBehaviour
                 currentRindaState = RindaState.Holding;
                 Debug.Log("Players are now holding hands.");
             }
+
+            // if both are currently holding but one of them realesed the button, we should reset both to None
+            if ((currentNayaState == NayaState.Holding && currentRindaState != RindaState.Holding) ||
+                (currentRindaState == RindaState.Holding && currentNayaState != NayaState.Holding))
+            {
+                currentNayaState = NayaState.None;
+                currentRindaState = RindaState.None;
+                Debug.Log("One player released hand-hold, resetting both states to None.");
+            }
         }
     }
 
@@ -173,35 +198,60 @@ public class _GP_HandHold_Mng : MonoBehaviour
     {
         if (currentNayaState == NayaState.Holding && currentRindaState == RindaState.Holding)
         {
-            // Logika untuk mengatur posisi Rinda mengikuti handHoldPivotTransform saat hand-holding
+            // Mengatur posisi Rinda mengikuti handHoldPivotTransform saat hand-holding
             if (playerRinda != null && handHoldPivotTransform != null)
             {
                 CharacterController rindaController = playerRinda.GetComponent<CharacterController>();
-                if (rindaController != null){
-                    rindaController.enabled = false; // Disable CharacterController to prevent physics interference
+                
+                if (rindaController != null && rindaController.enabled)
+                {
+                    // Keep CharacterController enabled to maintain ground collision detection
+                    
+                    Vector3 currentPos = playerRinda.transform.position;
+                    Vector3 targetPos = handHoldPivotTransform.position;
+                    
+                    // Calculate desired position using Lerp for smooth following
+                    Vector3 desiredPos = new Vector3(
+                        Mathf.Lerp(currentPos.x, targetPos.x, Time.deltaTime * handHoldFollowSpeedX),
+                        currentPos.y,
+                        Mathf.Lerp(currentPos.z, targetPos.z, Time.deltaTime * handHoldFollowSpeedZ)
+                    );
+                    
+                    // Calculate movement velocity for this frame
+                    Vector3 moveVelocity = (desiredPos - currentPos) / Time.deltaTime;
+                    
+                    // Use CharacterController.Move() to respect collisions with terrain
+                    rindaController.Move(moveVelocity * Time.deltaTime);
                 }
-                // Separate XZ and Y movement with independent speeds
-                Vector3 currentPos = playerRinda.transform.position;
-                Vector3 targetPos = handHoldPivotTransform.position;
                 
-                // Lerp XZ axes separately
-                Vector3 newPosXZ = new Vector3(
-                    Mathf.Lerp(currentPos.x, targetPos.x, Time.deltaTime * handHoldFollowSpeedXZ),
-                    currentPos.y,
-                    Mathf.Lerp(currentPos.z, targetPos.z, Time.deltaTime * handHoldFollowSpeedXZ)
-                );
-                
-                // Lerp Y axis separately
-                Vector3 newPos = new Vector3(
-                    newPosXZ.x,
-                    Mathf.Lerp(currentPos.y, targetPos.y, Time.deltaTime * handHoldFollowSpeedY),
-                    newPosXZ.z
-                );
-                
-                playerRinda.transform.position = newPos;
+                // Handle rotation
                 playerRinda.transform.rotation = Quaternion.Slerp(playerRinda.transform.rotation, handHoldPivotTransform.rotation, Time.deltaTime * handHoldRotationFollowSpeed);
             }
         }
+        else
+        {
+            // Reset jump tracking when not hand-holding
+            pendingRindaJumpTime = -999f;
+        }
+    }
+
+    private void UpdatePendingJump()
+    {
+        // Check if it's time to apply Rinda's queued jump
+        if (pendingRindaJumpTime > 0 && Time.time >= pendingRindaJumpTime)
+        {
+            ApplyJumpToRinda();
+            pendingRindaJumpTime = -999f;
+        }
+    }
+
+    private void ApplyJumpToRinda()
+    {
+        if (playerComponentsRinda == null)
+            return;
+
+        // Trigger Rinda's jump directly - same as if the player pressed jump
+        playerComponentsRinda.TriggerJump();
     }
     #endregion
 
