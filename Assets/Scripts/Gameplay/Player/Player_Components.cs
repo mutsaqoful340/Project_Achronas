@@ -200,8 +200,6 @@ public class Player_Components : GameplayBehaviour
         if (isGrounded && velocity.y < 0)
             velocity.y = -2f;
 
-        // Track strafe duration
-        UpdateStrafeDuration();
 
         HandleMove();
         
@@ -314,12 +312,6 @@ public class Player_Components : GameplayBehaviour
         }
         
         previousYRotation = currentYRotation;
-    }
-
-    // Track strafe state (now simplified since trigger happens in DetectStrafe)
-    private void UpdateStrafeDuration()
-    {
-        // Strafe triggering is now handled directly in DetectStrafe()
     }
 
     // Called when strafe duration threshold is exceeded — override with your logic

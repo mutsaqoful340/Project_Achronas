@@ -45,10 +45,19 @@ public class _GP_HandHold_Mng : MonoBehaviour
     public Player_Components playerComponentsNaya;
 
     [Header("HandHold Settings")]
+    [Tooltip("Referensi Transform object yang akan menjadi target hand-hold pivot.")]
+    public Transform handHoldPivotTarget;
+    [Tooltip("Kecepatan mengikuti Target Pivot pada sumbu.")]
+    public float handHoldFollowTargetSpeed = 10f;
+    [Tooltip("Kecepatan mengikuti Target Pivot pada rotasi.")]
+    public float handHoldFollowTargetRotationSpeed = 10f;
     [Tooltip("Referensi Transform object yang akan diikuti gameobject Rinda ketika hand-holding.")]
     public Transform handHoldPivotTransform;
+    [Tooltip("Kecepatan mengikuti pivot pada sumbu X saat hand-holding.")]
     public float handHoldFollowSpeedX = 10f;
+    [Tooltip("Kecepatan mengikuti pivot pada sumbu Z saat hand-holding.")]
     public float handHoldFollowSpeedZ = 10f;
+    [Tooltip("Kecepatan mengikuti rotasi pivot saat hand-holding.")]
     public float handHoldRotationFollowSpeed = 10f;
     [Tooltip("Delay in seconds before Rinda jumps after Naya jumps.")]
     public float jumpDelaySeconds = 0f;
@@ -102,6 +111,7 @@ public class _GP_HandHold_Mng : MonoBehaviour
         HandleHandHoldState();
         UpdatePendingJump();
         OnHandHold();
+        OnPivotFollowTarget();
     }
 
     #region Controller Methods
@@ -256,6 +266,37 @@ public class _GP_HandHold_Mng : MonoBehaviour
     #endregion
 
     #region Checking Methods
+    private void OnPivotFollowTarget()
+    {
+        if (handHoldPivotTarget != null && handHoldPivotTransform != null)
+        {
+            CharacterController pivotController = handHoldPivotTransform.GetComponent<CharacterController>();
+            
+            if (pivotController != null && pivotController.enabled)
+            {
+                // Use CharacterController for collision-aware movement
+                Vector3 currentPos = handHoldPivotTransform.position;
+                Vector3 targetPos = handHoldPivotTarget.position;
+                
+                // Calculate desired position using Lerp for smooth following
+                Vector3 desiredPos = Vector3.Lerp(currentPos, targetPos, Time.deltaTime * handHoldFollowTargetSpeed);
+                
+                // Calculate movement velocity for this frame
+                Vector3 moveVelocity = (desiredPos - currentPos) / Time.deltaTime;
+                
+                // Use CharacterController.Move() to respect collisions with obstacles
+                pivotController.Move(moveVelocity * Time.deltaTime);
+            }
+            else
+            {
+                // Fallback to direct Lerp if no CharacterController
+                handHoldPivotTransform.position = Vector3.Lerp(handHoldPivotTransform.position, handHoldPivotTarget.position, Time.deltaTime * handHoldFollowTargetSpeed);
+            }
+            
+            // Lerp rotation smoothly
+            handHoldPivotTransform.rotation = Quaternion.Slerp(handHoldPivotTransform.rotation, handHoldPivotTarget.rotation, Time.deltaTime * handHoldFollowTargetRotationSpeed);
+        }
+    }
     private void CheckPlayerDistance()
     {
         if (playerRinda == null || playerNaya == null)
