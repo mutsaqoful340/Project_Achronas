@@ -10,10 +10,17 @@ jobs:
         id: vars
         run: |
           MSG="${{ github.event.head_commit.message }}"
+          
+          # Get the first line as Title
           TITLE=$(echo "$MSG" | head -n 1)
-          BODY=$(echo "$MSG" | tail -n +2 | xargs)
           echo "commit_title=$TITLE" >> $GITHUB_OUTPUT
-          echo "commit_body=$BODY" >> $GITHUB_OUTPUT
+          
+          # Get everything ELSE as the Body and preserve newlines
+          {
+            echo "commit_body<<EOF"
+            echo "$MSG" | tail -n +2
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Send Message to Discord
         uses: sarisia/actions-status-discord@v1
@@ -21,7 +28,6 @@ jobs:
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           status: ${{ job.status }}
-          # The Programmer role is now linked via its ID
           content: "<@&1468586352797810821> A push has been made."
           nodetail: true
           title: "Update for ${{ github.event.repository.name }}"
@@ -34,6 +40,6 @@ jobs:
 
             **Author:** ${{ github.actor }}
 
-            **Repo:** [${{ github.repository }}](https://github.com/${{ github.repository }})  |  **Branch:** `${{ github.ref_name }}`
+            **Repo:** [${{ github.repository }}](https://github.com/${{ github.repository }}) | **Branch:** `${{ github.ref_name }}`
           color: 0x7289da
           url: "https://github.com/${{ github.repository }}/commit/${{ github.sha }}"
