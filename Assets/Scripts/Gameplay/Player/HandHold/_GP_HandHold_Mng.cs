@@ -62,12 +62,23 @@ public class _GP_HandHold_Mng : MonoBehaviour
     [Tooltip("Delay in seconds before Rinda jumps after Naya jumps.")]
     public float jumpDelaySeconds = 0f;
 
+    [Header("IK Settings")]
+    [Tooltip("IK target Transform untuk tangan Rinda (ditempatkan di mana Rinda harus reach).")]
+    public Transform rindaHandIKTarget;
+    [Tooltip("IK target Transform untuk tangan Naya (ditempatkan di mana Naya harus reach).")]
+    public Transform nayaHandIKTarget;
+    [Tooltip("Offset posisi tangan Rinda relatif terhadap pivot (untuk IK).")]
+    public Vector3 rindaHandIKOffset = new Vector3(-0.3f, 0.5f, 0f);
+    [Tooltip("Offset posisi tangan Naya relatif terhadap pivot (untuk IK).")]
+    public Vector3 nayaHandIKOffset = new Vector3(0.3f, 0.5f, 0f);
+
     [Header("Detection Settings")]
     [Tooltip("Jarak deteksi minimal untuk menentukan apakah pemain sedang berdekatan.")]
     public float handHoldDetectionRange = 2f;
 
     #region Private Variables
     private float pendingRindaJumpTime = -999f;
+    [HideInInspector] public bool isHandHoldActive = false;
     #endregion
 
     void Awake()
@@ -190,6 +201,7 @@ public class _GP_HandHold_Mng : MonoBehaviour
             {
                 currentNayaState = NayaState.Holding;
                 currentRindaState = RindaState.Holding;
+                isHandHoldActive = true;
                 Debug.Log("Players are now holding hands.");
             }
 
@@ -208,6 +220,9 @@ public class _GP_HandHold_Mng : MonoBehaviour
     {
         if (currentNayaState == NayaState.Holding && currentRindaState == RindaState.Holding)
         {
+            // Update IK targets to follow the pivot
+            UpdateIKTargets();
+
             // Mengatur posisi Rinda mengikuti handHoldPivotTransform saat hand-holding
             if (playerRinda != null && handHoldPivotTransform != null)
             {
@@ -242,6 +257,29 @@ public class _GP_HandHold_Mng : MonoBehaviour
         {
             // Reset jump tracking when not hand-holding
             pendingRindaJumpTime = -999f;
+        }
+    }
+
+    private void UpdateIKTargets()
+    {
+        // Update IK target positions relative to the pivot
+        if (handHoldPivotTransform == null)
+            return;
+
+        // Update Rinda's hand IK target
+        if (rindaHandIKTarget != null)
+        {
+            Vector3 rindaTargetPos = handHoldPivotTransform.position + handHoldPivotTransform.TransformDirection(rindaHandIKOffset);
+            rindaHandIKTarget.position = rindaTargetPos;
+            rindaHandIKTarget.rotation = handHoldPivotTransform.rotation;
+        }
+
+        // Update Naya's hand IK target
+        if (nayaHandIKTarget != null)
+        {
+            Vector3 nayaTargetPos = handHoldPivotTransform.position + handHoldPivotTransform.TransformDirection(nayaHandIKOffset);
+            nayaHandIKTarget.position = nayaTargetPos;
+            nayaHandIKTarget.rotation = handHoldPivotTransform.rotation;
         }
     }
 
