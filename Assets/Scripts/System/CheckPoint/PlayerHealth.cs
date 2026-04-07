@@ -47,21 +47,28 @@ public class PlayerHealth : MonoBehaviour
         if (GameManager.Instance.HasSave())
         {
             Vector3 spawnPos = GameManager.Instance.GetSpawnPosition();
+            Vector3 rightDir = GameManager.Instance.GetSpawnRightDirection();
+
+            // 🔥 AMBIL index player
+            PlayerSpawn ps = GetComponent<PlayerSpawn>();
+            int index = (ps != null) ? ps.playerIndex : 0;
+
+            Vector3 finalPos = spawnPos + rightDir * (index * 2f);
 
             CharacterController cc = GetComponent<CharacterController>();
 
             if (cc != null)
             {
-                cc.enabled = false; // 🔥 wajib
-                transform.position = spawnPos;
+                cc.enabled = false;
+                transform.position = finalPos;
                 cc.enabled = true;
             }
             else
             {
-                transform.position = spawnPos;
+                transform.position = finalPos;
             }
 
-            Debug.Log("Respawn ke: " + spawnPos);
+            Debug.Log("Respawn ke: " + finalPos);
         }
         else
         {
