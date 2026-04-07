@@ -115,6 +115,8 @@ public class _GP_HandHold_Mng : MonoBehaviour
 
     void Update()
     {
+        if (!isHandHoldActive) return;
+
         CheckPlayerDistance();
         CheckPlayerLOS();
         OnRindaState();
