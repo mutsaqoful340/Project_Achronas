@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
-using TMPro; // 🔥 WAJIB untuk TextMeshPro
+using TMPro;
 
 public class CheckpointUI : MonoBehaviour
 {
@@ -14,6 +14,9 @@ public class CheckpointUI : MonoBehaviour
 
     [Header("Players")]
     public List<GameObject> players;
+
+    [Header("Spawn Settings")]
+    public float playerSpacing = 2f; // jarak antar player biar gak numpuk
 
     void OnEnable()
     {
@@ -43,8 +46,6 @@ public class CheckpointUI : MonoBehaviour
             }
 
             Button btn = slots[i];
-
-            // 🔥 SUPPORT TMP (INI YANG FIX MASALAH KAMU)
             TMP_Text txt = btn.GetComponentInChildren<TMP_Text>();
 
             if (txt == null)
@@ -80,34 +81,10 @@ public class CheckpointUI : MonoBehaviour
             }
         }
 
-        // 🔥 SET SELECT DEFAULT (WAJIB BUAT GAMEPAD)
+        // default select (buat gamepad)
         if (slots.Count > 0 && EventSystem.current != null)
         {
             EventSystem.current.SetSelectedGameObject(slots[0].gameObject);
-        }
-    }
-
-    void Update()
-    {
-        // debug input
-        if (Input.anyKeyDown)
-        {
-            Debug.Log("Input terdeteksi");
-        }
-
-        // 🔥 TEST MANUAL
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Debug.Log("TEST KLIK MANUAL");
-            if (slots.Count > 0)
-                slots[0].onClick.Invoke();
-        }
-
-        // 🔥 FORCE REFRESH
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Debug.Log("FORCE UPDATE SLOTS");
-            UpdateSlots();
         }
     }
 
@@ -118,13 +95,31 @@ public class CheckpointUI : MonoBehaviour
 
         if (data != null)
         {
-            Vector3 pos = new Vector3(data.posX, data.posY, data.posZ);
+            Vector3 basePos = new Vector3(data.posX, data.posY, data.posZ);
 
-            foreach (var p in players)
+            // 🔥 LOCK arah ke dunia (biar gak ngikut rotasi player)
+            Vector3 rightDir = Vector3.right;
+
+            for (int i = 0; i < players.Count; i++)
             {
+                var p = players[i];
                 if (p != null)
                 {
-                    p.transform.position = pos;
+                    Vector3 offset = rightDir * (i * playerSpacing);
+
+                    CharacterController cc = p.GetComponent<CharacterController>();
+
+                    if (cc != null)
+                    {
+                        cc.enabled = false;
+                        p.transform.position = basePos + offset;
+                        cc.enabled = true;
+                    }
+                    else
+                    {
+                        p.transform.position = basePos + offset;
+                    }
+
                     p.SetActive(true);
                 }
             }
@@ -144,13 +139,16 @@ public class CheckpointUI : MonoBehaviour
     {
         Debug.Log("Start New Game KE PANGGIL!");
 
-        Vector3 startPos = GameManager.Instance.defaultSpawnPoint;
+        Vector3 basePos = GameManager.Instance.defaultSpawnPoint;
 
-        foreach (var p in players)
+        // 🔥 FIX: kasih offset biar gak numpuk
+        for (int i = 0; i < players.Count; i++)
         {
+            var p = players[i];
             if (p != null)
             {
-                p.transform.position = startPos;
+                Vector3 offset = new Vector3(i * playerSpacing, 0, 0);
+                p.transform.position = basePos + offset;
                 p.SetActive(true);
             }
         }
@@ -158,4 +156,7 @@ public class CheckpointUI : MonoBehaviour
         uiRoot.SetActive(false);
         panelGame.SetActive(true);
     }
+
+    // ❌ DIHAPUS: Input lama biar gak error Input System
+    // Kalau mau debug, pakai Input System baru nanti
 }

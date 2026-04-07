@@ -13,9 +13,14 @@ public class Checkpoint : MonoBehaviour
         {
             activated = true;
 
-            GameManager.Instance.SetCheckpoint(checkpointID, spawnPoint.position);
+            // 🔥 UPDATE: kirim spawnPoint (bukan cuma posisi)
+            GameManager.Instance.SetCheckpoint(
+                checkpointID,
+                spawnPoint.position,
+                spawnPoint
+            );
 
-            // 🔥 PAKSA SAVE LANGSUNG DI SINI
+            // 🔥 SAVE
             SaveSystem.SaveGame(GameManager.Instance.allCheckpoints);
 
             Debug.Log("🔥 SAVE DIPANGGIL DARI CHECKPOINT!");
