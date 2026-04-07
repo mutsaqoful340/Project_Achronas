@@ -22,12 +22,7 @@ public class CheckpointUI : MonoBehaviour
     {
         Debug.Log("CheckpointUI AKTIF");
 
-        // matikan semua player dulu
-        foreach (var p in players)
-        {
-            if (p != null)
-                p.SetActive(false);
-        }
+        
 
         UpdateSlots();
     }
@@ -120,7 +115,7 @@ public class CheckpointUI : MonoBehaviour
                         p.transform.position = basePos + offset;
                     }
 
-                    p.SetActive(true);
+                    
                 }
             }
 
