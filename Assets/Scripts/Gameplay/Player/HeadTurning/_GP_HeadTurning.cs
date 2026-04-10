@@ -9,15 +9,21 @@ public class _GP_HeadTurning : MonoBehaviour
     public Transform headTurnTarget;
     public _ModuleInputPlay _inputPlayer;
     public Player_Components playerComponents;
+    public Animator animator;
 
     [Header("Rotation Settings")]
-    public float rotationSpeed = 5f;
-    public float maxHorizontalAngle = 90f;  // Left/right limits
-    public float maxVerticalAngle = 60f;    // Up/down limits
+    public float rotationSpeed = 15f;
+    public float resetSpeed = 5f;  // Slower speed for resetting
+    public float maxHorizontalAngle = 90f;
+    public float maxVerticalAngle = 60f;
 
     private Quaternion initialHeadRotation;
+    private Quaternion currentHeadRotation;  // Track rotation independently from animator
+    private Quaternion targetHeadRotation;   // Target for reset animation
     private bool isFocusing = false;
+    private bool isResetting = false;
     private ActionState currentActionState = ActionState.Idle;
+    private ActionState previousActionState = ActionState.Idle;
 
     void OnEnable()
     {
@@ -40,26 +46,66 @@ public class _GP_HeadTurning : MonoBehaviour
             return;
         }
 
-        if (_inputPlayer == null){
+        if (_inputPlayer == null)
+        {
             _inputPlayer = GetComponent<_ModuleInputPlay>();
         }
 
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
+        }
+
+        // Enable IK Pass on this layer so OnAnimatorIK() gets called
+        if (animator != null)
+        {
+            animator.SetLayerWeight(0, 1f); // Ensure base layer is active
+            // Note: You may need to manually enable "IK Pass" on animator layers in the inspector
+        }
+
         initialHeadRotation = headBone.localRotation;
+        currentHeadRotation = initialHeadRotation;
     }
 
     private void LateUpdate()
     {
+        // Handle resetting (smooth interpolation back to initial) - prioritize this
+        if (isResetting)
+        {
+            currentHeadRotation = Quaternion.Slerp(
+                currentHeadRotation,
+                targetHeadRotation,
+                Time.deltaTime * resetSpeed  // Use slower reset speed
+            );
+            headBone.localRotation = currentHeadRotation;
+            
+            // Stop resetting once close enough
+            if (Quaternion.Angle(currentHeadRotation, targetHeadRotation) < 0.1f)
+            {
+                isResetting = false;
+                currentHeadRotation = targetHeadRotation;
+                headBone.localRotation = targetHeadRotation;
+            }
+            
+            // Don't focus while resetting
+            return;
+        }
+
         if (isFocusing && headTurnTarget != null)
         {
             TurnHeadToTarget(headTurnTarget.position);
         }
 
-        // Immediately check if player is in "Reaching" state
-        if (currentActionState != ActionState.HandHold || !isFocusing)
+        // Only reset when transitioning OUT of HandHold
+        if (previousActionState == ActionState.HandHold && currentActionState != ActionState.HandHold)
         {
-            ResetHeadRotation();
-            StopFocusing();
+            targetHeadRotation = initialHeadRotation;
+            isResetting = true;
+            isFocusing = false;
+            Debug.Log("Transitioning out of HandHold state.");
         }
+        
+        previousActionState = currentActionState;
     }
 
     private void TrackActionState(ActionState state)
@@ -72,12 +118,16 @@ public class _GP_HeadTurning : MonoBehaviour
         if (state != ActionState.HandHold)
             return;
 
+        // Don't allow focus while resetting
+        if (isResetting)
+            return;
+
         Debug.Log("<color=cyan>_GP_HeadTurning: Received HandHold action.</color>");
         
         // Toggle focus on/off
         if (isFocusing)
         {
-            StopFocusing();
+            isFocusing = false;
             Debug.Log("<color=red>Stop focusing</color>");
         }
         else
@@ -88,6 +138,9 @@ public class _GP_HeadTurning : MonoBehaviour
                 return;
             }
 
+            // Reset currentHeadRotation to current bone position to allow smooth interpolation
+            currentHeadRotation = headBone.localRotation;
+            isResetting = false;
             isFocusing = true;
             Debug.Log($"<color=green>Start focusing on {headTurnTarget.name}</color>");
         }
@@ -95,6 +148,9 @@ public class _GP_HeadTurning : MonoBehaviour
 
     public void SetLookAtTarget(Transform target)
     {
+        if (target == null)
+            return;
+            
         headTurnTarget = target;
         isFocusing = true;
     }
@@ -104,28 +160,34 @@ public class _GP_HeadTurning : MonoBehaviour
         Vector3 directionToTarget = (targetPosition - headBone.position).normalized;
         Quaternion targetRotation = Quaternion.LookRotation(directionToTarget, Vector3.up);
 
-        // Apply rotation limits relative to initial rotation
+        // Convert to local rotation if has parent
+        if (headBone.parent != null)
+        {
+            targetRotation = Quaternion.Inverse(headBone.parent.rotation) * targetRotation;
+        }
+
+        // Apply rotation limits
         targetRotation = ClampRotation(targetRotation);
 
-        // Smoothly interpolate to target rotation
-        headBone.rotation = Quaternion.Slerp(
-            headBone.rotation,
+        // Interpolate from our stored rotation (not from animator's modified value)
+        currentHeadRotation = Quaternion.Slerp(
+            currentHeadRotation,
             targetRotation,
             Time.deltaTime * rotationSpeed
         );
+        
+        // Apply directly to bone (overrides animator)
+        headBone.localRotation = currentHeadRotation;
     }
 
     private Quaternion ClampRotation(Quaternion targetRotation)
     {
-        // Convert to relative rotation from initial
         Quaternion relativeRotation = Quaternion.Inverse(initialHeadRotation) * targetRotation;
         Vector3 eulerAngles = relativeRotation.eulerAngles;
 
-        // Normalize angles to -180 to 180 range
         eulerAngles.x = NormalizeAngle(eulerAngles.x);
         eulerAngles.y = NormalizeAngle(eulerAngles.y);
 
-        // Clamp vertical (X) and horizontal (Y) rotation
         eulerAngles.x = Mathf.Clamp(eulerAngles.x, -maxVerticalAngle, maxVerticalAngle);
         eulerAngles.y = Mathf.Clamp(eulerAngles.y, -maxHorizontalAngle, maxHorizontalAngle);
 
@@ -147,6 +209,9 @@ public class _GP_HeadTurning : MonoBehaviour
 
     public void ResetHeadRotation()
     {
-        headBone.localRotation = initialHeadRotation;
+        // Start the smooth reset animation instead of snapping
+        targetHeadRotation = initialHeadRotation;
+        isResetting = true;
+        isFocusing = false;
     }
 }

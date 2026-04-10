@@ -76,6 +76,12 @@ public class _GP_HandHold_Mng : MonoBehaviour
     [Tooltip("Jarak deteksi minimal untuk menentukan apakah pemain sedang berdekatan.")]
     public float handHoldDetectionRange = 2f;
 
+    [Header("Head Turning References")]
+    [Tooltip("Reference to Rinda's head turning script")]
+    public _GP_HeadTurning rindaHeadTurning;
+    [Tooltip("Reference to Naya's head turning script")]
+    public _GP_HeadTurning nayaHeadTurning;
+
     #region Private Variables
     private float pendingRindaJumpTime = -999f;
     [HideInInspector] public bool isHandHoldActive = false;
@@ -203,6 +209,18 @@ public class _GP_HandHold_Mng : MonoBehaviour
                 currentRindaState = RindaState.Holding;
                 isHandHoldActive = true;
                 Debug.Log("Players are now holding hands.");
+                
+                // Reset both players' head turning when they enter Holding state
+                if (rindaHeadTurning != null)
+                {
+                    rindaHeadTurning.ResetHeadRotation();
+                    Debug.Log("Rinda's head reset on hand-hold.");
+                }
+                if (nayaHeadTurning != null)
+                {
+                    nayaHeadTurning.ResetHeadRotation();
+                    Debug.Log("Naya's head reset on hand-hold.");
+                }
             }
 
             // if both are currently holding but one of them realesed the button, we should reset both to None
@@ -351,12 +369,12 @@ public class _GP_HandHold_Mng : MonoBehaviour
         if (sqrDistance <= sqrRange)
         {
             isPlayersInRange = true;
-            Debug.Log("Pemain berada dalam jarak deteksi untuk hand-hold.");
+            // Debug.Log("Pemain berada dalam jarak deteksi untuk hand-hold.");
         }
         else
         {
             isPlayersInRange = false;
-            Debug.Log("Pemain terlalu jauh untuk melakukan hand-hold.");
+            // Debug.Log("Pemain terlalu jauh untuk melakukan hand-hold.");
         }
     }
 
@@ -403,7 +421,7 @@ public class _GP_HandHold_Mng : MonoBehaviour
                     isObstacleBetweenPlayers = false;
                     // Draw debug ray in green when player is detected
                     Debug.DrawRay(rayOrigin, toPlayer.normalized * hit.distance, Color.green);
-                    Debug.Log("Rinda memiliki line of sight ke Naya.");
+                    // Debug.Log("Rinda memiliki line of sight ke Naya.");
                 }
                 else
                 {

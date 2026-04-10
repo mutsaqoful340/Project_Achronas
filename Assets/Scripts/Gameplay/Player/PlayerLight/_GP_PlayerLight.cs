@@ -46,7 +46,7 @@ public class _GP_PlayerLight : MonoBehaviour
 
     private void HandleAction(ActionState state)
     {
-        if (state == ActionState.Action2)
+        if (state == ActionState.LightToggle)
         {
             if (playerLight != null)
             {

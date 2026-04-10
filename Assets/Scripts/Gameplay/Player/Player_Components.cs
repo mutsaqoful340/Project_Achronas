@@ -280,7 +280,7 @@ public class Player_Components : GameplayBehaviour
         {
             rotationDirectionChangeCount = 0;
             rotationChangeTimer = 0f;
-            Debug.Log("Rotation change window reset.");
+            // Debug.Log("Rotation change window reset.");
         }
         
         // Strafing detected if enough direction changes occur
@@ -307,7 +307,7 @@ public class Player_Components : GameplayBehaviour
             {
                 isStrafing = false;
                 strafeTriggered = false;
-                Debug.Log("Non-strafe rotation detected. Strafe reset.");
+                // Debug.Log("Non-strafe rotation detected. Strafe reset.");
             }
         }
         

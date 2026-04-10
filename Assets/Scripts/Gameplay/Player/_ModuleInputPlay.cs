@@ -16,7 +16,9 @@ public enum ActionState
     PauseMenu,
     HandHold,
     Back,
-    Stumble
+    Stumble,
+    LightToggle,
+    Map
 }
 
 [CreateAssetMenu(fileName = "ModuleInputPlay", menuName = "AddOn Module/Input Play", order = 1)]
@@ -95,6 +97,13 @@ public class _ModuleInputPlay : ScriptableObject
 
         // Back
         inputActions.Player.Back.performed += ctx => OnAction?.Invoke(ActionState.Back);
+
+        // Light
+        inputActions.Player.Light.performed += ctx => OnAction?.Invoke(ActionState.LightToggle);
+
+        // Map
+        inputActions.Player.Map.performed += ctx => OnAction?.Invoke(ActionState.Map);
+
     }
 
     /// <summary>
@@ -146,6 +155,8 @@ public class _ModuleInputPlay : ScriptableObject
             inputActions.Player.PauseMenu.performed -= ctx => OnAction?.Invoke(ActionState.PauseMenu);
             inputActions.Player.HandHold.performed -= ctx => OnAction?.Invoke(ActionState.HandHold);
             inputActions.Player.Back.performed -= ctx => OnAction?.Invoke(ActionState.Back);
+            inputActions.Player.Light.performed -= ctx => OnAction?.Invoke(ActionState.LightToggle);
+            inputActions.Player.Map.performed -= ctx => OnAction?.Invoke(ActionState.Map);
             inputActions.Player.Disable();
             inputActions.Dispose();
             inputActions = null;
