@@ -9,15 +9,13 @@ jobs:
       - name: Format Commit Message
         id: vars
         env:
-          # This is the safe way to handle quotes and special characters
           COMMIT_MSG: ${{ github.event.head_commit.message }}
         run: |
           # 1. Get the first line as Title
           TITLE=$(echo "$COMMIT_MSG" | head -n 1)
           echo "commit_title=$TITLE" >> $GITHUB_OUTPUT
           
-          # 2. Get the rest, trim leading empty lines, and handle quotes safely
-          # We use EOF to ensure multi-line and special chars are preserved
+          # 2. Get the rest, trim leading empty lines
           {
             echo "commit_body<<EOF"
             echo "$COMMIT_MSG" | tail -n +2 | sed '/./,$!d'
@@ -33,11 +31,14 @@ jobs:
           content: "<@&1468586352797810821> A push has been made."
           nodetail: true
           title: "Update for ${{ github.event.repository.name }}"
+          # Added blank lines between the sections for better readability
           description: |
             **Change Title:** ${{ steps.vars.outputs.commit_title }}
+
             **Description:** ${{ steps.vars.outputs.commit_body }}
 
             **Author:** ${{ github.actor }}
+
             **Repo:** [${{ github.repository }}](https://github.com/${{ github.repository }}) | **Branch:** `${{ github.ref_name }}`
           color: 0x7289da
           url: "https://github.com/${{ github.repository }}/commit/${{ github.sha }}"
