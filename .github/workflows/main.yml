@@ -8,17 +8,19 @@ jobs:
     steps:
       - name: Format Commit Message
         id: vars
+        env:
+          # This is the safe way to handle quotes and special characters
+          COMMIT_MSG: ${{ github.event.head_commit.message }}
         run: |
-          MSG="${{ github.event.head_commit.message }}"
-          
-          # Capture first line as Title
-          TITLE=$(echo "$MSG" | head -n 1)
+          # 1. Get the first line as Title
+          TITLE=$(echo "$COMMIT_MSG" | head -n 1)
           echo "commit_title=$TITLE" >> $GITHUB_OUTPUT
           
-          # Capture the rest, but TRIM all leading empty lines immediately
+          # 2. Get the rest, trim leading empty lines, and handle quotes safely
+          # We use EOF to ensure multi-line and special chars are preserved
           {
             echo "commit_body<<EOF"
-            echo "$MSG" | tail -n +2 | sed '/./,$!d'
+            echo "$COMMIT_MSG" | tail -n +2 | sed '/./,$!d'
             echo "EOF"
           } >> "$GITHUB_OUTPUT"
 
@@ -32,14 +34,10 @@ jobs:
           nodetail: true
           title: "Update for ${{ github.event.repository.name }}"
           description: |
-            **Change Title:**
-            ${{ steps.vars.outputs.commit_title }}
-
-            **Description:**
-            ${{ steps.vars.outputs.commit_body }}
+            **Change Title:** ${{ steps.vars.outputs.commit_title }}
+            **Description:** ${{ steps.vars.outputs.commit_body }}
 
             **Author:** ${{ github.actor }}
-
             **Repo:** [${{ github.repository }}](https://github.com/${{ github.repository }}) | **Branch:** `${{ github.ref_name }}`
           color: 0x7289da
           url: "https://github.com/${{ github.repository }}/commit/${{ github.sha }}"
