@@ -346,7 +346,18 @@ public class _Enemy_Boss : MonoBehaviour
             return;
         }
 
-        // Method 1: Disable CharacterController
+        // Primary: Switch to UI mode to disable gameplay input while preserving UI access
+        if (_Sys_GameModeSwitch.Instance != null)
+        {
+            _Sys_GameModeSwitch.Instance.SetMode(_Sys_GameModeSwitch.GameMode.UI);
+            Debug.Log($"{gameObject.name}: Switched to UI mode - player input locked, UI controls available");
+        }
+        else
+        {
+            Debug.LogWarning($"{gameObject.name}: GameModeSwitch instance not found!");
+        }
+
+        // Backup: Disable CharacterController
         CharacterController controller = cachedPlayer.GetComponent<CharacterController>();
         if (controller != null)
         {
@@ -354,7 +365,7 @@ public class _Enemy_Boss : MonoBehaviour
             Debug.Log($"{gameObject.name}: Disabled CharacterController on {cachedPlayer.name}");
         }
         
-        // Method 2: Disable Rigidbody physics
+        // Backup: Disable Rigidbody physics
         Rigidbody rb = cachedPlayer.GetComponent<Rigidbody>();
         if (rb != null)
         {
@@ -363,15 +374,7 @@ public class _Enemy_Boss : MonoBehaviour
             Debug.Log($"{gameObject.name}: Froze Rigidbody on {cachedPlayer.name}");
         }
         
-        // Method 3: Disable input (if using Unity Input System)
-        UnityEngine.InputSystem.PlayerInput playerInput = cachedPlayer.GetComponent<UnityEngine.InputSystem.PlayerInput>();
-        if (playerInput != null)
-        {
-            playerInput.DeactivateInput();
-            Debug.Log($"{gameObject.name}: Deactivated input on {cachedPlayer.name}");
-        }
-        
-        // Method 4: Call Player_Components freeze method (if it exists)
+        // Call Player_Components freeze method (if it exists)
         if (caughtPlayerComponent != null)
         {
             // TODO: Call specific freeze methods on Player_Components
@@ -399,12 +402,8 @@ public class _Enemy_Boss : MonoBehaviour
                 break;
                 
             case BossType.Hanoman:
-                Debug.Log($"{gameObject.name} (Hanoman): Player caught! You are ded!");
-                CatchPlayer();
-                break;
-                
             case BossType.Leak:
-                Debug.Log($"{gameObject.name} (Leak): Player caught! You are ded!");
+                Debug.Log($"{gameObject.name} (Hanoman): Player caught! You are ded!");
                 CatchPlayer();
                 break;
         }
@@ -416,6 +415,7 @@ public class _Enemy_Boss : MonoBehaviour
         {
             case BossType.DadakMerak:
                 Debug.Log($"{gameObject.name} (Dadak Merak): Player spotted! ");
+
                 break;
             case BossType.Hanoman:
             case BossType.Leak:
