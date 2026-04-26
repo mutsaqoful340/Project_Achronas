@@ -1,6 +1,7 @@
 ﻿using System;
 using Unity.VisualScripting;
 using UnityEditor.EditorTools;
+using UnityEngine.Animations.Rigging;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 
@@ -63,14 +64,30 @@ public class _GP_HandHold_Mng : MonoBehaviour
     public float jumpDelaySeconds = 0f;
 
     [Header("IK Settings")]
+    [Tooltip("TwoBoneIK constraint untuk tangan Rinda saat hand-holding.")]
+    public TwoBoneIKConstraint rindaHandIKConstraint;
+    [Tooltip("TwoBoneIK constraint untuk tangan Naya saat hand-holding.")]
+    public TwoBoneIKConstraint nayaHandIKConstraint;
     [Tooltip("IK target Transform untuk tangan Rinda (ditempatkan di mana Rinda harus reach).")]
     public Transform rindaHandIKTarget;
     [Tooltip("IK target Transform untuk tangan Naya (ditempatkan di mana Naya harus reach).")]
     public Transform nayaHandIKTarget;
     [Tooltip("Offset posisi tangan Rinda relatif terhadap pivot (untuk IK).")]
     public Vector3 rindaHandIKOffset = new Vector3(-0.3f, 0.5f, 0f);
+    [Tooltip("Offset rotasi tangan Rinda (Euler angles) relatif terhadap pivot.")]
+    public Vector3 rindaHandIKRotationOffset = Vector3.zero;
     [Tooltip("Offset posisi tangan Naya relatif terhadap pivot (untuk IK).")]
     public Vector3 nayaHandIKOffset = new Vector3(0.3f, 0.5f, 0f);
+    [Tooltip("Offset rotasi tangan Naya (Euler angles) relatif terhadap pivot.")]
+    public Vector3 nayaHandIKRotationOffset = Vector3.zero;
+    [Tooltip("Kecepatan blending weight IK saat hand-holding.")]
+    public float handHoldIKBlendSpeed = 8f;
+    [Tooltip("Weight IK saat baru reaching.")]
+    [Range(0f, 1f)]
+    public float handHoldReachIKWeight = 0.65f;
+    [Tooltip("Weight IK penuh saat holding.")]
+    [Range(0f, 1f)]
+    public float handHoldFullIKWeight = 1f;
 
     [Header("Detection Settings")]
     [Tooltip("Jarak deteksi minimal untuk menentukan apakah pemain sedang berdekatan.")]
@@ -84,6 +101,8 @@ public class _GP_HandHold_Mng : MonoBehaviour
 
     #region Private Variables
     private float pendingRindaJumpTime = -999f;
+    private float currentRindaHandIKWeight = 0f;
+    private float currentNayaHandIKWeight = 0f;
     [HideInInspector] public bool isHandHoldActive = false;
     #endregion
 
@@ -98,6 +117,8 @@ public class _GP_HandHold_Mng : MonoBehaviour
         {
             Debug.LogError("Referensi handHoldPivotTransform belum diatur di _GP_HandHold_Mng.");
         }
+
+        ValidateHandIKSetup();
     }
 
     void OnEnable()
@@ -129,6 +150,7 @@ public class _GP_HandHold_Mng : MonoBehaviour
         UpdatePendingJump();
         OnHandHold();
         OnPivotFollowTarget();
+        UpdateHandHoldIK();
     }
 
     #region Controller Methods
@@ -232,15 +254,14 @@ public class _GP_HandHold_Mng : MonoBehaviour
                 Debug.Log("One player released hand-hold, resetting both states to None.");
             }
         }
+
+        isHandHoldActive = currentNayaState == NayaState.Holding && currentRindaState == RindaState.Holding;
     }
 
     private void OnHandHold()
     {
         if (currentNayaState == NayaState.Holding && currentRindaState == RindaState.Holding)
         {
-            // Update IK targets to follow the pivot
-            UpdateIKTargets();
-
             // Mengatur posisi Rinda mengikuti handHoldPivotTransform saat hand-holding
             if (playerRinda != null && handHoldPivotTransform != null)
             {
@@ -278,9 +299,56 @@ public class _GP_HandHold_Mng : MonoBehaviour
         }
     }
 
+    private void UpdateHandHoldIK()
+    {
+        if (handHoldPivotTransform == null)
+            return;
+
+        bool hasActiveHandHoldState = currentRindaState != RindaState.None || currentNayaState != NayaState.None;
+
+        if (hasActiveHandHoldState)
+        {
+            UpdateIKTargets();
+        }
+
+        float rindaTargetWeight = GetTargetIKWeight(currentRindaState);
+        float nayaTargetWeight = GetTargetIKWeight(currentNayaState);
+
+        currentRindaHandIKWeight = Mathf.Lerp(currentRindaHandIKWeight, rindaTargetWeight, Time.deltaTime * handHoldIKBlendSpeed);
+        currentNayaHandIKWeight = Mathf.Lerp(currentNayaHandIKWeight, nayaTargetWeight, Time.deltaTime * handHoldIKBlendSpeed);
+
+        ApplyHandHoldIKWeights();
+    }
+
+    private float GetTargetIKWeight(RindaState state)
+    {
+        switch (state)
+        {
+            case RindaState.Holding:
+                return handHoldFullIKWeight;
+            case RindaState.Reaching:
+                return handHoldReachIKWeight;
+            default:
+                return 0f;
+        }
+    }
+
+    private float GetTargetIKWeight(NayaState state)
+    {
+        switch (state)
+        {
+            case NayaState.Holding:
+                return handHoldFullIKWeight;
+            case NayaState.Reaching:
+                return handHoldReachIKWeight;
+            default:
+                return 0f;
+        }
+    }
+
     private void UpdateIKTargets()
     {
-        // Update IK target positions relative to the pivot
+        // Update IK target positions and rotations relative to the pivot
         if (handHoldPivotTransform == null)
             return;
 
@@ -289,7 +357,11 @@ public class _GP_HandHold_Mng : MonoBehaviour
         {
             Vector3 rindaTargetPos = handHoldPivotTransform.position + handHoldPivotTransform.TransformDirection(rindaHandIKOffset);
             rindaHandIKTarget.position = rindaTargetPos;
-            rindaHandIKTarget.rotation = handHoldPivotTransform.rotation;
+            
+            // Apply rotation with offset
+            Quaternion baseRotation = handHoldPivotTransform.rotation;
+            Quaternion rotationOffset = Quaternion.Euler(rindaHandIKRotationOffset);
+            rindaHandIKTarget.rotation = baseRotation * rotationOffset;
         }
 
         // Update Naya's hand IK target
@@ -297,7 +369,47 @@ public class _GP_HandHold_Mng : MonoBehaviour
         {
             Vector3 nayaTargetPos = handHoldPivotTransform.position + handHoldPivotTransform.TransformDirection(nayaHandIKOffset);
             nayaHandIKTarget.position = nayaTargetPos;
-            nayaHandIKTarget.rotation = handHoldPivotTransform.rotation;
+            
+            // Apply rotation with offset
+            Quaternion baseRotation = handHoldPivotTransform.rotation;
+            Quaternion rotationOffset = Quaternion.Euler(nayaHandIKRotationOffset);
+            nayaHandIKTarget.rotation = baseRotation * rotationOffset;
+        }
+    }
+
+    private void ApplyHandHoldIKWeights()
+    {
+        if (rindaHandIKConstraint != null)
+        {
+            rindaHandIKConstraint.weight = currentRindaHandIKWeight;
+        }
+
+        if (nayaHandIKConstraint != null)
+        {
+            nayaHandIKConstraint.weight = currentNayaHandIKWeight;
+        }
+    }
+
+    private void ValidateHandIKSetup()
+    {
+        if (rindaHandIKConstraint == null)
+        {
+            Debug.LogWarning("Referensi rindaHandIKConstraint belum diatur di _GP_HandHold_Mng.");
+        }
+
+        if (nayaHandIKConstraint == null)
+        {
+            Debug.LogWarning("Referensi nayaHandIKConstraint belum diatur di _GP_HandHold_Mng.");
+        }
+
+        if (rindaHandIKTarget == null)
+        {
+            Debug.LogWarning("Referensi rindaHandIKTarget belum diatur di _GP_HandHold_Mng.");
+        }
+
+        if (nayaHandIKTarget == null)
+        {
+            Debug.LogWarning("Referensi nayaHandIKTarget belum diatur di _GP_HandHold_Mng.");
         }
     }
 
