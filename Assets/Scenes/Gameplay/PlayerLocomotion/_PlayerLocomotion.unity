@@ -11177,6 +11177,10 @@ PrefabInstance:
       value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: -8153468022190502949, guid: cfdd10d795a872a49b971740a0cac847, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8153468022190502949, guid: cfdd10d795a872a49b971740a0cac847, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
@@ -11207,6 +11211,10 @@ PrefabInstance:
     - target: {fileID: -6517731769342352289, guid: cfdd10d795a872a49b971740a0cac847, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: -6499529959314878404, guid: cfdd10d795a872a49b971740a0cac847, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -6282736276861845824, guid: cfdd10d795a872a49b971740a0cac847, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -11355,6 +11363,10 @@ PrefabInstance:
     - target: {fileID: -1857309847194865932, guid: cfdd10d795a872a49b971740a0cac847, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: -1807970279642858887, guid: cfdd10d795a872a49b971740a0cac847, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -1601130020527398279, guid: cfdd10d795a872a49b971740a0cac847, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -11524,6 +11536,10 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 4324528128663184657, guid: cfdd10d795a872a49b971740a0cac847, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4670430229172808545, guid: cfdd10d795a872a49b971740a0cac847, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
@@ -11563,6 +11579,10 @@ PrefabInstance:
     - target: {fileID: 6058521504530519341, guid: cfdd10d795a872a49b971740a0cac847, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 6507901977716847365, guid: cfdd10d795a872a49b971740a0cac847, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6507901977716847365, guid: cfdd10d795a872a49b971740a0cac847, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -11612,9 +11632,6 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5148817236446094103, guid: cfdd10d795a872a49b971740a0cac847, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1761641300}
     - targetCorrespondingSourceObject: {fileID: -1063203228461421988, guid: cfdd10d795a872a49b971740a0cac847, type: 3}
       insertIndex: -1
       addedObject: {fileID: 644256721}
@@ -14869,33 +14886,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4579454407841743219, guid: dede1e8051111be44b00f02a72e7db4f, type: 3}
---- !u!1 &1761641296 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5148817236446094103, guid: cfdd10d795a872a49b971740a0cac847, type: 3}
-  m_PrefabInstance: {fileID: 1274065208}
-  m_PrefabAsset: {fileID: 0}
---- !u!64 &1761641300
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1761641296}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4579454407841743219, guid: cfdd10d795a872a49b971740a0cac847, type: 3}
 --- !u!64 &1762018741
 MeshCollider:
   m_ObjectHideFlags: 0
