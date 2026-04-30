@@ -6,19 +6,21 @@ jobs:
   discord-notification:
     runs-on: ubuntu-latest
     steps:
-      - name: Format Commit Message
+      - name: Format Multiple Commits
         id: vars
-        env:
-          COMMIT_MSG: ${{ github.event.head_commit.message }}
+        shell: bash
         run: |
-          # 1. Get the first line as Title
-          TITLE=$(echo "$COMMIT_MSG" | head -n 1)
-          echo "commit_title=$TITLE" >> $GITHUB_OUTPUT
+          # 1. Get the full list of commits as JSON
+          COMMITS_JSON='${{ toJson(github.event.commits) }}'
           
-          # 2. Get the rest, trim leading empty lines
+          # 2. Use jq to loop through each commit and format the output
+          # This creates a block for each commit: **Title** followed by the body.
+          FORMATTED_COMMITS=$(echo "$COMMITS_JSON" | jq -r '.[] | "**Change Title:** " + (.message | split("\n")[0]) + "\n**Description:** " + (.message | split("\n")[1:] | join("\n") | sub("^\\s+"; "")) + "\n"')
+
+          # 3. Output the combined list safely
           {
-            echo "commit_body<<EOF"
-            echo "$COMMIT_MSG" | tail -n +2 | sed '/./,$!d'
+            echo "commit_details<<EOF"
+            echo "$FORMATTED_COMMITS"
             echo "EOF"
           } >> "$GITHUB_OUTPUT"
 
@@ -28,17 +30,14 @@ jobs:
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           status: ${{ job.status }}
-          content: "<@&1468586352797810821> A push has been made."
+          content: "<@&1468586352797810821> A push has been made with multiple updates."
           nodetail: true
           title: "Update for ${{ github.event.repository.name }}"
-          # Added blank lines between the sections for better readability
           description: |
-            **Change Title:** ${{ steps.vars.outputs.commit_title }}
-
-            **Description:** ${{ steps.vars.outputs.commit_body }}
+            ${{ steps.vars.outputs.commit_details }}
 
             **Author:** ${{ github.actor }}
 
             **Repo:** [${{ github.repository }}](https://github.com/${{ github.repository }}) | **Branch:** `${{ github.ref_name }}`
           color: 0x7289da
-          url: "https://github.com/${{ github.repository }}/commit/${{ github.sha }}"
+          url: "https://github.com/${{ github.repository }}/commits/${{ github.ref_name }}"
