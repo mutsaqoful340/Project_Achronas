@@ -32821,11 +32821,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3127102278718373537, guid: 58b5b122f36ab6d40af815a51f5a4421, type: 3}
       propertyPath: rotationChangesForStrafe
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3127102278718373537, guid: 58b5b122f36ab6d40af815a51f5a4421, type: 3}
       propertyPath: minRotationDeltaForDetection
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4822689601153962475, guid: 58b5b122f36ab6d40af815a51f5a4421, type: 3}
       propertyPath: m_Name
@@ -36973,12 +36973,20 @@ PrefabInstance:
       value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 3700615922603029752, guid: 35a7a809cdd312248b5cf07968c46809, type: 3}
+      propertyPath: isStumbling
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3700615922603029752, guid: 35a7a809cdd312248b5cf07968c46809, type: 3}
       propertyPath: cameraTransform
       value: 
       objectReference: {fileID: 1114321725}
     - target: {fileID: 3700615922603029752, guid: 35a7a809cdd312248b5cf07968c46809, type: 3}
       propertyPath: strafeGracePeriod
       value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3700615922603029752, guid: 35a7a809cdd312248b5cf07968c46809, type: 3}
+      propertyPath: rotationChangeWindow
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3700615922603029752, guid: 35a7a809cdd312248b5cf07968c46809, type: 3}
       propertyPath: strafeInputThreshold
@@ -36990,11 +36998,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3700615922603029752, guid: 35a7a809cdd312248b5cf07968c46809, type: 3}
       propertyPath: rotationChangesForStrafe
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3700615922603029752, guid: 35a7a809cdd312248b5cf07968c46809, type: 3}
       propertyPath: minRotationDeltaForDetection
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3857395592222572764, guid: 35a7a809cdd312248b5cf07968c46809, type: 3}
       propertyPath: m_Name
