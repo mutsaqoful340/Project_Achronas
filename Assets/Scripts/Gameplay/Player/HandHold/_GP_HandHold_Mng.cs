@@ -429,7 +429,7 @@ public class _GP_HandHold_Mng : MonoBehaviour
             return;
 
         // Trigger Rinda's jump directly - same as if the player pressed jump
-        playerComponentsRinda.TriggerJump();
+        playerComponentsRinda.HandleJump();
     }
     #endregion
 
