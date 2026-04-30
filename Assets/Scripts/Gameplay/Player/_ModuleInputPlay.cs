@@ -96,7 +96,7 @@ public class _ModuleInputPlay : ScriptableObject
         inputActions.Player.HandHold.performed += ctx => OnAction?.Invoke(ActionState.HandHold);
 
         // Back
-        inputActions.Player.Back.performed += ctx => OnAction?.Invoke(ActionState.Back);
+        inputActions.Player.Cancel.performed += ctx => OnAction?.Invoke(ActionState.Back);
 
         // Light
         inputActions.Player.Light.performed += ctx => OnAction?.Invoke(ActionState.LightToggle);
@@ -154,7 +154,7 @@ public class _ModuleInputPlay : ScriptableObject
             inputActions.Player.Throw.performed -= ctx => OnAction?.Invoke(ActionState.Throw);
             inputActions.Player.PauseMenu.performed -= ctx => OnAction?.Invoke(ActionState.PauseMenu);
             inputActions.Player.HandHold.performed -= ctx => OnAction?.Invoke(ActionState.HandHold);
-            inputActions.Player.Back.performed -= ctx => OnAction?.Invoke(ActionState.Back);
+            inputActions.Player.Cancel.performed -= ctx => OnAction?.Invoke(ActionState.Back);
             inputActions.Player.Light.performed -= ctx => OnAction?.Invoke(ActionState.LightToggle);
             inputActions.Player.Map.performed -= ctx => OnAction?.Invoke(ActionState.Map);
             inputActions.Player.Disable();
