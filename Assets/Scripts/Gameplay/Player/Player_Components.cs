@@ -84,15 +84,13 @@ public class Player_Components : GameplayBehaviour
     private ActionState currentActionState;
     private float currentMoveValue = 0f;
 
-    // Strafe Detection (Rotation-based)
-    private bool isStrafing = false;
+    // Strafe Detection (Hybrid: rotation speed + reversal counting)
+    private float lastYRotation = 0f;
+    private float rotationSpeedAccumulator = 0f;
+    private float rotationSpeedResetTimer = 0f;
+    private int reversalCount = 0;
+    private float lastRotationDelta = 0f;
     private bool strafeTriggered = false;
-    private float timeSinceLastRotationChange = 0f;
-    
-    // Rotation tracking for strafe detection
-    private float previousYRotation = 0f;
-    private int rotationDirectionChangeCount = 0;
-    private float rotationChangeTimer = 0f;
     #endregion
 
     #region Public Properties
@@ -127,14 +125,6 @@ public class Player_Components : GameplayBehaviour
     public bool HasDevice()
     {
         return assignedDevice != null;
-    }
-
-    /// <summary>
-    /// Trigger a jump directly (as if the player pressed the jump button)
-    /// </summary>
-    public void TriggerJump()
-    {
-        HandleJump();
     }
     
     /// <summary>
@@ -253,78 +243,54 @@ public class Player_Components : GameplayBehaviour
         return moveDir.normalized;
     }
 
-    // Detect strafe based on rapid back-and-forth Y-axis rotation
+    // Detect strafe based on rotation speed AND direction reversals (left-right-left pattern)
     private void DetectStrafe(Vector3 inputDir)
     {
         float currentYRotation = transform.eulerAngles.y;
+        float rotationDelta = Mathf.DeltaAngle(lastYRotation, currentYRotation);
+        float absDelta = Mathf.Abs(rotationDelta);
         
-        // Calculate rotation delta, accounting for 360 degree wraparound
-        float rotationDelta = Mathf.DeltaAngle(previousYRotation, currentYRotation);
+        // Accumulate rotation speed
+        rotationSpeedAccumulator += absDelta;
+        rotationSpeedResetTimer += Time.deltaTime;
         
-        // Update direction change timer
-        rotationChangeTimer += Time.deltaTime;
-        
-        // Detect rotation direction reversals (rotating left → right or right → left)
-        if (Mathf.Abs(rotationDelta) > minRotationDeltaForDetection)
+        // Count direction reversals (direction changes) — only meaningful rotations
+        if (absDelta > minRotationDeltaForDetection)
         {
-            if (Mathf.Sign(rotationDelta) != Mathf.Sign(timeSinceLastRotationChange) && timeSinceLastRotationChange != 0f)
+            if (Mathf.Sign(rotationDelta) != Mathf.Sign(lastRotationDelta) && lastRotationDelta != 0f)
             {
-                rotationDirectionChangeCount++;
-                Debug.Log($"Rotation direction change detected! Count: {rotationDirectionChangeCount}");
+                reversalCount++;
+                Debug.Log($"Rotation reversal detected! Count: {reversalCount}");
             }
-            timeSinceLastRotationChange = rotationDelta;
+            lastRotationDelta = rotationDelta;
         }
         
-        // Reset direction change count if time window expires
-        if (rotationChangeTimer > rotationChangeWindow)
+        // Reset if time window expires
+        if (rotationSpeedResetTimer > rotationChangeWindow)
         {
-            rotationDirectionChangeCount = 0;
-            rotationChangeTimer = 0f;
-            // Debug.Log("Rotation change window reset.");
-        }
-        
-        // Strafing detected if enough direction changes occur
-        bool isStrafingMovement = rotationDirectionChangeCount >= rotationChangesForStrafe;
-        
-        if (isStrafingMovement)
-        {
-            isStrafing = true;
+            float avgRotationSpeed = rotationSpeedAccumulator / rotationSpeedResetTimer;
             
-            // Trigger stumble immediately when direction change threshold is met
-            if (!strafeTriggered)
+            // Trigger ONLY if both conditions met: high speed AND reversals
+            if (avgRotationSpeed > minRotationDeltaForDetection && 
+                reversalCount >= rotationChangesForStrafe && 
+                !strafeTriggered)
             {
                 strafeTriggered = true;
                 isStumbling = true;
-                Debug.Log($"Strafe triggered! Direction changes: {rotationDirectionChangeCount}");
-                OnStrafeTrigger();
+                HandleStumble();
+                Debug.Log($"Aggressive strafing detected! Speed: {avgRotationSpeed:F1}°/sec, Reversals: {reversalCount}");
             }
-        }
-        else
-        {
-            // Only exit strafe state if grace period is exceeded
-            timeSinceLastRotationChange += Time.deltaTime;
-            if (timeSinceLastRotationChange > strafeGracePeriod)
-            {
-                isStrafing = false;
-                strafeTriggered = false;
-                // Debug.Log("Non-strafe rotation detected. Strafe reset.");
-            }
+            
+            rotationSpeedAccumulator = 0f;
+            rotationSpeedResetTimer = 0f;
+            reversalCount = 0;
+            strafeTriggered = false;
         }
         
-        previousYRotation = currentYRotation;
+        lastYRotation = currentYRotation;
     }
 
-    // Called when strafe duration threshold is exceeded — override with your logic
-    private void OnStrafeTrigger()
-    {
-        if (isStumbling)
-        {
-            HandleStumble();
-        }
-        Debug.Log("Strafe threshold triggered!");
-    }
-
-    // Determines the target speed based on player state and input, and updates the Move parameter for animations
+// Determines the target speed based on player state and input, and updates the Move parameter for animations
     private float CalculateTargetSpeed()
     {
         bool isSprinting = moduleInputPlay != null && currentActionState == ActionState.Sprint;
@@ -415,10 +381,25 @@ public class Player_Components : GameplayBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, rotationSpeed * Time.deltaTime);
         }
     }
+
+    private bool OnSteepSlope(out Vector3 slopeDir)
+    {
+        slopeDir = Vector3.zero;
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, slopeRayLength))
+        {
+            float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
+            if (slopeAngle > controller.slopeLimit)
+            {
+                slopeDir = Vector3.ProjectOnPlane(Vector3.down, hit.normal).normalized;
+                return true;
+            }
+        }
+        return false;
+    }
     #endregion
 
     #region Action Handlers
-    private void HandleMove()
+    public void HandleMove()
     {
         Vector3 moveDir = GetMovementInput();
         float targetSpeed = CalculateTargetSpeed();
@@ -438,7 +419,7 @@ public class Player_Components : GameplayBehaviour
         }
     }
 
-    private void HandleJump()
+    public void HandleJump()
     {
         if (isGrounded && !isCrouching)
         {
@@ -456,7 +437,7 @@ public class Player_Components : GameplayBehaviour
         }
     }
 
-    private void HandleCrouch()
+    public void HandleCrouch()
     {
         if (isGrounded)
         {
@@ -479,21 +460,14 @@ public class Player_Components : GameplayBehaviour
         }
     }
 
-    private void HandleIdle()
+    public void HandleIdle()
     {
-        if (isGrounded && velocity.x == 0 && velocity.z == 0)
-        {
-            IsIdle = true;
-        }
-        else
-        {
-            IsIdle = false;
-        }
+
     }
 
-    private void HandleThrow()
+    public void HandleThrow()
     {
-        _GP_ThrowItem throwModule = GetComponent<_GP_ThrowItem>();
+        var throwModule = GetComponent<_GP_ThrowItem>();
         if (throwModule != null)
         {
             if (throwModule._itemToThrow != null)
@@ -511,9 +485,9 @@ public class Player_Components : GameplayBehaviour
         }
     }
 
-    private void HandleInteract()
+    public void HandleInteract()
     {
-        _GP_ThrowItem throwModule = GetComponent<_GP_ThrowItem>();
+        var throwModule = GetComponent<_GP_ThrowItem>();
         if (throwModule != null)
         {
             throwModule.OnPickUpItem();
@@ -521,25 +495,10 @@ public class Player_Components : GameplayBehaviour
         }
     }
 
-    private bool OnSteepSlope(out Vector3 slopeDir)
-    {
-        slopeDir = Vector3.zero;
-        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, slopeRayLength))
-        {
-            float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
-            if (slopeAngle > controller.slopeLimit)
-            {
-                slopeDir = Vector3.ProjectOnPlane(Vector3.down, hit.normal).normalized;
-                return true;
-            }
-        }
-        return false;
-    }
-
     private void HandleStumble()
     {
         currentActionState = ActionState.Stumble;
-        CharacterController cc = GetComponent<CharacterController>();
+        var cc = GetComponent<CharacterController>();
         if (cc != null)
         {
             cc.enabled = false;
@@ -551,7 +510,7 @@ public class Player_Components : GameplayBehaviour
     public void HandleRecoverFromStumble()
     {
         isStumbling = false;
-        CharacterController cc = GetComponent<CharacterController>();
+        var cc = GetComponent<CharacterController>();
         if (cc != null)
         {
             cc.enabled = true;
@@ -567,7 +526,6 @@ public class Player_Components : GameplayBehaviour
         {
             case ActionState.Idle:
                 currentActionState = ActionState.Idle;
-                HandleIdle();
                 break;
             case ActionState.Sprint:
                 // If crouching, stand up first
