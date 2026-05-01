@@ -18,7 +18,9 @@ public enum ActionState
     Back,
     Stumble,
     LightToggle,
-    Map
+    Map,
+    BalaneceRight,
+    BalanceLeft
 }
 
 [CreateAssetMenu(fileName = "ModuleInputPlay", menuName = "AddOn Module/Input Play", order = 1)]
@@ -104,6 +106,10 @@ public class _ModuleInputPlay : ScriptableObject
         // Map
         inputActions.Player.Map.performed += ctx => OnAction?.Invoke(ActionState.Map);
 
+        // Balance
+        inputActions.Player.BalanceRight.performed += ctx => OnAction?.Invoke(ActionState.BalaneceRight);
+        inputActions.Player.BalanceLeft.performed += ctx => OnAction?.Invoke(ActionState.BalanceLeft);
+
     }
 
     /// <summary>
@@ -157,6 +163,8 @@ public class _ModuleInputPlay : ScriptableObject
             inputActions.Player.Cancel.performed -= ctx => OnAction?.Invoke(ActionState.Back);
             inputActions.Player.Light.performed -= ctx => OnAction?.Invoke(ActionState.LightToggle);
             inputActions.Player.Map.performed -= ctx => OnAction?.Invoke(ActionState.Map);
+            inputActions.Player.BalanceRight.performed -= ctx => OnAction?.Invoke(ActionState.BalaneceRight);
+            inputActions.Player.BalanceLeft.performed -= ctx => OnAction?.Invoke(ActionState.BalanceLeft);
             inputActions.Player.Disable();
             inputActions.Dispose();
             inputActions = null;

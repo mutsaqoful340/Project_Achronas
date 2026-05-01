@@ -217,6 +217,24 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""BalanceRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""b6132649-3854-4328-a724-b5b6aa2398a9"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""BalanceLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""29a2836e-ac3d-41b5-acfc-4a6e619e98a9"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -578,7 +596,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<XInputController>/dpad/left"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""Light"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -589,7 +607,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/dpad/left"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""Light"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -600,7 +618,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/dpad/up"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""Map"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -611,8 +629,52 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<XInputController>/dpad/up"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""Map"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9730d2f5-fd40-4043-849f-f5c32d00501c"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""BalanceRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4a6da53e-0042-47ce-b6a3-67ca174879c4"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""BalanceRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""309938a9-63d3-41c3-8405-bbc39fc5fb21"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""BalanceLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5255ed32-e538-430d-96f9-31c5061254d7"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""BalanceLeft"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1294,6 +1356,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Player_HandHold = m_Player.FindAction("HandHold", throwIfNotFound: true);
         m_Player_Light = m_Player.FindAction("Light", throwIfNotFound: true);
         m_Player_Map = m_Player.FindAction("Map", throwIfNotFound: true);
+        m_Player_BalanceRight = m_Player.FindAction("BalanceRight", throwIfNotFound: true);
+        m_Player_BalanceLeft = m_Player.FindAction("BalanceLeft", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1405,6 +1469,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_HandHold;
     private readonly InputAction m_Player_Light;
     private readonly InputAction m_Player_Map;
+    private readonly InputAction m_Player_BalanceRight;
+    private readonly InputAction m_Player_BalanceLeft;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1473,6 +1539,14 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Map => m_Wrapper.m_Player_Map;
         /// <summary>
+        /// Provides access to the underlying input action "Player/BalanceRight".
+        /// </summary>
+        public InputAction @BalanceRight => m_Wrapper.m_Player_BalanceRight;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/BalanceLeft".
+        /// </summary>
+        public InputAction @BalanceLeft => m_Wrapper.m_Player_BalanceLeft;
+        /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -1540,6 +1614,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Map.started += instance.OnMap;
             @Map.performed += instance.OnMap;
             @Map.canceled += instance.OnMap;
+            @BalanceRight.started += instance.OnBalanceRight;
+            @BalanceRight.performed += instance.OnBalanceRight;
+            @BalanceRight.canceled += instance.OnBalanceRight;
+            @BalanceLeft.started += instance.OnBalanceLeft;
+            @BalanceLeft.performed += instance.OnBalanceLeft;
+            @BalanceLeft.canceled += instance.OnBalanceLeft;
         }
 
         /// <summary>
@@ -1593,6 +1673,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Map.started -= instance.OnMap;
             @Map.performed -= instance.OnMap;
             @Map.canceled -= instance.OnMap;
+            @BalanceRight.started -= instance.OnBalanceRight;
+            @BalanceRight.performed -= instance.OnBalanceRight;
+            @BalanceRight.canceled -= instance.OnBalanceRight;
+            @BalanceLeft.started -= instance.OnBalanceLeft;
+            @BalanceLeft.performed -= instance.OnBalanceLeft;
+            @BalanceLeft.canceled -= instance.OnBalanceLeft;
         }
 
         /// <summary>
@@ -2035,6 +2121,20 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMap(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "BalanceRight" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnBalanceRight(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "BalanceLeft" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnBalanceLeft(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.
