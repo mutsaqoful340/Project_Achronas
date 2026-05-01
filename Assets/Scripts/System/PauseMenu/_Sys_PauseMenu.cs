@@ -1,13 +1,13 @@
 using UnityEngine;
 using Unity.Cinemachine;
 
-public class _Sys_PauseMenu : MonoBehaviour
+public class _Sys_PauseMenu : GameplayBehaviour
 {
     private bool isPaused = false;
 
     [Header("Player References")]
-    public Player_Components player1Reference;
-    public Player_Components player2Reference;
+    public Player_Components player1Ref;
+    public Player_Components player2Ref;
 
     [Header("Pause Menu References")]
     public Transform player2PauseMenuPosition; // The position where player 2's character will be moved to when the pause menu is active
@@ -25,31 +25,31 @@ public class _Sys_PauseMenu : MonoBehaviour
     private CinemachineVirtualCameraBase previousCamera; // Store the camera that was active before pause
 
     private bool isPlayer2ParentedToPauseMenu = false;
-    private CharacterController player2CharacterController;
+    private CharacterController player2CC;
     private Rigidbody player2Rigidbody;
     private bool player2RigidbodyWasKinematic;
 
-    private void OnEnable()
+    protected override void OnGameplayEnabled()
     {
         // Subscribe to both players' input events
-        if (player1Reference != null && player1Reference.moduleInputPlay != null)
-            player1Reference.moduleInputPlay.OnAction += OnPlayerAction;
+        if (player1Ref != null && player1Ref.moduleInputPlay != null)
+            player1Ref.moduleInputPlay.OnAction += OnPlayerAction;
         
-        if (player2Reference != null && player2Reference.moduleInputPlay != null)
-            player2Reference.moduleInputPlay.OnAction += OnPlayerAction;
+        if (player2Ref != null && player2Ref.moduleInputPlay != null)
+            player2Ref.moduleInputPlay.OnAction += OnPlayerAction;
     }
 
-    private void OnDisable()
+    protected override void OnGameplayDisabled()
     {
         // Unsubscribe from both players' input events
-        if (player1Reference != null && player1Reference.moduleInputPlay != null)
-            player1Reference.moduleInputPlay.OnAction -= OnPlayerAction;
+        if (player1Ref != null && player1Ref.moduleInputPlay != null)
+            player1Ref.moduleInputPlay.OnAction -= OnPlayerAction;
         
-        if (player2Reference != null && player2Reference.moduleInputPlay != null)
-            player2Reference.moduleInputPlay.OnAction -= OnPlayerAction;
+        if (player2Ref != null && player2Ref.moduleInputPlay != null)
+            player2Ref.moduleInputPlay.OnAction -= OnPlayerAction;
     }
 
-    void Start()
+    protected override void Start()
     {
         if (pauseMenuUI != null)
         {
@@ -145,19 +145,19 @@ public class _Sys_PauseMenu : MonoBehaviour
 
     private void OnPlayerPosPauseMenu()
     {
-        if (player2Reference != null && player2PauseMenuPosition != null)
+        if (player2Ref != null && player2PauseMenuPosition != null)
         {
             if (isPaused)
             {
                 if (!isPlayer2ParentedToPauseMenu)
                 {
-                    player2Reference.transform.SetParent(player2PauseMenuPosition);
+                    player2Ref.transform.SetParent(player2PauseMenuPosition);
                     
                     // Disable physics components
-                    player2CharacterController = player2Reference.GetComponent<CharacterController>();
-                    if (player2CharacterController != null) player2CharacterController.enabled = false;
+                    player2CC = player2Ref.GetComponent<CharacterController>();
+                    if (player2CC != null) player2CC.enabled = false;
                     
-                    player2Rigidbody = player2Reference.GetComponent<Rigidbody>();
+                    player2Rigidbody = player2Ref.GetComponent<Rigidbody>();
                     if (player2Rigidbody != null)
                     {
                         player2RigidbodyWasKinematic = player2Rigidbody.isKinematic;
@@ -168,20 +168,20 @@ public class _Sys_PauseMenu : MonoBehaviour
                     isPlayer2ParentedToPauseMenu = true;
                 }
 
-                player2Reference.transform.localPosition = Vector3.zero;
-                player2Reference.transform.localRotation = Quaternion.identity;
+                player2Ref.transform.localPosition = Vector3.zero;
+                player2Ref.transform.localRotation = Quaternion.identity;
             }
         }
     }
 
     private void OnPlayerPosPauseMenuExit()
     {
-        if (player2Reference != null)
+        if (player2Ref != null)
         {
-            player2Reference.transform.SetParent(null);
+            player2Ref.transform.SetParent(null);
             
             // Re-enable physics components
-            if (player2CharacterController != null) player2CharacterController.enabled = true;
+            if (player2CC != null) player2CC.enabled = true;
             if (player2Rigidbody != null) player2Rigidbody.isKinematic = player2RigidbodyWasKinematic;
             
             isPlayer2ParentedToPauseMenu = false;
