@@ -96,8 +96,7 @@ public class Player_Components : GameplayBehaviour
     #region Public Properties
     public Vector3 Velocity => velocity;
     #endregion
-
-
+    
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
@@ -105,6 +104,12 @@ public class Player_Components : GameplayBehaviour
         if (moduleInputPlay != null)
         {
             moduleInputPlay.OnAction += Action;
+        }
+
+        // Cache camera transform if not assigned
+        if (cameraTransform == null && Camera.main != null)
+        {
+            cameraTransform = Camera.main.transform;
         }
 
         isStumbling = false;
@@ -204,10 +209,7 @@ public class Player_Components : GameplayBehaviour
         Vector3 spherePosition = transform.position + (Vector3.down * controller.height / 2f) + (Vector3.up * controller.center.y);
         
         // Perform sphere check at the feet
-        bool grounded = Physics.CheckSphere(spherePosition, groundCheckRadius, groundLayers, QueryTriggerInteraction.Ignore);
-        
-        // Optional: Also check with controller.isGrounded as a fallback
-        return grounded || controller.isGrounded;
+        return Physics.CheckSphere(spherePosition, groundCheckRadius, groundLayers, QueryTriggerInteraction.Ignore);
     }
 
     // Get movement input from InputActions, resolve camera-relative direction, and return normalized movement vector
@@ -219,19 +221,12 @@ public class Player_Components : GameplayBehaviour
         
         // Detect strafe behavior based on rotation changes
         DetectStrafe(inputDir);
-        
-        // Resolve camera transform
-        Transform cam = cameraTransform != null ? cameraTransform : Camera.main != null ? Camera.main.transform : null;
-        if (cameraTransform == null && cam != null)
-        {
-            cameraTransform = cam;
-        }
 
         // Calculate movement direction relative to camera
         Vector3 moveDir;
-        if (cam != null)
+        if (cameraTransform != null)
         {
-            moveDir = cam.forward * inputDir.z + cam.right * inputDir.x;
+            moveDir = cameraTransform.forward * inputDir.z + cameraTransform.right * inputDir.x;
         }
         else
         {
@@ -241,53 +236,6 @@ public class Player_Components : GameplayBehaviour
 
         moveDir.y = 0f;
         return moveDir.normalized;
-    }
-
-    // Detect strafe based on rotation speed AND direction reversals (left-right-left pattern)
-    private void DetectStrafe(Vector3 inputDir)
-    {
-        float currentYRotation = transform.eulerAngles.y;
-        float rotationDelta = Mathf.DeltaAngle(lastYRotation, currentYRotation);
-        float absDelta = Mathf.Abs(rotationDelta);
-        
-        // Accumulate rotation speed
-        rotationSpeedAccumulator += absDelta;
-        rotationSpeedResetTimer += Time.deltaTime;
-        
-        // Count direction reversals (direction changes) — only meaningful rotations
-        if (absDelta > minRotationDeltaForDetection)
-        {
-            if (Mathf.Sign(rotationDelta) != Mathf.Sign(lastRotationDelta) && lastRotationDelta != 0f)
-            {
-                reversalCount++;
-                Debug.Log($"Rotation reversal detected! Count: {reversalCount}");
-            }
-            lastRotationDelta = rotationDelta;
-        }
-        
-        // Reset if time window expires
-        if (rotationSpeedResetTimer > rotationChangeWindow)
-        {
-            float avgRotationSpeed = rotationSpeedAccumulator / rotationSpeedResetTimer;
-            
-            // Trigger ONLY if both conditions met: high speed AND reversals
-            if (avgRotationSpeed > minRotationDeltaForDetection && 
-                reversalCount >= rotationChangesForStrafe && 
-                !strafeTriggered)
-            {
-                strafeTriggered = true;
-                isStumbling = true;
-                HandleStumble();
-                Debug.Log($"Aggressive strafing detected! Speed: {avgRotationSpeed:F1}°/sec, Reversals: {reversalCount}");
-            }
-            
-            rotationSpeedAccumulator = 0f;
-            rotationSpeedResetTimer = 0f;
-            reversalCount = 0;
-            strafeTriggered = false;
-        }
-        
-        lastYRotation = currentYRotation;
     }
 
 // Determines the target speed based on player state and input, and updates the Move parameter for animations
@@ -395,6 +343,53 @@ public class Player_Components : GameplayBehaviour
             }
         }
         return false;
+    }
+
+    // Detect strafe based on rotation speed AND direction reversals (left-right-left pattern)
+    private void DetectStrafe(Vector3 inputDir)
+    {
+        float currentYRotation = transform.eulerAngles.y;
+        float rotationDelta = Mathf.DeltaAngle(lastYRotation, currentYRotation);
+        float absDelta = Mathf.Abs(rotationDelta);
+        
+        // Accumulate rotation speed
+        rotationSpeedAccumulator += absDelta;
+        rotationSpeedResetTimer += Time.deltaTime;
+        
+        // Count direction reversals (direction changes) — only meaningful rotations
+        if (absDelta > minRotationDeltaForDetection)
+        {
+            if (Mathf.Sign(rotationDelta) != Mathf.Sign(lastRotationDelta) && lastRotationDelta != 0f)
+            {
+                reversalCount++;
+                Debug.Log($"Rotation reversal detected! Count: {reversalCount}");
+            }
+            lastRotationDelta = rotationDelta;
+        }
+        
+        // Reset if time window expires
+        if (rotationSpeedResetTimer > rotationChangeWindow)
+        {
+            float avgRotationSpeed = rotationSpeedAccumulator / rotationSpeedResetTimer;
+            
+            // Trigger ONLY if both conditions met: high speed AND reversals
+            if (avgRotationSpeed > minRotationDeltaForDetection && 
+                reversalCount >= rotationChangesForStrafe && 
+                !strafeTriggered)
+            {
+                strafeTriggered = true;
+                isStumbling = true;
+                HandleStumble();
+                Debug.Log($"Aggressive strafing detected! Speed: {avgRotationSpeed:F1}°/sec, Reversals: {reversalCount}");
+            }
+            
+            rotationSpeedAccumulator = 0f;
+            rotationSpeedResetTimer = 0f;
+            reversalCount = 0;
+            strafeTriggered = false;
+        }
+        
+        lastYRotation = currentYRotation;
     }
     #endregion
 
