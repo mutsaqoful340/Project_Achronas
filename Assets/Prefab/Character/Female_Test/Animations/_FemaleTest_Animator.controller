@@ -593,7 +593,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 0}
     m_Threshold: 0
-    m_Position: {x: 1, y: 0}
+    m_Position: {x: 0, y: 1}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: Move
@@ -601,10 +601,10 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 0}
     m_Threshold: 1
-    m_Position: {x: 0, y: 1}
+    m_Position: {x: 1, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
-    m_DirectBlendParameter: Move
+    m_DirectBlendParameter: OnAction
     m_Mirror: 0
   - serializedVersion: 2
     m_Motion: {fileID: 0}
@@ -628,7 +628,7 @@ BlendTree:
   m_MaxThreshold: 3
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
-  m_BlendType: 1
+  m_BlendType: 3
 --- !u!1107 &1086988081867673363
 AnimatorStateMachine:
   serializedVersion: 7

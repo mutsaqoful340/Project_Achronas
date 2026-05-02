@@ -455,11 +455,6 @@ public class Player_Components : GameplayBehaviour
         }
     }
 
-    public void HandleIdle()
-    {
-
-    }
-
     public void HandleThrow()
     {
         var throwModule = GetComponent<_GP_ThrowItem>();
@@ -519,9 +514,6 @@ public class Player_Components : GameplayBehaviour
     {
         switch (state)
         {
-            case ActionState.Idle:
-                currentActionState = ActionState.Idle;
-                break;
             case ActionState.Sprint:
                 // If crouching, stand up first
                 if (isCrouching)
@@ -563,17 +555,6 @@ public class Player_Components : GameplayBehaviour
                 currentActionState = ActionState.Action2;
                 animator.SetTrigger("IsAction2");
                 Debug.Log("Action2 Triggered");
-                break;
-            case ActionState.HandHold:
-                currentActionState = ActionState.HandHold;
-                // Hand hold logic will be handled in Player_HandHoldController
-                Debug.Log("Hand Hold Action Triggered");
-                break;
-            case ActionState.Back:
-                currentActionState = ActionState.Back;
-                break;
-            case ActionState.Stumble:
-                currentActionState = ActionState.Stumble;
                 break;
         }
     }

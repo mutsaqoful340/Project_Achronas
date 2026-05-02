@@ -18,5 +18,8 @@ public class GP_PlayerCarrySystem : MonoBehaviour
         }
     }
 
-    // public void Balance
+    public void Balance()
+    {
+        
+    }
 }
