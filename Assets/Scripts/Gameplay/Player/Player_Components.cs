@@ -419,7 +419,7 @@ public class Player_Components : GameplayBehaviour
         if (isGrounded && !isCrouching)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-            animator.SetTrigger("IsJump");
+            animator.SetTrigger("DoJump");
             Debug.Log("Jump executed.");
         }
         else if (isCrouching)
@@ -462,7 +462,7 @@ public class Player_Components : GameplayBehaviour
         {
             if (throwModule._itemToThrow != null)
             {
-                animator.SetTrigger("IsThrow");
+                animator.SetTrigger("DoThrow");
             }
             else
             {
@@ -493,7 +493,7 @@ public class Player_Components : GameplayBehaviour
         {
             cc.enabled = false;
         }
-        animator.SetTrigger("IsStumble");
+        animator.SetTrigger("DoStumble");
         Debug.Log("Stumble action executed.");
     }
 
@@ -548,12 +548,12 @@ public class Player_Components : GameplayBehaviour
                 break;
             case ActionState.Action1:
                 currentActionState = ActionState.Action1;
-                animator.SetTrigger("IsAction1");
+                animator.SetTrigger("DoAction1");
                 Debug.Log("Action1 Triggered");
                 break;
             case ActionState.Action2:
                 currentActionState = ActionState.Action2;
-                animator.SetTrigger("IsAction2");
+                animator.SetTrigger("DoAction2");
                 Debug.Log("Action2 Triggered");
                 break;
         }
