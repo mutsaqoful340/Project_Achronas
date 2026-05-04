@@ -440,11 +440,13 @@ public class Player_Components : GameplayBehaviour
 
             if (isCrouching)
             {
+                animator.SetTrigger("DoCrouch");
                 controller.height = crouchHeight;
                 controller.center = new Vector3(0, crouchHeight / 2f, 0);
             }
             else
             {
+                animator.SetTrigger("DoCrouch");
                 controller.height = standingHeight;
                 controller.center = new Vector3(0, standingHeight / 2f, 0);
             }
