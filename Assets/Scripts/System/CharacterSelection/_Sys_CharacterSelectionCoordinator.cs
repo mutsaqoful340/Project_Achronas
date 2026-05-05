@@ -36,6 +36,9 @@ public class _Sys_CharacterSelectionCoordinator : MonoBehaviour
         {
             assignmentManager.AssignCharacters();
             assignmentManager.CheckAssignments();
+            
+            // Step 1b: Initialize dynamic reassignment monitoring
+            assignmentManager.Initialize();
         }
         else
         {

@@ -37,13 +37,19 @@ public class _ModuleInputPlay : ScriptableObject
     /// </summary>
     public void Initialize(InputDevice device)
     {
+        // Clean up old InputActions if they exist
+        if (inputActions != null)
+        {
+            UnsubscribeFromActions();
+            inputActions.Player.Disable();
+            inputActions.Dispose();
+            inputActions = null;
+        }
+
         assignedDevice = device;
         
-        // Create InputActions if not already created
-        if (inputActions == null)
-        {
-            inputActions = new InputActions();
-        }
+        // Create fresh InputActions
+        inputActions = new InputActions();
         
         // Disable all devices first
         InputSystem.DisableDevice(Keyboard.current);
@@ -112,6 +118,29 @@ public class _ModuleInputPlay : ScriptableObject
 
     }
 
+    private void UnsubscribeFromActions()
+    {
+        if (inputActions == null)
+            return;
+
+        // Unsubscribe from all actions
+        inputActions.Player.Sprint.started -= ctx => OnAction?.Invoke(ActionState.Sprint);
+        inputActions.Player.Sprint.canceled -= ctx => OnAction?.Invoke(ActionState.Idle);
+        inputActions.Player.Crouch.performed -= ctx => OnAction?.Invoke(ActionState.Crouch);
+        inputActions.Player.Jump.performed -= ctx => OnAction?.Invoke(ActionState.Jump);
+        inputActions.Player.Action1.performed -= ctx => OnAction?.Invoke(ActionState.Action1);
+        inputActions.Player.Action2.performed -= ctx => OnAction?.Invoke(ActionState.Action2);
+        inputActions.Player.Interact.performed -= ctx => OnAction?.Invoke(ActionState.Interact);
+        inputActions.Player.PauseMenu.performed -= ctx => OnAction?.Invoke(ActionState.PauseMenu);
+        inputActions.Player.Throw.performed -= ctx => OnAction?.Invoke(ActionState.Throw);
+        inputActions.Player.HandHold.performed -= ctx => OnAction?.Invoke(ActionState.HandHold);
+        inputActions.Player.Cancel.performed -= ctx => OnAction?.Invoke(ActionState.Back);
+        inputActions.Player.Light.performed -= ctx => OnAction?.Invoke(ActionState.LightToggle);
+        inputActions.Player.Map.performed -= ctx => OnAction?.Invoke(ActionState.Map);
+        inputActions.Player.BalanceRight.performed -= ctx => OnAction?.Invoke(ActionState.BalaneceRight);
+        inputActions.Player.BalanceLeft.performed -= ctx => OnAction?.Invoke(ActionState.BalanceLeft);
+    }
+
     /// <summary>
     /// Get movement input from InputActions (filtered by assigned device)
     /// </summary>
@@ -150,21 +179,7 @@ public class _ModuleInputPlay : ScriptableObject
         // Unsubscribe from events
         if (inputActions != null)
         {
-            inputActions.Player.Sprint.started -= ctx => OnAction?.Invoke(ActionState.Sprint);
-            inputActions.Player.Sprint.canceled -= ctx => OnAction?.Invoke(ActionState.Idle);
-            inputActions.Player.Crouch.performed -= ctx => OnAction?.Invoke(ActionState.Crouch);
-            inputActions.Player.Jump.performed -= ctx => OnAction?.Invoke(ActionState.Jump);
-            inputActions.Player.Action1.performed -= ctx => OnAction?.Invoke(ActionState.Action1);
-            inputActions.Player.Action2.performed -= ctx => OnAction?.Invoke(ActionState.Action2);
-            inputActions.Player.Interact.performed -= ctx => OnAction?.Invoke(ActionState.Interact);
-            inputActions.Player.Throw.performed -= ctx => OnAction?.Invoke(ActionState.Throw);
-            inputActions.Player.PauseMenu.performed -= ctx => OnAction?.Invoke(ActionState.PauseMenu);
-            inputActions.Player.HandHold.performed -= ctx => OnAction?.Invoke(ActionState.HandHold);
-            inputActions.Player.Cancel.performed -= ctx => OnAction?.Invoke(ActionState.Back);
-            inputActions.Player.Light.performed -= ctx => OnAction?.Invoke(ActionState.LightToggle);
-            inputActions.Player.Map.performed -= ctx => OnAction?.Invoke(ActionState.Map);
-            inputActions.Player.BalanceRight.performed -= ctx => OnAction?.Invoke(ActionState.BalaneceRight);
-            inputActions.Player.BalanceLeft.performed -= ctx => OnAction?.Invoke(ActionState.BalanceLeft);
+            UnsubscribeFromActions();
             inputActions.Player.Disable();
             inputActions.Dispose();
             inputActions = null;

@@ -121,6 +121,13 @@ public class Player_Components : GameplayBehaviour
     public void AssignDevice(InputDevice device)
     {
         assignedDevice = device;
+        
+        // Reinitialize the input module with the new device
+        if (moduleInputPlay != null && device != null)
+        {
+            moduleInputPlay.Initialize(device);
+        }
+        
         Debug.Log($"<color=cyan>✓ {gameObject.name}: Device assigned - {device?.name} (ID: {device?.deviceId})</color>");
     }
 
@@ -440,7 +447,7 @@ public class Player_Components : GameplayBehaviour
 
             if (isCrouching)
             {
-                animator.SetTrigger("DoCrouch");
+                animator.SetTrigger("DoUncrouch");
                 controller.height = crouchHeight;
                 controller.center = new Vector3(0, crouchHeight / 2f, 0);
             }
