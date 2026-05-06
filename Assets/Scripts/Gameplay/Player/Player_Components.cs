@@ -75,6 +75,7 @@ public class Player_Components : GameplayBehaviour
     public bool IsCrouch;
     public bool IsAction1;
     public bool IsAction2;
+    public bool IsDepressed;
 
     #region Private Variables
     private CharacterController controller;
@@ -121,13 +122,6 @@ public class Player_Components : GameplayBehaviour
     public void AssignDevice(InputDevice device)
     {
         assignedDevice = device;
-        
-        // Reinitialize the input module with the new device
-        if (moduleInputPlay != null && device != null)
-        {
-            moduleInputPlay.Initialize(device);
-        }
-        
         Debug.Log($"<color=cyan>✓ {gameObject.name}: Device assigned - {device?.name} (ID: {device?.deviceId})</color>");
     }
 
@@ -245,6 +239,53 @@ public class Player_Components : GameplayBehaviour
         return moveDir.normalized;
     }
 
+    // Detect strafe based on rotation speed AND direction reversals (left-right-left pattern)
+    private void DetectStrafe(Vector3 inputDir)
+    {
+        float currentYRotation = transform.eulerAngles.y;
+        float rotationDelta = Mathf.DeltaAngle(lastYRotation, currentYRotation);
+        float absDelta = Mathf.Abs(rotationDelta);
+        
+        // Accumulate rotation speed
+        rotationSpeedAccumulator += absDelta;
+        rotationSpeedResetTimer += Time.deltaTime;
+        
+        // Count direction reversals (direction changes) — only meaningful rotations
+        if (absDelta > minRotationDeltaForDetection)
+        {
+            if (Mathf.Sign(rotationDelta) != Mathf.Sign(lastRotationDelta) && lastRotationDelta != 0f)
+            {
+                reversalCount++;
+                Debug.Log($"Rotation reversal detected! Count: {reversalCount}");
+            }
+            lastRotationDelta = rotationDelta;
+        }
+        
+        // Reset if time window expires
+        if (rotationSpeedResetTimer > rotationChangeWindow)
+        {
+            float avgRotationSpeed = rotationSpeedAccumulator / rotationSpeedResetTimer;
+            
+            // Trigger ONLY if both conditions met: high speed AND reversals
+            if (avgRotationSpeed > minRotationDeltaForDetection && 
+                reversalCount >= rotationChangesForStrafe && 
+                !strafeTriggered)
+            {
+                strafeTriggered = true;
+                isStumbling = true;
+                HandleStumble();
+                Debug.Log($"Aggressive strafing detected! Speed: {avgRotationSpeed:F1}°/sec, Reversals: {reversalCount}");
+            }
+            
+            rotationSpeedAccumulator = 0f;
+            rotationSpeedResetTimer = 0f;
+            reversalCount = 0;
+            strafeTriggered = false;
+        }
+        
+        lastYRotation = currentYRotation;
+    }
+
 // Determines the target speed based on player state and input, and updates the Move parameter for animations
     private float CalculateTargetSpeed()
     {
@@ -351,58 +392,17 @@ public class Player_Components : GameplayBehaviour
         }
         return false;
     }
-
-    // Detect strafe based on rotation speed AND direction reversals (left-right-left pattern)
-    private void DetectStrafe(Vector3 inputDir)
-    {
-        float currentYRotation = transform.eulerAngles.y;
-        float rotationDelta = Mathf.DeltaAngle(lastYRotation, currentYRotation);
-        float absDelta = Mathf.Abs(rotationDelta);
-        
-        // Accumulate rotation speed
-        rotationSpeedAccumulator += absDelta;
-        rotationSpeedResetTimer += Time.deltaTime;
-        
-        // Count direction reversals (direction changes) — only meaningful rotations
-        if (absDelta > minRotationDeltaForDetection)
-        {
-            if (Mathf.Sign(rotationDelta) != Mathf.Sign(lastRotationDelta) && lastRotationDelta != 0f)
-            {
-                reversalCount++;
-                Debug.Log($"Rotation reversal detected! Count: {reversalCount}");
-            }
-            lastRotationDelta = rotationDelta;
-        }
-        
-        // Reset if time window expires
-        if (rotationSpeedResetTimer > rotationChangeWindow)
-        {
-            float avgRotationSpeed = rotationSpeedAccumulator / rotationSpeedResetTimer;
-            
-            // Trigger ONLY if both conditions met: high speed AND reversals
-            if (avgRotationSpeed > minRotationDeltaForDetection && 
-                reversalCount >= rotationChangesForStrafe && 
-                !strafeTriggered)
-            {
-                strafeTriggered = true;
-                isStumbling = true;
-                HandleStumble();
-                Debug.Log($"Aggressive strafing detected! Speed: {avgRotationSpeed:F1}°/sec, Reversals: {reversalCount}");
-            }
-            
-            rotationSpeedAccumulator = 0f;
-            rotationSpeedResetTimer = 0f;
-            reversalCount = 0;
-            strafeTriggered = false;
-        }
-        
-        lastYRotation = currentYRotation;
-    }
     #endregion
 
     #region Action Handlers
     public void HandleMove()
     {
+        // Cannot move when depressed
+        if (currentActionState == ActionState.Depressed)
+        {
+            return;
+        }
+        
         Vector3 moveDir = GetMovementInput();
         float targetSpeed = CalculateTargetSpeed();
         Vector3 horizontalVelocity = ApplyMovementPhysics(moveDir, targetSpeed);
@@ -426,7 +426,7 @@ public class Player_Components : GameplayBehaviour
         if (isGrounded && !isCrouching)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-            animator.SetTrigger("DoJump");
+            animator.SetTrigger("IsJump");
             Debug.Log("Jump executed.");
         }
         else if (isCrouching)
@@ -447,7 +447,7 @@ public class Player_Components : GameplayBehaviour
 
             if (isCrouching)
             {
-                animator.SetTrigger("DoUncrouch");
+                animator.SetTrigger("DoCrouch");
                 controller.height = crouchHeight;
                 controller.center = new Vector3(0, crouchHeight / 2f, 0);
             }
@@ -471,7 +471,7 @@ public class Player_Components : GameplayBehaviour
         {
             if (throwModule._itemToThrow != null)
             {
-                animator.SetTrigger("DoThrow");
+                animator.SetTrigger("IsThrow");
             }
             else
             {
@@ -502,7 +502,7 @@ public class Player_Components : GameplayBehaviour
         {
             cc.enabled = false;
         }
-        animator.SetTrigger("DoStumble");
+        animator.SetTrigger("IsStumble");
         Debug.Log("Stumble action executed.");
     }
 
@@ -515,6 +515,22 @@ public class Player_Components : GameplayBehaviour
             cc.enabled = true;
         }
         Debug.Log("Recovered from stumble.");
+    }
+
+    public void HandleDepressed()
+    {
+        IsDepressed = !IsDepressed;
+        if (IsDepressed)
+        {
+            currentActionState = ActionState.Depressed;
+            animator.SetBool("IsDepressed", true);
+        }
+        else
+        {
+            currentActionState = ActionState.Idle;
+            animator.SetBool("IsDepressed", false);
+        }
+        Debug.Log("Depressed action executed.");
     }
     #endregion
 
@@ -557,12 +573,12 @@ public class Player_Components : GameplayBehaviour
                 break;
             case ActionState.Action1:
                 currentActionState = ActionState.Action1;
-                animator.SetTrigger("DoAction1");
+                animator.SetTrigger("IsAction1");
                 Debug.Log("Action1 Triggered");
                 break;
             case ActionState.Action2:
                 currentActionState = ActionState.Action2;
-                animator.SetTrigger("DoAction2");
+                animator.SetTrigger("IsAction2");
                 Debug.Log("Action2 Triggered");
                 break;
         }

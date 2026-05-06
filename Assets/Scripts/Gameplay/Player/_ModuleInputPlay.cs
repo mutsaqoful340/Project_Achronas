@@ -20,7 +20,8 @@ public enum ActionState
     LightToggle,
     Map,
     BalaneceRight,
-    BalanceLeft
+    BalanceLeft,
+    Depressed
 }
 
 [CreateAssetMenu(fileName = "ModuleInputPlay", menuName = "AddOn Module/Input Play", order = 1)]

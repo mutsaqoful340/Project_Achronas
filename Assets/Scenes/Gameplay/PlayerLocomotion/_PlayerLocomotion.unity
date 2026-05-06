@@ -7651,13 +7651,25 @@ MonoBehaviour:
   player1: {fileID: 543450653027901914}
   player2: {fileID: 1484980247}
   radius: 0.5
-  maxPlayerDistance: 10
+  maxPlayerDistance: 3
   weightTransitionSpeed: 0.1
   distanceCheckInterval: 0.2
   movementThreshold: 0.01
   onPlayerDistanceExceeded:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 543450653027901915}
+        m_TargetAssemblyTypeName: Player_Components, Assembly-CSharp
+        m_MethodName: HandleDepressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!64 &887794332
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -32850,7 +32862,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5476456536093535983, guid: 58b5b122f36ab6d40af815a51f5a4421, type: 3}
       propertyPath: m_WarningMessage
-      value: 
+      value: "\nBinding warning: Some generic clip(s) animate transforms that are
+        already bound by a Humanoid avatar. These transforms can only be changed
+        by Humanoid clips.\n\tTransform 'mixamorig:Hips'\n\tTransform 'mixamorig:LeftFoot'\n\tTransform
+        'mixamorig:LeftHandThumb2'\n\tTransform 'mixamorig:LeftHandIndex1'\n\tTransform
+        'mixamorig:LeftHandPinky2'\n\tTransform 'mixamorig:RightHandRing2'\n\tTransform
+        'mixamorig:Spine1'\n\tTransform 'mixamorig:LeftToeBase'\n\tTransform 'mixamorig:LeftHandThumb3'\n\tTransform
+        'mixamorig:RightArm'\n\tand more ...\n\tFrom animation clip 'Female Carry
+        Idle'\n\tFrom animation clip 'Female Carry Walking Forward'\n\tFrom animation
+        clip 'Female Left Strafe 1'\n\tFrom animation clip 'Female Left Strafe 2'\n\tFrom
+        animation clip 'Female Right Strafe 1'\n\tFrom animation clip 'Female Right
+        Strafe 2'\n\tFrom animation clip 'Female Carry Walking Forward'\n\tFrom animation
+        clip 'Female Carry Idle'\n\tFrom animation clip 'Female Right Strafe 1'\n\tFrom
+        animation clip 'Female Right Strafe 2'\n\tand more ..."
       objectReference: {fileID: 0}
     - target: {fileID: 5600471638717457897, guid: 58b5b122f36ab6d40af815a51f5a4421, type: 3}
       propertyPath: m_LocalPosition.x
@@ -36977,6 +37001,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2059650152}
     m_Modifications:
+    - target: {fileID: 2690328864903382244, guid: 35a7a809cdd312248b5cf07968c46809, type: 3}
+      propertyPath: m_WarningMessage
+      value: "\nBinding warning: Some generic clip(s) animate transforms that are
+        already bound by a Humanoid avatar. These transforms can only be changed
+        by Humanoid clips.\n\tTransform 'mixamorig:Hips'\n\tTransform 'mixamorig:LeftFoot'\n\tTransform
+        'mixamorig:LeftHandThumb2'\n\tTransform 'mixamorig:LeftHandIndex1'\n\tTransform
+        'mixamorig:LeftHandPinky2'\n\tTransform 'mixamorig:RightHandRing2'\n\tTransform
+        'mixamorig:Spine1'\n\tTransform 'mixamorig:LeftToeBase'\n\tTransform 'mixamorig:LeftHandThumb3'\n\tTransform
+        'mixamorig:RightArm'\n\tand more ...\n\tFrom animation clip 'Female Carry
+        Idle'\n\tFrom animation clip 'Female Carry Walking Forward'\n\tFrom animation
+        clip 'Female Left Strafe 1'\n\tFrom animation clip 'Female Left Strafe 2'\n\tFrom
+        animation clip 'Female Right Strafe 1'\n\tFrom animation clip 'Female Right
+        Strafe 2'\n\tFrom animation clip 'Female Carry Walking Forward'\n\tFrom animation
+        clip 'Female Carry Idle'\n\tFrom animation clip 'Female Right Strafe 1'\n\tFrom
+        animation clip 'Female Right Strafe 2'\n\tand more ..."
+      objectReference: {fileID: 0}
     - target: {fileID: 3584362262410816813, guid: 35a7a809cdd312248b5cf07968c46809, type: 3}
       propertyPath: m_Weight
       value: 0

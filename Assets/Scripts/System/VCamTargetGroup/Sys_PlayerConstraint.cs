@@ -8,7 +8,7 @@ using UnityEngine.Events;
 /// The Cinemachine Target will then follow this object, which will allow us to have more control over the camera's behavior and settings.
 /// </summary>
 
-public class _Sys_VCamBehaviourController : MonoBehaviour
+public class Sys_PlayerConstraint : MonoBehaviour
 {
     [Header("Player Objects")]
     public Transform player1;
@@ -126,37 +126,49 @@ public class _Sys_VCamBehaviourController : MonoBehaviour
     }
 
     /// <summary>
-    /// Checks the distance between players at intervals and only when they're moving.
-    /// If distance exceeds maxPlayerDistance, invokes the onPlayerDistanceExceeded event.
-    /// This is optimized to avoid checking every frame.
+    /// Checks the distance between players every frame.
+    /// If distance exceeds maxPlayerDistance, invokes the onPlayerDistanceExceeded event immediately.
     /// </summary>
     private void CheckPlayerDistance()
     {
-        // Only check if players are moving
-        float player1Speed = (player1.position - player1PreviousPosition).magnitude;
-        float player2Speed = (player2.position - player2PreviousPosition).magnitude;
+        float distance = Vector3.Distance(player1.position, player2.position);
 
-        bool playersMoving = player1Speed > movementThreshold || player2Speed > movementThreshold;
-
-        // OPTIMIZATION: Check distance at intervals only when players are moving
-        if (playersMoving && Time.time >= nextDistanceCheckTime)
+        if (distance > maxPlayerDistance)
         {
-            nextDistanceCheckTime = Time.time + distanceCheckInterval;
-
-            float distance = Vector3.Distance(player1.position, player2.position);
-
-            if (distance > maxPlayerDistance)
+            if (!hasDistanceEventTriggered)
             {
-                if (!hasDistanceEventTriggered)
-                {
-                    onPlayerDistanceExceeded?.Invoke();
-                    hasDistanceEventTriggered = true;
-                }
-            }
-            else
-            {
-                hasDistanceEventTriggered = false;
+                onPlayerDistanceExceeded?.Invoke();
+                hasDistanceEventTriggered = true;
+                Debug.Log("Player distance exceeded! Event invoked.");
             }
         }
+        else
+        {
+            hasDistanceEventTriggered = false;
+        }
+    }
+
+    /// <summary>
+    /// Draws gizmos for debugging player distance.
+    /// Green line when players are within maxPlayerDistance, red when they exceed it.
+    /// </summary>
+    private void OnDrawGizmos()
+    {
+        // Only draw if both players are assigned
+        if (player1 == null || player2 == null)
+            return;
+
+        // Calculate distance between players
+        float distance = Vector3.Distance(player1.position, player2.position);
+
+        // Set color based on whether distance exceeds maxPlayerDistance
+        Gizmos.color = distance > maxPlayerDistance ? Color.red : Color.green;
+
+        // Draw line between players
+        Gizmos.DrawLine(player1.position, player2.position);
+
+        // Draw spheres at player positions for clarity
+        Gizmos.DrawWireSphere(player1.position, 0.2f);
+        Gizmos.DrawWireSphere(player2.position, 0.2f);
     }
 }
