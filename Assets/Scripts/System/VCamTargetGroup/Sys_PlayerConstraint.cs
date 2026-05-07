@@ -10,9 +10,10 @@ using UnityEngine.Events;
 
 public class Sys_PlayerConstraint : MonoBehaviour
 {
-    [Header("Player Objects")]
-    public Transform player1;
-    public Transform player2;
+    [Header("References")]
+    public Transform playerRinda;
+    public Transform playerNaya;
+    public GP_PlayerSanity playerSanity;
 
     [Header("Camera Target Group Settings")]
     public float radius = 0.5f;
@@ -35,7 +36,7 @@ public class Sys_PlayerConstraint : MonoBehaviour
     [SerializeField] private float movementThreshold = 0.01f;
 
     [Header("Events")]
-    public UnityEvent onPlayerDistanceExceeded;
+    public UnityEvent OnPlayerDistanceExceeded;
 
     // Tracking variables
     private Vector3 player1PreviousPosition;
@@ -43,15 +44,15 @@ public class Sys_PlayerConstraint : MonoBehaviour
 
     private void Start()
     {
-        if (player1 != null)
-            player1PreviousPosition = player1.position;
-        if (player2 != null)
-            player2PreviousPosition = player2.position;
+        if (playerRinda != null)
+            player1PreviousPosition = playerRinda.position;
+        if (playerNaya != null)
+            player2PreviousPosition = playerNaya.position;
     }
 
     private void Update()
     {
-        if (player1 == null || player2 == null)
+        if (playerRinda == null || playerNaya == null)
             return;
 
         // Behaviour 1: Calculate the average position of the players and set it as the position of this object.
@@ -69,7 +70,7 @@ public class Sys_PlayerConstraint : MonoBehaviour
     /// </summary>
     private void CalculateAveragePosition()
     {
-        Vector3 midpoint = (player1.position + player2.position) / 2f;
+        Vector3 midpoint = (playerRinda.position + playerNaya.position) / 2f;
         transform.position = midpoint;
     }
 
@@ -81,8 +82,8 @@ public class Sys_PlayerConstraint : MonoBehaviour
     private void CalculateMovementWeights()
     {
         // Calculate velocities based on position change
-        Vector3 player1Velocity = player1.position - player1PreviousPosition;
-        Vector3 player2Velocity = player2.position - player2PreviousPosition;
+        Vector3 player1Velocity = playerRinda.position - player1PreviousPosition;
+        Vector3 player2Velocity = playerNaya.position - player2PreviousPosition;
 
         float player1Speed = player1Velocity.magnitude;
         float player2Speed = player2Velocity.magnitude;
@@ -121,8 +122,8 @@ public class Sys_PlayerConstraint : MonoBehaviour
         currentPlayer2Weight = Mathf.Lerp(currentPlayer2Weight, targetPlayer2Weight, weightTransitionSpeed * Time.deltaTime);
 
         // Update previous positions for next frame
-        player1PreviousPosition = player1.position;
-        player2PreviousPosition = player2.position;
+        player1PreviousPosition = playerRinda.position;
+        player2PreviousPosition = playerNaya.position;
     }
 
     /// <summary>
@@ -131,13 +132,15 @@ public class Sys_PlayerConstraint : MonoBehaviour
     /// </summary>
     private void CheckPlayerDistance()
     {
-        float distance = Vector3.Distance(player1.position, player2.position);
+        float distance = Vector3.Distance(playerRinda.position, playerNaya.position);
 
         if (distance > maxPlayerDistance)
         {
             if (!hasDistanceEventTriggered)
             {
-                onPlayerDistanceExceeded?.Invoke();
+                playerSanity.HandleSanity();
+                Debug.Log("Player distance exceeded! Sanity handled.");
+                OnPlayerDistanceExceeded.Invoke();
                 hasDistanceEventTriggered = true;
                 Debug.Log("Player distance exceeded! Event invoked.");
             }
@@ -155,20 +158,20 @@ public class Sys_PlayerConstraint : MonoBehaviour
     private void OnDrawGizmos()
     {
         // Only draw if both players are assigned
-        if (player1 == null || player2 == null)
+        if (playerRinda == null || playerNaya == null)
             return;
 
         // Calculate distance between players
-        float distance = Vector3.Distance(player1.position, player2.position);
+        float distance = Vector3.Distance(playerRinda.position, playerNaya.position);
 
         // Set color based on whether distance exceeds maxPlayerDistance
         Gizmos.color = distance > maxPlayerDistance ? Color.red : Color.green;
 
         // Draw line between players
-        Gizmos.DrawLine(player1.position, player2.position);
+        Gizmos.DrawLine(playerRinda.position, playerNaya.position);
 
         // Draw spheres at player positions for clarity
-        Gizmos.DrawWireSphere(player1.position, 0.2f);
-        Gizmos.DrawWireSphere(player2.position, 0.2f);
+        Gizmos.DrawWireSphere(playerRinda.position, 0.2f);
+        Gizmos.DrawWireSphere(playerNaya.position, 0.2f);
     }
 }

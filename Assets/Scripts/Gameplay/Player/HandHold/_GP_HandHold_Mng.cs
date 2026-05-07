@@ -221,7 +221,7 @@ public class _GP_HandHold_Mng : MonoBehaviour
         {
             if (currentNayaState == NayaState.None && currentRindaState == RindaState.None)
             {
-                Debug.Log("Players in range, no obstacles, but not reaching.");
+                // Debug.Log("Players in range, no obstacles, but not reaching.");
                 return;
             }
 
@@ -556,7 +556,7 @@ public class _GP_HandHold_Mng : MonoBehaviour
             // No hit - clear line of sight
             isObstacleBetweenPlayers = false;
             Debug.DrawRay(rayOrigin, toPlayer.normalized * actualDistance, Color.green);
-            Debug.Log("Line of sight clear to Rinda.");
+            // Debug.Log("Line of sight clear to Rinda.");
         }
     }
     #endregion

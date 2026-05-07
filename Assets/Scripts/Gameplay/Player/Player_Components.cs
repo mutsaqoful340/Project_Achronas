@@ -76,13 +76,14 @@ public class Player_Components : GameplayBehaviour
     public bool IsAction1;
     public bool IsAction2;
     public bool IsDepressed;
+    public bool IsStumble;
 
     #region Private Variables
     private CharacterController controller;
     private Vector3 velocity;
     private bool isGrounded;
     private bool isCrouching = false;
-    private ActionState currentActionState;
+    public ActionState currentActionState;
     private float currentMoveValue = 0f;
 
     // Strafe Detection (Hybrid: rotation speed + reversal counting)
@@ -273,7 +274,7 @@ public class Player_Components : GameplayBehaviour
             {
                 strafeTriggered = true;
                 isStumbling = true;
-                HandleStumble();
+                currentActionState = ActionState.Stumble;
                 Debug.Log($"Aggressive strafing detected! Speed: {avgRotationSpeed:F1}°/sec, Reversals: {reversalCount}");
             }
             
@@ -486,6 +487,15 @@ public class Player_Components : GameplayBehaviour
 
     public void HandleInteract()
     {
+        // Try carry interaction first (if this is Naya)
+        var carrySystem = GetComponent<GP_PlayerCarrySystem>();
+        if (carrySystem != null)
+        {
+            carrySystem.AttemptCarry();
+            return;
+        }
+        
+        // Default interaction - throw/pickup
         var throwModule = GetComponent<_GP_ThrowItem>();
         if (throwModule != null)
         {
@@ -496,25 +506,27 @@ public class Player_Components : GameplayBehaviour
 
     private void HandleStumble()
     {
-        currentActionState = ActionState.Stumble;
-        var cc = GetComponent<CharacterController>();
-        if (cc != null)
+        IsStumble = !IsStumble;
+        if (IsStumble)
         {
-            cc.enabled = false;
+            var cc = GetComponent<CharacterController>();
+            if (cc != null)
+            {
+                cc.enabled = false;
+            }
+            animator.SetTrigger("IsStumble");
         }
-        animator.SetTrigger("IsStumble");
+        else
+        {
+            isStumbling = false;
+            var cc = GetComponent<CharacterController>();
+            if (cc != null)
+            {
+                cc.enabled = true;
+            }
+            Debug.Log("Recovered from stumble.");
+        }
         Debug.Log("Stumble action executed.");
-    }
-
-    public void HandleRecoverFromStumble()
-    {
-        isStumbling = false;
-        var cc = GetComponent<CharacterController>();
-        if (cc != null)
-        {
-            cc.enabled = true;
-        }
-        Debug.Log("Recovered from stumble.");
     }
 
     public void HandleDepressed()
@@ -524,11 +536,39 @@ public class Player_Components : GameplayBehaviour
         {
             currentActionState = ActionState.Depressed;
             animator.SetBool("IsDepressed", true);
+            
+            // Enable carry detection collider when depressed
+            var carryCollider = GetComponent<Collider>();
+            if (carryCollider != null)
+            {
+                carryCollider.enabled = true;
+                Debug.Log("Carry detection collider enabled");
+            }
+
+            var carryRb = GetComponent<Rigidbody>();
+            if (carryRb != null)
+            {
+                carryRb.isKinematic = true; // Make player easier to carry when depressed
+            }
         }
         else
         {
             currentActionState = ActionState.Idle;
             animator.SetBool("IsDepressed", false);
+            
+            // Disable carry detection collider when no longer depressed
+            var carryCollider = GetComponent<Collider>();
+            if (carryCollider != null)
+            {
+                carryCollider.enabled = false;
+                Debug.Log("Carry detection collider disabled");
+            }
+
+            var carryRb = GetComponent<Rigidbody>();
+            if (carryRb != null)
+            {
+                carryRb.isKinematic = false; // Restore normal physics behavior
+            }
         }
         Debug.Log("Depressed action executed.");
     }
@@ -564,7 +604,7 @@ public class Player_Components : GameplayBehaviour
             case ActionState.Interact:
                 currentActionState = ActionState.Interact;
                 HandleInteract();
-                Debug.Log("Interact Action Triggered");
+                // Debug.Log("Interact Action Triggered");
                 break;
             case ActionState.Throw:
                 currentActionState = ActionState.Throw;
@@ -580,6 +620,14 @@ public class Player_Components : GameplayBehaviour
                 currentActionState = ActionState.Action2;
                 animator.SetTrigger("IsAction2");
                 Debug.Log("Action2 Triggered");
+                break;
+            case ActionState.Stumble:
+                HandleStumble();
+                break;
+            case ActionState.Depressed:
+                HandleDepressed();
+                IsDepressed = true;
+                Debug.Log("Depressed Action Triggered");
                 break;
         }
     }
