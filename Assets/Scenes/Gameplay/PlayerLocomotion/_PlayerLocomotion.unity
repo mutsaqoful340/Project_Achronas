@@ -7738,7 +7738,19 @@ MonoBehaviour:
   movementThreshold: 0.01
   OnPlayerDistanceExceeded:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1833470452}
+        m_TargetAssemblyTypeName: GP_PlayerSanity, Assembly-CSharp
+        m_MethodName: DepleteSanity
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!64 &887794332
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -15546,11 +15558,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GP_PlayerSanity
   Rinda: {fileID: 543450653027901915}
+  Naya: {fileID: 1484980248}
   renderVol: {fileID: 178603958}
   sanityLevel: 100
   sanityDecreaseRate: 5
   sanityIncreaseRate: 10
+  maxCarryDuration: 30
   IsSanityRecovered: 0
+  IsCarried: 0
 --- !u!1 &1840560541
 GameObject:
   m_ObjectHideFlags: 0
@@ -33219,6 +33234,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GP_PlayerCarrySystem
   animator: {fileID: 0}
+  playerSanity: {fileID: 1833470452}
   carryPoint: {fileID: 452494235}
   carryDistance: 0.5
 --- !u!136 &5431400107632533991

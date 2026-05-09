@@ -122,7 +122,7 @@ public class _GP_HandHold_Naya : MonoBehaviour
     /// </summary>
     private void HandleBackAction(ActionState action)
     {
-        if (action != ActionState.Back) return;
+        if (action != ActionState.Cancel) return;
 
         // Only process if currently holding or reaching
         if (currentNayaState == NayaState.Holding || currentNayaState == NayaState.Reaching)

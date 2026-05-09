@@ -30,6 +30,7 @@ public class Sys_PlayerConstraint : MonoBehaviour
     [SerializeField] private float distanceCheckInterval = 0.2f;
     private float nextDistanceCheckTime = 0f;
     private bool hasDistanceEventTriggered = false;
+    private bool arePlayersSeparated = false;
 
     [Header("Movement Detection")]
     [Tooltip("Minimum velocity threshold to consider a player as moving")]
@@ -128,7 +129,10 @@ public class Sys_PlayerConstraint : MonoBehaviour
 
     /// <summary>
     /// Checks the distance between players every frame.
-    /// If distance exceeds maxPlayerDistance, invokes the onPlayerDistanceExceeded event immediately.
+    /// Separated > Depletes
+    /// Together & Rinda not depressed & not carrying > Recovers
+    /// Together & Rinda depressed & not carrying > Stays at 0
+    /// Together & Rinda depressed & carrying > Recovers
     /// </summary>
     private void CheckPlayerDistance()
     {
@@ -136,18 +140,55 @@ public class Sys_PlayerConstraint : MonoBehaviour
 
         if (distance > maxPlayerDistance)
         {
-            if (!hasDistanceEventTriggered)
+            // SEPARATED: Depletes sanity
+            if (!arePlayersSeparated)
             {
-                playerSanity.HandleSanity();
-                Debug.Log("Player distance exceeded! Sanity handled.");
+                arePlayersSeparated = true;
+                Debug.Log("Players separated! Sanity depletion started.");
                 OnPlayerDistanceExceeded.Invoke();
                 hasDistanceEventTriggered = true;
-                Debug.Log("Player distance exceeded! Event invoked.");
+            }
+
+            if (playerSanity != null)
+            {
+                playerSanity.DepleteSanity();
             }
         }
         else
         {
-            hasDistanceEventTriggered = false;
+            // TOGETHER: Handle different conditions
+            if (arePlayersSeparated)
+            {
+                arePlayersSeparated = false;
+                hasDistanceEventTriggered = false;
+                Debug.Log("Players reunited! Sanity depletion stopped.");
+            }
+
+            // Determine if sanity should recover (only if below 100)
+            if (playerSanity != null && playerRinda != null && playerSanity.sanityLevel < 100f)
+            {
+                var rindaCC = playerRinda.GetComponent<Player_Components>();
+                bool rindaDepressed = rindaCC.currentActionState == ActionState.Depressed;
+                bool rindaBeingCarried = playerSanity.IsCarried;
+
+                if (!rindaDepressed)
+                {
+                    // Together & Not depressed > Recover
+                    playerSanity.RecoverSanity();
+                    Debug.Log("Rinda not depressed - recovering sanity");
+                }
+                else if (rindaDepressed && rindaBeingCarried)
+                {
+                    // Together & Depressed & Carrying > Recover
+                    playerSanity.RecoverSanity();
+                    Debug.Log("Rinda being carried - recovering sanity");
+                }
+                else if (rindaDepressed && !rindaBeingCarried)
+                {
+                    // Together & Depressed & NOT carrying > Stay at 0
+                    Debug.Log("Rinda depressed and not being carried - sanity stays at 0");
+                }
+            }
         }
     }
 

@@ -427,7 +427,7 @@ public class Player_Components : GameplayBehaviour
         if (isGrounded && !isCrouching)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-            animator.SetTrigger("IsJump");
+            animator.SetTrigger("DoJump");
             Debug.Log("Jump executed.");
         }
         else if (isCrouching)
@@ -501,6 +501,19 @@ public class Player_Components : GameplayBehaviour
         {
             throwModule.OnPickUpItem();
             Debug.Log("Interact/Pickup action executed.");
+        }
+    }
+
+    /// <summary>
+    /// Drop carried player (called via Cancel input)
+    /// </summary>
+    public void HandleDropCarried()
+    {
+        var carrySystem = GetComponent<GP_PlayerCarrySystem>();
+        if (carrySystem != null && carrySystem.IsCarrying)
+        {
+            carrySystem.StopCarrying();
+            Debug.Log("Dropped carried player");
         }
     }
 
@@ -628,6 +641,10 @@ public class Player_Components : GameplayBehaviour
                 HandleDepressed();
                 IsDepressed = true;
                 Debug.Log("Depressed Action Triggered");
+                break;
+            case ActionState.Cancel:
+                HandleDropCarried();
+                Debug.Log("Cancel Action Triggered");
                 break;
         }
     }

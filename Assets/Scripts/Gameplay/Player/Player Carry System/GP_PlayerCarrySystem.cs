@@ -7,25 +7,20 @@ using UnityEngine.Rendering;
 /// ONLY APPLIES TO NAYA
 /// </summary>
 
-public enum PlayerType
-{
-    Rinda,
-    Naya
-}
-
 public class GP_PlayerCarrySystem : MonoBehaviour
 {
     [Header("References")]
     public Animator animator;
+    public GP_PlayerSanity playerSanity;
 
     [Header("Carry Settings")]
     public Transform carryPoint;
     public float carryDistance = 2f;
     
     #region Carry State
-    private Player_Components currentCarriedPlayer;
+    [SerializeField] private Player_Components currentCarriedPlayer;
     private bool isCurrentlyCarrying = false;
-    private Player_Components nearbyDepressedPlayer;
+    [SerializeField] private Player_Components nearbyDepressedPlayer;
     #endregion
 
     #region Public Properties
@@ -93,6 +88,7 @@ public class GP_PlayerCarrySystem : MonoBehaviour
             targetPlayer.transform.localPosition = Vector3.zero;
             targetPlayer.transform.localRotation = Quaternion.identity;
         }
+
         var targetcc = targetPlayer.GetComponent<CharacterController>();
         if (targetcc != null)
         {
@@ -102,6 +98,12 @@ public class GP_PlayerCarrySystem : MonoBehaviour
         // Update animator
         animator.SetBool("IsCarry", true);
         targetPlayer.animator.SetBool("IsCarry", true);
+        
+        // Notify sanity system
+        if (playerSanity != null)
+        {
+            playerSanity.OnCarryStarted();
+        }
 
         Debug.Log($"Naya is now carrying {targetPlayer.gameObject.name}");
     }
@@ -117,16 +119,23 @@ public class GP_PlayerCarrySystem : MonoBehaviour
         // Unparent the carried player
         currentCarriedPlayer.transform.parent = null;
 
-        // Re-enable character controller for carried player
+        // Update animator
+        animator.SetBool("IsCarry", false);
+        currentCarriedPlayer.animator.SetBool("IsCarry", false);
+
+        // Notify sanity system FIRST
+        if (playerSanity != null)
+        {
+            playerSanity.OnCarryEnded();
+        }
+
+        // Re-enable character controller AFTER sanity updates
         var currentCarriedPlayerCC = currentCarriedPlayer.GetComponent<CharacterController>();
         if (currentCarriedPlayerCC != null)
         {
             currentCarriedPlayerCC.enabled = true;
+            Debug.Log($"CharacterController re-enabled for {currentCarriedPlayer.gameObject.name}");
         }
-
-        // Update animator
-        animator.SetBool("IsCarry", false);
-        currentCarriedPlayer.animator.SetBool("IsCarry", false);
 
         Debug.Log($"Naya stopped carrying {currentCarriedPlayer.gameObject.name}");
 

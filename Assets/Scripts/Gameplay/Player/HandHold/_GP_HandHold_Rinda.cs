@@ -121,7 +121,7 @@ public class _GP_HandHold_Rinda : MonoBehaviour
     /// </summary>
     private void HandleBackAction(ActionState action)
     {
-        if (action != ActionState.Back) return;
+        if (action != ActionState.Cancel) return;
 
         // Only process if currently holding or reaching
         if (currentRindaState == RindaState.Holding || currentRindaState == RindaState.Reaching)

@@ -105,8 +105,8 @@ public class _GP_Sit : MonoBehaviour
             OnSit();
         }
 
-        // Allow Back button to work even if player is outside trigger (since sit position might be outside trigger bounds)
-        if (actionState == ActionState.Back && isPlayerSitting)
+        // Allow Cancel button to work even if player is outside trigger (since sit position might be outside trigger bounds)
+        if (actionState == ActionState.Cancel && isPlayerSitting)
         {
             OnStandUp();
             

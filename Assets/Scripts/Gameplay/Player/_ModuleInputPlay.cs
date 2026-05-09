@@ -8,6 +8,7 @@ public enum ActionState
     Idle,
     Sprint,
     Crouch,
+    Cancel,
     Jump,
     Interact,
     Throw,
@@ -15,7 +16,6 @@ public enum ActionState
     Action2,
     PauseMenu,
     HandHold,
-    Back,
     Stumble,
     LightToggle,
     Map,
@@ -105,7 +105,7 @@ public class _ModuleInputPlay : ScriptableObject
         inputActions.Player.HandHold.performed += ctx => OnAction?.Invoke(ActionState.HandHold);
 
         // Back
-        inputActions.Player.Cancel.performed += ctx => OnAction?.Invoke(ActionState.Back);
+        inputActions.Player.Cancel.performed += ctx => OnAction?.Invoke(ActionState.Cancel);
 
         // Light
         inputActions.Player.Light.performed += ctx => OnAction?.Invoke(ActionState.LightToggle);
@@ -135,7 +135,7 @@ public class _ModuleInputPlay : ScriptableObject
         inputActions.Player.PauseMenu.performed -= ctx => OnAction?.Invoke(ActionState.PauseMenu);
         inputActions.Player.Throw.performed -= ctx => OnAction?.Invoke(ActionState.Throw);
         inputActions.Player.HandHold.performed -= ctx => OnAction?.Invoke(ActionState.HandHold);
-        inputActions.Player.Cancel.performed -= ctx => OnAction?.Invoke(ActionState.Back);
+        inputActions.Player.Cancel.performed -= ctx => OnAction?.Invoke(ActionState.Cancel);
         inputActions.Player.Light.performed -= ctx => OnAction?.Invoke(ActionState.LightToggle);
         inputActions.Player.Map.performed -= ctx => OnAction?.Invoke(ActionState.Map);
         inputActions.Player.BalanceRight.performed -= ctx => OnAction?.Invoke(ActionState.BalaneceRight);
