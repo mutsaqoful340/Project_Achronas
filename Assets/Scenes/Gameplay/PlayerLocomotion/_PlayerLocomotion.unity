@@ -10067,8 +10067,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ff42db4d2a18be48a4d152674530d63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  allCheckpoints: []
-  defaultSpawnPoint: {x: 0, y: 0, z: 0}
 --- !u!4 &1138544895
 Transform:
   m_ObjectHideFlags: 0
@@ -12350,9 +12348,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94eb7a88da9e85049acd93b5fcf428a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Checkpoint
-  checkpointID: Room4
-  spawnPoint: {fileID: 1355005043}
-  activated: 0
 --- !u!65 &1355005045
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12879,9 +12874,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94eb7a88da9e85049acd93b5fcf428a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Checkpoint
-  checkpointID: Room2
-  spawnPoint: {fileID: 1401586918}
-  activated: 0
 --- !u!65 &1401586920
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13700,9 +13692,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94eb7a88da9e85049acd93b5fcf428a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Checkpoint
-  checkpointID: Room1
-  spawnPoint: {fileID: 1516920173}
-  activated: 0
 --- !u!114 &1518379038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15468,9 +15457,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94eb7a88da9e85049acd93b5fcf428a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Checkpoint
-  checkpointID: Room3
-  spawnPoint: {fileID: 1771569953}
-  activated: 0
 --- !u!65 &1771569955
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -29776,18 +29762,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 195998accf4cca24eb5f3643eab69e8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CheckpointUI
-  slots:
-  - {fileID: 5778380698397930505}
-  - {fileID: 6003117497564336688}
-  - {fileID: 3251658522259179652}
-  - {fileID: 7208030851163532277}
-  uiRoot: {fileID: 5180493188282536953}
-  panelChoose: {fileID: 8753029636628017289}
-  panelGame: {fileID: 1843448437}
-  players:
-  - {fileID: 6971293052501955215}
-  - {fileID: 5431400107632533968}
-  playerSpacing: 2
 --- !u!33 &3842969125066632605
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -33581,8 +33555,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c3245d2896e69d4bb4701ceb443a0ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSpawn
-  playerIndex: 1
-  spacing: 2
 --- !u!114 &5431400107632533978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33595,8 +33567,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b27825d6f28cea44aacb9b86017cae0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
-  maxHealth: 100
-  currentHealth: 0
 --- !u!95 &5431400107632533984 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 5476456536093535983, guid: 58b5b122f36ab6d40af815a51f5a4421, type: 3}
@@ -37836,8 +37806,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c3245d2896e69d4bb4701ceb443a0ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSpawn
-  playerIndex: 0
-  spacing: 2
 --- !u!114 &6971293052501955225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37850,8 +37818,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b27825d6f28cea44aacb9b86017cae0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
-  maxHealth: 100
-  currentHealth: 0
 --- !u!95 &6971293052501955231 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 2690328864903382244, guid: 35a7a809cdd312248b5cf07968c46809, type: 3}
