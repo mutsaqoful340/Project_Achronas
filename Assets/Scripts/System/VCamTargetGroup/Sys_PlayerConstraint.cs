@@ -144,7 +144,7 @@ public class Sys_PlayerConstraint : MonoBehaviour
             if (!arePlayersSeparated)
             {
                 arePlayersSeparated = true;
-                Debug.Log("Players separated! Sanity depletion started.");
+                // Debug.Log("Players separated! Sanity depletion started.");
                 OnPlayerDistanceExceeded.Invoke();
                 hasDistanceEventTriggered = true;
             }
@@ -161,7 +161,7 @@ public class Sys_PlayerConstraint : MonoBehaviour
             {
                 arePlayersSeparated = false;
                 hasDistanceEventTriggered = false;
-                Debug.Log("Players reunited! Sanity depletion stopped.");
+                // Debug.Log("Players reunited! Sanity depletion stopped.");
             }
 
             // Determine if sanity should recover (only if below 100)
@@ -175,18 +175,18 @@ public class Sys_PlayerConstraint : MonoBehaviour
                 {
                     // Together & Not depressed > Recover
                     playerSanity.RecoverSanity();
-                    Debug.Log("Rinda not depressed - recovering sanity");
+                    // Debug.Log("Rinda not depressed - recovering sanity");
                 }
                 else if (rindaDepressed && rindaBeingCarried)
                 {
                     // Together & Depressed & Carrying > Recover
                     playerSanity.RecoverSanity();
-                    Debug.Log("Rinda being carried - recovering sanity");
+                    // Debug.Log("Rinda being carried - recovering sanity");
                 }
                 else if (rindaDepressed && !rindaBeingCarried)
                 {
                     // Together & Depressed & NOT carrying > Stay at 0
-                    Debug.Log("Rinda depressed and not being carried - sanity stays at 0");
+                    // Debug.Log("Rinda depressed and not being carried - sanity stays at 0");
                 }
             }
         }

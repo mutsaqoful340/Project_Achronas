@@ -91,6 +91,24 @@ public class _Sys_GameModeSwitch : MonoBehaviour
             }
         }
         
+        // CRITICAL: Disable/Enable player input modules based on game mode
+        // This prevents player actions from firing while in UI mode
+        Player_Components[] allPlayers = FindObjectsByType<Player_Components>();
+        foreach (var player in allPlayers)
+        {
+            if (player != null && player.moduleInputPlay != null)
+            {
+                if (mode == GameMode.UI)
+                {
+                    player.moduleInputPlay.DisablePlayerActions();
+                }
+                else
+                {
+                    player.moduleInputPlay.EnablePlayerActions();
+                }
+            }
+        }
+        
         // Invoke event
         OnGameModeChanged?.Invoke(mode);
         Debug.Log($"<color={(mode == GameMode.Player ? "green" : "yellow")}>Switched ALL players to {mode} mode</color>");
@@ -120,6 +138,20 @@ public class _Sys_GameModeSwitch : MonoBehaviour
             if (playerModes != null && playerIndex < playerModes.Length)
             {
                 playerModes[playerIndex] = mode;
+            }
+        }
+        
+        // Disable/Enable this specific player's input module
+        Player_Components[] allPlayers = FindObjectsByType<Player_Components>();
+        if (playerIndex < allPlayers.Length && allPlayers[playerIndex] != null && allPlayers[playerIndex].moduleInputPlay != null)
+        {
+            if (mode == GameMode.UI)
+            {
+                allPlayers[playerIndex].moduleInputPlay.DisablePlayerActions();
+            }
+            else
+            {
+                allPlayers[playerIndex].moduleInputPlay.EnablePlayerActions();
             }
         }
         

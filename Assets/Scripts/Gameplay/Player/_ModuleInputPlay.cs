@@ -175,6 +175,30 @@ public class _ModuleInputPlay : ScriptableObject
         }
     }
 
+    /// <summary>
+    /// Disable the Player action map (used when switching to UI mode)
+    /// </summary>
+    public void DisablePlayerActions()
+    {
+        if (inputActions != null && inputActions.Player.enabled)
+        {
+            inputActions.Player.Disable();
+            Debug.Log($"<color=yellow>_ModuleInputPlay: Player actions disabled (UI mode active)</color>");
+        }
+    }
+
+    /// <summary>
+    /// Enable the Player action map (used when switching to Player mode)
+    /// </summary>
+    public void EnablePlayerActions()
+    {
+        if (inputActions != null && !inputActions.Player.enabled)
+        {
+            inputActions.Player.Enable();
+            Debug.Log($"<color=green>_ModuleInputPlay: Player actions enabled (Player mode active)</color>");
+        }
+    }
+
     private void OnDisable()
     {
         // Unsubscribe from events

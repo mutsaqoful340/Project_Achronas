@@ -72,7 +72,7 @@ public class Player_Components : GameplayBehaviour
     public bool IsIdle;
     public bool IsFall;
     public bool IsJump;
-    public bool IsCrouch;
+    public bool isCrouching;
     public bool IsAction1;
     public bool IsAction2;
     public bool IsDepressed;
@@ -82,7 +82,6 @@ public class Player_Components : GameplayBehaviour
     private CharacterController controller;
     private Vector3 velocity;
     private bool isGrounded;
-    private bool isCrouching = false;
     public ActionState currentActionState;
     private float currentMoveValue = 0f;
 
@@ -454,7 +453,7 @@ public class Player_Components : GameplayBehaviour
             }
             else
             {
-                animator.SetTrigger("DoCrouch");
+                animator.SetTrigger("DoUncrouch");
                 controller.height = standingHeight;
                 controller.center = new Vector3(0, standingHeight / 2f, 0);
             }
@@ -472,7 +471,7 @@ public class Player_Components : GameplayBehaviour
         {
             if (throwModule._itemToThrow != null)
             {
-                animator.SetTrigger("IsThrow");
+                animator.SetTrigger("DoThrow");
             }
             else
             {
@@ -527,7 +526,7 @@ public class Player_Components : GameplayBehaviour
             {
                 cc.enabled = false;
             }
-            animator.SetTrigger("IsStumble");
+            animator.SetTrigger("DoStumble");
         }
         else
         {
@@ -626,12 +625,12 @@ public class Player_Components : GameplayBehaviour
                 break;
             case ActionState.Action1:
                 currentActionState = ActionState.Action1;
-                animator.SetTrigger("IsAction1");
+                animator.SetTrigger("DoAction1");
                 Debug.Log("Action1 Triggered");
                 break;
             case ActionState.Action2:
                 currentActionState = ActionState.Action2;
-                animator.SetTrigger("IsAction2");
+                animator.SetTrigger("DoAction2");
                 Debug.Log("Action2 Triggered");
                 break;
             case ActionState.Stumble:

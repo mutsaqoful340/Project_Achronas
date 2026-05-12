@@ -29,9 +29,10 @@ public class _Sys_PauseMenu : GameplayBehaviour
     private Rigidbody player2Rigidbody;
     private bool player2RigidbodyWasKinematic;
 
-    protected override void OnGameplayEnabled()
+    private void OnEnable()
     {
-        // Subscribe to both players' input events
+        // Subscribe to both players' input events IMMEDIATELY (NOT in OnGameplayEnabled)
+        // This ensures pause/unpause works regardless of game mode
         if (player1Ref != null && player1Ref.moduleInputPlay != null)
             player1Ref.moduleInputPlay.OnAction += OnPlayerAction;
         
@@ -39,9 +40,9 @@ public class _Sys_PauseMenu : GameplayBehaviour
             player2Ref.moduleInputPlay.OnAction += OnPlayerAction;
     }
 
-    protected override void OnGameplayDisabled()
+    private void OnDisable()
     {
-        // Unsubscribe from both players' input events
+        // Unsubscribe when disabled
         if (player1Ref != null && player1Ref.moduleInputPlay != null)
             player1Ref.moduleInputPlay.OnAction -= OnPlayerAction;
         
@@ -49,8 +50,20 @@ public class _Sys_PauseMenu : GameplayBehaviour
             player2Ref.moduleInputPlay.OnAction -= OnPlayerAction;
     }
 
+    protected override void OnGameplayEnabled()
+    {
+        // Note: Input subscription now happens in OnEnable() so it works during pause too
+    }
+
+    protected override void OnGameplayDisabled()
+    {
+        // Note: Input subscription is NOT unsubscribed here anymore - we need it during pause!
+    }
+
     protected override void Start()
     {
+        base.Start(); // CRITICAL: Call base.Start() to subscribe to GameplayBehaviour events
+        
         if (pauseMenuUI != null)
         {
             pauseMenuUI.SetActive(false); // Ensure the pause menu is hidden at the start
@@ -87,12 +100,14 @@ public class _Sys_PauseMenu : GameplayBehaviour
 
         if (isPaused)
         {
+            Debug.Log("<color=cyan>[PauseMenu] Resuming game...</color>");
             Resume();
             if (gameModeSwitch != null)
                 gameModeSwitch.SetMode(_Sys_GameModeSwitch.GameMode.Player); // Switch back to Player mode when resuming
         }
         else
         {
+            Debug.Log("<color=cyan>[PauseMenu] Pausing game...</color>");
             Pause();
             if (gameModeSwitch != null)
                 gameModeSwitch.SetMode(_Sys_GameModeSwitch.GameMode.UI); // Switch to UI mode when paused
