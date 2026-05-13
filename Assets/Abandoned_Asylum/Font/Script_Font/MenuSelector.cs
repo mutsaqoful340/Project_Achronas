@@ -4,17 +4,11 @@ using System.Collections.Generic;
 
 public class MenuSelector : MonoBehaviour
 {
-    // ===== TEXT =====
-    public TextMeshProUGUI[] mainTexts;
-    public TextMeshProUGUI[] settingsTexts;
-    public TextMeshProUGUI[] extrasTexts;
-    public TextMeshProUGUI[] singlePlayerTexts;
-
-    // ===== BG =====
-    public GameObject[] mainBg;
-    public GameObject[] settingsBg;
-    public GameObject[] extrasBg;
-    public GameObject[] singlePlayerBg;
+    // ===== ANIMATOR HIGHLIGHTS =====
+    public Animator[] mainHighlights;
+    public Animator[] settingsHighlights;
+    public Animator[] extrasHighlights;
+    public Animator[] singlePlayerHighlights;
 
     // ===== PANEL =====
     public GameObject mainPanel;
@@ -22,25 +16,21 @@ public class MenuSelector : MonoBehaviour
     public GameObject gameplayPanel;
     public GameObject extrasPanel;
     public GameObject audioPanel;
-    public GameObject videoPanel; // 🔥 baru
+    public GameObject videoPanel;
     public GameObject controlPanel;
     public GameObject singlePlayerPanel;
     public GameObject continuePanel;
 
     public MonoBehaviour playerMovement;
-
-
     public LoadingScreen loadingScreen;
     public PauseMenuSelector pauseMenu;
-    public SlotSelector slotSelector; // ← tambahkan di sini
-
+    public SlotSelector slotSelector;
 
     // ACTIVE UI
-    TextMeshProUGUI[] texts;
-    GameObject[] backgrounds;
+    Animator[] highlights;
 
     // MENU
-    string[] mainMenu = { "SINGLE PLAYER", "CO-OP", "EXTRAS", "SETTINGS", "QUIT" };
+    string[] mainMenu = { "SINGLE PLAYER", "CO-OP", "SETTINGS", "EXTRAS", "QUIT" };
     string[] extrasMenu = { "CREDITS", "GALLERY", "BACK" };
     string[] settingsMenu = { "GAMEPLAY", "VIDEO", "AUDIO", "BACK" };
     string[] singlePlayerMenu = { "CONTINUE", "NEW GAME", "LOAD GAME", "BACK" };
@@ -63,8 +53,7 @@ public class MenuSelector : MonoBehaviour
     private struct PanelState
     {
         public GameObject panel;
-        public TextMeshProUGUI[] texts;
-        public GameObject[] backgrounds;
+        public Animator[] highlights;
         public string[] menu;
         public int index;
         public bool wasInSettings;
@@ -112,7 +101,7 @@ public class MenuSelector : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (pauseMenu != null && pauseMenu.isPaused) return; // ← tambahkan ini
+            if (pauseMenu != null && pauseMenu.isPaused) return;
             GoBack();
         }
     }
@@ -122,8 +111,7 @@ public class MenuSelector : MonoBehaviour
         panelHistory.Push(new PanelState
         {
             panel = currentPanel,
-            texts = texts,
-            backgrounds = backgrounds,
+            highlights = highlights,
             menu = currentMenu,
             index = index,
             wasInSettings = inSettings,
@@ -137,13 +125,14 @@ public class MenuSelector : MonoBehaviour
     {
         if (panelHistory.Count == 0) return;
 
+        // HAPUS ClearHighlights(highlights) — tidak perlu
+
         PanelState prev = panelHistory.Pop();
 
         DisableAll();
 
         prev.panel.SetActive(true);
-        texts = prev.texts;
-        backgrounds = prev.backgrounds;
+        highlights = prev.highlights;
         currentMenu = prev.menu;
         index = prev.index;
         inSettings = prev.wasInSettings;
@@ -152,15 +141,14 @@ public class MenuSelector : MonoBehaviour
         inSinglePlayer = prev.wasInSinglePlayer;
         isInContinuePanel = false;
 
-        UpdateMenu();
+        UpdateMenu(); // ini sudah cukup — set true yang perlu, false yang lain
     }
 
     public void ShowMainMenu()
     {
         DisableAll();
         mainPanel.SetActive(true);
-        texts = mainTexts;
-        backgrounds = mainBg;
+        highlights = mainHighlights;
         currentMenu = mainMenu;
         index = 0;
         UpdateMenu();
@@ -170,25 +158,24 @@ public class MenuSelector : MonoBehaviour
     {
         string selected = currentMenu[index];
 
-        // ===== MAIN =====
         if (!inSettings && !inExtras && !inSinglePlayer)
         {
             if (selected == "SINGLE PLAYER")
             {
                 PushCurrentState(mainPanel);
-                SwitchTo(singlePlayerPanel, singlePlayerTexts, singlePlayerBg, singlePlayerMenu);
+                SwitchTo(singlePlayerPanel, singlePlayerHighlights, singlePlayerMenu);
                 inSinglePlayer = true;
             }
             else if (selected == "SETTINGS")
             {
                 PushCurrentState(mainPanel);
-                SwitchTo(settingsPanel, settingsTexts, settingsBg, settingsMenu);
+                SwitchTo(settingsPanel, settingsHighlights, settingsMenu);
                 inSettings = true;
             }
             else if (selected == "EXTRAS")
             {
                 PushCurrentState(mainPanel);
-                SwitchTo(extrasPanel, extrasTexts, extrasBg, extrasMenu);
+                SwitchTo(extrasPanel, extrasHighlights, extrasMenu);
                 inExtras = true;
             }
             else if (selected == "QUIT")
@@ -197,7 +184,6 @@ public class MenuSelector : MonoBehaviour
             }
         }
 
-        // ===== SETTINGS =====
         else if (inSettings)
         {
             if (selected == "GAMEPLAY")
@@ -205,7 +191,7 @@ public class MenuSelector : MonoBehaviour
                 PushCurrentState(settingsPanel);
                 OpenGameplaySettings();
             }
-            else if (selected == "VIDEO") // 🔥 baru
+            else if (selected == "VIDEO")
             {
                 PushCurrentState(settingsPanel);
                 OpenVideoSettings();
@@ -222,31 +208,27 @@ public class MenuSelector : MonoBehaviour
             }
         }
 
-        // ===== SINGLE PLAYER =====
         else if (inSinglePlayer)
         {
             if (selected == "CONTINUE")
             {
                 DisableAll();
-                continuePanel.SetActive(true);  // ← ganti continuePanel.SetActive(true)
+                continuePanel.SetActive(true);
                 isInContinuePanel = true;
                 playerMovement.enabled = true;
                 inSinglePlayer = false;
                 panelHistory.Clear();
-                Debug.Log("Continue game");
             }
             else if (selected == "NEW GAME")
             {
                 DisableAll();
                 playerMovement.enabled = true;
                 currentMenu = null;
-                inSinglePlayer = false;  // ← tambahkan ini
-                panelHistory.Clear();    // ← tambahkan ini, bersihkan history
-                Debug.Log("New game");
+                inSinglePlayer = false;
+                panelHistory.Clear();
             }
             else if (selected == "LOAD GAME")
             {
-                // TODO: buka panel load save
                 Debug.Log("Load game");
             }
             else if (selected == "BACK")
@@ -256,7 +238,6 @@ public class MenuSelector : MonoBehaviour
             }
         }
 
-        // ===== EXTRAS =====
         else if (inExtras)
         {
             if (selected == "BACK")
@@ -282,7 +263,7 @@ public class MenuSelector : MonoBehaviour
         audioPanel.SetActive(true);
     }
 
-    void OpenVideoSettings() // 🔥 baru
+    void OpenVideoSettings()
     {
         DisableAll();
         videoPanel.SetActive(true);
@@ -323,17 +304,27 @@ public class MenuSelector : MonoBehaviour
         isInVideoPanel = false;
     }
 
-    void SwitchTo(GameObject panel, TextMeshProUGUI[] txt, GameObject[] bg, string[] menu)
+    void SwitchTo(GameObject panel, Animator[] anim, string[] menu)
     {
+        // HAPUS ClearHighlights(highlights) — tidak perlu
+
         DisableAll();
-
         panel.SetActive(true);
-
-        texts = txt;
-        backgrounds = bg;
+        highlights = anim;
         currentMenu = menu;
-
         index = 0;
+        UpdateMenu(); // tambah ini
+    }
+
+    void RebindHighlights(Animator[] anims)
+    {
+        if (anims == null) return;
+        foreach (var anim in anims)
+        {
+            if (anim == null) continue;
+            anim.Rebind();       // reset animator ke state awal
+            anim.Update(0f);     // paksa evaluate frame pertama
+        }
     }
 
     public void DisableAll()
@@ -349,20 +340,26 @@ public class MenuSelector : MonoBehaviour
         continuePanel.SetActive(false);
     }
 
+    void ClearHighlights(Animator[] toClear)
+    {
+        if (toClear == null) return;
+        foreach (var anim in toClear)
+        {
+            if (anim == null) continue;
+            anim.SetTrigger("Normal");
+        }
+    }
+
     void UpdateMenu()
     {
-        for (int i = 0; i < texts.Length; i++)
+        for (int i = 0; i < highlights.Length; i++)
         {
-            if (i < currentMenu.Length)
-            {
-                texts[i].gameObject.SetActive(true);
+            if (highlights[i] == null) continue;
 
-                bool selected = (i == index);
-
-                backgrounds[i].SetActive(selected);
-                texts[i].color = selected ? Color.black : Color.red;
-                texts[i].transform.localScale = selected ? Vector3.one * 1.05f : Vector3.one;
-            }
+            if (i == index)
+                highlights[i].SetTrigger("Selected");
+            else
+                highlights[i].SetTrigger("Normal");
         }
     }
 }
