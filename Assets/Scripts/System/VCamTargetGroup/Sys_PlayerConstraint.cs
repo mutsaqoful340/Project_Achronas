@@ -28,7 +28,6 @@ public class Sys_PlayerConstraint : MonoBehaviour
     [Header("Distance Check Optimization")]
     [Tooltip("How often to check player distance in seconds")]
     [SerializeField] private float distanceCheckInterval = 0.2f;
-    private float nextDistanceCheckTime = 0f;
     private bool hasDistanceEventTriggered = false;
     private bool arePlayersSeparated = false;
 
