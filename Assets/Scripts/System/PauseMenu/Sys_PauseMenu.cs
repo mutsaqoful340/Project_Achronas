@@ -1,7 +1,7 @@
 using UnityEngine;
 using Unity.Cinemachine;
 
-public class _Sys_PauseMenu : GameplayBehaviour
+public class Sys_PauseMenu : Sys_GameplayBehaviour
 {
     private bool isPaused = false;
 
@@ -20,7 +20,7 @@ public class _Sys_PauseMenu : GameplayBehaviour
     public CinemachineVirtualCameraBase pauseMenuCamera; // The camera to show when paused
 
     [Header("System References")]
-    public _Sys_GameModeSwitch gameModeSwitch; // Reference to the game mode switch system (if needed for additional functionality)
+    public Sys_GameModeSwitch gameModeSwitch; // Reference to the game mode switch system (if needed for additional functionality)
     
     private CinemachineVirtualCameraBase previousCamera; // Store the camera that was active before pause
 
@@ -29,8 +29,10 @@ public class _Sys_PauseMenu : GameplayBehaviour
     private Rigidbody player2Rigidbody;
     private bool player2RigidbodyWasKinematic;
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable(); // Call parent OnEnable
+        
         // Subscribe to both players' input events IMMEDIATELY (NOT in OnGameplayEnabled)
         // This ensures pause/unpause works regardless of game mode
         if (player1Ref != null && player1Ref.moduleInputPlay != null)
@@ -40,7 +42,7 @@ public class _Sys_PauseMenu : GameplayBehaviour
             player2Ref.moduleInputPlay.OnAction += OnPlayerAction;
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
         // Unsubscribe when disabled
         if (player1Ref != null && player1Ref.moduleInputPlay != null)
@@ -48,6 +50,8 @@ public class _Sys_PauseMenu : GameplayBehaviour
         
         if (player2Ref != null && player2Ref.moduleInputPlay != null)
             player2Ref.moduleInputPlay.OnAction -= OnPlayerAction;
+        
+        base.OnDisable(); // Call parent OnDisable
     }
 
     protected override void OnGameplayEnabled()
@@ -103,14 +107,14 @@ public class _Sys_PauseMenu : GameplayBehaviour
             Debug.Log("<color=cyan>[PauseMenu] Resuming game...</color>");
             Resume();
             if (gameModeSwitch != null)
-                gameModeSwitch.SetMode(_Sys_GameModeSwitch.GameMode.Player); // Switch back to Player mode when resuming
+                gameModeSwitch.SetMode(Sys_GameModeSwitch.GameMode.Player); // Switch back to Player mode when resuming
         }
         else
         {
             Debug.Log("<color=cyan>[PauseMenu] Pausing game...</color>");
             Pause();
             if (gameModeSwitch != null)
-                gameModeSwitch.SetMode(_Sys_GameModeSwitch.GameMode.UI); // Switch to UI mode when paused
+                gameModeSwitch.SetMode(Sys_GameModeSwitch.GameMode.UI); // Switch to UI mode when paused
         }
     }
 

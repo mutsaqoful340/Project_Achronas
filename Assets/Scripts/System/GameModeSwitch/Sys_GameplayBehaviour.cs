@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// Base class for scripts that should only be active during Gameplay mode
 /// </summary>
-public abstract class GameplayBehaviour : MonoBehaviour
+public abstract class Sys_GameplayBehaviour : MonoBehaviour
 {
     protected bool isActive = false;
     private bool hasSubscribed = false;
@@ -22,9 +22,9 @@ public abstract class GameplayBehaviour : MonoBehaviour
 
     protected virtual void OnDisable()
     {
-        if (_Sys_GameModeSwitch.Instance != null && hasSubscribed)
+        if (Sys_GameModeSwitch.Instance != null && hasSubscribed)
         {
-            _Sys_GameModeSwitch.Instance.OnGameModeChanged -= OnGameModeChanged;
+            Sys_GameModeSwitch.Instance.OnGameModeChanged -= OnGameModeChanged;
             hasSubscribed = false;
         }
     }
@@ -33,18 +33,18 @@ public abstract class GameplayBehaviour : MonoBehaviour
     {
         if (hasSubscribed) return; // Already subscribed
         
-        if (_Sys_GameModeSwitch.Instance != null)
+        if (Sys_GameModeSwitch.Instance != null)
         {
-            _Sys_GameModeSwitch.Instance.OnGameModeChanged += OnGameModeChanged;
+            Sys_GameModeSwitch.Instance.OnGameModeChanged += OnGameModeChanged;
             hasSubscribed = true;
             // Set initial state based on current mode
-            OnGameModeChanged(_Sys_GameModeSwitch.Instance.currentMode);
+            OnGameModeChanged(Sys_GameModeSwitch.Instance.currentMode);
         }
     }
 
-    private void OnGameModeChanged(_Sys_GameModeSwitch.GameMode mode)
+    private void OnGameModeChanged(Sys_GameModeSwitch.GameMode mode)
     {
-        if (mode == _Sys_GameModeSwitch.GameMode.Player)
+        if (mode == Sys_GameModeSwitch.GameMode.Player)
         {
             isActive = true;
             OnGameplayEnabled();

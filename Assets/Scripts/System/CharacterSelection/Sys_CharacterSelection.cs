@@ -6,7 +6,7 @@ using UnityEngine.Events;
 using System.Collections.Generic;
 using TMPro;
 
-public class _Sys_CharacterSelection : MonoBehaviour
+public class Sys_CharacterSelection : MonoBehaviour
 {
     #region Player Login Properties
     [Header("Player Login")]
@@ -417,9 +417,9 @@ public class _Sys_CharacterSelection : MonoBehaviour
         PlayerPrefs.Save();
         
         // Save to PlayerSessionData (for gamepad assignments)
-        if (_Sys_PlayerSessionData.Instance != null)
+        if (Sys_PlayerSessionData.Instance != null)
         {
-            _Sys_PlayerSessionData.Instance.SavePlayerData(
+            Sys_PlayerSessionData.Instance.SavePlayerData(
                 player1Device,
                 player2Device,
                 player1SelectedCharacter,

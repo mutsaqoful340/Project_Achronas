@@ -6,9 +6,9 @@ using UnityEngine.InputSystem;
 /// Persists across scenes via DontDestroyOnLoad
 /// Auto-cleared when game closes
 /// </summary>
-public class _Sys_PlayerSessionData : MonoBehaviour
+public class Sys_PlayerSessionData : MonoBehaviour
 {
-    public static _Sys_PlayerSessionData Instance { get; private set; }
+    public static Sys_PlayerSessionData Instance { get; private set; }
 
     [Header("Gamepad Assignments")]
     public InputDevice player1Device;

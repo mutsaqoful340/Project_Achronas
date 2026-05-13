@@ -49,10 +49,10 @@ public class _GP_RadialQTE_Manager : MonoBehaviour
         radialQTE2.SetupQTE(button2, sharedSuccessZoneAngle);
 
         // Assign devices dari PlayerSessionData
-        if (_Sys_PlayerSessionData.Instance != null && _Sys_PlayerSessionData.Instance.IsValid())
+        if (Sys_PlayerSessionData.Instance != null && Sys_PlayerSessionData.Instance.IsValid())
         {
-            radialQTE1.AssignDevice(_Sys_PlayerSessionData.Instance.player1Device);
-            radialQTE2.AssignDevice(_Sys_PlayerSessionData.Instance.player2Device);
+            radialQTE1.AssignDevice(Sys_PlayerSessionData.Instance.player1Device);
+            radialQTE2.AssignDevice(Sys_PlayerSessionData.Instance.player2Device);
         }
 
         radialQTE1.gameObject.SetActive(true);

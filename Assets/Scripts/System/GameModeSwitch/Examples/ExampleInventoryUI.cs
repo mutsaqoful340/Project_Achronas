@@ -46,6 +46,6 @@ public class ExampleInventoryUI : UIBehaviour
     private void CloseInventory()
     {
         // Switch back to gameplay mode
-        _Sys_GameModeSwitch.Instance.SwitchMode();
+        Sys_GameModeSwitch.Instance.SwitchMode();
     }
 }

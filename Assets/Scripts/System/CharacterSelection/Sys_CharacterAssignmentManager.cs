@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 /// Call AssignCharacters() after character selection is complete
 /// Also monitors for controller disconnections and auto-reassigns to available player slots
 /// </summary>
-public class _Sys_CharacterAssignmentManager : MonoBehaviour
+public class Sys_CharacterAssignmentManager : MonoBehaviour
 {
     [Header("Character References")]
     [Tooltip("The Left character GameObject (index 1)")]
@@ -72,13 +72,13 @@ public class _Sys_CharacterAssignmentManager : MonoBehaviour
     public void AssignCharacters()
     {
         // Validate session data
-        if (_Sys_PlayerSessionData.Instance == null)
+        if (Sys_PlayerSessionData.Instance == null)
         {
             Debug.LogError("<color=red>CharacterAssignmentManager: PlayerSessionData.Instance is NULL!</color>");
             return;
         }
 
-        if (!_Sys_PlayerSessionData.Instance.IsValid())
+        if (!Sys_PlayerSessionData.Instance.IsValid())
         {
             Debug.LogError("<color=red>CharacterAssignmentManager: PlayerSessionData is incomplete! Cannot assign characters.</color>");
             return;
@@ -94,7 +94,7 @@ public class _Sys_CharacterAssignmentManager : MonoBehaviour
         Debug.Log("<color=cyan>=== CharacterAssignmentManager: Starting assignment ===</color>");
 
         // Get session data
-        var sessionData = _Sys_PlayerSessionData.Instance;
+        var sessionData = Sys_PlayerSessionData.Instance;
         
         // Track devices for reassignment monitoring
         player1Device = sessionData.player1Device;
@@ -253,8 +253,8 @@ public class _Sys_CharacterAssignmentManager : MonoBehaviour
             Debug.Log($"<color=green>✓ New controller auto-assigned to Player 1</color>");
             
             player1Character.AssignDevice(connectedDevice);
-            if (_Sys_PlayerSessionData.Instance != null)
-                _Sys_PlayerSessionData.Instance.player1Device = connectedDevice;
+            if (Sys_PlayerSessionData.Instance != null)
+                Sys_PlayerSessionData.Instance.player1Device = connectedDevice;
             Debug.Log($"<color=green>Player 1 character updated with new device</color>");
         }
         // If Player 2 is missing their device, assign this one to them
@@ -264,8 +264,8 @@ public class _Sys_CharacterAssignmentManager : MonoBehaviour
             Debug.Log($"<color=green>✓ New controller auto-assigned to Player 2</color>");
             
             player2Character.AssignDevice(connectedDevice);
-            if (_Sys_PlayerSessionData.Instance != null)
-                _Sys_PlayerSessionData.Instance.player2Device = connectedDevice;
+            if (Sys_PlayerSessionData.Instance != null)
+                Sys_PlayerSessionData.Instance.player2Device = connectedDevice;
             Debug.Log($"<color=green>Player 2 character updated with new device</color>");
         }
         else
@@ -285,8 +285,8 @@ public class _Sys_CharacterAssignmentManager : MonoBehaviour
             if (player1Character != null)
             {
                 player1Character.AssignDevice(newDevice);
-                if (_Sys_PlayerSessionData.Instance != null)
-                    _Sys_PlayerSessionData.Instance.player1Device = newDevice;
+                if (Sys_PlayerSessionData.Instance != null)
+                    Sys_PlayerSessionData.Instance.player1Device = newDevice;
                 Debug.Log($"<color=cyan>Player 1 reassigned to new device</color>");
             }
         }
@@ -296,8 +296,8 @@ public class _Sys_CharacterAssignmentManager : MonoBehaviour
             if (player2Character != null)
             {
                 player2Character.AssignDevice(newDevice);
-                if (_Sys_PlayerSessionData.Instance != null)
-                    _Sys_PlayerSessionData.Instance.player2Device = newDevice;
+                if (Sys_PlayerSessionData.Instance != null)
+                    Sys_PlayerSessionData.Instance.player2Device = newDevice;
                 Debug.Log($"<color=cyan>Player 2 reassigned to new device</color>");
             }
         }
@@ -331,9 +331,9 @@ public class _Sys_CharacterAssignmentManager : MonoBehaviour
             Debug.Log("Right Character: ✗ Not assigned");
         }
 
-        if (_Sys_PlayerSessionData.Instance != null)
+        if (Sys_PlayerSessionData.Instance != null)
         {
-            Debug.Log($"Session Data Valid: {_Sys_PlayerSessionData.Instance.IsValid()}");
+            Debug.Log($"Session Data Valid: {Sys_PlayerSessionData.Instance.IsValid()}");
         }
         else
         {

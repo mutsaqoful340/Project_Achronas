@@ -3,9 +3,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 
-public class _Sys_GameModeSwitch : MonoBehaviour
+public class Sys_GameModeSwitch : MonoBehaviour
 {
-    public static _Sys_GameModeSwitch Instance { get; private set; }
+    public static Sys_GameModeSwitch Instance { get; private set; }
 
     public PlayerInput[] PlayerInput;
     public enum GameMode

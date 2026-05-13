@@ -347,9 +347,9 @@ public class _Enemy_Boss : MonoBehaviour
         }
 
         // Primary: Switch to UI mode to disable gameplay input while preserving UI access
-        if (_Sys_GameModeSwitch.Instance != null)
+        if (Sys_GameModeSwitch.Instance != null)
         {
-            _Sys_GameModeSwitch.Instance.SetMode(_Sys_GameModeSwitch.GameMode.UI);
+            Sys_GameModeSwitch.Instance.SetMode(Sys_GameModeSwitch.GameMode.UI);
             Debug.Log($"{gameObject.name}: Switched to UI mode - player input locked, UI controls available");
         }
         else

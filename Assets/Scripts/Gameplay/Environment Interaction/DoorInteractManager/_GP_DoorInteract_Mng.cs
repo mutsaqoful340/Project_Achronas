@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.TextCore.Text;
 
-public class _GP_DoorInteract_Mng : MonoBehaviour
+public class GP_DoorInteract_Mng : MonoBehaviour
 {
     public enum DoorState
     {
@@ -244,9 +244,9 @@ public class _GP_DoorInteract_Mng : MonoBehaviour
             if (player1 != null)
             {
                 player1.enabled = true;
-                if (_Sys_GameModeSwitch.Instance != null)
+                if (Sys_GameModeSwitch.Instance != null)
                 {
-                    _Sys_GameModeSwitch.Instance.SetPlayerMode(0, _Sys_GameModeSwitch.GameMode.Player);
+                    Sys_GameModeSwitch.Instance.SetPlayerMode(0, Sys_GameModeSwitch.GameMode.Player);
                 }
                 
                 // Resubscribe to action events
@@ -274,9 +274,9 @@ public class _GP_DoorInteract_Mng : MonoBehaviour
             if (player2 != null)
             {
                 player2.enabled = true;
-                if (_Sys_GameModeSwitch.Instance != null)
+                if (Sys_GameModeSwitch.Instance != null)
                 {
-                    _Sys_GameModeSwitch.Instance.SetPlayerMode(1, _Sys_GameModeSwitch.GameMode.Player);
+                    Sys_GameModeSwitch.Instance.SetPlayerMode(1, Sys_GameModeSwitch.GameMode.Player);
                 }
                 
                 // Resubscribe to action events
@@ -372,9 +372,9 @@ public class _GP_DoorInteract_Mng : MonoBehaviour
         
         // Switch this player to UI mode
         int playerIndex = (player == player1Reference) ? 0 : 1;
-        if (_Sys_GameModeSwitch.Instance != null)
+        if (Sys_GameModeSwitch.Instance != null)
         {
-            _Sys_GameModeSwitch.Instance.SetPlayerMode(playerIndex, _Sys_GameModeSwitch.GameMode.UI);
+            Sys_GameModeSwitch.Instance.SetPlayerMode(playerIndex, Sys_GameModeSwitch.GameMode.UI);
         }
         
         // Track which player is in UI mode
@@ -396,9 +396,9 @@ public class _GP_DoorInteract_Mng : MonoBehaviour
         player.enabled = true;
         
         // Switch player back to Player mode
-        if (_Sys_GameModeSwitch.Instance != null)
+        if (Sys_GameModeSwitch.Instance != null)
         {
-            _Sys_GameModeSwitch.Instance.SetPlayerMode(playerIndex, _Sys_GameModeSwitch.GameMode.Player);
+            Sys_GameModeSwitch.Instance.SetPlayerMode(playerIndex, Sys_GameModeSwitch.GameMode.Player);
         }
         
         // Resubscribe to action events after switching back to Player mode

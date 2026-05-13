@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// Example: Player controller that only works during Gameplay mode
 /// </summary>
-public class ExamplePlayerController : GameplayBehaviour
+public class ExamplePlayerController : Sys_GameplayBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;
 

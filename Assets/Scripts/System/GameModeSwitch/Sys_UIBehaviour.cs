@@ -9,25 +9,25 @@ public abstract class UIBehaviour : MonoBehaviour
 
     protected virtual void OnEnable()
     {
-        if (_Sys_GameModeSwitch.Instance != null)
+        if (Sys_GameModeSwitch.Instance != null)
         {
-            _Sys_GameModeSwitch.Instance.OnGameModeChanged += OnGameModeChanged;
+            Sys_GameModeSwitch.Instance.OnGameModeChanged += OnGameModeChanged;
             // Set initial state based on current mode
-            OnGameModeChanged(_Sys_GameModeSwitch.Instance.currentMode);
+            OnGameModeChanged(Sys_GameModeSwitch.Instance.currentMode);
         }
     }
 
     protected virtual void OnDisable()
     {
-        if (_Sys_GameModeSwitch.Instance != null)
+        if (Sys_GameModeSwitch.Instance != null)
         {
-            _Sys_GameModeSwitch.Instance.OnGameModeChanged -= OnGameModeChanged;
+            Sys_GameModeSwitch.Instance.OnGameModeChanged -= OnGameModeChanged;
         }
     }
 
-    private void OnGameModeChanged(_Sys_GameModeSwitch.GameMode mode)
+    private void OnGameModeChanged(Sys_GameModeSwitch.GameMode mode)
     {
-        if (mode == _Sys_GameModeSwitch.GameMode.UI)
+        if (mode == Sys_GameModeSwitch.GameMode.UI)
         {
             isActive = true;
             OnUIEnabled();

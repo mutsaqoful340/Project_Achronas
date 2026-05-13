@@ -4,14 +4,14 @@ using UnityEngine;
 /// Coordinates the transition from character selection to gameplay
 /// Wire _CharacterSelection.OnBothPlayersConfirmed to call OnConfirmationComplete()
 /// </summary>
-public class _Sys_CharacterSelectionCoordinator : MonoBehaviour
+public class Sys_CharacterSelectionCoordinator : MonoBehaviour
 {
     [Header("References")]
     [Tooltip("The character assignment manager that assigns gamepads to characters")]
-    public _Sys_CharacterAssignmentManager assignmentManager;
+    public Sys_CharacterAssignmentManager assignmentManager;
 
     [Tooltip("The game mode switch that controls player/UI modes")]
-    public _Sys_GameModeSwitch gameModeSwitch;
+    public Sys_GameModeSwitch gameModeSwitch;
 
     [Header("Optional: Cutscene Control")]
     [Tooltip("If assigned, will resume/unpause cutscene after confirmation")]
@@ -48,7 +48,7 @@ public class _Sys_CharacterSelectionCoordinator : MonoBehaviour
         // Step 2: Switch to gameplay mode
         if (gameModeSwitch != null)
         {
-            gameModeSwitch.SetMode(_Sys_GameModeSwitch.GameMode.Player);
+            gameModeSwitch.SetMode(Sys_GameModeSwitch.GameMode.Player);
         }
         else
         {
@@ -75,7 +75,7 @@ public class _Sys_CharacterSelectionCoordinator : MonoBehaviour
         // Step 1: Switch back to UI mode
         if (gameModeSwitch != null)
         {
-            gameModeSwitch.SetMode(_Sys_GameModeSwitch.GameMode.UI);
+            gameModeSwitch.SetMode(Sys_GameModeSwitch.GameMode.UI);
         }
 
         // Step 2: Clear device assignments
@@ -85,7 +85,7 @@ public class _Sys_CharacterSelectionCoordinator : MonoBehaviour
         }
 
         // Step 3: Clear session data (optional - only if going back to main menu)
-        // if (PlayerSessionData.Instance != null)
+        // if (Sys_PlayerSessionData.Instance != null)
         // {
         //     PlayerSessionData.Instance.ClearData();
         // }

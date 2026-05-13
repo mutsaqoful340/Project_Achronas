@@ -4,7 +4,7 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
-public class Player_Components : GameplayBehaviour
+public class Player_Components : Sys_GameplayBehaviour
 {
     [Header("Module Input Play")]
     public _ModuleInputPlay moduleInputPlay;
