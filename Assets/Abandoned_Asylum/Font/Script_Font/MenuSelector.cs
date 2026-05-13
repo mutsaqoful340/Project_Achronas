@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
-public class MenuSelector : MonoBehaviour
+public class MenuSelector : MonoBehaviour, ISelectHandler, ICancelHandler
 {
     // ===== ANIMATOR HIGHLIGHTS =====
     public Animator[] mainHighlights;
@@ -105,7 +106,16 @@ public class MenuSelector : MonoBehaviour
             GoBack();
         }
     }
+    public void OnSelect(BaseEventData eventData)
+    {
+        Debug.Log("Menu selected");
+    }
 
+    public void OnCancel(BaseEventData eventData)
+    {
+        // Automatically called when Cancel input (Escape) is pressed
+        GoBack();
+    }
     void PushCurrentState(GameObject currentPanel)
     {
         panelHistory.Push(new PanelState
