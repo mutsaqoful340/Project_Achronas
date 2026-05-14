@@ -139,7 +139,7 @@ public class SettingOptionUI : MonoBehaviour
         targetPanel.SetActive(true);
 
         if (menuSelector != null)
-            menuSelector.OpenControlPanel();
+            menuSelector.OpenPanel_Control();
 
         // 🔥 matikan flag setelah semua selesai
         isOpeningLinkedPanel = false;
@@ -208,13 +208,13 @@ public class SettingOptionUI : MonoBehaviour
     void UseSetting()
     {
         if (menuSelector != null)
-            menuSelector.isUsingSetting = true;
+            menuSelector.isInSetting = true;
     }
 
     void ReleaseSetting()
     {
         if (menuSelector != null)
-            menuSelector.isUsingSetting = false;
+            menuSelector.isInSetting = false;
     }
 
     void UpdateUI()

@@ -98,7 +98,7 @@ public class AudioOptionUI : MonoBehaviour
         }
 
         if (menuSelector != null)
-            menuSelector.EnterAudioPanel();
+            menuSelector.OpenPanel_Audio();
 
         UpdateSelection();
         UpdateAllUI();

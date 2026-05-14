@@ -2,15 +2,12 @@
 using TMPro;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
-public class MenuSelector : MonoBehaviour, ISelectHandler, ICancelHandler
+public class MenuSelector : MonoBehaviour
 {
-    // ===== ANIMATOR HIGHLIGHTS =====
-    public Animator[] mainHighlights;
-    public Animator[] settingsHighlights;
-    public Animator[] extrasHighlights;
-    public Animator[] singlePlayerHighlights;
-
+    [Header("UI Panels")]
     // ===== PANEL =====
     public GameObject mainPanel;
     public GameObject settingsPanel;
@@ -19,32 +16,20 @@ public class MenuSelector : MonoBehaviour, ISelectHandler, ICancelHandler
     public GameObject audioPanel;
     public GameObject videoPanel;
     public GameObject controlPanel;
-    public GameObject singlePlayerPanel;
+    public GameObject playPanel;
     public GameObject continuePanel;
 
+    [Header("EXTERNAL REFERENCES")]
     public MonoBehaviour playerMovement;
     public LoadingScreen loadingScreen;
     public PauseMenuSelector pauseMenu;
     public SlotSelector slotSelector;
 
-    // ACTIVE UI
-    Animator[] highlights;
-
-    // MENU
-    string[] mainMenu = { "SINGLE PLAYER", "CO-OP", "SETTINGS", "EXTRAS", "QUIT" };
-    string[] extrasMenu = { "CREDITS", "GALLERY", "BACK" };
-    string[] settingsMenu = { "GAMEPLAY", "VIDEO", "AUDIO", "BACK" };
-    string[] singlePlayerMenu = { "CONTINUE", "NEW GAME", "LOAD GAME", "BACK" };
-
-    string[] currentMenu;
-
-    int index = 0;
-
     bool inSettings = false;
     bool inExtras = false;
     bool inSinglePlayer = false;
 
-    public bool isUsingSetting = false;
+    public bool isInSetting = false;
     public bool isInControlPanel = false;
     public bool isInAudioPanel = false;
     public bool isInVideoPanel = false;
@@ -54,9 +39,6 @@ public class MenuSelector : MonoBehaviour, ISelectHandler, ICancelHandler
     private struct PanelState
     {
         public GameObject panel;
-        public Animator[] highlights;
-        public string[] menu;
-        public int index;
         public bool wasInSettings;
         public bool wasInExtras;
         public bool wasInControlPanel;
@@ -65,6 +47,8 @@ public class MenuSelector : MonoBehaviour, ISelectHandler, ICancelHandler
 
     private Stack<PanelState> panelHistory = new Stack<PanelState>();
 
+    private InputActions inputActions;
+
     void Start()
     {
         playerMovement.enabled = false;
@@ -72,48 +56,21 @@ public class MenuSelector : MonoBehaviour, ISelectHandler, ICancelHandler
         ShowMainMenu();
     }
 
-    void Update()
+    void OnEnable()
     {
-        if (currentMenu == null) return;
-
-        if (isUsingSetting) return;
-        if (isInAudioPanel) return;
-        if (isInVideoPanel) return;
-        if (isInContinuePanel) return;
-
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            index = (index + 1) % currentMenu.Length;
-            UpdateMenu();
-        }
-
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            index--;
-            if (index < 0) index = currentMenu.Length - 1;
-            UpdateMenu();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            if (!SettingOptionUI.IsHandlingReturn())
-                HandleSelect();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (pauseMenu != null && pauseMenu.isPaused) return;
-            GoBack();
-        }
-    }
-    public void OnSelect(BaseEventData eventData)
-    {
-        Debug.Log("Menu selected");
+        inputActions = new InputActions();
+        inputActions.UI.Enable();
+        inputActions.UI.Cancel.performed += OnCancelInput;
     }
 
-    public void OnCancel(BaseEventData eventData)
+    void OnDisable()
     {
-        // Automatically called when Cancel input (Escape) is pressed
+        inputActions.UI.Cancel.performed -= OnCancelInput;
+        inputActions.Dispose();
+    }
+
+    private void OnCancelInput(InputAction.CallbackContext context)
+    {
         GoBack();
     }
     void PushCurrentState(GameObject currentPanel)
@@ -121,9 +78,6 @@ public class MenuSelector : MonoBehaviour, ISelectHandler, ICancelHandler
         panelHistory.Push(new PanelState
         {
             panel = currentPanel,
-            highlights = highlights,
-            menu = currentMenu,
-            index = index,
             wasInSettings = inSettings,
             wasInExtras = inExtras,
             wasInSinglePlayer = inSinglePlayer,
@@ -135,168 +89,131 @@ public class MenuSelector : MonoBehaviour, ISelectHandler, ICancelHandler
     {
         if (panelHistory.Count == 0) return;
 
-        // HAPUS ClearHighlights(highlights) — tidak perlu
-
         PanelState prev = panelHistory.Pop();
 
         DisableAll();
 
         prev.panel.SetActive(true);
-        highlights = prev.highlights;
-        currentMenu = prev.menu;
-        index = prev.index;
         inSettings = prev.wasInSettings;
         inExtras = prev.wasInExtras;
         isInControlPanel = prev.wasInControlPanel;
         inSinglePlayer = prev.wasInSinglePlayer;
         isInContinuePanel = false;
-
-        UpdateMenu(); // ini sudah cukup — set true yang perlu, false yang lain
+        SelectFirstButton(prev.panel);
     }
 
     public void ShowMainMenu()
     {
         DisableAll();
         mainPanel.SetActive(true);
-        highlights = mainHighlights;
-        currentMenu = mainMenu;
-        index = 0;
-        UpdateMenu();
     }
 
-    void HandleSelect()
+    // ===== PANEL OPENING METHODS =====
+    #region Open Panel Methods
+    public void OpenPanel_Play()
     {
-        string selected = currentMenu[index];
-
-        if (!inSettings && !inExtras && !inSinglePlayer)
-        {
-            if (selected == "SINGLE PLAYER")
-            {
-                PushCurrentState(mainPanel);
-                SwitchTo(singlePlayerPanel, singlePlayerHighlights, singlePlayerMenu);
-                inSinglePlayer = true;
-            }
-            else if (selected == "SETTINGS")
-            {
-                PushCurrentState(mainPanel);
-                SwitchTo(settingsPanel, settingsHighlights, settingsMenu);
-                inSettings = true;
-            }
-            else if (selected == "EXTRAS")
-            {
-                PushCurrentState(mainPanel);
-                SwitchTo(extrasPanel, extrasHighlights, extrasMenu);
-                inExtras = true;
-            }
-            else if (selected == "QUIT")
-            {
-                Application.Quit();
-            }
-        }
-
-        else if (inSettings)
-        {
-            if (selected == "GAMEPLAY")
-            {
-                PushCurrentState(settingsPanel);
-                OpenGameplaySettings();
-            }
-            else if (selected == "VIDEO")
-            {
-                PushCurrentState(settingsPanel);
-                OpenVideoSettings();
-            }
-            else if (selected == "AUDIO")
-            {
-                PushCurrentState(settingsPanel);
-                OpenAudioSettings();
-            }
-            else if (selected == "BACK")
-            {
-                GoBack();
-                return;
-            }
-        }
-
-        else if (inSinglePlayer)
-        {
-            if (selected == "CONTINUE")
-            {
-                DisableAll();
-                continuePanel.SetActive(true);
-                isInContinuePanel = true;
-                playerMovement.enabled = true;
-                inSinglePlayer = false;
-                panelHistory.Clear();
-            }
-            else if (selected == "NEW GAME")
-            {
-                DisableAll();
-                playerMovement.enabled = true;
-                currentMenu = null;
-                inSinglePlayer = false;
-                panelHistory.Clear();
-            }
-            else if (selected == "LOAD GAME")
-            {
-                Debug.Log("Load game");
-            }
-            else if (selected == "BACK")
-            {
-                GoBack();
-                return;
-            }
-        }
-
-        else if (inExtras)
-        {
-            if (selected == "BACK")
-            {
-                GoBack();
-                return;
-            }
-        }
-
-        UpdateMenu();
+        PushCurrentState(mainPanel);
+        OpenPanelInternal(playPanel);
+        SelectFirstButton(playPanel);
+        inSinglePlayer = true;
     }
 
-    void OpenGameplaySettings()
+    public void OpenPanel_Settings()
     {
+        PushCurrentState(mainPanel);
+        OpenPanelInternal(settingsPanel);
+        SelectFirstButton(settingsPanel);
+        inSettings = true;
+    }
+
+    public void OpenPanel_Extras()
+    {
+        PushCurrentState(mainPanel);
+        OpenPanelInternal(extrasPanel);
+        SelectFirstButton(extrasPanel);
+        inExtras = true;
+    }
+
+    public void OpenPanel_Gameplay()
+    {
+        PushCurrentState(settingsPanel);
         DisableAll();
         gameplayPanel.SetActive(true);
+        SelectFirstButton(gameplayPanel);
         isInControlPanel = false;
     }
 
-    void OpenAudioSettings()
+    public void OpenPanel_Video()
     {
-        DisableAll();
-        audioPanel.SetActive(true);
-    }
-
-    void OpenVideoSettings()
-    {
+        PushCurrentState(settingsPanel);
         DisableAll();
         videoPanel.SetActive(true);
+        SelectFirstButton(videoPanel);
     }
 
-    public void StartGame()
+    public void OpenPanel_Audio()
+    {
+        PushCurrentState(settingsPanel);
+        DisableAll();
+        audioPanel.SetActive(true);
+        SelectFirstButton(audioPanel);
+    }
+
+    public void OpenPanel_Continue()
     {
         DisableAll();
+        continuePanel.SetActive(true);
+        SelectFirstButton(continuePanel);
+        isInContinuePanel = true;
         playerMovement.enabled = true;
-        currentMenu = null;
+        inSinglePlayer = false;
+        panelHistory.Clear();
     }
 
-    public void OpenControlPanel()
+    public void OpenPanel_Control()
     {
         PushCurrentState(gameplayPanel);
         DisableAll();
         controlPanel.SetActive(true);
+        SelectFirstButton(controlPanel);
         isInControlPanel = true;
     }
+    #endregion
 
-    public void EnterAudioPanel()
+    // ===== BUTTON METHODS =====
+    #region Button Methods
+    public void SelectQuit()
     {
-        isInAudioPanel = true;
+        Application.Quit();
+    }
+
+    public void SelectNewGame()
+    {
+        DisableAll();
+        playerMovement.enabled = true;
+        inSinglePlayer = false;
+        panelHistory.Clear();
+    }
+
+    public void SelectLoadGame()
+    {
+        Debug.Log("Load game");
+    }
+    #endregion
+
+    private void OpenPanelInternal(GameObject panel)
+    {
+        DisableAll();
+        panel.SetActive(true);
+    }
+
+    private void SelectFirstButton(GameObject panel)
+    {
+        Button firstButton = panel.GetComponentInChildren<Button>();
+        if (firstButton != null)
+        {
+            EventSystem.current.SetSelectedGameObject(firstButton.gameObject);
+        }
     }
 
     public void ExitAudioPanel()
@@ -314,29 +231,6 @@ public class MenuSelector : MonoBehaviour, ISelectHandler, ICancelHandler
         isInVideoPanel = false;
     }
 
-    void SwitchTo(GameObject panel, Animator[] anim, string[] menu)
-    {
-        // HAPUS ClearHighlights(highlights) — tidak perlu
-
-        DisableAll();
-        panel.SetActive(true);
-        highlights = anim;
-        currentMenu = menu;
-        index = 0;
-        UpdateMenu(); // tambah ini
-    }
-
-    void RebindHighlights(Animator[] anims)
-    {
-        if (anims == null) return;
-        foreach (var anim in anims)
-        {
-            if (anim == null) continue;
-            anim.Rebind();       // reset animator ke state awal
-            anim.Update(0f);     // paksa evaluate frame pertama
-        }
-    }
-
     public void DisableAll()
     {
         mainPanel.SetActive(false);
@@ -346,30 +240,7 @@ public class MenuSelector : MonoBehaviour, ISelectHandler, ICancelHandler
         controlPanel.SetActive(false);
         audioPanel.SetActive(false);
         videoPanel.SetActive(false);
-        singlePlayerPanel.SetActive(false);
+        playPanel.SetActive(false);
         continuePanel.SetActive(false);
-    }
-
-    void ClearHighlights(Animator[] toClear)
-    {
-        if (toClear == null) return;
-        foreach (var anim in toClear)
-        {
-            if (anim == null) continue;
-            anim.SetTrigger("Normal");
-        }
-    }
-
-    void UpdateMenu()
-    {
-        for (int i = 0; i < highlights.Length; i++)
-        {
-            if (highlights[i] == null) continue;
-
-            if (i == index)
-                highlights[i].SetTrigger("Selected");
-            else
-                highlights[i].SetTrigger("Normal");
-        }
     }
 }
