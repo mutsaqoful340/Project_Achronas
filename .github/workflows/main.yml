@@ -15,7 +15,12 @@ jobs:
           TITLE=$(echo "$COMMIT_MSG" | head -n 1)
           echo "commit_title=$TITLE" >> $GITHUB_OUTPUT
           
-          # 2. Get the rest, trim leading empty lines
+          # 2. Extract Co-authors from trailers (e.g., Co-authored-by: Name <email>)
+          # This grabs the name, trims whitespace, and joins them with '&'
+          CO_AUTHORS=$(echo "$COMMIT_MSG" | grep -i "Co-authored-by:" | sed -E 's/Co-authored-by: ([^<]+).*/\1/i' | sed 's/[[:space:]]*$//' | paste -sd "&" - | sed 's/^/ \& /' || echo "")
+          echo "authors=${{ github.actor }}$CO_AUTHORS" >> $GITHUB_OUTPUT
+          
+          # 3. Get the rest, trim leading empty lines
           {
             echo "commit_body<<EOF"
             echo "$COMMIT_MSG" | tail -n +2 | sed '/./,$!d'
@@ -36,7 +41,7 @@ jobs:
 
             **Description:** ${{ steps.vars.outputs.commit_body }}
 
-            **Author:** ${{ github.actor }}
+            **Author:** ${{ steps.vars.outputs.authors }}
 
             **Repo:** [${{ github.repository }}](https://github.com/${{ github.repository }}) | **Branch:** `${{ github.ref_name }}`
           color: 0x7289da
