@@ -1,261 +1,161 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using System.Collections.Generic;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class VideoOptionUI : MonoBehaviour
 {
     public enum VideoType
     {
-        None,
         DisplayMode,
         FrameRateLimit,
         VSync,
-        Brightness,
-        Apply,
-        ResetToDefault
+        Brightness
     }
 
-    [System.Serializable]
-    public class VideoOption
-    {
-        public string label;
-        public VideoType videoType;
-
-        [Header("UI")]
-        public TextMeshProUGUI labelText;
-        public TextMeshProUGUI valueText;
-        public GameObject highlight;
-
-        [Header("BUTTONS")]
-        public Button btnLeft;
-        public Button btnRight;
-        public TextMeshProUGUI btnLeftText;
-        public TextMeshProUGUI btnRightText;
-
-        [Header("OPTIONS")]
-        public string[] options; // isi pilihan
-
-        [Header("COLOR")]
-        public Color normalColor = Color.white;
-        public Color selectedColor = Color.black;
-
-        [HideInInspector] public int currentOptionIndex = 0;
-    }
+    [Header("UI")]
+    public TextMeshProUGUI valueText;
 
     [Header("OPTIONS")]
-    public List<VideoOption> videoOptions = new List<VideoOption>();
+    public string[] options;
+    public string defaultValue;
 
-    [Header("MENU LINK")]
-    public MenuSelector menuSelector;
+    [Header("VIDEO TYPE")]
+    public VideoType videoType;
 
-    static List<VideoOptionUI> allInstances = new List<VideoOptionUI>();
-    static int currentIndex = 0;
+    int index = 0;
+    private InputActions inputActions;
+    private Button button;
+    private bool horizontalPressProcessed = false;
 
     void OnEnable()
     {
-        if (!allInstances.Contains(this))
-            allInstances.Add(this);
+        button = GetComponent<Button>();
 
-        currentIndex = 0;
-
-        for (int i = 0; i < videoOptions.Count; i++)
+        // Setup InputActions for horizontal navigation (left/right)
+        if (inputActions == null)
         {
-            VideoOption opt = videoOptions[i];
-            opt.currentOptionIndex = 0;
-
-            int capturedIndex = i;
-
-            if (opt.btnLeft != null)
-            {
-                opt.btnLeft.onClick.RemoveAllListeners();
-                opt.btnLeft.onClick.AddListener(() =>
-                {
-                    currentIndex = capturedIndex;
-                    HandleLeft();
-                });
-            }
-
-            if (opt.btnRight != null)
-            {
-                opt.btnRight.onClick.RemoveAllListeners();
-                opt.btnRight.onClick.AddListener(() =>
-                {
-                    currentIndex = capturedIndex;
-                    HandleRight();
-                });
-            }
+            inputActions = new InputActions();
+            inputActions.UI.Enable();
         }
 
-        if (menuSelector != null)
-            menuSelector.EnterVideoPanel();
-
-        UpdateSelection();
-        UpdateAllUI();
+        UpdateUI();
     }
 
     void OnDisable()
     {
-        allInstances.Remove(this);
-        currentIndex = 0;
-
-        if (menuSelector != null)
-            menuSelector.ExitVideoPanel();
+        // Cleanup InputActions
+        if (inputActions != null)
+        {
+            inputActions.Dispose();
+            inputActions = null;
+        }
     }
 
     void Update()
     {
-        if (videoOptions.Count == 0) return;
-        if (!gameObject.activeInHierarchy) return;
-        if (allInstances.Count == 0 || allInstances[0] != this) return;
+        if (inputActions?.UI.enabled == true)
+            HandleHorizontalInput();
+    }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+    private void HandleHorizontalInput()
+    {
+        float horizontalInput = inputActions.UI.Navigate.ReadValue<Vector2>().x;
+
+        // Reset flag when stick returns to neutral
+        if (Mathf.Abs(horizontalInput) < 0.3f)
         {
-            if (menuSelector != null)
-                menuSelector.GoBack();
+            horizontalPressProcessed = false;
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-            Move(1);
+        // Only selected button processes input
+        if (EventSystem.current.currentSelectedGameObject != gameObject)
+            return;
 
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-            Move(-1);
+        // Already processed this press
+        if (horizontalPressProcessed)
+            return;
 
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-            HandleRight();
-
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-            HandleLeft();
-
-        if (Input.GetKeyDown(KeyCode.Return))
-            HandleReturn();
-    }
-
-    void Move(int dir)
-    {
-        currentIndex = (currentIndex + dir + videoOptions.Count) % videoOptions.Count;
-        UpdateSelection();
-    }
-
-    void HandleLeft()
-    {
-        VideoOption opt = videoOptions[currentIndex];
-
-        if (opt.videoType == VideoType.Apply || opt.videoType == VideoType.ResetToDefault) return;
-        if (opt.options == null || opt.options.Length == 0) return;
-
-        opt.currentOptionIndex = (opt.currentOptionIndex - 1 + opt.options.Length) % opt.options.Length;
-        UpdateUI(currentIndex);
-    }
-
-    void HandleRight()
-    {
-        VideoOption opt = videoOptions[currentIndex];
-
-        if (opt.videoType == VideoType.Apply || opt.videoType == VideoType.ResetToDefault) return;
-        if (opt.options == null || opt.options.Length == 0) return;
-
-        opt.currentOptionIndex = (opt.currentOptionIndex + 1) % opt.options.Length;
-        UpdateUI(currentIndex);
-    }
-
-    void HandleReturn()
-    {
-        VideoOption opt = videoOptions[currentIndex];
-
-        if (opt.videoType == VideoType.Apply)
-            ApplyAllSettings();
-        else if (opt.videoType == VideoType.ResetToDefault)
-            ResetAllToDefault();
-    }
-
-    void UpdateSelection()
-    {
-        for (int i = 0; i < videoOptions.Count; i++)
+        // Process the press
+        if (horizontalInput > 0.5f)
         {
-            bool selected = (i == currentIndex);
-
-            if (videoOptions[i].highlight != null)
-                videoOptions[i].highlight.SetActive(selected);
-
-            Color targetColor = selected ? videoOptions[i].selectedColor : videoOptions[i].normalColor;
-            targetColor.a = 1f;
-
-            if (videoOptions[i].labelText != null)
-                videoOptions[i].labelText.color = targetColor;
-
-            if (videoOptions[i].valueText != null)
-                videoOptions[i].valueText.color = targetColor;
-
-            if (videoOptions[i].btnLeftText != null)
-                videoOptions[i].btnLeftText.color = targetColor;
-
-            if (videoOptions[i].btnRightText != null)
-                videoOptions[i].btnRightText.color = targetColor;
+            Previous();
+            horizontalPressProcessed = true;
+        }
+        else if (horizontalInput < -0.5f)
+        {
+            Next();
+            horizontalPressProcessed = true;
         }
     }
 
-    void UpdateUI(int i)
+    public void Next()
     {
-        VideoOption opt = videoOptions[i];
-
-        if (opt.videoType == VideoType.Apply || opt.videoType == VideoType.ResetToDefault) return;
-
-        if (opt.valueText != null && opt.options != null && opt.options.Length > 0)
-            opt.valueText.text = opt.options[opt.currentOptionIndex];
+        if (options == null || options.Length == 0) return;
+        index = (index + 1) % options.Length;
+        UpdateUI();
     }
 
-    void UpdateAllUI()
+    public void Previous()
     {
-        for (int i = 0; i < videoOptions.Count; i++)
-            UpdateUI(i);
+        if (options == null || options.Length == 0) return;
+        index = (index - 1 + options.Length) % options.Length;
+        UpdateUI();
     }
 
-    void ApplyAllSettings()
+    void UpdateUI()
     {
-        foreach (VideoOption opt in videoOptions)
+        if (valueText != null && options != null && options.Length > 0)
+            valueText.text = options[index];
+    }
+
+    public void ApplySetting()
+    {
+        if (options == null || options.Length == 0) return;
+
+        string value = options[index];
+
+        switch (videoType)
         {
-            if (opt.options == null || opt.options.Length == 0) continue;
+            case VideoType.DisplayMode:
+                Debug.Log("Display Mode: " + value);
+                break;
 
-            string val = opt.options[opt.currentOptionIndex];
+            case VideoType.FrameRateLimit:
+                Debug.Log("Frame Rate: " + value);
+                if (int.TryParse(value, out int fps))
+                    Application.targetFrameRate = fps;
+                break;
 
-            switch (opt.videoType)
-            {
-                case VideoType.DisplayMode:
-                    Debug.Log("Display Mode: " + val);
-                    break;
+            case VideoType.VSync:
+                Debug.Log("VSync: " + value);
+                QualitySettings.vSyncCount = index;
+                break;
 
-                case VideoType.FrameRateLimit:
-                    Debug.Log("Frame Rate: " + val);
-                    if (int.TryParse(val, out int fps))
-                        Application.targetFrameRate = fps;
-                    break;
-
-                case VideoType.VSync:
-                    Debug.Log("VSync: " + val);
-                    QualitySettings.vSyncCount = opt.currentOptionIndex;
-                    break;
-
-                case VideoType.Brightness:
-                    Debug.Log("Brightness: " + val);
-                    break;
-            }
+            case VideoType.Brightness:
+                Debug.Log("Brightness: " + value);  
+                break;
         }
-
-        Debug.Log("Settings Applied!");
     }
 
-    void ResetAllToDefault()
+    public void ResetToDefault()
     {
-        for (int i = 0; i < videoOptions.Count; i++)
-        {
-            VideoOption opt = videoOptions[i];
-            if (opt.videoType == VideoType.Apply || opt.videoType == VideoType.ResetToDefault) continue;
-            opt.currentOptionIndex = 0;
-            UpdateUI(i);
-        }
+        if (options == null || options.Length == 0) return;
 
-        Debug.Log("Video Reset to Default");
+        int defaultIndex = System.Array.IndexOf(options, defaultValue);
+        if (defaultIndex >= 0)
+        {
+            index = defaultIndex;
+            UpdateUI();
+            ApplySetting();
+        }
+    }
+
+    public string GetValue()
+    {
+        if (options == null || options.Length == 0) return "";
+        return options[index];
     }
 }
