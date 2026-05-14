@@ -15,12 +15,17 @@ jobs:
           TITLE=$(echo "$COMMIT_MSG" | head -n 1)
           echo "commit_title=$TITLE" >> $GITHUB_OUTPUT
           
-          # 2. Extract Co-authors from trailers (e.g., Co-authored-by: Name <email>)
-          # This grabs the name, trims whitespace, and joins them with '&'
-          CO_AUTHORS=$(echo "$COMMIT_MSG" | grep -i "Co-authored-by:" | sed -E 's/Co-authored-by: ([^<]+).*/\1/i' | sed 's/[[:space:]]*$//' | paste -sd "&" - | sed 's/^/ \& /' || echo "")
-          echo "authors=${{ github.actor }}$CO_AUTHORS" >> $GITHUB_OUTPUT
+          # 2. Extract Co-authors and only add '&' if they exist
+          # This filters for "Co-authored-by:", pulls the name, and joins with '&'
+          RAW_COAUTHORS=$(echo "$COMMIT_MSG" | grep -i "Co-authored-by:" | sed -E 's/Co-authored-by: ([^<]+).*/\1/i' | sed 's/[[:space:]]*$//' | paste -sd "&" -)
           
-          # 3. Get the rest, trim leading empty lines
+          if [ -z "$RAW_COAUTHORS" ]; then
+            echo "authors=${{ github.actor }}" >> $GITHUB_OUTPUT
+          else
+            echo "authors=${{ github.actor }} & $RAW_COAUTHORS" >> $GITHUB_OUTPUT
+          fi
+          
+          # 3. Get the rest of the message, trimming leading empty lines
           {
             echo "commit_body<<EOF"
             echo "$COMMIT_MSG" | tail -n +2 | sed '/./,$!d'
