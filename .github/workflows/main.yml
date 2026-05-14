@@ -25,10 +25,10 @@ jobs:
             echo "authors=${{ github.actor }} & $RAW_COAUTHORS" >> $GITHUB_OUTPUT
           fi
           
-          # 3. Get the rest of the message, trimming leading empty lines
+          # 3. Get the rest of the message, trimming leading empty lines and removing Co-authored-by lines
           {
             echo "commit_body<<EOF"
-            echo "$COMMIT_MSG" | tail -n +2 | sed '/./,$!d'
+            echo "$COMMIT_MSG" | tail -n +2 | grep -v -i "^Co-authored-by:" | sed '/./,$!d'
             echo "EOF"
           } >> "$GITHUB_OUTPUT"
 
