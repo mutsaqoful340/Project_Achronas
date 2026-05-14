@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using TMPro;
-using System.Collections.Generic;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class SettingOptionUI : MonoBehaviour
 {
     [Header("UI")]
     public TextMeshProUGUI valueText;
-    public GameObject highlight;
 
     [Header("OPTIONS")]
     public string[] options;
@@ -17,119 +17,103 @@ public class SettingOptionUI : MonoBehaviour
     [Header("MENU LINK")]
     public MenuSelector menuSelector;
 
-    [Header("COLOR")]
-    public Color normalColor = Color.white;
-    public Color selectedColor = Color.black;
-
     [Header("LABEL")]
     public TextMeshProUGUI labelText;
 
     [Header("LINKED PANEL")]
     public GameObject linkedPanel;
 
-    static List<SettingOptionUI> allOptions = new List<SettingOptionUI>();
-    static int currentIndex = 0;
-    static bool isOpeningLinkedPanel = false; // 🔥 flag buat cegah reset
-
+    // Instance-based (no longer static)
     int index = 0;
 
-    // tambah static method baru
-    // tambah di bawah static bool isOpeningLinkedPanel
-    public static bool IsHandlingReturn()
-    {
-        if (allOptions.Count == 0) return false;
-        if (currentIndex >= allOptions.Count) return false;
-        return allOptions[currentIndex].linkedPanel != null;
-    }
+    private InputActions inputActions;
+    private Button button;
+    private bool horizontalPressProcessed = false;
 
     void OnEnable()
     {
-        if (!allOptions.Contains(this))
-        {
-            allOptions.Add(this);
+        button = GetComponent<Button>();
 
-            allOptions.Sort((a, b) =>
-                a.transform.GetSiblingIndex().CompareTo(b.transform.GetSiblingIndex())
-            );
+        // Setup InputActions for horizontal navigation (left/right)
+        if (inputActions == null)
+        {
+            inputActions = new InputActions();
+            inputActions.UI.Enable();
         }
 
-        UpdateSelection();
+        // Add onClick listener for opening linked panels
+        if (button != null && linkedPanel != null)
+        {
+            button.onClick.AddListener(OnButtonClicked);
+        }
+
         UpdateUI();
     }
 
     void OnDisable()
     {
-        // 🔥 kalau lagi buka linked panel, jangan reset apapun
-        if (isOpeningLinkedPanel) return;
-
-        int removedIndex = allOptions.IndexOf(this);
-
-        if (removedIndex != -1)
-            allOptions.RemoveAt(removedIndex);
-
-        if (removedIndex < currentIndex)
-            currentIndex--;
-
-        if (allOptions.Count > 0)
+        // Cleanup InputActions
+        if (inputActions != null)
         {
-            currentIndex = Mathf.Clamp(currentIndex, 0, allOptions.Count - 1);
-            UpdateSelection();
+            inputActions.Dispose();
+            inputActions = null;
         }
-        else
+
+        // Remove onClick listener
+        if (button != null && linkedPanel != null)
         {
-            currentIndex = 0;
+            button.onClick.RemoveListener(OnButtonClicked);
         }
-    }
-
-    void Start()
-    {
-        allOptions.Clear();
-        allOptions.AddRange(FindObjectsOfType<SettingOptionUI>(true));
-
-        allOptions.Sort((a, b) =>
-            a.transform.GetSiblingIndex().CompareTo(b.transform.GetSiblingIndex())
-        );
-
-        currentIndex = 0;
-
-        UpdateSelection();
-        UpdateUI();
-
-        Debug.Log("TOTAL SETTING: " + allOptions.Count);
     }
 
     void Update()
     {
-        if (allOptions.Count == 0) return;
-        if (!this.enabled) return;
-        if (!gameObject.activeInHierarchy) return;
-        if (this != GetInputOwner()) return;
+        if (inputActions?.UI.enabled == true)
+            HandleHorizontalInput();
+    }
 
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-            Move(1);
+    private void HandleHorizontalInput()
+    {
+        float horizontalInput = inputActions.UI.Navigate.ReadValue<Vector2>().x;
 
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-            Move(-1);
-
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-            allOptions[currentIndex].Next();
-
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-            allOptions[currentIndex].Previous();
-
-        if (Input.GetKeyDown(KeyCode.Return))
+        // Reset flag when stick returns to neutral
+        if (Mathf.Abs(horizontalInput) < 0.3f)
         {
-            SettingOptionUI selected = allOptions[currentIndex];
-            if (selected.linkedPanel != null)
-                OpenLinkedPanel(selected.linkedPanel);
+            horizontalPressProcessed = false;
+            return;
         }
+
+        // Only selected button processes input
+        if (EventSystem.current.currentSelectedGameObject != gameObject)
+            return;
+
+        // Already processed this press
+        if (horizontalPressProcessed)
+            return;
+
+        // Process the press
+        if (horizontalInput > 0.5f)
+        {
+            Next();
+            horizontalPressProcessed = true;
+        }
+        else if (horizontalInput < -0.5f)
+        {
+            Previous();
+            horizontalPressProcessed = true;
+        }
+    }
+
+    private void OnButtonClicked()
+    {
+        if (linkedPanel != null)
+            OpenLinkedPanel(linkedPanel);
     }
 
     void OpenLinkedPanel(GameObject targetPanel)
     {
-        // 🔥 aktifkan flag sebelum apapun dinonaktifkan
-        isOpeningLinkedPanel = true;
-
+        // Deactivate all linked panels in parent panel
+        SettingOptionUI[] allOptions = transform.parent.GetComponentsInChildren<SettingOptionUI>();
         foreach (SettingOptionUI opt in allOptions)
         {
             if (opt.linkedPanel != null)
@@ -140,81 +124,25 @@ public class SettingOptionUI : MonoBehaviour
 
         if (menuSelector != null)
             menuSelector.OpenPanel_Control();
-
-        // 🔥 matikan flag setelah semua selesai
-        isOpeningLinkedPanel = false;
     }
 
-    SettingOptionUI GetInputOwner()
-    {
-        if (allOptions.Count == 0) return null;
-        return allOptions[0];
-    }
-
-    void Move(int dir)
-    {
-        if (allOptions.Count == 0) return;
-
-        currentIndex = (currentIndex + dir + allOptions.Count) % allOptions.Count;
-
-        UpdateSelection();
-    }
-
-    void UpdateSelection()
-    {
-        for (int i = 0; i < allOptions.Count; i++)
-        {
-            bool selected = (i == currentIndex);
-
-            if (allOptions[i].highlight != null)
-                allOptions[i].highlight.SetActive(selected);
-
-            if (allOptions[i].valueText != null)
-            {
-                allOptions[i].valueText.color = selected
-                    ? allOptions[i].selectedColor
-                    : allOptions[i].normalColor;
-            }
-
-            if (allOptions[i].labelText != null)
-            {
-                allOptions[i].labelText.color = selected
-                    ? allOptions[i].selectedColor
-                    : allOptions[i].normalColor;
-            }
-        }
-    }
 
     public void Next()
     {
         if (options == null || options.Length == 0) return;
-
-        UseSetting();
+        if (menuSelector != null) menuSelector.isInSetting = true;
         index = (index + 1) % options.Length;
         UpdateUI();
-        ReleaseSetting();
+        if (menuSelector != null) menuSelector.isInSetting = false;
     }
 
     public void Previous()
     {
         if (options == null || options.Length == 0) return;
-
-        UseSetting();
+        if (menuSelector != null) menuSelector.isInSetting = true;
         index = (index - 1 + options.Length) % options.Length;
         UpdateUI();
-        ReleaseSetting();
-    }
-
-    void UseSetting()
-    {
-        if (menuSelector != null)
-            menuSelector.isInSetting = true;
-    }
-
-    void ReleaseSetting()
-    {
-        if (menuSelector != null)
-            menuSelector.isInSetting = false;
+        if (menuSelector != null) menuSelector.isInSetting = false;
     }
 
     void UpdateUI()
