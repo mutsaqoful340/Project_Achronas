@@ -12,6 +12,7 @@ public class GP_PlayerSanity : MonoBehaviour
     public Player_Components Rinda;
     public Player_Components Naya;
     public Volume renderVol;
+    public GameObject carryDetector;
 
     [Header("Sanity Settings")]
     public float sanityLevel = 100f;
@@ -22,6 +23,7 @@ public class GP_PlayerSanity : MonoBehaviour
     [Header("State")]
     public bool IsSanityRecovered = false;
     public bool IsCarried = false;
+    public bool IsDetectorActive = false;
 
     #region Private Variables
     private GP_PlayerCarrySystem carrySystem;
@@ -32,6 +34,8 @@ public class GP_PlayerSanity : MonoBehaviour
     {
         if (Naya != null)
             carrySystem = Naya.GetComponent<GP_PlayerCarrySystem>();
+        if (carryDetector != null)
+            carryDetector.SetActive(false);
     }
 
     private void Update()
@@ -112,6 +116,7 @@ public class GP_PlayerSanity : MonoBehaviour
         Rinda.currentActionState = ActionState.Depressed;
         Rinda.HandleDepressed();
         IsSanityRecovered = false;
+        OnDetector();
         Debug.Log("Sanity depleted! Rinda is now depressed.");
     }
 
@@ -133,6 +138,13 @@ public class GP_PlayerSanity : MonoBehaviour
     public void OnCarryStarted()
     {
         IsCarried = true;
+        
+        // Disable detector when carry is successful
+        if (carryDetector != null && IsDetectorActive)
+        {
+            OnDetector(); // Toggles detector off
+        }
+        
         Debug.Log("Rinda is now being carried - sanity recovery started");
     }
 
@@ -150,5 +162,17 @@ public class GP_PlayerSanity : MonoBehaviour
         }
         
         Debug.Log("Carry ended");
+    }
+
+    public void OnDetector(){
+        IsDetectorActive = !IsDetectorActive;
+
+        if (carryDetector != null)
+            carryDetector.SetActive(IsDetectorActive);
+        
+        Rigidbody rb = carryDetector.GetComponent<Rigidbody>();
+        if (rb != null)           
+        rb.linearVelocity = Vector3.zero; // Reset velocity to prevent drifting
+        rb.isKinematic = true; // Make kinematic to prevent physics interference
     }
 }

@@ -20,18 +20,63 @@ public class GP_PlayerCarrySystem : MonoBehaviour
     #region Carry State
     [SerializeField] private Player_Components currentCarriedPlayer;
     private bool isCurrentlyCarrying = false;
+    [SerializeField] private Player_Components nearbyPlayer; // For debugging, shows any player in proximity regardless of state
     [SerializeField] private Player_Components nearbyDepressedPlayer;
     #endregion
 
     #region Public Properties
     public bool IsCarrying => isCurrentlyCarrying;
     public Player_Components CarriedPlayer => currentCarriedPlayer;
+    public float BalanceMeter => balanceMeter;
+    #endregion
+
+    private CharacterController controller;
+    private Player_Components playerComponents;
+
+    #region Balance System
+    [Header("Balance Settings")]
+    [SerializeField] 
+    [Tooltip("How much turning affects the balance meter. Higher = more sway from rotation")]
+    private float turnSwayStrength = 2f;
+    
+    [SerializeField] 
+    [Tooltip("How fast the balance meter returns to center when not disturbed. Higher = faster recovery")]
+    private float dampingFactor = 3f;
+    
+    [SerializeField] 
+    [Tooltip("How much player input (left/right stick) reduces sway. Higher = more effective stabilization")]
+    private float stabilizationStrength = 2f;
+    
+    [SerializeField] 
+    [Tooltip("Magnitude of involuntary sideways movement. Higher = player drifts more when swaying")]
+    private float swayAmount = 0.5f;
+    
+    [SerializeField] 
+    [Tooltip("Speed at which sway movement occurs. Higher = faster sideways drift")]
+    private float swaySpeed = 2f;
+    
+    [SerializeField] 
+    [Tooltip("Maximum sway velocity per frame to prevent excessive movement. Higher = allows bigger swings")]
+    private float swayClampMax = 0.2f;
+    
+    [SerializeField] 
+    [Tooltip("Smoothness of sway blending into movement (0-1). Higher = snappier response")]
+    private float swayBlendFactor = 0.1f;
+    
+    private float balanceMeter = 0f;        // -1 (left) to 1 (right)
+    private float lastYRotation = 0f;
+    public Vector3 SwayVelocity { get; private set; } = Vector3.zero;
+    public float SwayClampMax => swayClampMax;
+    public float SwayBlendFactor => swayBlendFactor;
     #endregion
 
     private void Awake()
     {
         if (animator == null)
             animator = GetComponent<Animator>();
+        
+        controller = GetComponent<CharacterController>();
+        playerComponents = GetComponent<Player_Components>();
     }
 
     /// <summary>
@@ -96,8 +141,8 @@ public class GP_PlayerCarrySystem : MonoBehaviour
         }
 
         // Update animator
-        animator.SetBool("IsCarry", true);
-        targetPlayer.animator.SetBool("IsCarry", true);
+        animator.SetTrigger("DoCarry");
+        targetPlayer.animator.SetTrigger("DoCarry");
         
         // Notify sanity system
         if (playerSanity != null)
@@ -120,8 +165,8 @@ public class GP_PlayerCarrySystem : MonoBehaviour
         currentCarriedPlayer.transform.parent = null;
 
         // Update animator
-        animator.SetBool("IsCarry", false);
-        currentCarriedPlayer.animator.SetBool("IsCarry", false);
+        animator.SetTrigger("DoUncarry");
+        currentCarriedPlayer.animator.SetTrigger("DoUncarry");
 
         // Notify sanity system FIRST
         if (playerSanity != null)
@@ -143,9 +188,49 @@ public class GP_PlayerCarrySystem : MonoBehaviour
         isCurrentlyCarrying = false;
     }
 
-    public void Balance()
+    private void Update()
     {
-        
+        if (isCurrentlyCarrying)
+        {
+            UpdateBalance();
+        }
+    }
+
+    /// <summary>
+    /// Updates balance meter based on turn sway, stabilization input, and natural damping
+    /// Also calculates involuntary sideways movement
+    /// </summary>
+    private void UpdateBalance()
+    {
+        // Calculate rotation change (turn sway)
+        float currentYRotation = transform.eulerAngles.y;
+        float rotationDelta = Mathf.DeltaAngle(lastYRotation, currentYRotation);
+        lastYRotation = currentYRotation;
+
+        // Turn creates opposite sway (turn left → sway right)
+        float turnSway = rotationDelta * turnSwayStrength;
+
+        // Get lateral stabilization input from player
+        float lateralInput = 0f;
+        if (playerComponents != null && playerComponents.moduleInputPlay != null && playerComponents.assignedDevice != null)
+        {
+            Vector3 moveInput = playerComponents.moduleInputPlay.GetMoveInput(playerComponents.assignedDevice);
+            lateralInput = moveInput.x;
+        }
+
+        // Stabilization opposes sway
+        float stabilization = lateralInput * stabilizationStrength;
+
+        // Natural damping back to center
+        float damping = -balanceMeter * dampingFactor;
+
+        // Apply combined sway
+        balanceMeter += (turnSway + damping - stabilization) * Time.deltaTime;
+        balanceMeter = Mathf.Clamp(balanceMeter, -1f, 1f);
+
+        // Calculate involuntary sideways movement
+        float lateralDisplacement = balanceMeter * swayAmount;
+        SwayVelocity = transform.right * lateralDisplacement * swaySpeed;
     }
 
     /// <summary>
@@ -156,8 +241,8 @@ public class GP_PlayerCarrySystem : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log($"OnTriggerStay triggered by: {other.gameObject.name}");
-            var player = other.GetComponent<Player_Components>();
-            if (player != null && player.currentActionState == ActionState.Depressed)
+            var player = other.GetComponentInParent<Player_Components>();
+            if (player != null && (player.currentActionState == ActionState.Depressed))
             {
                 nearbyDepressedPlayer = player;
             }
@@ -188,5 +273,10 @@ public class GP_PlayerCarrySystem : MonoBehaviour
         {
             Debug.Log("No depressed player nearby");
         }
+    }
+
+    public bool HasNearbyDepressedPlayer()
+    {
+        return nearbyDepressedPlayer != null;
     }
 }

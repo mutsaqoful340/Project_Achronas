@@ -16,7 +16,6 @@ public class Sys_PlayerConstraint : MonoBehaviour
     public GP_PlayerSanity playerSanity;
 
     [Header("Camera Target Group Settings")]
-    public float radius = 0.5f;
     public float maxPlayerDistance = 10f; // The maximum distance between the players before invoke events or change camera behavior.
 
     [Header("Weight Smoothing")]

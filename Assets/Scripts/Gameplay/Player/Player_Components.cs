@@ -72,7 +72,7 @@ public class Player_Components : Sys_GameplayBehaviour
     public bool IsIdle;
     public bool IsFall;
     public bool IsJump;
-    public bool isCrouching;
+    public bool IsCrouching;
     public bool IsAction1;
     public bool IsAction2;
     public bool IsDepressed;
@@ -290,6 +290,14 @@ public class Player_Components : Sys_GameplayBehaviour
     private float CalculateTargetSpeed()
     {
         bool isSprinting = moduleInputPlay != null && currentActionState == ActionState.Sprint;
+        
+        // Prevent sprinting when carrying
+        GP_PlayerCarrySystem carrySystem = GetComponent<GP_PlayerCarrySystem>();
+        if (carrySystem != null && carrySystem.IsCarrying)
+        {
+            isSprinting = false; // Force walk only
+        }
+        
         Vector3 inputDir = (moduleInputPlay != null && assignedDevice != null) 
             ? moduleInputPlay.GetMoveInput(assignedDevice) 
             : Vector3.zero;
@@ -298,12 +306,18 @@ public class Player_Components : Sys_GameplayBehaviour
         float targetMoveValue = 0f;
         float targetSpeed = walkSpeed;
         
+        // Debug: Log if Move value is unexpectedly high
+        if (currentMoveValue >= 1.9f && !isSprinting && isMoving)
+        {
+            Debug.LogWarning($"{gameObject.name}: Move={currentMoveValue:F2}, isSprinting={isSprinting}, actionState={currentActionState}");
+        }
+        
         if (!isMoving)
         {
             // Idle - no movement input
             targetMoveValue = 0f;
         }
-        else if (isCrouching)
+        else if (IsCrouching)
         {
             targetMoveValue = 0.5f;
             targetSpeed = crouchSpeed;
@@ -374,7 +388,16 @@ public class Player_Components : Sys_GameplayBehaviour
         if (lookDir.sqrMagnitude > 0.01f)
         {
             Quaternion targetRot = Quaternion.LookRotation(lookDir);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, rotationSpeed * Time.deltaTime);
+            
+            // Reduce rotation speed when carrying
+            float effectiveRotationSpeed = rotationSpeed;
+            GP_PlayerCarrySystem carrySystem = GetComponent<GP_PlayerCarrySystem>();
+            if (carrySystem != null && carrySystem.IsCarrying)
+            {
+                effectiveRotationSpeed *= 0.5f; // Halve rotation speed when carrying
+            }
+            
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, effectiveRotationSpeed * Time.deltaTime);
         }
     }
 
@@ -410,6 +433,22 @@ public class Player_Components : Sys_GameplayBehaviour
         velocity.x = horizontalVelocity.x;
         velocity.z = horizontalVelocity.z;
         
+        // Apply carry sway if currently carrying - blend smoothly to avoid spinning
+        GP_PlayerCarrySystem carrySystem = GetComponent<GP_PlayerCarrySystem>();
+        if (carrySystem != null && carrySystem.IsCarrying)
+        {
+            // Set animator blend tree parameters for carry animations
+            animator.SetFloat("BalanceY", currentMoveValue);  // 0=idle, 1=walk
+            animator.SetFloat("BalanceX", carrySystem.BalanceMeter);  // -1=left sway, 1=right sway
+            
+            // Clamp sway velocity to prevent excessive movement (tunable value)
+            Vector3 clampedSway = Vector3.ClampMagnitude(carrySystem.SwayVelocity, carrySystem.SwayClampMax);
+            
+            // Blend sway into velocity instead of adding directly (tunable blending)
+            velocity.x = Mathf.Lerp(velocity.x, clampedSway.x, carrySystem.SwayBlendFactor);
+            velocity.z = Mathf.Lerp(velocity.z, clampedSway.z, carrySystem.SwayBlendFactor);
+        }
+        
         if (!isStumbling)
         {
             RotateTowardsMovement(horizontalVelocity);
@@ -423,13 +462,13 @@ public class Player_Components : Sys_GameplayBehaviour
 
     public void HandleJump()
     {
-        if (isGrounded && !isCrouching)
+        if (isGrounded && !IsCrouching)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             animator.SetTrigger("DoJump");
             Debug.Log("Jump executed.");
         }
-        else if (isCrouching)
+        else if (IsCrouching)
         {
             Debug.Log("Cannot jump while crouching.");
         }
@@ -441,11 +480,19 @@ public class Player_Components : Sys_GameplayBehaviour
 
     public void HandleCrouch()
     {
+        // Cannot crouch while carrying
+        var carrySystem = GetComponent<GP_PlayerCarrySystem>();
+        if (carrySystem != null && carrySystem.IsCarrying)
+        {
+            Debug.Log("Cannot crouch while carrying");
+            return;
+        }
+        
         if (isGrounded)
         {
-            isCrouching = !isCrouching;
+            IsCrouching = !IsCrouching;
 
-            if (isCrouching)
+            if (IsCrouching)
             {
                 animator.SetTrigger("DoCrouch");
                 controller.height = crouchHeight;
@@ -486,16 +533,32 @@ public class Player_Components : Sys_GameplayBehaviour
 
     public void HandleInteract()
     {
-        // Try carry interaction first (if this is Naya)
         var carrySystem = GetComponent<GP_PlayerCarrySystem>();
-        if (carrySystem != null)
+        var throwModule = GetComponent<_GP_ThrowItem>();
+
+        // // If carrying someone, prioritize dropping them
+        // if (carrySystem != null && carrySystem.IsCarrying)
+        // {
+        //     carrySystem.StopCarrying();
+        //     return;
+        // }
+
+        // // If holding an item, throw it
+        // if (throwModule != null && throwModule._itemToThrow != null)
+        // {
+        //     throwModule.ThrowItem();
+        //     return;
+        // }
+
+        // Otherwise, try to pick up or carry
+    // Try to carry nearby depressed player (only if one is nearby)
+        if (carrySystem != null && carrySystem.HasNearbyDepressedPlayer())
         {
             carrySystem.AttemptCarry();
             return;
         }
-        
-        // Default interaction - throw/pickup
-        var throwModule = GetComponent<_GP_ThrowItem>();
+
+        // Otherwise, pick up item
         if (throwModule != null)
         {
             throwModule.OnPickUpItem();
@@ -591,11 +654,16 @@ public class Player_Components : Sys_GameplayBehaviour
     {
         switch (state)
         {
+            case ActionState.Idle:
+                // Sprint released or other state cancelled
+                currentActionState = ActionState.Idle;
+                Debug.Log("Returned to Idle");
+                break;
             case ActionState.Sprint:
                 // If crouching, stand up first
-                if (isCrouching)
+                if (IsCrouching)
                 {
-                    isCrouching = false;
+                    IsCrouching = false;
                     controller.height = standingHeight;
                     controller.center = new Vector3(0, standingHeight / 2f, 0);
                     Debug.Log("Uncrouch to sprint");
