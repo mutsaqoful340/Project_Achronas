@@ -3317,6 +3317,7 @@ GameObject:
   - component: {fileID: 152313764}
   - component: {fileID: 152313763}
   - component: {fileID: 152313762}
+  - component: {fileID: 152313767}
   m_Layer: 5
   m_Name: Btn_LoadGame
   m_TagString: Untagged
@@ -3460,6 +3461,19 @@ RectTransform:
   m_AnchoredPosition: {x: -8.8, y: -53.700035}
   m_SizeDelta: {x: 132.83, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &152313767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 152313761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 150420cde3febd34eb335c9569a1356f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedText
+  key: btn_loadgame
 --- !u!1 &164478481
 GameObject:
   m_ObjectHideFlags: 0
@@ -8609,7 +8623,7 @@ MonoBehaviour:
   version: 2
   globalVolume: 0
   mode: 1
-  size: {x: 92.47806, y: 23.370493, z: 92.52185}
+  size: {x: 13.223999, y: 7.5455666, z: 12.5295515}
   overrideRendererFilters: 0
   minRendererVolumeSize: 0.1
   objectLayerMask:
@@ -8647,7 +8661,7 @@ Transform:
   m_GameObject: {fileID: 473486317}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7.819969, y: 5.5497646, z: -37.99237}
+  m_LocalPosition: {x: 7.1179996, y: 1.7499998, z: 2.0037758}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9627,6 +9641,7 @@ GameObject:
   - component: {fileID: 543430595}
   - component: {fileID: 543430594}
   - component: {fileID: 543430597}
+  - component: {fileID: 543430598}
   m_Layer: 5
   m_Name: Btn_Continue
   m_TagString: Untagged
@@ -9770,6 +9785,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &543430598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 543430592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 150420cde3febd34eb335c9569a1356f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedText
+  key: btn_continue
 --- !u!1 &548843785
 GameObject:
   m_ObjectHideFlags: 0
@@ -10746,6 +10774,7 @@ GameObject:
   - component: {fileID: 595637154}
   - component: {fileID: 595637153}
   - component: {fileID: 595637156}
+  - component: {fileID: 595637157}
   m_Layer: 5
   m_Name: Btn_Settings
   m_TagString: Untagged
@@ -10889,6 +10918,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &595637157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 595637151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 150420cde3febd34eb335c9569a1356f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedText
+  key: btn_settings
 --- !u!1 &601788293
 GameObject:
   m_ObjectHideFlags: 0
@@ -12288,6 +12330,7 @@ GameObject:
   - component: {fileID: 683074638}
   - component: {fileID: 683074637}
   - component: {fileID: 683074640}
+  - component: {fileID: 683074641}
   m_Layer: 5
   m_Name: Btn_Play
   m_TagString: Untagged
@@ -12431,6 +12474,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &683074641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 683074635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 150420cde3febd34eb335c9569a1356f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedText
+  key: btn_play
 --- !u!1001 &684426221
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18734,6 +18790,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 948190249}
+  - {fileID: 1695072866}
   m_Father: {fileID: 960696250}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &990859451
@@ -22396,6 +22453,7 @@ GameObject:
   - component: {fileID: 1188322057}
   - component: {fileID: 1188322056}
   - component: {fileID: 1188322059}
+  - component: {fileID: 1188322060}
   m_Layer: 5
   m_Name: Btn_Extra
   m_TagString: Untagged
@@ -22539,6 +22597,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1188322060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1188322054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 150420cde3febd34eb335c9569a1356f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedText
+  key: btn_extra
 --- !u!1 &1189763849
 GameObject:
   m_ObjectHideFlags: 0
@@ -29693,6 +29764,7 @@ GameObject:
   - component: {fileID: 1499105169}
   - component: {fileID: 1499105171}
   - component: {fileID: 1499105170}
+  - component: {fileID: 1499105172}
   m_Layer: 5
   m_Name: Txt_Judul
   m_TagString: Untagged
@@ -29819,6 +29891,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1499105168}
   m_CullTransparentMesh: 1
+--- !u!114 &1499105172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1499105168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 150420cde3febd34eb335c9569a1356f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedText
+  key: panel_mainmenu_title
 --- !u!64 &1503741648
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -32779,6 +32864,50 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 104.9, y: 79.4}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1695072865
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1695072866}
+  - component: {fileID: 1695072867}
+  m_Layer: 5
+  m_Name: LanguageManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1695072866
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1695072865}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 982682586}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1695072867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1695072865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1ca2d360dae2df4791dd09225d94df0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LanguageManager
 --- !u!1 &1697463415
 GameObject:
   m_ObjectHideFlags: 0
@@ -34838,6 +34967,7 @@ GameObject:
   - component: {fileID: 1808254288}
   - component: {fileID: 1808254287}
   - component: {fileID: 1808254290}
+  - component: {fileID: 1808254291}
   m_Layer: 5
   m_Name: Btn_NewGame
   m_TagString: Untagged
@@ -34993,6 +35123,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1808254291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808254285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 150420cde3febd34eb335c9569a1356f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedText
+  key: btn_newgame
 --- !u!1 &1811453288
 GameObject:
   m_ObjectHideFlags: 0
@@ -38676,6 +38819,7 @@ GameObject:
   - component: {fileID: 2008975956}
   - component: {fileID: 2008975955}
   - component: {fileID: 2008975954}
+  - component: {fileID: 2008975959}
   m_Layer: 5
   m_Name: Btn_Quit
   m_TagString: Untagged
@@ -38819,6 +38963,19 @@ RectTransform:
   m_AnchoredPosition: {x: -8.8, y: -72.46004}
   m_SizeDelta: {x: 80, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2008975959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2008975953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 150420cde3febd34eb335c9569a1356f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedText
+  key: btn_quit
 --- !u!64 &2012443676
 MeshCollider:
   m_ObjectHideFlags: 0
