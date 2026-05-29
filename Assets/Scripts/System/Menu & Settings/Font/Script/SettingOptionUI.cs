@@ -47,6 +47,20 @@ public class SettingOptionUI : MonoBehaviour
             button.onClick.AddListener(OnButtonClicked);
         }
 
+        // Sync index with saved language on enable
+        if (settingType == SettingType.Language && LanguageManager.Instance != null)
+        {
+            string savedLang = LanguageManager.Instance.GetCurrentLanguage();
+            for (int i = 0; i < options.Length; i++)
+            {
+                if (OptionsToLanguageCode(options[i]) == savedLang)
+                {
+                    index = i;
+                    break;
+                }
+            }
+        }
+
         UpdateUI();
     }
 
@@ -126,7 +140,6 @@ public class SettingOptionUI : MonoBehaviour
             menuSelector.OpenPanel_Control();
     }
 
-
     public void Next()
     {
         if (options == null || options.Length == 0) return;
@@ -162,7 +175,11 @@ public class SettingOptionUI : MonoBehaviour
         switch (settingType)
         {
             case SettingType.Language:
-                Debug.Log("Language: " + value);
+                if (LanguageManager.Instance != null)
+                {
+                    string langCode = OptionsToLanguageCode(value);
+                    LanguageManager.Instance.LoadLanguage(langCode);
+                }
                 break;
 
             case SettingType.Subtitle:
@@ -172,6 +189,18 @@ public class SettingOptionUI : MonoBehaviour
             case SettingType.Vibration:
                 Debug.Log("Vibration: " + value);
                 break;
+        }
+    }
+
+    // Convert option label to language code
+    private string OptionsToLanguageCode(string optionValue)
+    {
+        switch (optionValue.ToLower())
+        {
+            case "english": return "en";
+            case "indonesia":
+            case "indonesian": return "id";
+            default: return "en";
         }
     }
 
