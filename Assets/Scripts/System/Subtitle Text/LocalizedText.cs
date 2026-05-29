@@ -34,6 +34,10 @@ public class LocalizedText : MonoBehaviour
         if (string.IsNullOrEmpty(key)) return;
         if (LanguageManager.Instance == null) return;
 
-        textComponent.text = LanguageManager.Instance.GetText(key);
+        string value = LanguageManager.Instance.GetText(key);
+
+        Debug.Log($"[LocalizedText] {key} => {value}");
+
+        textComponent.text = value;
     }
 }
