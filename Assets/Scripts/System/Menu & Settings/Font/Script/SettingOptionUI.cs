@@ -23,8 +23,8 @@ public class SettingOptionUI : MonoBehaviour
     [Header("LINKED PANEL")]
     public GameObject linkedPanel;
 
-    // Instance-based (no longer static)
     int index = 0;
+    private bool isInitializing = false;
 
     private InputActions inputActions;
     private Button button;
@@ -32,16 +32,16 @@ public class SettingOptionUI : MonoBehaviour
 
     void OnEnable()
     {
+        isInitializing = true;
+
         button = GetComponent<Button>();
 
-        // Setup InputActions for horizontal navigation (left/right)
         if (inputActions == null)
         {
             inputActions = new InputActions();
             inputActions.UI.Enable();
         }
 
-        // Add onClick listener for opening linked panels
         if (button != null && linkedPanel != null)
         {
             button.onClick.AddListener(OnButtonClicked);
@@ -62,18 +62,18 @@ public class SettingOptionUI : MonoBehaviour
         }
 
         UpdateUI();
+
+        isInitializing = false;
     }
 
     void OnDisable()
     {
-        // Cleanup InputActions
         if (inputActions != null)
         {
             inputActions.Dispose();
             inputActions = null;
         }
 
-        // Remove onClick listener
         if (button != null && linkedPanel != null)
         {
             button.onClick.RemoveListener(OnButtonClicked);
@@ -90,22 +90,18 @@ public class SettingOptionUI : MonoBehaviour
     {
         float horizontalInput = inputActions.UI.Navigate.ReadValue<Vector2>().x;
 
-        // Reset flag when stick returns to neutral
         if (Mathf.Abs(horizontalInput) < 0.3f)
         {
             horizontalPressProcessed = false;
             return;
         }
 
-        // Only selected button processes input
         if (EventSystem.current.currentSelectedGameObject != gameObject)
             return;
 
-        // Already processed this press
         if (horizontalPressProcessed)
             return;
 
-        // Process the press
         if (horizontalInput > 0.5f)
         {
             Next();
@@ -126,7 +122,6 @@ public class SettingOptionUI : MonoBehaviour
 
     void OpenLinkedPanel(GameObject targetPanel)
     {
-        // Deactivate all linked panels in parent panel
         SettingOptionUI[] allOptions = transform.parent.GetComponentsInChildren<SettingOptionUI>();
         foreach (SettingOptionUI opt in allOptions)
         {
@@ -170,6 +165,9 @@ public class SettingOptionUI : MonoBehaviour
     {
         if (options == null || options.Length == 0) return;
 
+        // Skip applying settings during initialization
+        if (isInitializing) return;
+
         string value = options[index];
 
         switch (settingType)
@@ -192,7 +190,6 @@ public class SettingOptionUI : MonoBehaviour
         }
     }
 
-    // Convert option label to language code
     private string OptionsToLanguageCode(string optionValue)
     {
         switch (optionValue.ToLower())
