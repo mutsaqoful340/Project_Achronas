@@ -13,7 +13,6 @@ public class LanguageManager : MonoBehaviour
 
     void Awake()
     {
-        // Singleton
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -23,7 +22,6 @@ public class LanguageManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        // Load saved language, default to "en"
         string saved = PlayerPrefs.GetString("Language", "en");
         LoadLanguage(saved);
     }
@@ -32,7 +30,6 @@ public class LanguageManager : MonoBehaviour
     {
         currentLanguage = languageCode;
 
-        // Load JSON from Resources/Languages/
         TextAsset jsonFile = Resources.Load<TextAsset>($"Languages/{languageCode}");
 
         if (jsonFile == null)
@@ -43,14 +40,20 @@ public class LanguageManager : MonoBehaviour
 
         localizedTexts = ParseJSON(jsonFile.text);
 
-        // Save to PlayerPrefs
         PlayerPrefs.SetString("Language", languageCode);
         PlayerPrefs.Save();
 
-        // Notify all LocalizedText components
+        // Notify active LocalizedText via event
         LanguageChanged?.Invoke();
 
-        Debug.Log($"[LanguageManager] Language loaded: {languageCode}");
+        // Force update ALL LocalizedText including inactive panels
+        LocalizedText[] allTexts = Resources.FindObjectsOfTypeAll<LocalizedText>();
+        foreach (LocalizedText lt in allTexts)
+        {
+            lt.ForceUpdate();
+        }
+
+        Debug.Log($"[LanguageManager] Language loaded: {languageCode} | Updated {allTexts.Length} texts");
     }
 
     public string GetText(string key)
@@ -67,14 +70,11 @@ public class LanguageManager : MonoBehaviour
         return currentLanguage;
     }
 
-    // Simple JSON parser (key-value flat structure)
     private Dictionary<string, string> ParseJSON(string json)
     {
         var result = new Dictionary<string, string>();
 
-        // Remove whitespace, braces
         json = json.Trim().TrimStart('{').TrimEnd('}');
-
         string[] lines = json.Split('\n');
 
         foreach (string line in lines)

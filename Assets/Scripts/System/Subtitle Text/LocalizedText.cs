@@ -15,16 +15,12 @@ public class LocalizedText : MonoBehaviour
 
     void OnEnable()
     {
-        // Subscribe to language change event
         LanguageManager.LanguageChanged += UpdateText;
-
-        // Update immediately when enabled
         UpdateText();
     }
 
     void OnDisable()
     {
-        // Unsubscribe to avoid memory leak
         LanguageManager.LanguageChanged -= UpdateText;
     }
 
@@ -35,9 +31,21 @@ public class LocalizedText : MonoBehaviour
         if (LanguageManager.Instance == null) return;
 
         string value = LanguageManager.Instance.GetText(key);
-
         Debug.Log($"[LocalizedText] {key} => {value}");
+        textComponent.text = value;
+    }
 
+    // Called by LanguageManager to force update even if panel is inactive
+    public void ForceUpdate()
+    {
+        if (textComponent == null)
+            textComponent = GetComponent<TextMeshProUGUI>();
+
+        if (textComponent == null) return;
+        if (string.IsNullOrEmpty(key)) return;
+        if (LanguageManager.Instance == null) return;
+
+        string value = LanguageManager.Instance.GetText(key);
         textComponent.text = value;
     }
 }
