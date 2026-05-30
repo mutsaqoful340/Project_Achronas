@@ -31,21 +31,23 @@ public class LocalizedText : MonoBehaviour
         if (LanguageManager.Instance == null) return;
 
         string value = LanguageManager.Instance.GetText(key);
-        Debug.Log($"[LocalizedText] {key} => {value}");
+        Debug.Log($"[LocalizedText] UpdateText: {key} => {value}");
         textComponent.text = value;
     }
 
-    // Called by LanguageManager to force update even if panel is inactive
     public void ForceUpdate()
     {
         if (textComponent == null)
             textComponent = GetComponent<TextMeshProUGUI>();
+
+        Debug.Log($"[LocalizedText] ForceUpdate called on: {gameObject.name} | tmp: {textComponent != null} | key: {key}");
 
         if (textComponent == null) return;
         if (string.IsNullOrEmpty(key)) return;
         if (LanguageManager.Instance == null) return;
 
         string value = LanguageManager.Instance.GetText(key);
+        Debug.Log($"[LocalizedText] ForceUpdate: {key} => {value}");
         textComponent.text = value;
     }
 }
