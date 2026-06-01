@@ -1,8 +1,4 @@
-using System;
-using System.Numerics;
-using Unity.AppUI.Editor;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class _GP_Sit : MonoBehaviour
 {

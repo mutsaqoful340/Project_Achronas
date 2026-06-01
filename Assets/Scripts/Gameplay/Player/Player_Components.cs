@@ -1,6 +1,4 @@
-using UnityEditor.EditorTools;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]

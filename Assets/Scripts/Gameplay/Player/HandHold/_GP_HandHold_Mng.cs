@@ -1,9 +1,6 @@
 ﻿using System;
-using Unity.VisualScripting;
-using UnityEditor.EditorTools;
 using UnityEngine.Animations.Rigging;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 
 public class _GP_HandHold_Mng : MonoBehaviour
 {

@@ -1,13 +1,8 @@
 using UnityEngine;
-using TMPro;
 using UnityEngine.Events;
-using NUnit.Framework.Internal;
-using Unity.Collections;
-using UnityEngine.UI;
-using System;
+
 using System.Collections.Generic;
 using UnityEngine.AI;
-using UnityEditor.EditorTools;
 
 public class _Enemy_Mannequin : MonoBehaviour
 {
