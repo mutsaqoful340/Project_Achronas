@@ -22,19 +22,42 @@ public class VibrationManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         vibrationEnabled = PlayerPrefs.GetInt("Vibration", 1) == 1;
+
+        // Subscribe ke event connect/disconnect gamepad
+        InputSystem.onDeviceChange += OnDeviceChange;
+
+        // Cek gamepad yang sudah terconnect
+        currentGamepad = Gamepad.current;
     }
 
     void Update()
     {
-        currentGamepad = Gamepad.current;
+        if (currentGamepad == null)
+            currentGamepad = Gamepad.current;
 
-        // TEST SEMENTARA - hapus setelah test
-        if (currentGamepad != null && currentGamepad.buttonSouth.wasPressedThisFrame)
-            VibrateHeavy();
 
-        // TEST SEMENTARA
-        if (Keyboard.current.spaceKey.wasPressedThisFrame)
-            VibrateHeavy();
+    }
+
+    void OnDestroy()
+    {
+        InputSystem.onDeviceChange -= OnDeviceChange;
+    }
+
+    private void OnDeviceChange(InputDevice device, InputDeviceChange change)
+    {
+        if (device is Gamepad gamepad)
+        {
+            if (change == InputDeviceChange.Added || change == InputDeviceChange.Reconnected)
+            {
+                currentGamepad = gamepad;
+                Debug.Log($"[VibrationManager] Gamepad connected: {gamepad.name}");
+            }
+            else if (change == InputDeviceChange.Removed || change == InputDeviceChange.Disconnected)
+            {
+                currentGamepad = Gamepad.current;
+                Debug.Log("[VibrationManager] Gamepad disconnected");
+            }
+        }
     }
 
     public void SetVibration(bool enabled)
@@ -43,6 +66,12 @@ public class VibrationManager : MonoBehaviour
 
         if (!enabled)
             StopVibration();
+        else
+        {
+            Debug.Log($"[VibrationManager] SetMotorSpeeds called - gamepad: {currentGamepad?.name ?? "NULL"}");
+            currentGamepad?.SetMotorSpeeds(0.5f, 0.5f);
+            Invoke(nameof(StopVibration), 0.3f);
+        }
 
         PlayerPrefs.SetInt("Vibration", enabled ? 1 : 0);
         PlayerPrefs.Save();
@@ -52,10 +81,10 @@ public class VibrationManager : MonoBehaviour
 
     public void Vibrate(float lowFrequency, float highFrequency, float duration)
     {
+        Debug.Log($"[VibrationManager] Vibrate called - enabled:{vibrationEnabled} gamepad:{currentGamepad?.name ?? "null"}");
         if (!vibrationEnabled) return;
         if (currentGamepad == null) return;
 
-        // Stop existing coroutine dulu
         if (vibrationCoroutine != null)
             StopCoroutine(vibrationCoroutine);
 
