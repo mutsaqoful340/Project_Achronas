@@ -61,6 +61,20 @@ public class SettingOptionUI : MonoBehaviour
             }
         }
 
+        // Sync index with saved vibration on enable
+        if (settingType == SettingType.Vibration && VibrationManager.Instance != null)
+        {
+            bool isOn = VibrationManager.Instance.IsVibrationEnabled();
+            for (int i = 0; i < options.Length; i++)
+            {
+                if ((options[i].ToLower() == "on") == isOn)
+                {
+                    index = i;
+                    break;
+                }
+            }
+        }
+
         UpdateUI();
 
         isInitializing = false;
@@ -164,8 +178,6 @@ public class SettingOptionUI : MonoBehaviour
     void ApplySetting()
     {
         if (options == null || options.Length == 0) return;
-
-        // Skip applying settings during initialization
         if (isInitializing) return;
 
         string value = options[index];
@@ -180,12 +192,16 @@ public class SettingOptionUI : MonoBehaviour
                 }
                 break;
 
-            case SettingType.Subtitle:
-                Debug.Log("Subtitle: " + value);
+            case SettingType.Vibration:
+                if (VibrationManager.Instance != null)
+                {
+                    bool vibOn = value.ToLower() == "on";
+                    VibrationManager.Instance.SetVibration(vibOn);
+                }
                 break;
 
-            case SettingType.Vibration:
-                Debug.Log("Vibration: " + value);
+            case SettingType.Subtitle:
+                Debug.Log("Subtitle: " + value);
                 break;
         }
     }
