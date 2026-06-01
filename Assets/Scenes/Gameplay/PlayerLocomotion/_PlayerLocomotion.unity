@@ -33327,6 +33327,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1695072866}
   - component: {fileID: 1695072867}
+  - component: {fileID: 1695072868}
   m_Layer: 5
   m_Name: LanguageManager
   m_TagString: Untagged
@@ -33361,6 +33362,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1ca2d360dae2df4791dd09225d94df0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LanguageManager
+--- !u!114 &1695072868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1695072865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4df7a424f77ae844adee2d2e85f879d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VibrationManager
 --- !u!1 &1697463415
 GameObject:
   m_ObjectHideFlags: 0
