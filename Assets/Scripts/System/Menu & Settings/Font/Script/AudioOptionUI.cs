@@ -58,7 +58,6 @@ public class AudioOptionUI : MonoBehaviour
         {
             AudioOption opt = audioOptions[i];
 
-            // Load saved volume from AudioManager
             if (AudioManager.Instance != null && !opt.isResetButton)
             {
                 float savedFloat = GetSavedVolume(opt.audioType);
@@ -106,8 +105,7 @@ public class AudioOptionUI : MonoBehaviour
             }
         }
 
-        if (menuSelector != null)
-            menuSelector.OpenPanel_Audio();
+        // DIHAPUS: menuSelector.OpenPanel_Audio() → menyebabkan infinite loop
 
         UpdateSelection();
         UpdateAllUI();
@@ -251,7 +249,6 @@ public class AudioOptionUI : MonoBehaviour
             ApplySetting(audioOptions[i]);
         }
 
-        // Reset AudioManager to default
         if (AudioManager.Instance != null)
             AudioManager.Instance.ResetToDefault();
 
