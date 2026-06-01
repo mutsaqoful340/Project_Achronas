@@ -23,7 +23,7 @@ public class AudioOptionUI : MonoBehaviour
         public TextMeshProUGUI btnRightText;
 
         [Header("RESET")]
-        public bool isResetButton = false; // 🔥 centang untuk entry Reset
+        public bool isResetButton = false;
 
         [Range(0, 100)]
         public int defaultValue = 100;
@@ -57,7 +57,17 @@ public class AudioOptionUI : MonoBehaviour
         for (int i = 0; i < audioOptions.Count; i++)
         {
             AudioOption opt = audioOptions[i];
-            opt.currentValue = opt.defaultValue;
+
+            // Load saved volume from AudioManager
+            if (AudioManager.Instance != null && !opt.isResetButton)
+            {
+                float savedFloat = GetSavedVolume(opt.audioType);
+                opt.currentValue = Mathf.RoundToInt(savedFloat * 100f);
+            }
+            else
+            {
+                opt.currentValue = opt.defaultValue;
+            }
 
             if (opt.slider != null)
             {
@@ -89,7 +99,6 @@ public class AudioOptionUI : MonoBehaviour
                 });
             }
 
-            // 🔥 kalau ini reset button, assign onClick juga
             if (opt.isResetButton && opt.btnLeft != null)
             {
                 opt.btnLeft.onClick.RemoveAllListeners();
@@ -119,7 +128,6 @@ public class AudioOptionUI : MonoBehaviour
         if (!gameObject.activeInHierarchy) return;
         if (allInstances.Count == 0 || allInstances[0] != this) return;
 
-        // 🔥 Escape tetap jalan walau isInAudioPanel true
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (menuSelector != null)
@@ -158,7 +166,7 @@ public class AudioOptionUI : MonoBehaviour
     void ChangeValue(int dir)
     {
         AudioOption opt = audioOptions[currentIndex];
-        if (opt.isResetButton) return; // 🔥 skip kalau reset button
+        if (opt.isResetButton) return;
 
         opt.currentValue = Mathf.Clamp(opt.currentValue + (dir * step), 0, 100);
         UpdateUI(currentIndex);
@@ -194,8 +202,7 @@ public class AudioOptionUI : MonoBehaviour
     void UpdateUI(int i)
     {
         AudioOption opt = audioOptions[i];
-
-        if (opt.isResetButton) return; // 🔥 skip slider/value untuk reset button
+        if (opt.isResetButton) return;
 
         if (opt.valueText != null)
             opt.valueText.text = opt.currentValue.ToString();
@@ -213,20 +220,23 @@ public class AudioOptionUI : MonoBehaviour
     void ApplySetting(AudioOption opt)
     {
         if (opt.isResetButton) return;
+        if (AudioManager.Instance == null) return;
+
+        float value = opt.currentValue / 100f;
 
         switch (opt.audioType)
         {
             case AudioType.Master:
-                Debug.Log("Master Volume: " + opt.currentValue);
+                AudioManager.Instance.SetMasterVolume(value);
                 break;
             case AudioType.Music:
-                Debug.Log("Music Volume: " + opt.currentValue);
+                AudioManager.Instance.SetMusicVolume(value);
                 break;
             case AudioType.SFX:
-                Debug.Log("SFX Volume: " + opt.currentValue);
+                AudioManager.Instance.SetSFXVolume(value);
                 break;
             case AudioType.Dialogue:
-                Debug.Log("Dialogue Volume: " + opt.currentValue);
+                AudioManager.Instance.SetDialogueVolume(value);
                 break;
         }
     }
@@ -241,7 +251,25 @@ public class AudioOptionUI : MonoBehaviour
             ApplySetting(audioOptions[i]);
         }
 
-        Debug.Log("Reset to default");
+        // Reset AudioManager to default
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.ResetToDefault();
+
+        Debug.Log("[AudioOptionUI] Reset to default");
+    }
+
+    float GetSavedVolume(AudioType type)
+    {
+        if (AudioManager.Instance == null) return 1f;
+
+        switch (type)
+        {
+            case AudioType.Master: return AudioManager.Instance.GetMasterVolume();
+            case AudioType.Music: return AudioManager.Instance.GetMusicVolume();
+            case AudioType.SFX: return AudioManager.Instance.GetSFXVolume();
+            case AudioType.Dialogue: return AudioManager.Instance.GetDialogueVolume();
+            default: return 1f;
+        }
     }
 }
 
