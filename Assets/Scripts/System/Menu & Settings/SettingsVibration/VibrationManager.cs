@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.DualShock;
 using System.Collections;
 
 public class VibrationManager : MonoBehaviour
@@ -9,6 +8,7 @@ public class VibrationManager : MonoBehaviour
 
     private bool vibrationEnabled = true;
     private Gamepad currentGamepad;
+    private Coroutine vibrationCoroutine;
 
     void Awake()
     {
@@ -21,21 +21,26 @@ public class VibrationManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        // Load saved setting
         vibrationEnabled = PlayerPrefs.GetInt("Vibration", 1) == 1;
     }
 
     void Update()
     {
-        // Always get current connected gamepad
         currentGamepad = Gamepad.current;
+
+        // TEST SEMENTARA - hapus setelah test
+        if (currentGamepad != null && currentGamepad.buttonSouth.wasPressedThisFrame)
+            VibrateHeavy();
+
+        // TEST SEMENTARA
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)
+            VibrateHeavy();
     }
 
     public void SetVibration(bool enabled)
     {
         vibrationEnabled = enabled;
 
-        // Stop vibration immediately if disabled
         if (!enabled)
             StopVibration();
 
@@ -50,32 +55,23 @@ public class VibrationManager : MonoBehaviour
         if (!vibrationEnabled) return;
         if (currentGamepad == null) return;
 
-        StartCoroutine(VibrationCoroutine(lowFrequency, highFrequency, duration));
+        // Stop existing coroutine dulu
+        if (vibrationCoroutine != null)
+            StopCoroutine(vibrationCoroutine);
+
+        vibrationCoroutine = StartCoroutine(VibrationCoroutine(lowFrequency, highFrequency, duration));
     }
 
-    // Preset: ringan (UI navigasi)
-    public void VibrateLight()
-    {
-        Vibrate(0.1f, 0.1f, 0.1f);
-    }
-
-    // Preset: sedang (confirm/select)
-    public void VibrateMedium()
-    {
-        Vibrate(0.3f, 0.3f, 0.2f);
-    }
-
-    // Preset: kuat (hit/damage)
-    public void VibrateHeavy()
-    {
-        Vibrate(0.7f, 0.7f, 0.3f);
-    }
+    public void VibrateLight() => Vibrate(0.1f, 0.1f, 0.1f);
+    public void VibrateMedium() => Vibrate(0.3f, 0.3f, 0.2f);
+    public void VibrateHeavy() => Vibrate(0.7f, 0.7f, 0.3f);
 
     private IEnumerator VibrationCoroutine(float low, float high, float duration)
     {
         currentGamepad?.SetMotorSpeeds(low, high);
-        yield return new WaitForSeconds(duration);
+        yield return new WaitForSecondsRealtime(duration);
         StopVibration();
+        vibrationCoroutine = null;
     }
 
     public void StopVibration()
@@ -83,18 +79,8 @@ public class VibrationManager : MonoBehaviour
         currentGamepad?.SetMotorSpeeds(0, 0);
     }
 
-    public bool IsVibrationEnabled()
-    {
-        return vibrationEnabled;
-    }
+    public bool IsVibrationEnabled() => vibrationEnabled;
 
-    void OnDisable()
-    {
-        StopVibration();
-    }
-
-    void OnApplicationQuit()
-    {
-        StopVibration();
-    }
+    void OnDisable() => StopVibration();
+    void OnApplicationQuit() => StopVibration();
 }
