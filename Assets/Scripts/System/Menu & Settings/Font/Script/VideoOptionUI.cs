@@ -25,27 +25,32 @@ public class VideoOptionUI : MonoBehaviour
     public VideoType videoType;
 
     int index = 0;
+    private bool isInitializing = false;
+
     private InputActions inputActions;
     private Button button;
     private bool horizontalPressProcessed = false;
 
     void OnEnable()
     {
+        isInitializing = true;
+
         button = GetComponent<Button>();
 
-        // Setup InputActions for horizontal navigation (left/right)
         if (inputActions == null)
         {
             inputActions = new InputActions();
             inputActions.UI.Enable();
         }
 
+        LoadSetting();
         UpdateUI();
+
+        isInitializing = false;
     }
 
     void OnDisable()
     {
-        // Cleanup InputActions
         if (inputActions != null)
         {
             inputActions.Dispose();
@@ -63,30 +68,26 @@ public class VideoOptionUI : MonoBehaviour
     {
         float horizontalInput = inputActions.UI.Navigate.ReadValue<Vector2>().x;
 
-        // Reset flag when stick returns to neutral
         if (Mathf.Abs(horizontalInput) < 0.3f)
         {
             horizontalPressProcessed = false;
             return;
         }
 
-        // Only selected button processes input
         if (EventSystem.current.currentSelectedGameObject != gameObject)
             return;
 
-        // Already processed this press
         if (horizontalPressProcessed)
             return;
 
-        // Process the press
         if (horizontalInput > 0.5f)
         {
-            Previous();
+            Next();
             horizontalPressProcessed = true;
         }
         else if (horizontalInput < -0.5f)
         {
-            Next();
+            Previous();
             horizontalPressProcessed = true;
         }
     }
@@ -109,6 +110,21 @@ public class VideoOptionUI : MonoBehaviour
     {
         if (valueText != null && options != null && options.Length > 0)
             valueText.text = options[index];
+
+        if (!isInitializing)
+            ApplySetting();
+    }
+
+    void LoadSetting()
+    {
+        if (options == null || options.Length == 0) return;
+
+        string key = "Video_" + videoType.ToString();
+        string saved = PlayerPrefs.GetString(key, defaultValue);
+
+        int savedIndex = System.Array.IndexOf(options, saved);
+        if (savedIndex >= 0)
+            index = savedIndex;
     }
 
     public void ApplySetting()
@@ -116,28 +132,48 @@ public class VideoOptionUI : MonoBehaviour
         if (options == null || options.Length == 0) return;
 
         string value = options[index];
+        string key = "Video_" + videoType.ToString();
+        PlayerPrefs.SetString(key, value);
+        PlayerPrefs.Save();
 
         switch (videoType)
         {
             case VideoType.DisplayMode:
-                Debug.Log("Display Mode: " + value);
+                // Format: "1920 x 1080" atau "1920 × 1080"
+                string cleaned = value.Replace("×", "x").Replace(" ", "");
+                string[] parts = cleaned.Split('x');
+                if (parts.Length == 2 &&
+                    int.TryParse(parts[0], out int width) &&
+                    int.TryParse(parts[1], out int height))
+                {
+                    Screen.SetResolution(width, height, Screen.fullScreen);
+                    Debug.Log($"[VideoOptionUI] Resolution: {width}x{height}");
+                }
                 break;
 
             case VideoType.FrameRateLimit:
-                Debug.Log("Frame Rate: " + value);
-                if (int.TryParse(value, out int fps))
+                if (value.ToLower() == "unlimited")
+                    Application.targetFrameRate = -1;
+                else if (int.TryParse(value, out int fps))
                     Application.targetFrameRate = fps;
                 break;
 
             case VideoType.VSync:
-                Debug.Log("VSync: " + value);
-                QualitySettings.vSyncCount = index;
+                QualitySettings.vSyncCount = value.ToLower() == "on" ? 1 : 0;
                 break;
 
             case VideoType.Brightness:
-                Debug.Log("Brightness: " + value);  
+                if (float.TryParse(value, out float brightness))
+                {
+                    float normalized = brightness / 100f;
+                    Screen.brightness = normalized;
+                    PlayerPrefs.SetFloat("Brightness", normalized);
+                    PlayerPrefs.Save();
+                }
                 break;
         }
+
+        Debug.Log($"[VideoOptionUI] {videoType}: {value}");
     }
 
     public void ResetToDefault()
