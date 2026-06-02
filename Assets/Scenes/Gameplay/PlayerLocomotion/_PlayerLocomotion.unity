@@ -1671,6 +1671,7 @@ GameObject:
   m_Component:
   - component: {fileID: 60802078}
   - component: {fileID: 60802079}
+  - component: {fileID: 60802080}
   m_Layer: 5
   m_Name: Opt_ResetToDefault
   m_TagString: Untagged
@@ -1739,6 +1740,31 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &60802080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 60802077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e227c526c62cf4093971a9689e7fc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioOptionUI
+  audioType: 0
+  labelText: {fileID: 1169905365}
+  valueText: {fileID: 0}
+  btnLeftText: {fileID: 0}
+  btnRightText: {fileID: 0}
+  slider: {fileID: 0}
+  highlight: {fileID: 1764619582}
+  normalColor: {r: 1, g: 0, b: 0, a: 1}
+  selectedColor: {r: 0, g: 0, b: 0, a: 1}
+  step: 5
+  defaultValue: 100
+  isResetButton: 1
+  menuSelector: {fileID: 0}
 --- !u!1 &61646875
 GameObject:
   m_ObjectHideFlags: 0
@@ -2134,6 +2160,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 67680464}
+  - component: {fileID: 67680465}
+  - component: {fileID: 67680466}
   m_Layer: 5
   m_Name: Opt_SFXVolume
   m_TagString: Untagged
@@ -2162,6 +2190,75 @@ Transform:
   - {fileID: 783677606}
   m_Father: {fileID: 509013102}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &67680465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 67680463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e227c526c62cf4093971a9689e7fc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioOptionUI
+  audioType: 3
+  labelText: {fileID: 1553071566}
+  valueText: {fileID: 1729821960}
+  btnLeftText: {fileID: 1566594584}
+  btnRightText: {fileID: 1943235610}
+  slider: {fileID: 783677607}
+  highlight: {fileID: 885686685}
+  normalColor: {r: 1, g: 0, b: 0, a: 1}
+  selectedColor: {r: 0, g: 0, b: 0, a: 1}
+  step: 5
+  defaultValue: 100
+  isResetButton: 0
+  menuSelector: {fileID: 0}
+--- !u!114 &67680466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 67680463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 0}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!64 &74290904
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -8717,7 +8814,7 @@ MonoBehaviour:
   version: 2
   globalVolume: 0
   mode: 1
-  size: {x: 13.223999, y: 7.5455666, z: 12.5295515}
+  size: {x: 92.47806, y: 23.370493, z: 92.52185}
   overrideRendererFilters: 0
   minRendererVolumeSize: 0.1
   objectLayerMask:
@@ -8755,7 +8852,7 @@ Transform:
   m_GameObject: {fileID: 473486317}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7.1179996, y: 1.7499998, z: 2.0037758}
+  m_LocalPosition: {x: 7.819969, y: 5.5497646, z: -37.99237}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9279,7 +9376,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 509013102}
-  - component: {fileID: 509013103}
   m_Layer: 5
   m_Name: AudioMenu
   m_TagString: Untagged
@@ -9312,91 +9408,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &509013103
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 509013101}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74e227c526c62cf4093971a9689e7fc0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AudioOptionUI
-  audioOptions:
-  - audioType: 1
-    labelText: {fileID: 1644489359}
-    valueText: {fileID: 2050755869}
-    highlight: {fileID: 1024534924}
-    slider: {fileID: 702029534}
-    btnLeft: {fileID: 188955593}
-    btnRight: {fileID: 2053416390}
-    btnLeftText: {fileID: 188955594}
-    btnRightText: {fileID: 2053416391}
-    isResetButton: 0
-    defaultValue: 100
-    currentValue: 0
-    normalColor: {r: 1, g: 0, b: 0, a: 1}
-    selectedColor: {r: 0, g: 0, b: 0, a: 1}
-  - audioType: 2
-    labelText: {fileID: 612220654}
-    valueText: {fileID: 500390467}
-    highlight: {fileID: 1350888568}
-    slider: {fileID: 696439405}
-    btnLeft: {fileID: 458434153}
-    btnRight: {fileID: 1322736450}
-    btnLeftText: {fileID: 458434154}
-    btnRightText: {fileID: 1322736451}
-    isResetButton: 0
-    defaultValue: 100
-    currentValue: 0
-    normalColor: {r: 1, g: 0, b: 0, a: 1}
-    selectedColor: {r: 0, g: 0, b: 0, a: 1}
-  - audioType: 3
-    labelText: {fileID: 1553071566}
-    valueText: {fileID: 1729821960}
-    highlight: {fileID: 885686685}
-    slider: {fileID: 783677607}
-    btnLeft: {fileID: 1566594583}
-    btnRight: {fileID: 1943235609}
-    btnLeftText: {fileID: 1566594584}
-    btnRightText: {fileID: 1943235610}
-    isResetButton: 0
-    defaultValue: 100
-    currentValue: 0
-    normalColor: {r: 1, g: 0, b: 0, a: 1}
-    selectedColor: {r: 0, g: 0, b: 0, a: 1}
-  - audioType: 4
-    labelText: {fileID: 1124335692}
-    valueText: {fileID: 719878264}
-    highlight: {fileID: 472024012}
-    slider: {fileID: 590116873}
-    btnLeft: {fileID: 52997226}
-    btnRight: {fileID: 292143622}
-    btnLeftText: {fileID: 52997227}
-    btnRightText: {fileID: 292143623}
-    isResetButton: 0
-    defaultValue: 100
-    currentValue: 0
-    normalColor: {r: 1, g: 0, b: 0, a: 1}
-    selectedColor: {r: 0, g: 0, b: 0, a: 1}
-  - audioType: 0
-    labelText: {fileID: 1169905365}
-    valueText: {fileID: 0}
-    highlight: {fileID: 1764619582}
-    slider: {fileID: 0}
-    btnLeft: {fileID: 0}
-    btnRight: {fileID: 0}
-    btnLeftText: {fileID: 0}
-    btnRightText: {fileID: 0}
-    isResetButton: 1
-    defaultValue: 0
-    currentValue: 0
-    normalColor: {r: 1, g: 0, b: 0, a: 1}
-    selectedColor: {r: 0, g: 0, b: 0, a: 1}
-  step: 5
-  menuSelector: {fileID: 948190250}
 --- !u!64 &518049271
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -11858,6 +11869,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 668970977}
+  - component: {fileID: 668970978}
+  - component: {fileID: 668970979}
   m_Layer: 5
   m_Name: Opt_MasterVolume
   m_TagString: Untagged
@@ -11886,6 +11899,75 @@ Transform:
   - {fileID: 702029533}
   m_Father: {fileID: 509013102}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &668970978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 668970976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e227c526c62cf4093971a9689e7fc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioOptionUI
+  audioType: 1
+  labelText: {fileID: 1644489359}
+  valueText: {fileID: 2050755869}
+  btnLeftText: {fileID: 188955594}
+  btnRightText: {fileID: 2053416391}
+  slider: {fileID: 702029534}
+  highlight: {fileID: 1024534924}
+  normalColor: {r: 1, g: 0, b: 0, a: 1}
+  selectedColor: {r: 0, g: 0, b: 0, a: 1}
+  step: 5
+  defaultValue: 100
+  isResetButton: 0
+  menuSelector: {fileID: 0}
+--- !u!114 &668970979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 668970976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 0}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &669592025
 GameObject:
   m_ObjectHideFlags: 0
@@ -29206,6 +29288,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1459791228}
+  - component: {fileID: 1459791229}
+  - component: {fileID: 1459791230}
   m_Layer: 5
   m_Name: Opt_MusicVolume
   m_TagString: Untagged
@@ -29234,6 +29318,75 @@ Transform:
   - {fileID: 696439404}
   m_Father: {fileID: 509013102}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1459791229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1459791227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e227c526c62cf4093971a9689e7fc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioOptionUI
+  audioType: 2
+  labelText: {fileID: 612220654}
+  valueText: {fileID: 500390467}
+  btnLeftText: {fileID: 458434154}
+  btnRightText: {fileID: 1322736451}
+  slider: {fileID: 696439405}
+  highlight: {fileID: 1350888568}
+  normalColor: {r: 1, g: 0, b: 0, a: 1}
+  selectedColor: {r: 0, g: 0, b: 0, a: 1}
+  step: 5
+  defaultValue: 100
+  isResetButton: 0
+  menuSelector: {fileID: 0}
+--- !u!114 &1459791230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1459791227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 0}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1463373218
 GameObject:
   m_ObjectHideFlags: 0
@@ -38887,6 +39040,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1977644023}
+  - component: {fileID: 1977644024}
+  - component: {fileID: 1977644025}
   m_Layer: 5
   m_Name: Opt_DialogueVolume
   m_TagString: Untagged
@@ -38915,6 +39070,75 @@ Transform:
   - {fileID: 590116872}
   m_Father: {fileID: 509013102}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1977644024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1977644022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e227c526c62cf4093971a9689e7fc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioOptionUI
+  audioType: 4
+  labelText: {fileID: 1124335692}
+  valueText: {fileID: 719878264}
+  btnLeftText: {fileID: 52997227}
+  btnRightText: {fileID: 292143623}
+  slider: {fileID: 590116873}
+  highlight: {fileID: 472024012}
+  normalColor: {r: 1, g: 0, b: 0, a: 1}
+  selectedColor: {r: 0, g: 0, b: 0, a: 1}
+  step: 5
+  defaultValue: 100
+  isResetButton: 0
+  menuSelector: {fileID: 0}
+--- !u!114 &1977644025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1977644022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 0}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1978818542
 GameObject:
   m_ObjectHideFlags: 0
@@ -77755,78 +77979,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74e227c526c62cf4093971a9689e7fc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioOptionUI
-  audioOptions:
-  - audioType: 1
-    labelText: {fileID: 7556623582002516172}
-    valueText: {fileID: 4198696925969334760}
-    highlight: {fileID: 22788668431565231}
-    slider: {fileID: 5798904269892047984}
-    btnLeft: {fileID: 342269079430553245}
-    btnRight: {fileID: 8005737618534999904}
-    btnLeftText: {fileID: 5845615043945055421}
-    btnRightText: {fileID: 8931187783570318439}
-    isResetButton: 0
-    defaultValue: 100
-    currentValue: 0
-    normalColor: {r: 1, g: 0, b: 0, a: 1}
-    selectedColor: {r: 0, g: 0, b: 0, a: 1}
-  - audioType: 2
-    labelText: {fileID: 6265424513421285296}
-    valueText: {fileID: 2626185334818779200}
-    highlight: {fileID: 5834226644068095714}
-    slider: {fileID: 5584261077501743320}
-    btnLeft: {fileID: 4871638572896081636}
-    btnRight: {fileID: 8343312240521430072}
-    btnLeftText: {fileID: 5421075935887985913}
-    btnRightText: {fileID: 7830499719125647981}
-    isResetButton: 0
-    defaultValue: 100
-    currentValue: 0
-    normalColor: {r: 1, g: 0, b: 0, a: 1}
-    selectedColor: {r: 0, g: 0, b: 0, a: 1}
-  - audioType: 3
-    labelText: {fileID: 5575007386174249213}
-    valueText: {fileID: 7288409126198348305}
-    highlight: {fileID: 4259022977276892230}
-    slider: {fileID: 1045005901791140359}
-    btnLeft: {fileID: 8236728815535748546}
-    btnRight: {fileID: 2902537838232722039}
-    btnLeftText: {fileID: 3514967698684822668}
-    btnRightText: {fileID: 1417798403634189840}
-    isResetButton: 0
-    defaultValue: 100
-    currentValue: 0
-    normalColor: {r: 1, g: 0, b: 0, a: 1}
-    selectedColor: {r: 0, g: 0, b: 0, a: 1}
-  - audioType: 4
-    labelText: {fileID: 3632729575732061586}
-    valueText: {fileID: 8683893427265622015}
-    highlight: {fileID: 2213864712383132820}
-    slider: {fileID: 2342023322864167864}
-    btnLeft: {fileID: 702140341433854226}
-    btnRight: {fileID: 7396590529454678018}
-    btnLeftText: {fileID: 4053548180217194608}
-    btnRightText: {fileID: 8258127547052005250}
-    isResetButton: 0
-    defaultValue: 100
-    currentValue: 0
-    normalColor: {r: 1, g: 0, b: 0, a: 1}
-    selectedColor: {r: 0, g: 0, b: 0, a: 1}
-  - audioType: 0
-    labelText: {fileID: 6800205295378823770}
-    valueText: {fileID: 0}
-    highlight: {fileID: 9132936085057992348}
-    slider: {fileID: 0}
-    btnLeft: {fileID: 0}
-    btnRight: {fileID: 0}
-    btnLeftText: {fileID: 0}
-    btnRightText: {fileID: 0}
-    isResetButton: 1
-    defaultValue: 0
-    currentValue: 0
-    normalColor: {r: 1, g: 0, b: 0, a: 1}
-    selectedColor: {r: 0, g: 0, b: 0, a: 1}
+  audioType: 0
+  labelText: {fileID: 0}
+  valueText: {fileID: 0}
+  btnLeftText: {fileID: 0}
+  btnRightText: {fileID: 0}
+  slider: {fileID: 0}
+  highlight: {fileID: 0}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  selectedColor: {r: 0, g: 0, b: 0, a: 1}
   step: 5
+  defaultValue: 100
+  isResetButton: 0
   menuSelector: {fileID: 8984309065686121780}
 --- !u!1 &7178114113606757508
 GameObject:
