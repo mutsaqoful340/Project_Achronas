@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-public class VideoOptionUI : MonoBehaviour
+public class VideoOptionUI : MonoBehaviour, ISelectHandler, IDeselectHandler
 {
     public enum VideoType
     {
@@ -16,6 +16,14 @@ public class VideoOptionUI : MonoBehaviour
 
     [Header("UI")]
     public TextMeshProUGUI valueText;
+    public TextMeshProUGUI labelText;
+    public TextMeshProUGUI btnLeftText;
+    public TextMeshProUGUI btnRightText;
+    public Image highlightImage;
+
+    [Header("COLOR")]
+    public Color normalColor = Color.white;
+    public Color selectedColor = Color.black;
 
     [Header("OPTIONS")]
     public string[] options;
@@ -43,6 +51,10 @@ public class VideoOptionUI : MonoBehaviour
             inputActions.UI.Enable();
         }
 
+        // Set highlight alpha 0 by default
+        SetHighlightAlpha(0f);
+        UpdateTextColors(normalColor);
+
         LoadSetting();
         UpdateUI();
 
@@ -56,6 +68,37 @@ public class VideoOptionUI : MonoBehaviour
             inputActions.Dispose();
             inputActions = null;
         }
+    }
+
+    public void OnSelect(BaseEventData eventData)
+    {
+        SetHighlightAlpha(1f);
+        UpdateTextColors(selectedColor);
+    }
+
+    public void OnDeselect(BaseEventData eventData)
+    {
+        SetHighlightAlpha(0f);
+        UpdateTextColors(normalColor);
+    }
+
+    void SetHighlightAlpha(float alpha)
+    {
+        if (highlightImage == null) return;
+        Color c = highlightImage.color;
+        c.a = alpha;
+        highlightImage.color = c;
+    }
+
+    void UpdateTextColors(Color color)
+    {
+        Color c = color;
+        c.a = 1f;
+
+        if (labelText != null) labelText.color = c;
+        if (valueText != null) valueText.color = c;
+        if (btnLeftText != null) btnLeftText.color = c;
+        if (btnRightText != null) btnRightText.color = c;
     }
 
     void Update()
@@ -139,7 +182,6 @@ public class VideoOptionUI : MonoBehaviour
         switch (videoType)
         {
             case VideoType.DisplayMode:
-                // Format: "1920 x 1080" atau "1920 × 1080"
                 string cleaned = value.Replace("×", "x").Replace(" ", "");
                 string[] parts = cleaned.Split('x');
                 if (parts.Length == 2 &&

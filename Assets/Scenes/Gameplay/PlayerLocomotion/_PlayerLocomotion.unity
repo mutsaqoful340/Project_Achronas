@@ -4194,7 +4194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.020754695, b: 0.020754695, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4232,6 +4232,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VideoOptionUI
   valueText: {fileID: 1534995569}
+  labelText: {fileID: 61646877}
+  btnLeftText: {fileID: 1378052402}
+  btnRightText: {fileID: 2073517074}
+  highlightImage: {fileID: 185700625}
+  normalColor: {r: 1, g: 0, b: 0, a: 1}
+  selectedColor: {r: 0, g: 0, b: 0, a: 1}
   options:
   - 180
   - 165
@@ -4342,7 +4348,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.020754695, b: 0.020754695, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4380,6 +4386,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VideoOptionUI
   valueText: {fileID: 1087236883}
+  labelText: {fileID: 670405277}
+  btnLeftText: {fileID: 601788296}
+  btnRightText: {fileID: 1420930486}
+  highlightImage: {fileID: 188258724}
+  normalColor: {r: 1, g: 0, b: 0, a: 1}
+  selectedColor: {r: 0, g: 0, b: 0, a: 1}
   options:
   - 100
   - 95
@@ -22810,7 +22822,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.020754695, b: 0.020754695, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -22848,6 +22860,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VideoOptionUI
   valueText: {fileID: 128179599}
+  labelText: {fileID: 533863867}
+  btnLeftText: {fileID: 361250641}
+  btnRightText: {fileID: 1877195122}
+  highlightImage: {fileID: 1172921084}
+  normalColor: {r: 1, g: 0, b: 0, a: 1}
+  selectedColor: {r: 0, g: 0, b: 0, a: 1}
   options:
   - ON
   - OFF
@@ -31284,6 +31302,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1555740939}
   - component: {fileID: 1555740940}
+  - component: {fileID: 1555740941}
   m_Layer: 5
   m_Name: Opt_Apply
   m_TagString: Untagged
@@ -31400,6 +31419,28 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1555740941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1555740938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1df1cd95489cc5a48a0903ecdc09afac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VideoOptionUI
+  valueText: {fileID: 0}
+  labelText: {fileID: 731836832}
+  btnLeftText: {fileID: 0}
+  btnRightText: {fileID: 0}
+  highlightImage: {fileID: 1099961100}
+  normalColor: {r: 1, g: 0, b: 0, a: 1}
+  selectedColor: {r: 0, g: 0, b: 0, a: 1}
+  options: []
+  defaultValue: 
+  videoType: 0
 --- !u!1 &1566594581
 GameObject:
   m_ObjectHideFlags: 0
@@ -33784,7 +33825,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.020754695, b: 0.020754695, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -33822,6 +33863,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VideoOptionUI
   valueText: {fileID: 164478483}
+  labelText: {fileID: 1469659554}
+  btnLeftText: {fileID: 864901489}
+  btnRightText: {fileID: 1866940309}
+  highlightImage: {fileID: 1697463418}
+  normalColor: {r: 1, g: 0, b: 0, a: 1}
+  selectedColor: {r: 0, g: 0, b: 0, a: 1}
   options:
   - 1920 x 1080
   - 1600 x 900
@@ -41657,6 +41704,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2085773787}
   - component: {fileID: 2085773788}
+  - component: {fileID: 2085773789}
   m_Layer: 5
   m_Name: Opt_ResetToDefault
   m_TagString: Untagged
@@ -41773,6 +41821,28 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2085773789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2085773786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1df1cd95489cc5a48a0903ecdc09afac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VideoOptionUI
+  valueText: {fileID: 0}
+  labelText: {fileID: 930853878}
+  btnLeftText: {fileID: 0}
+  btnRightText: {fileID: 0}
+  highlightImage: {fileID: 1826499881}
+  normalColor: {r: 1, g: 0, b: 0, a: 1}
+  selectedColor: {r: 0, g: 0, b: 0, a: 1}
+  options: []
+  defaultValue: 
+  videoType: 0
 --- !u!1 &2088984125
 GameObject:
   m_ObjectHideFlags: 0
@@ -59646,6 +59716,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VideoOptionUI
   valueText: {fileID: 0}
+  labelText: {fileID: 0}
+  btnLeftText: {fileID: 0}
+  btnRightText: {fileID: 0}
+  highlightImage: {fileID: 0}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  selectedColor: {r: 0, g: 0, b: 0, a: 1}
   options: []
   defaultValue: 
   videoType: 0
