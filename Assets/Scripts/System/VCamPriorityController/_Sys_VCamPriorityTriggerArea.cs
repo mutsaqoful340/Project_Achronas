@@ -2,6 +2,7 @@ using Unity.Cinemachine;
 using UnityEngine;
 using TMPro;
 using Unity.AppUI.UI;
+using UnityEngine.Events;
 
 public class _Sys_VCamPriorityTriggerArea : MonoBehaviour
 {
@@ -13,8 +14,12 @@ public class _Sys_VCamPriorityTriggerArea : MonoBehaviour
     
     [Header("Settings")]
     [SerializeField] private string areaName = "TriggerArea"; // For debug logging
-    [Tooltip("Kalau ingin pindah section, check ini dan ")]
-    public bool isSwitchSection = false; // Optional setting to indicate if this area is a section switch
+    // [Tooltip("Kalau ingin pindah section, check ini dan ")]
+    // public bool isSwitchSection = false; // Optional setting to indicate if this area is a section switch
+
+    [Header("Additional Events")]
+    public UnityEvent onBothPlayersInside;
+    public UnityEvent onPlayerExit;
 
     public TextMeshProUGUI debugText; // Optional UI text element for debugging purposes
     
@@ -35,6 +40,7 @@ public class _Sys_VCamPriorityTriggerArea : MonoBehaviour
                 if (priorityController != null && areaCinemachineCamera != null)
                 {
                     priorityController.SetCameraActive(areaCinemachineCamera);
+                    onBothPlayersInside?.Invoke();
                     Debug.Log($"<color=cyan>[{areaName}] Both players inside, activated camera</color>");
                 }
                 else
@@ -53,6 +59,7 @@ public class _Sys_VCamPriorityTriggerArea : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playersInside--;
+            onPlayerExit?.Invoke();
             
             // A player left, deactivate this area
             if (playersInside < 2 && isAreaActive)

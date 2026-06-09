@@ -1,10 +1,10 @@
-﻿using UnityEngine;
+using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-public class AudioOptionUI : MonoBehaviour, ISelectHandler, IDeselectHandler
+public class AudioOptionUI : MonoBehaviour
 {
     public enum AudioType
     {
@@ -18,17 +18,12 @@ public class AudioOptionUI : MonoBehaviour, ISelectHandler, IDeselectHandler
     [Header("AUDIO TYPE")]
     public AudioType audioType;
 
-    [Header("UI")]
+    [Header("UI")]  
     public TextMeshProUGUI labelText;
     public TextMeshProUGUI valueText;
     public TextMeshProUGUI btnLeftText;
     public TextMeshProUGUI btnRightText;
     public Slider slider;
-    public GameObject highlight;
-
-    [Header("COLOR")]
-    public Color normalColor = Color.white;
-    public Color selectedColor = Color.black;
 
     [Header("STEP")]
     public int step = 5;
@@ -79,10 +74,6 @@ public class AudioOptionUI : MonoBehaviour, ISelectHandler, IDeselectHandler
             slider.interactable = false;
         }
 
-        if (highlight != null)
-            highlight.SetActive(false);
-
-        UpdateTextColors(normalColor);
         UpdateUI();
 
         isInitializing = false;
@@ -97,32 +88,7 @@ public class AudioOptionUI : MonoBehaviour, ISelectHandler, IDeselectHandler
         }
     }
 
-    public void OnSelect(BaseEventData eventData)
-    {
-        if (highlight != null)
-            highlight.SetActive(true);
 
-        UpdateTextColors(selectedColor);
-    }
-
-    public void OnDeselect(BaseEventData eventData)
-    {
-        if (highlight != null)
-            highlight.SetActive(false);
-
-        UpdateTextColors(normalColor);
-    }
-
-    void UpdateTextColors(Color color)
-    {
-        Color c = color;
-        c.a = 1f;
-
-        if (labelText != null) labelText.color = c;
-        if (valueText != null) valueText.color = c;
-        if (btnLeftText != null) btnLeftText.color = c;
-        if (btnRightText != null) btnRightText.color = c;
-    }
 
     void Update()
     {
