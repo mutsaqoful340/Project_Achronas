@@ -1,10 +1,9 @@
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-public class VideoOptionUI : MonoBehaviour, ISelectHandler, IDeselectHandler
+public class VideoOptionUI : MonoBehaviour
 {
     public enum VideoType
     {
@@ -19,11 +18,6 @@ public class VideoOptionUI : MonoBehaviour, ISelectHandler, IDeselectHandler
     public TextMeshProUGUI labelText;
     public TextMeshProUGUI btnLeftText;
     public TextMeshProUGUI btnRightText;
-    public Image highlightImage;
-
-    [Header("COLOR")]
-    public Color normalColor = Color.white;
-    public Color selectedColor = Color.black;
 
     [Header("OPTIONS")]
     public string[] options;
@@ -36,24 +30,17 @@ public class VideoOptionUI : MonoBehaviour, ISelectHandler, IDeselectHandler
     private bool isInitializing = false;
 
     private InputActions inputActions;
-    private Button button;
     private bool horizontalPressProcessed = false;
 
     void OnEnable()
     {
         isInitializing = true;
 
-        button = GetComponent<Button>();
-
         if (inputActions == null)
         {
             inputActions = new InputActions();
             inputActions.UI.Enable();
         }
-
-        // Set highlight alpha 0 by default
-        SetHighlightAlpha(0f);
-        UpdateTextColors(normalColor);
 
         LoadSetting();
         UpdateUI();
@@ -68,37 +55,6 @@ public class VideoOptionUI : MonoBehaviour, ISelectHandler, IDeselectHandler
             inputActions.Dispose();
             inputActions = null;
         }
-    }
-
-    public void OnSelect(BaseEventData eventData)
-    {
-        SetHighlightAlpha(1f);
-        UpdateTextColors(selectedColor);
-    }
-
-    public void OnDeselect(BaseEventData eventData)
-    {
-        SetHighlightAlpha(0f);
-        UpdateTextColors(normalColor);
-    }
-
-    void SetHighlightAlpha(float alpha)
-    {
-        if (highlightImage == null) return;
-        Color c = highlightImage.color;
-        c.a = alpha;
-        highlightImage.color = c;
-    }
-
-    void UpdateTextColors(Color color)
-    {
-        Color c = color;
-        c.a = 1f;
-
-        if (labelText != null) labelText.color = c;
-        if (valueText != null) valueText.color = c;
-        if (btnLeftText != null) btnLeftText.color = c;
-        if (btnRightText != null) btnRightText.color = c;
     }
 
     void Update()
