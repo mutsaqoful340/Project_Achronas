@@ -2,6 +2,8 @@
 using UnityEngine.UI;
 using TMPro;
 using System.IO;
+using System.Collections;
+using UnityEngine.EventSystems;
 
 public class SlotSelector : MonoBehaviour
 {
@@ -14,7 +16,9 @@ public class SlotSelector : MonoBehaviour
     public MenuSelector menuSelector;
     public PauseMenuSelector pauseMenu;
 
-    int index = 0;
+    [Header("First Selected Button")]
+    public Button firstSelectedButton; // assign BtnSave1 di Inspector
+
     int totalSlots = 6;
     string[] slotNames = { "slot1", "slot2", "slot3", "slot4", "slot5", "slot6" };
     int thumbWidth = 320;
@@ -22,54 +26,35 @@ public class SlotSelector : MonoBehaviour
 
     void OnEnable()
     {
-        index = 0;
         RefreshSlotLabels();
         RefreshThumbnails();
-        UpdateSlots();
+        StartCoroutine(SelectFirstNextFrame());
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            int col = index / 2;
-            if (col < 2) index += 2;
-            UpdateSlots();
-        }
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            int col = index / 2;
-            if (col > 0) index -= 2;
-            UpdateSlots();
-        }
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            int row = index % 2;
-            if (row < 1) index++;
-            UpdateSlots();
-        }
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            int row = index % 2;
-            if (row > 0) index--;
-            UpdateSlots();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Return))
-            DoLoad();
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (pauseMenu != null) pauseMenu.isInSavePanel = false;
-            menuSelector.isInContinuePanel = false;
-            menuSelector.GoBack();
-            gameObject.SetActive(false);
-        }
+        if (EventSystem.current.currentSelectedGameObject == null)
+            Debug.LogWarning("Selection LOST!");
     }
 
-    void DoLoad()
+
+    public void SelectSlot(int slotIndex)
     {
-        string slot = slotNames[index];
+        Debug.Log("SelectSlot dipanggil: " + slotIndex);
+        if (slotIndex < 0 || slotIndex >= totalSlots) return;
+        DoLoad(slotIndex);
+
+    }
+
+    void DoLoad(int slotIndex)
+    {
+        string slot = slotNames[slotIndex];
+
+        if (SaveManager.Instance == null)
+        {
+            Debug.LogError("[SlotSelector] SaveManager.Instance is NULL!");
+            return;
+        }
 
         if (!SaveManager.Instance.SlotExists(slot))
         {
@@ -134,10 +119,16 @@ public class SlotSelector : MonoBehaviour
         }
     }
 
-    void UpdateSlots()
+    IEnumerator SelectFirstNextFrame()
     {
-        for (int i = 0; i < totalSlots; i++)
-            slotBgs[i].SetActive(i == index);
+        yield return null;
+        Debug.Log("Coroutine jalan, firstSelectedButton: " + (firstSelectedButton != null ? firstSelectedButton.name : "NULL"));
+        if (firstSelectedButton != null)
+        {
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(firstSelectedButton.gameObject);
+            Debug.Log("Selected: " + EventSystem.current.currentSelectedGameObject?.name);
+        }
     }
 
     string ThumbnailPath(string slot) =>
