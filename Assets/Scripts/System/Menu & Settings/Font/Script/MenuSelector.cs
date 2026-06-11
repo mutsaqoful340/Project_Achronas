@@ -163,9 +163,7 @@ public class MenuSelector : MonoBehaviour
     {
         DisableAll();
         continuePanel.SetActive(true);
-        SelectFirstButton(continuePanel);
         isInContinuePanel = true;
-        playerMovement.enabled = true;
         inSinglePlayer = false;
         panelHistory.Clear();
     }
