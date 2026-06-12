@@ -75,6 +75,7 @@ public class Player_Components : Sys_GameplayBehaviour
     public bool IsAction2;
     public bool IsDepressed;
     public bool IsStumble;
+    public bool IsDead;
 
     #region Private Variables
     private CharacterController controller;
@@ -645,6 +646,14 @@ public class Player_Components : Sys_GameplayBehaviour
         }
         Debug.Log("Depressed action executed.");
     }
+
+    public void HandleDead()
+    {
+        IsDead = !IsDead;
+        currentActionState = IsDead ? ActionState.Dead : ActionState.Idle;
+        animator.SetTrigger(IsDead ? "DoDeath" : "DoRevive");
+        Debug.Log("Dead action executed.");
+    }
     #endregion
 
     #region Action States
@@ -710,6 +719,11 @@ public class Player_Components : Sys_GameplayBehaviour
             case ActionState.Cancel:
                 HandleDropCarried();
                 Debug.Log("Cancel Action Triggered");
+                break;
+            case ActionState.Dead:
+                HandleDead();
+                // For future use - could trigger death animation, disable controls, etc.
+                Debug.Log("Dead Action Triggered - no implementation yet");
                 break;
         }
     }

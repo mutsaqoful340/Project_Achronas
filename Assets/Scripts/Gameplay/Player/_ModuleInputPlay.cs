@@ -5,23 +5,24 @@ using UnityEngine.InputSystem;
 // Module for handling player input from assigned gamepad
 public enum ActionState
 {
-    Idle,
-    Sprint,
-    Crouch,
-    Cancel,
-    Jump,
-    Interact,
-    Throw,
     Action1,
     Action2,
-    PauseMenu,
+    BalanceLeft,
+    BalaneceRight,
+    Cancel,
+    Crouch,
+    Dead,
+    Depressed,
     HandHold,
-    Stumble,
+    Idle,
+    Interact,
+    Jump,
     LightToggle,
     Map,
-    BalaneceRight,
-    BalanceLeft,
-    Depressed
+    PauseMenu,
+    Sprint,
+    Stumble,
+    Throw
 }
 
 [CreateAssetMenu(fileName = "ModuleInputPlay", menuName = "AddOn Module/Input Play", order = 1)]
@@ -116,7 +117,6 @@ public class _ModuleInputPlay : ScriptableObject
         // Balance
         inputActions.Player.BalanceRight.performed += ctx => OnAction?.Invoke(ActionState.BalaneceRight);
         inputActions.Player.BalanceLeft.performed += ctx => OnAction?.Invoke(ActionState.BalanceLeft);
-
     }
 
     private void UnsubscribeFromActions()
