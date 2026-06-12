@@ -161,11 +161,11 @@ public class MenuSelector : MonoBehaviour
 
     public void OpenPanel_Continue()
     {
+        PushCurrentState(playPanel);
         DisableAll();
         continuePanel.SetActive(true);
         isInContinuePanel = true;
         inSinglePlayer = false;
-        panelHistory.Clear();
     }
 
     public void OpenPanel_Control()
