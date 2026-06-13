@@ -3,8 +3,8 @@ using UnityEngine;
 public class PlayerSaveController : MonoBehaviour
 {
     [Header("Referensi")]
-    [Tooltip("Kosongkan jika script ini sudah ada di Player itu sendiri")]
-    [SerializeField] private Transform playerTransform;
+    [SerializeField] private Transform player1Transform;
+    [SerializeField] private Transform player2Transform;
 
     // ── State ─────────────────────────────────────────────────
     private int _playTimeSeconds;
@@ -13,8 +13,8 @@ public class PlayerSaveController : MonoBehaviour
     // ── Lifecycle ─────────────────────────────────────────────
     private void Awake()
     {
-        if (playerTransform == null)
-            playerTransform = transform;
+        if (player1Transform == null)
+            player1Transform = transform;
     }
 
     private void Update()
@@ -33,19 +33,19 @@ public class PlayerSaveController : MonoBehaviour
         }
     }
 
-    // ── Public API (dipanggil dari SaveSlotSelector) ──────────
-
+    // ── Public API ────────────────────────────────────────────
     /// <summary>Simpan ke slot tertentu.</summary>
     public void SaveToSlot(string slot)
     {
-        SaveManager.Instance?.Save(slot, playerTransform, _playTimeSeconds);
+        SaveManager.Instance?.Save(slot, player1Transform, player2Transform, _playTimeSeconds);
     }
 
     /// <summary>Load dari slot tertentu.</summary>
     public void LoadFromSlot(string slot)
     {
-        SaveManager.Instance?.Load(slot, playerTransform);
+        SaveManager.Instance?.Load(slot, player1Transform, player2Transform);
     }
 
-    public Transform GetPlayerTransform() => playerTransform;
+    public Transform GetPlayer1Transform() => player1Transform;
+    public Transform GetPlayer2Transform() => player2Transform;
 }
