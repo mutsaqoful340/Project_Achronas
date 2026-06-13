@@ -8,85 +8,81 @@ public class SaveTabletSelector : MonoBehaviour
 {
     public enum Mode { Save, Load }
 
+    // ═══════════════════════════════════════════════════════════
+    // REFERENCES
+    // ═══════════════════════════════════════════════════════════
+    [Header("UI")]
     public GameObject[] slotBgs;
     public TextMeshProUGUI[] slotLabels;
     public Image[] slotThumbnails;
 
-    // Tab button
+    [Header("Tab Buttons")]
     public Image btnSaveBg;
     public Image btnLoadBg;
     public TextMeshProUGUI txtSave;
     public TextMeshProUGUI txtLoad;
 
-    // Warna tab
-    public Color tabActiveColor = Color.white;
-    public Color tabInactiveColor = new Color(0.4f, 0.1f, 0.1f, 1f);
-    public Color tabActiveText = Color.black;
-    public Color tabInactiveText = Color.red;
+    [Header("Players")]
+    public Transform player1Transform;
+    public Transform player2Transform;
 
-    // Referensi
+    [Header("External References")]
     public PlayerSaveController playerSave;
-    public Transform playerTransform;
     public LoadingScreen loadingScreen;
     public Camera captureCamera;
     public PauseMenuSelector pauseMenu;
 
-    public Mode currentMode = Mode.Save; // default save
+    // ═══════════════════════════════════════════════════════════
+    // PRIVATE
+    // ═══════════════════════════════════════════════════════════
+    public Mode currentMode = Mode.Save;
 
-    int index = 0;
-    int totalSlots = 6;
-    string[] slotNames = { "slot1", "slot2", "slot3", "slot4", "slot5", "slot6" };
-    int thumbWidth = 320;
-    int thumbHeight = 180;
+    private int index = 0;
+    private int totalSlots = 6;
+    private string[] slotNames = { "slot1", "slot2", "slot3", "slot4", "slot5", "slot6" };
+    private int thumbWidth = 320;
+    private int thumbHeight = 180;
 
+    // ═══════════════════════════════════════════════════════════
+    // LIFECYCLE
+    // ═══════════════════════════════════════════════════════════
     void OnEnable()
     {
-        currentMode = Mode.Save; // reset ke save setiap kali dibuka dari pause
+        currentMode = Mode.Save;
         index = 0;
-        UpdateTabVisual();
         RefreshSlotLabels();
         RefreshThumbnails();
-        UpdateSlots();
     }
 
     void Update()
     {
         // Switch tab
         if (Input.GetKeyDown(KeyCode.Q))
-        {
             currentMode = Mode.Save;
-            UpdateTabVisual();
-        }
+
         if (Input.GetKeyDown(KeyCode.E))
-        {
             currentMode = Mode.Load;
-            UpdateTabVisual();
-        }
 
         // Navigasi slot
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             int col = index / 2;
             if (col < 2) index += 2;
-            UpdateSlots();
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             int col = index / 2;
             if (col > 0) index -= 2;
-            UpdateSlots();
         }
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             int row = index % 2;
             if (row < 1) index++;
-            UpdateSlots();
         }
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             int row = index % 2;
             if (row > 0) index--;
-            UpdateSlots();
         }
 
         if (Input.GetKeyDown(KeyCode.Return))
@@ -101,19 +97,9 @@ public class SaveTabletSelector : MonoBehaviour
             pauseMenu.CloseSavePanel();
     }
 
-    // ── Tab visual ────────────────────────────────────────────
-
-    void UpdateTabVisual()
-    {
-        bool isSave = currentMode == Mode.Save;
-        if (btnSaveBg != null) btnSaveBg.color = isSave ? tabActiveColor : tabInactiveColor;
-        if (btnLoadBg != null) btnLoadBg.color = isSave ? tabInactiveColor : tabActiveColor;
-        if (txtSave != null) txtSave.color = isSave ? tabActiveText : tabInactiveText;
-        if (txtLoad != null) txtLoad.color = isSave ? tabInactiveText : tabActiveText;
-    }
-
-    // ── SAVE + Screenshot ─────────────────────────────────────
-
+    // ═══════════════════════════════════════════════════════════
+    // SAVE
+    // ═══════════════════════════════════════════════════════════
     IEnumerator DoSaveWithScreenshot()
     {
         string slot = slotNames[index];
@@ -130,6 +116,7 @@ public class SaveTabletSelector : MonoBehaviour
         playerSave.SaveToSlot(slot);
         RefreshSlotLabels();
         RefreshThumbnails();
+
         Debug.Log($"[SaveTablet] Tersimpan ke '{slot}'");
     }
 
@@ -156,8 +143,9 @@ public class SaveTabletSelector : MonoBehaviour
         Destroy(screenshot);
     }
 
-    // ── LOAD ─────────────────────────────────────────────────
-
+    // ═══════════════════════════════════════════════════════════
+    // LOAD
+    // ═══════════════════════════════════════════════════════════
     void DoLoad()
     {
         string slot = slotNames[index];
@@ -171,12 +159,14 @@ public class SaveTabletSelector : MonoBehaviour
         pauseMenu.isPaused = false;
         pauseMenu.isInSavePanel = false;
         Time.timeScale = 1f;
-        SaveManager.Instance.Load(slot, playerTransform);
+
+        SaveManager.Instance.Load(slot, player1Transform, player2Transform);
         loadingScreen.StartLoading();
     }
 
-    // ── Refresh ───────────────────────────────────────────────
-
+    // ═══════════════════════════════════════════════════════════
+    // UI REFRESH
+    // ═══════════════════════════════════════════════════════════
     void RefreshSlotLabels()
     {
         if (slotLabels == null || slotLabels.Length == 0) return;
@@ -227,12 +217,9 @@ public class SaveTabletSelector : MonoBehaviour
         }
     }
 
-    void UpdateSlots()
-    {
-        for (int i = 0; i < totalSlots; i++)
-            slotBgs[i].SetActive(i == index);
-    }
-
+    // ═══════════════════════════════════════════════════════════
+    // HELPERS
+    // ═══════════════════════════════════════════════════════════
     string ThumbnailPath(string slot) =>
         Path.Combine(Application.persistentDataPath, "saves", slot + "_thumb.png");
 }
