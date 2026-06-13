@@ -18,13 +18,14 @@ public class RespawnManager : MonoBehaviour
 
         if (player1.IsDead || player2.IsDead)
         {
+            isRespawning = true;
             StartCoroutine(RespawnAll());
         }
     }
 
     private IEnumerator RespawnAll()
     {
-        isRespawning = true;
+
 
         yield return new WaitForSeconds(respawnDelay);
 
