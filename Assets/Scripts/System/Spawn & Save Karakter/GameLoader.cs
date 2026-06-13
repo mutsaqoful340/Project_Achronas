@@ -1,29 +1,32 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GameLoader : MonoBehaviour
 {
+    // ═══════════════════════════════════════════════════════════
+    // REFERENCES
+    // ═══════════════════════════════════════════════════════════
     [Header("Players")]
     public Transform player1;
     public Transform player2;
 
-    public void LoadGame()
+    // ═══════════════════════════════════════════════════════════
+    // PUBLIC
+    // ═══════════════════════════════════════════════════════════
+    public void LoadGame(string slot)
     {
-        if (!PlayerPrefs.HasKey("spawnP1") || !PlayerPrefs.HasKey("spawnP2")) return;
+        if (SaveManager.Instance == null)
+        {
+            Debug.LogWarning("[GAMELOADER] SaveManager tidak ditemukan!");
+            return;
+        }
 
-        Vector3 p1 = JsonUtility.FromJson<Vector3>(PlayerPrefs.GetString("spawnP1"));
-        Vector3 p2 = JsonUtility.FromJson<Vector3>(PlayerPrefs.GetString("spawnP2"));
+        if (!SaveManager.Instance.SlotExists(slot))
+        {
+            Debug.LogWarning($"[GAMELOADER] Slot '{slot}' tidak ada!");
+            return;
+        }
 
-        CharacterController cc1 = player1.GetComponent<CharacterController>();
-        CharacterController cc2 = player2.GetComponent<CharacterController>();
-
-        cc1.enabled = false;
-        player1.position = p1;
-        cc1.enabled = true;
-
-        cc2.enabled = false;
-        player2.position = p2;
-        cc2.enabled = true;
-
-        Debug.Log($"[LOAD] {PlayerPrefs.GetString("lastRoomID")}");
+        SaveManager.Instance.Load(slot, player1, player2);
+        Debug.Log($"[GAMELOADER] Load dari slot '{slot}'");
     }
 }
