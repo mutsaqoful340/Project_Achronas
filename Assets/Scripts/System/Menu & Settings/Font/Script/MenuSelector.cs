@@ -187,15 +187,30 @@ public class MenuSelector : MonoBehaviour
 
     public void SelectNewGame()
     {
+        PlayerPrefs.DeleteAll();
         DisableAll();
         playerMovement.enabled = true;
         inSinglePlayer = false;
         panelHistory.Clear();
     }
 
+
     public void SelectLoadGame()
     {
-        Debug.Log("Load game");
+        DisableAll();
+        playerMovement.enabled = true;
+        inSinglePlayer = false;
+        panelHistory.Clear();
+
+        GameLoader gameLoader = FindObjectOfType<GameLoader>();
+        if (gameLoader != null)
+        {
+            gameLoader.LoadGame();
+        }
+        else
+        {
+            Debug.LogWarning("[LOAD] GameLoader tidak ditemukan!");
+        }
     }
     #endregion
 
@@ -228,6 +243,7 @@ public class MenuSelector : MonoBehaviour
     {
         isInVideoPanel = false;
     }
+
 
     public void DisableAll()
     {
