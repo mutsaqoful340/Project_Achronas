@@ -197,6 +197,31 @@ public class MenuSelector : MonoBehaviour
 
     public void SelectLoadGame()
     {
+        if (SaveManager.Instance == null)
+        {
+            Debug.LogWarning("[LOAD] SaveManager tidak ditemukan!");
+            return;
+        }
+
+        // Cari slot terakhir yang ada datanya
+        string[] slotNames = { "slot1", "slot2", "slot3", "slot4", "slot5", "slot6" };
+        string lastSlot = null;
+
+        for (int i = slotNames.Length - 1; i >= 0; i--)
+        {
+            if (SaveManager.Instance.SlotExists(slotNames[i]))
+            {
+                lastSlot = slotNames[i];
+                break;
+            }
+        }
+
+        if (lastSlot == null)
+        {
+            Debug.LogWarning("[LOAD] Tidak ada data save!");
+            return;
+        }
+
         DisableAll();
         playerMovement.enabled = true;
         inSinglePlayer = false;
@@ -204,13 +229,7 @@ public class MenuSelector : MonoBehaviour
 
         GameLoader gameLoader = FindObjectOfType<GameLoader>();
         if (gameLoader != null)
-        {
-            gameLoader.LoadGame();
-        }
-        else
-        {
-            Debug.LogWarning("[LOAD] GameLoader tidak ditemukan!");
-        }
+            gameLoader.LoadGame(lastSlot);
     }
     #endregion
 
