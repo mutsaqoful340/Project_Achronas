@@ -1,23 +1,37 @@
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 
 public class LoadSlotSelector : MonoBehaviour
 {
+    // ═══════════════════════════════════════════════════════════
+    // REFERENCES
+    // ═══════════════════════════════════════════════════════════
+    [Header("UI")]
     public GameObject[] slotBgs;
     public TextMeshProUGUI[] slotLabels;
-    public MenuSelector menuSelector;       // Drag MenuSelector
-    public LoadingScreen loadingScreen;     // Drag LoadingScreen
-    public Transform playerTransform;       // Drag Player
 
-    int index = 0;
-    int totalSlots = 6;
-    string[] slotNames = { "slot1", "slot2", "slot3", "slot4", "slot5", "slot6" };
+    [Header("Players")]
+    public Transform player1Transform;
+    public Transform player2Transform;
 
+    [Header("External References")]
+    public MenuSelector menuSelector;
+    public LoadingScreen loadingScreen;
+
+    // ═══════════════════════════════════════════════════════════
+    // PRIVATE
+    // ═══════════════════════════════════════════════════════════
+    private int index = 0;
+    private int totalSlots = 6;
+    private string[] slotNames = { "slot1", "slot2", "slot3", "slot4", "slot5", "slot6" };
+
+    // ═══════════════════════════════════════════════════════════
+    // LIFECYCLE
+    // ═══════════════════════════════════════════════════════════
     void OnEnable()
     {
         index = 0;
         RefreshSlotLabels();
-        UpdateSlots();
     }
 
     void Update()
@@ -26,32 +40,26 @@ public class LoadSlotSelector : MonoBehaviour
         {
             int col = index / 2;
             if (col < 2) index += 2;
-            UpdateSlots();
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             int col = index / 2;
             if (col > 0) index -= 2;
-            UpdateSlots();
         }
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             int row = index % 2;
             if (row < 1) index++;
-            UpdateSlots();
         }
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             int row = index % 2;
             if (row > 0) index--;
-            UpdateSlots();
         }
-
         if (Input.GetKeyDown(KeyCode.Return))
         {
             LoadFromSlot();
         }
-
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             menuSelector.isInContinuePanel = false;
@@ -59,6 +67,9 @@ public class LoadSlotSelector : MonoBehaviour
         }
     }
 
+    // ═══════════════════════════════════════════════════════════
+    // LOAD
+    // ═══════════════════════════════════════════════════════════
     void LoadFromSlot()
     {
         string slot = slotNames[index];
@@ -69,13 +80,13 @@ public class LoadSlotSelector : MonoBehaviour
             return;
         }
 
-        Debug.Log($"[LoadSlot] Posisi sebelum load: {playerTransform.position}");
-        SaveManager.Instance.Load(slot, playerTransform);
-        Debug.Log($"[LoadSlot] Posisi sesudah load: {playerTransform.position}");
-
+        SaveManager.Instance.Load(slot, player1Transform, player2Transform);
         loadingScreen.StartLoading();
     }
 
+    // ═══════════════════════════════════════════════════════════
+    // UI REFRESH
+    // ═══════════════════════════════════════════════════════════
     void RefreshSlotLabels()
     {
         if (slotLabels == null || slotLabels.Length == 0) return;
@@ -99,14 +110,6 @@ public class LoadSlotSelector : MonoBehaviour
             {
                 slotLabels[i].text = "EMPTY";
             }
-        }
-    }
-
-    void UpdateSlots()
-    {
-        for (int i = 0; i < totalSlots; i++)
-        {
-            slotBgs[i].SetActive(i == index);
         }
     }
 }
