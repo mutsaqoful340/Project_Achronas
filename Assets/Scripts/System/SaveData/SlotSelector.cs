@@ -7,25 +7,41 @@ using UnityEngine.EventSystems;
 
 public class SlotSelector : MonoBehaviour
 {
+    // ═══════════════════════════════════════════════════════════
+    // REFERENCES
+    // ═══════════════════════════════════════════════════════════
+    [Header("UI")]
     public GameObject[] slotBgs;
     public TextMeshProUGUI[] slotLabels;
     public Image[] slotThumbnails;
 
-    public Transform playerTransform;
+    [Header("Players")]
+    public Transform player1Transform;
+    public Transform player2Transform;
+
+    [Header("External References")]
     public LoadingScreen loadingScreen;
     public MenuSelector menuSelector;
     public PauseMenuSelector pauseMenu;
 
     [Header("First Selected Button")]
-    public Button firstSelectedButton; // assign BtnSave1 di Inspector
+    public Button firstSelectedButton;
 
-    int totalSlots = 6;
-    string[] slotNames = { "slot1", "slot2", "slot3", "slot4", "slot5", "slot6" };
-    int thumbWidth = 320;
-    int thumbHeight = 180;
+    // ═══════════════════════════════════════════════════════════
+    // PRIVATE
+    // ═══════════════════════════════════════════════════════════
+    private int totalSlots = 6;
+    private int selectedIndex = -1;
+    private string[] slotNames = { "slot1", "slot2", "slot3", "slot4", "slot5", "slot6" };
+    private int thumbWidth = 320;
+    private int thumbHeight = 180;
 
+    // ═══════════════════════════════════════════════════════════
+    // LIFECYCLE
+    // ═══════════════════════════════════════════════════════════
     void OnEnable()
     {
+        selectedIndex = -1;
         RefreshSlotLabels();
         RefreshThumbnails();
         StartCoroutine(SelectFirstNextFrame());
@@ -37,15 +53,32 @@ public class SlotSelector : MonoBehaviour
             Debug.LogWarning("Selection LOST!");
     }
 
+    // ═══════════════════════════════════════════════════════════
+    // PUBLIC
+    // ═══════════════════════════════════════════════════════════
 
+    /// <summary>Dipanggil dari OnClick tiap BtnSave — cuma highlight, tidak load.</summary>
     public void SelectSlot(int slotIndex)
     {
-        Debug.Log("SelectSlot dipanggil: " + slotIndex);
         if (slotIndex < 0 || slotIndex >= totalSlots) return;
-        DoLoad(slotIndex);
-
+        selectedIndex = slotIndex;
+        Debug.Log($"[SlotSelector] Slot dipilih: {slotNames[slotIndex]}");
     }
 
+    /// <summary>Dipanggil dari tombol Load di panel Continue.</summary>
+    public void ConfirmLoad()
+    {
+        if (selectedIndex == -1)
+        {
+            Debug.LogWarning("[SlotSelector] Belum ada slot yang dipilih!");
+            return;
+        }
+        DoLoad(selectedIndex);
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // LOAD
+    // ═══════════════════════════════════════════════════════════
     void DoLoad(int slotIndex)
     {
         string slot = slotNames[slotIndex];
@@ -65,10 +98,14 @@ public class SlotSelector : MonoBehaviour
         if (pauseMenu != null) pauseMenu.isInSavePanel = false;
         menuSelector.isInContinuePanel = false;
         Time.timeScale = 1f;
-        SaveManager.Instance.Load(slot, playerTransform);
+
+        SaveManager.Instance.Load(slot, player1Transform, player2Transform);
         loadingScreen.StartLoading();
     }
 
+    // ═══════════════════════════════════════════════════════════
+    // UI REFRESH
+    // ═══════════════════════════════════════════════════════════
     void RefreshSlotLabels()
     {
         if (slotLabels == null || slotLabels.Length == 0) return;
@@ -119,10 +156,12 @@ public class SlotSelector : MonoBehaviour
         }
     }
 
+    // ═══════════════════════════════════════════════════════════
+    // HELPERS
+    // ═══════════════════════════════════════════════════════════
     IEnumerator SelectFirstNextFrame()
     {
         yield return null;
-        Debug.Log("Coroutine jalan, firstSelectedButton: " + (firstSelectedButton != null ? firstSelectedButton.name : "NULL"));
         if (firstSelectedButton != null)
         {
             EventSystem.current.SetSelectedGameObject(null);
