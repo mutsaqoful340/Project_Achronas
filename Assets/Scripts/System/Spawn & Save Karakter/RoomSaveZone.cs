@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.IO;
 
 public class RoomSaveZone : MonoBehaviour
 {
@@ -47,13 +48,19 @@ public class RoomSaveZone : MonoBehaviour
         PlayerPrefs.SetString("spawnP2", JsonUtility.ToJson(spawnP2.position));
         PlayerPrefs.Save();
 
-        // Auto-save ke slot kosong pertama via SaveManager
         if (SaveManager.Instance != null)
         {
-            string slot = SaveManager.Instance.GetFirstEmptySlot();
+            // Cek apakah ruangan ini sudah pernah disimpan di slot tertentu
+            string slot = SaveManager.Instance.FindSlotByRoomID(roomID);
+
+            // Kalau belum ada, cari slot kosong pertama
+            if (slot == null)
+                slot = SaveManager.Instance.GetFirstEmptySlot();
+
             if (slot != null)
             {
                 playerSave.SaveToSlot(slot);
+                SaveRoomThumbnail(slot);
                 Debug.Log($"[SAVE] {roomID} → {slot}");
             }
             else
@@ -65,5 +72,30 @@ public class RoomSaveZone : MonoBehaviour
         {
             Debug.LogWarning("[SAVE] SaveManager tidak ditemukan!");
         }
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // THUMBNAIL
+    // ═══════════════════════════════════════════════════════════
+
+    /// <summary>
+    /// Copy gambar static ruangan dari Resources/RoomImages/{roomID}.png
+    /// menjadi thumbnail untuk slot terkait.
+    /// </summary>
+    private void SaveRoomThumbnail(string slot)
+    {
+        Texture2D roomImage = Resources.Load<Texture2D>($"RoomImages/{roomID}");
+
+        if (roomImage == null)
+        {
+            Debug.LogWarning($"[THUMBNAIL] Gambar 'RoomImages/{roomID}' tidak ditemukan di Resources!");
+            return;
+        }
+
+        byte[] bytes = roomImage.EncodeToPNG();
+        string path = Path.Combine(Application.persistentDataPath, "saves", slot + "_thumb.png");
+
+        File.WriteAllBytes(path, bytes);
+        Debug.Log($"[THUMBNAIL] {roomID} → {path}");
     }
 }

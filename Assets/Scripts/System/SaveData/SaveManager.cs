@@ -253,4 +253,20 @@ public class SaveManager : MonoBehaviour
             data[i] ^= key[i % key.Length];
         return Encoding.UTF8.GetString(data);
     }
+
+    /// <summary>Cari slot yang sudah menyimpan roomID tertentu.</summary>
+    public string FindSlotByRoomID(string roomID)
+    {
+        string[] slotNames = { "slot1", "slot2", "slot3", "slot4", "slot5", "slot6" };
+        foreach (string slot in slotNames)
+        {
+            if (SlotExists(slot))
+            {
+                SaveData data = LoadRaw(slot);
+                if (data != null && data.lastRoomID == roomID)
+                    return slot;
+            }
+        }
+        return null;
+    }
 }
