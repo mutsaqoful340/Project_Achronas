@@ -58,11 +58,11 @@ public class MapInputHandler : MonoBehaviour
         Gamepad gp = Gamepad.current;
         if (gp != null)
         {
-            // Select/View button untuk toggle map
-            if (gp.selectButton.wasPressedThisFrame)
+            // X untuk toggle map
+            if (gp.buttonWest.wasPressedThisFrame)
                 mapController.ToggleMap();
 
-            // Y / Triangle untuk focus ke player
+            // Y untuk focus ke player
             if (gp.buttonNorth.wasPressedThisFrame)
                 mapController.FocusOnPlayer();
         }
