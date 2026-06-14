@@ -1,5 +1,13 @@
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using Unity.Cinemachine;
+
+public enum PauseMenuState
+{
+    PauseMenu,
+    MiniMap
+}
 
 public class Sys_PauseMenu : Sys_GameplayBehaviour
 {
@@ -28,6 +36,7 @@ public class Sys_PauseMenu : Sys_GameplayBehaviour
     private CharacterController player2CC;
     private Rigidbody player2Rigidbody;
     private bool player2RigidbodyWasKinematic;
+    private Animator animator;
 
     protected override void OnEnable()
     {
@@ -52,16 +61,6 @@ public class Sys_PauseMenu : Sys_GameplayBehaviour
             player2Ref.moduleInputPlay.OnAction -= OnPlayerAction;
         
         base.OnDisable(); // Call parent OnDisable
-    }
-
-    protected override void OnGameplayEnabled()
-    {
-        // Note: Input subscription now happens in OnEnable() so it works during pause too
-    }
-
-    protected override void OnGameplayDisabled()
-    {
-        // Note: Input subscription is NOT unsubscribed here anymore - we need it during pause!
     }
 
     protected override void Start()
@@ -91,6 +90,11 @@ public class Sys_PauseMenu : Sys_GameplayBehaviour
         {
             Debug.LogWarning("Game mode switch not assigned in inspector! Game mode switching won't work.");
         }
+
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
+        }
     }
 
     /// <summary>
@@ -106,15 +110,11 @@ public class Sys_PauseMenu : Sys_GameplayBehaviour
         {
             Debug.Log("<color=cyan>[PauseMenu] Resuming game...</color>");
             Resume();
-            if (gameModeSwitch != null)
-                gameModeSwitch.SetMode(Sys_GameModeSwitch.GameMode.Player); // Switch back to Player mode when resuming
         }
         else
         {
             Debug.Log("<color=cyan>[PauseMenu] Pausing game...</color>");
             Pause();
-            if (gameModeSwitch != null)
-                gameModeSwitch.SetMode(Sys_GameModeSwitch.GameMode.UI); // Switch to UI mode when paused
         }
     }
 
@@ -123,13 +123,45 @@ public class Sys_PauseMenu : Sys_GameplayBehaviour
         OnPlayerPosPauseMenu();
     }
 
+    public void OnResumeGame()
+    {
+        Resume();
+    }
+
+    public void OnSaveGame()
+    {
+        // Panggil save di sini.
+    }
+
+    public void OnBackToMainMenu()
+    {
+        // Buat kembali ke Main Menu.
+    }
+
+    private void SubMenuLeft()
+    {
+        
+    }
+
+    private void SubMenuRight()
+    {
+
+    }
+
     private void Pause()
     {
         isPaused = true;
         // Time.timeScale = 0f; 
+
+        if (gameModeSwitch != null){
+        gameModeSwitch.SetMode(Sys_GameModeSwitch.GameMode.UI);
+        }
         
         if (pauseMenuUI != null)
+        {
             pauseMenuUI.SetActive(true);
+            SelectFirstButton(pauseMenuUI);
+        }
         else
             Debug.LogWarning("Pause menu UI not assigned!");
 
@@ -148,6 +180,10 @@ public class Sys_PauseMenu : Sys_GameplayBehaviour
     {
         isPaused = false;
         // Time.timeScale = 1f; // Resume game time
+
+        if (gameModeSwitch != null){
+        gameModeSwitch.SetMode(Sys_GameModeSwitch.GameMode.Player);
+        }
         
         if (pauseMenuUI != null)
             pauseMenuUI.SetActive(false);
@@ -205,6 +241,28 @@ public class Sys_PauseMenu : Sys_GameplayBehaviour
             
             isPlayer2ParentedToPauseMenu = false;
             Debug.Log("<color=cyan>[PauseMenu] Unparented Player 2 from pause menu position</color>");
+        }
+    }
+
+    private void SelectFirstButton(GameObject panel)
+    {
+        Button firstButton = panel.GetComponentInChildren<Button>();
+        if (firstButton != null)
+        {
+            EventSystem.current.SetSelectedGameObject(firstButton.gameObject);
+        }
+    }
+
+    private void State(PauseMenuState state)
+    {
+        switch (state)
+        {
+            case PauseMenuState.PauseMenu:
+                
+                break;
+            case PauseMenuState.MiniMap:
+                
+                break;
         }
     }
 }

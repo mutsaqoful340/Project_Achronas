@@ -723,6 +723,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SubMenuLeft",
+                    "type": "Button",
+                    "id": "b9528bd2-2a17-4709-951a-46f49425a959",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SubMenuRight",
+                    "type": "Button",
+                    "id": "1035fc3c-ada9-404a-bbd9-d8285da330aa",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1196,6 +1214,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "BtnA",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bb4e1e92-cc0a-4e8c-a52a-274d366299ca",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SubMenuLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2afab080-ed14-4c53-8e11-be824e2f54a7",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SubMenuRight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

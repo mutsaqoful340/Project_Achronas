@@ -809,6 +809,24 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SubMenuLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""b9528bd2-2a17-4709-951a-46f49425a959"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SubMenuRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""1035fc3c-ada9-404a-bbd9-d8285da330aa"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1284,6 +1302,28 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""BtnA"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bb4e1e92-cc0a-4e8c-a52a-274d366299ca"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SubMenuLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2afab080-ed14-4c53-8e11-be824e2f54a7"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SubMenuRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -1385,6 +1425,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_UI_BtnB = m_UI.FindAction("BtnB", throwIfNotFound: true);
         m_UI_BtnX = m_UI.FindAction("BtnX", throwIfNotFound: true);
         m_UI_BtnA = m_UI.FindAction("BtnA", throwIfNotFound: true);
+        m_UI_SubMenuLeft = m_UI.FindAction("SubMenuLeft", throwIfNotFound: true);
+        m_UI_SubMenuRight = m_UI.FindAction("SubMenuRight", throwIfNotFound: true);
     }
 
     ~@InputActions()
@@ -1741,6 +1783,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_BtnB;
     private readonly InputAction m_UI_BtnX;
     private readonly InputAction m_UI_BtnA;
+    private readonly InputAction m_UI_SubMenuLeft;
+    private readonly InputAction m_UI_SubMenuRight;
     /// <summary>
     /// Provides access to input actions defined in input action map "UI".
     /// </summary>
@@ -1809,6 +1853,14 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @BtnA => m_Wrapper.m_UI_BtnA;
         /// <summary>
+        /// Provides access to the underlying input action "UI/SubMenuLeft".
+        /// </summary>
+        public InputAction @SubMenuLeft => m_Wrapper.m_UI_SubMenuLeft;
+        /// <summary>
+        /// Provides access to the underlying input action "UI/SubMenuRight".
+        /// </summary>
+        public InputAction @SubMenuRight => m_Wrapper.m_UI_SubMenuRight;
+        /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
         public InputActionMap Get() { return m_Wrapper.m_UI; }
@@ -1876,6 +1928,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @BtnA.started += instance.OnBtnA;
             @BtnA.performed += instance.OnBtnA;
             @BtnA.canceled += instance.OnBtnA;
+            @SubMenuLeft.started += instance.OnSubMenuLeft;
+            @SubMenuLeft.performed += instance.OnSubMenuLeft;
+            @SubMenuLeft.canceled += instance.OnSubMenuLeft;
+            @SubMenuRight.started += instance.OnSubMenuRight;
+            @SubMenuRight.performed += instance.OnSubMenuRight;
+            @SubMenuRight.canceled += instance.OnSubMenuRight;
         }
 
         /// <summary>
@@ -1929,6 +1987,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @BtnA.started -= instance.OnBtnA;
             @BtnA.performed -= instance.OnBtnA;
             @BtnA.canceled -= instance.OnBtnA;
+            @SubMenuLeft.started -= instance.OnSubMenuLeft;
+            @SubMenuLeft.performed -= instance.OnSubMenuLeft;
+            @SubMenuLeft.canceled -= instance.OnSubMenuLeft;
+            @SubMenuRight.started -= instance.OnSubMenuRight;
+            @SubMenuRight.performed -= instance.OnSubMenuRight;
+            @SubMenuRight.canceled -= instance.OnSubMenuRight;
         }
 
         /// <summary>
@@ -2252,5 +2316,19 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnBtnA(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SubMenuLeft" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSubMenuLeft(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SubMenuRight" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSubMenuRight(InputAction.CallbackContext context);
     }
 }

@@ -22,7 +22,9 @@ public enum ActionState
     PauseMenu,
     Sprint,
     Stumble,
-    Throw
+    Throw,
+    SubMenuLeft,
+    SubMenuRight
 }
 
 [CreateAssetMenu(fileName = "ModuleInputPlay", menuName = "AddOn Module/Input Play", order = 1)]
