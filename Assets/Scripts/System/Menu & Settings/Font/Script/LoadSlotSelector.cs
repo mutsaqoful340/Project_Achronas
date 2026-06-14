@@ -100,10 +100,10 @@ public class LoadSlotSelector : MonoBehaviour
                 SaveData data = SaveManager.Instance.LoadRaw(slot);
                 if (data != null)
                 {
-                    string jam = System.DateTime.Parse(data.savedAt).ToString("dd/MM/yyyy HH:mm");
                     int menit = data.playTimeSeconds / 60;
                     int detik = data.playTimeSeconds % 60;
-                    slotLabels[i].text = $"{jam}\n{menit:00}:{detik:00}";
+                    string roomName = string.IsNullOrEmpty(data.lastRoomID) ? "Unknown" : data.lastRoomID;
+                    slotLabels[i].text = $"{roomName}\n{menit:00}:{detik:00}";
                 }
             }
             else
