@@ -6,12 +6,19 @@ public class MapInputHandler : MonoBehaviour
     [Header("References")]
     public MapController mapController;
 
-    [Header("Sensitivities")]
+    [Header("Sensitivities - Keyboard/Mouse")]
     public float panKeySensitivity = 1f;
     public float panDragSensitivity = 0.25f;
     public float rotateSensitivity = 1f;
     public float pitchDragSensitivity = 0.3f;
     public float scrollSensitivity = 4f;
+
+    [Header("Sensitivities - Gamepad")]
+    public float gamepadPanSensitivity = 1f;
+    public float gamepadRotateSensitivity = 1f;
+    public float gamepadPitchSensitivity = 1f;
+    public float gamepadZoomSensitivity = 1f;
+    public float stickDeadzone = 0.15f;
 
     private Vector3 _lastMousePos;
     private bool _isPanDragging;
@@ -21,6 +28,22 @@ public class MapInputHandler : MonoBehaviour
     {
         if (mapController == null) return;
 
+        HandleToggleAndFocus();
+
+        if (!mapController.isOpen) return;
+
+        HandleKeyboardPan();
+        HandleMiddleMousePan();
+        HandleRightMousePitch();
+        HandleRotate();
+        HandleZoom();
+
+        HandleGamepad();
+    }
+
+    void HandleToggleAndFocus()
+    {
+        // Keyboard
         if (Keyboard.current != null)
         {
             if (Keyboard.current.mKey.wasPressedThisFrame ||
@@ -31,13 +54,18 @@ public class MapInputHandler : MonoBehaviour
                 mapController.FocusOnPlayer();
         }
 
-        if (!mapController.isOpen) return;
+        // Gamepad
+        Gamepad gp = Gamepad.current;
+        if (gp != null)
+        {
+            // Select/View button untuk toggle map
+            if (gp.selectButton.wasPressedThisFrame)
+                mapController.ToggleMap();
 
-        HandleKeyboardPan();
-        HandleMiddleMousePan();
-        HandleRightMousePitch();
-        HandleRotate();
-        HandleZoom();
+            // Y / Triangle untuk focus ke player
+            if (gp.buttonNorth.wasPressedThisFrame)
+                mapController.FocusOnPlayer();
+        }
     }
 
     void HandleKeyboardPan()
@@ -98,10 +126,27 @@ public class MapInputHandler : MonoBehaviour
             mapController.ApplyZoom(scroll * scrollSensitivity);
     }
 
-    void HandleHotkeys()
+    void HandleGamepad()
     {
-        if (Input.GetKeyDown(KeyCode.F)) mapController.FocusOnPlayer();
-        if (Input.GetKeyDown(KeyCode.M) ||
-            Input.GetKeyDown(KeyCode.Tab)) mapController.ToggleMap();
+        Gamepad gp = Gamepad.current;
+        if (gp == null) return;
+
+        // Left stick = Pan
+        Vector2 left = gp.leftStick.ReadValue();
+        if (left.magnitude > stickDeadzone)
+            mapController.ApplyPan(left * gamepadPanSensitivity);
+
+        // Right stick X = Rotate, Right stick Y = Pitch
+        Vector2 right = gp.rightStick.ReadValue();
+        if (Mathf.Abs(right.x) > stickDeadzone)
+            mapController.ApplyRotate(right.x * gamepadRotateSensitivity);
+
+        if (Mathf.Abs(right.y) > stickDeadzone)
+            mapController.ApplyPitch(right.y * gamepadPitchSensitivity);
+
+        // Triggers / Bumpers = Zoom
+        float zoomInput = gp.rightTrigger.ReadValue() - gp.leftTrigger.ReadValue();
+        if (Mathf.Abs(zoomInput) > 0.01f)
+            mapController.ApplyZoom(zoomInput * gamepadZoomSensitivity);
     }
 }
