@@ -24637,7 +24637,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -44978,7 +44978,7 @@ Camera:
   m_Depth: -2
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 1
@@ -56602,7 +56602,7 @@ RectTransform:
   m_GameObject: {fileID: 895147704685343195}
   m_LocalRotation: {x: 0.50000006, y: 0.50000006, z: -0.49999994, w: 0.49999994}
   m_LocalPosition: {x: 0, y: 0, z: -0.03}
-  m_LocalScale: {x: 0.0021199659, y: 0.0018498827, z: 0.00012419483}
+  m_LocalScale: {x: 0.0021199659, y: 0.00046774282, z: 0.00012419483}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6459189462986722529}
@@ -56610,7 +56610,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.022906704, y: 0.547}
+  m_AnchoredPosition: {x: 0.022907, y: 0.547}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &609906499348196381
@@ -70040,7 +70040,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fe0d2e783b923554484c40de69f574c8, type: 2}
+  - {fileID: 2100000, guid: eb9bacf53eae3b2429867db40cabc72f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -87716,8 +87716,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 21.32799, y: 14.13471, z: 26.8848}
-  m_Center: {x: -0.41006416, y: 6.5673556, z: -12.585597}
+  m_Size: {x: 146.39334, y: 14.134708, z: 33.068478}
+  m_Center: {x: -7.783706, y: 6.5673556, z: -9.493736}
 --- !u!224 &5002850725460226804
 RectTransform:
   m_ObjectHideFlags: 0
@@ -93101,8 +93101,8 @@ Transform:
   m_GameObject: {fileID: 6729545653126724809}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 9.1, z: -16.6}
-  m_LocalScale: {x: 30.569757, y: 20.661, z: 35.223804}
+  m_LocalPosition: {x: -11.5, y: 8.5, z: -16.6}
+  m_LocalScale: {x: 160.50346, y: 36.317905, z: 35.223804}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7644040363717238365}
@@ -96184,7 +96184,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -98284,8 +98284,8 @@ Transform:
   m_GameObject: {fileID: 4693605518813612049}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 9.1, z: -16.6}
-  m_LocalScale: {x: 30.569757, y: 20.661, z: 35.223804}
+  m_LocalPosition: {x: -11.5, y: 8.7321, z: -16.6}
+  m_LocalScale: {x: 160.50346, y: 36.317905, z: 35.223804}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 609223509118246834}
@@ -106400,7 +106400,7 @@ Transform:
   m_GameObject: {fileID: 7600864709626408374}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.82577, y: -0.08, z: -13.78}
+  m_LocalPosition: {x: 2.82577, y: -2.54, z: -13.78}
   m_LocalScale: {x: 0.13733, y: 0.13733, z: 0.13733}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -115585,9 +115585,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5416999704254698829}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: a2a06f49b55b79344889b49943664110, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomProximity
+  parentRoom: {fileID: 1624946676722655706}
 --- !u!1 &8847781593643080035
 GameObject:
   m_ObjectHideFlags: 0
