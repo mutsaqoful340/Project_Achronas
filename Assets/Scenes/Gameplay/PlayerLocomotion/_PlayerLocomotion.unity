@@ -170,6 +170,7 @@ MonoBehaviour:
   player1: {fileID: 1070216318722654372}
   player2: {fileID: 493402370082063398}
   playerSave: {fileID: 45300819}
+  minimapRoom: {fileID: 0}
 --- !u!65 &909628
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7370,6 +7371,7 @@ MonoBehaviour:
   player1: {fileID: 1070216318722654372}
   player2: {fileID: 493402370082063398}
   playerSave: {fileID: 45300819}
+  minimapRoom: {fileID: 0}
 --- !u!65 &240024575
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8785,6 +8787,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6663f99270b0ad94f9848fbd32dd3fde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MinimapRoom
+  roomID: 
   coverHiddens:
   - {fileID: 705376491}
   coverBlurs:
@@ -18043,6 +18046,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6663f99270b0ad94f9848fbd32dd3fde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MinimapRoom
+  roomID: 
   coverHiddens:
   - {fileID: 240259716}
   coverBlurs:
@@ -18139,6 +18143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6663f99270b0ad94f9848fbd32dd3fde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MinimapRoom
+  roomID: 
   coverHiddens:
   - {fileID: 1922351695}
   coverBlurs:
@@ -28419,6 +28424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6663f99270b0ad94f9848fbd32dd3fde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MinimapRoom
+  roomID: 
   coverHiddens:
   - {fileID: 294196967}
   coverBlurs:
@@ -36275,6 +36281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6663f99270b0ad94f9848fbd32dd3fde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MinimapRoom
+  roomID: 
   coverHiddens:
   - {fileID: 1448092905}
   coverBlurs:
@@ -38834,6 +38841,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6663f99270b0ad94f9848fbd32dd3fde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MinimapRoom
+  roomID: 
   coverHiddens:
   - {fileID: 2129570479}
   coverBlurs:
@@ -41449,6 +41457,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6663f99270b0ad94f9848fbd32dd3fde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MinimapRoom
+  roomID: 
   coverHiddens:
   - {fileID: 350531613}
   coverBlurs:
@@ -52526,6 +52535,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6663f99270b0ad94f9848fbd32dd3fde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MinimapRoom
+  roomID: 
   coverHiddens:
   - {fileID: 667737703}
   - {fileID: 2038529801}
@@ -69469,6 +69479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6663f99270b0ad94f9848fbd32dd3fde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MinimapRoom
+  roomID: 
   coverHiddens:
   - {fileID: 4693605518813612049}
   coverBlurs:

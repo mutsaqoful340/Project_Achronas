@@ -20,21 +20,16 @@ public class RoomSaveZone : MonoBehaviour
     [Header("Player Save Controller")]
     public PlayerSaveController playerSave;
 
-    // ═══════════════════════════════════════════════════════════
-    // PRIVATE
-    // ═══════════════════════════════════════════════════════════
-    private bool hasSaved = false;
+    [Header("Minimap")]
+    public MinimapRoom minimapRoom;
 
     // ═══════════════════════════════════════════════════════════
     // TRIGGER
     // ═══════════════════════════════════════════════════════════
     private void OnTriggerEnter(Collider other)
     {
-        if (!hasSaved && other.CompareTag("Player"))
-        {
+        if (other.CompareTag("Player"))
             Save();
-            hasSaved = true;
-        }
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -42,7 +37,11 @@ public class RoomSaveZone : MonoBehaviour
     // ═══════════════════════════════════════════════════════════
     private void Save()
     {
-        // Simpan spawn point ke PlayerPrefs biar RespawnManager bisa baca
+        // Tandai ruangan ini sebagai visited di minimap
+        if (minimapRoom != null)
+            minimapRoom.OnTriggerEnterExternal();
+
+        // Simpan spawn point ke PlayerPrefs
         PlayerPrefs.SetString("lastRoomID", roomID);
         PlayerPrefs.SetString("spawnP1", JsonUtility.ToJson(spawnP1.position));
         PlayerPrefs.SetString("spawnP2", JsonUtility.ToJson(spawnP2.position));
@@ -50,10 +49,8 @@ public class RoomSaveZone : MonoBehaviour
 
         if (SaveManager.Instance != null)
         {
-            // Cek apakah ruangan ini sudah pernah disimpan di slot tertentu
             string slot = SaveManager.Instance.FindSlotByRoomID(roomID);
 
-            // Kalau belum ada, cari slot kosong pertama
             if (slot == null)
                 slot = SaveManager.Instance.GetFirstEmptySlot();
 
@@ -77,11 +74,6 @@ public class RoomSaveZone : MonoBehaviour
     // ═══════════════════════════════════════════════════════════
     // THUMBNAIL
     // ═══════════════════════════════════════════════════════════
-
-    /// <summary>
-    /// Copy gambar static ruangan dari Resources/RoomImages/{roomID}.png
-    /// menjadi thumbnail untuk slot terkait.
-    /// </summary>
     private void SaveRoomThumbnail(string slot)
     {
         Texture2D roomImage = Resources.Load<Texture2D>($"RoomImages/{roomID}");

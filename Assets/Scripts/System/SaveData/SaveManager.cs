@@ -3,17 +3,6 @@ using System.IO;
 using System.Text;
 using UnityEngine;
 
-/// <summary>
-/// SaveManager — Singleton yang menangani seluruh operasi save/load.
-///
-/// Cara pakai:
-///   SaveManager.Instance.Save("slot1", player1, player2, playTime);
-///   SaveManager.Instance.Load("slot1", player1, player2);
-///   SaveManager.Instance.DeleteSave("slot1");
-///
-/// Data disimpan di: Application.persistentDataPath/saves/<slot>.sav
-/// Format: JSON (bisa diaktifkan enkripsi Base64 XOR sederhana)
-/// </summary>
 public class SaveManager : MonoBehaviour
 {
     // ═══════════════════════════════════════════════════════════
@@ -68,10 +57,6 @@ public class SaveManager : MonoBehaviour
     // ═══════════════════════════════════════════════════════════
     // SAVE
     // ═══════════════════════════════════════════════════════════
-
-    /// <summary>
-    /// Simpan data kedua player ke slot tertentu.
-    /// </summary>
     public bool Save(string slot, Transform player1, Transform player2, int playTimeSeconds = 0)
     {
         try
@@ -81,7 +66,11 @@ public class SaveManager : MonoBehaviour
                 saveSlot = slot,
                 savedAt = DateTime.Now.ToString("o"),
                 playTimeSeconds = playTimeSeconds,
-                lastRoomID = PlayerPrefs.GetString("lastRoomID", "")
+                lastRoomID = PlayerPrefs.GetString("lastRoomID", ""),
+
+                // Minimap visited rooms
+                visitedRooms = PlayerPrefs.GetString("VisitedRooms", "")
+                    .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
             };
 
             // Player 1
@@ -119,10 +108,6 @@ public class SaveManager : MonoBehaviour
     // ═══════════════════════════════════════════════════════════
     // LOAD
     // ═══════════════════════════════════════════════════════════
-
-    /// <summary>
-    /// Muat data dari slot dan terapkan ke kedua player.
-    /// </summary>
     public SaveData Load(string slot, Transform player1, Transform player2)
     {
         string path = SlotPath(slot);
@@ -139,15 +124,30 @@ public class SaveManager : MonoBehaviour
             string json = useEncryption ? Decrypt(content) : content;
             var data = JsonUtility.FromJson<SaveData>(json);
 
-            // Terapkan spawn point ke PlayerPrefs biar RespawnManager bisa baca
+            // Spawn point & room
             PlayerPrefs.SetString("lastRoomID", data.lastRoomID);
             PlayerPrefs.SetString("spawnP1", JsonUtility.ToJson(data.GetSpawnP1()));
             PlayerPrefs.SetString("spawnP2", JsonUtility.ToJson(data.GetSpawnP2()));
+
+            // Restore visited rooms ke PlayerPrefs
+            if (data.visitedRooms != null)
+            {
+                foreach (string id in data.visitedRooms)
+                    if (!string.IsNullOrEmpty(id))
+                        PlayerPrefs.SetInt("MinimapRoom_" + id, 1);
+
+                PlayerPrefs.SetString("VisitedRooms", string.Join(",", data.visitedRooms));
+            }
+
             PlayerPrefs.Save();
 
             // Terapkan ke player
             ApplyToPlayer(player1, data.GetSpawnP1(), data.GetRotation());
             ApplyToPlayer(player2, data.GetSpawnP2(), data.GetRotation2());
+
+            // Refresh semua MinimapRoom di scene
+            foreach (var room in FindObjectsOfType<MinimapRoom>())
+                room.LoadVisitedState();
 
             Debug.Log($"[SaveManager] Dimuat dari slot '{slot}' — Room: {data.lastRoomID}");
             OnLoadSuccess?.Invoke(slot);
@@ -160,9 +160,6 @@ public class SaveManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Muat hanya datanya tanpa menerapkan ke player (untuk preview UI).
-    /// </summary>
     public SaveData LoadRaw(string slot)
     {
         string path = SlotPath(slot);
@@ -183,8 +180,6 @@ public class SaveManager : MonoBehaviour
     // ═══════════════════════════════════════════════════════════
     // UTILITAS
     // ═══════════════════════════════════════════════════════════
-
-    /// <summary>Hapus file save untuk slot tertentu.</summary>
     public bool DeleteSave(string slot)
     {
         string path = SlotPath(slot);
@@ -195,10 +190,8 @@ public class SaveManager : MonoBehaviour
         return true;
     }
 
-    /// <summary>Cek apakah slot sudah memiliki data.</summary>
     public bool SlotExists(string slot) => File.Exists(SlotPath(slot));
 
-    /// <summary>Ambil semua slot yang tersedia.</summary>
     public string[] GetAllSlots()
     {
         var files = Directory.GetFiles(SaveDirectory, "*" + fileExtension);
@@ -208,15 +201,12 @@ public class SaveManager : MonoBehaviour
         return slots;
     }
 
-    /// <summary>Cari slot kosong pertama dari slot1-slot6.</summary>
     public string GetFirstEmptySlot()
     {
         string[] slotNames = { "slot1", "slot2", "slot3", "slot4", "slot5", "slot6" };
         foreach (string slot in slotNames)
-        {
             if (!SlotExists(slot)) return slot;
-        }
-        return null; // semua slot penuh
+        return null;
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -254,7 +244,6 @@ public class SaveManager : MonoBehaviour
         return Encoding.UTF8.GetString(data);
     }
 
-    /// <summary>Cari slot yang sudah menyimpan roomID tertentu.</summary>
     public string FindSlotByRoomID(string roomID)
     {
         string[] slotNames = { "slot1", "slot2", "slot3", "slot4", "slot5", "slot6" };
