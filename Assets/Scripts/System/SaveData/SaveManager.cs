@@ -52,6 +52,7 @@ public class SaveManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
         Directory.CreateDirectory(SaveDirectory);
+        Debug.Log(Application.persistentDataPath);
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -258,4 +259,5 @@ public class SaveManager : MonoBehaviour
         }
         return null;
     }
+
 }

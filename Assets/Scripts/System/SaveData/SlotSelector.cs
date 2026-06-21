@@ -100,7 +100,11 @@ public class SlotSelector : MonoBehaviour
         Time.timeScale = 1f;
 
         SaveManager.Instance.Load(slot, player1Transform, player2Transform);
-        loadingScreen.StartLoading();
+
+        // Hide semua panel & aktifkan player
+        menuSelector.DisableAll();
+        menuSelector.playerMovement.enabled = true;
+        menuSelector.panelHistory.Clear();
     }
 
     // ═══════════════════════════════════════════════════════════

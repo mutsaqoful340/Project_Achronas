@@ -36,7 +36,7 @@ public class MenuSelector : MonoBehaviour
     public bool isInContinuePanel = false;
 
     // ===== HISTORY =====
-    private struct PanelState
+    public struct PanelState
     {
         public GameObject panel;
         public bool wasInSettings;
@@ -45,7 +45,7 @@ public class MenuSelector : MonoBehaviour
         public bool wasInSinglePlayer;
     }
 
-    private Stack<PanelState> panelHistory = new Stack<PanelState>();
+    public Stack<PanelState> panelHistory = new Stack<PanelState>();
 
     private InputActions inputActions;
 
