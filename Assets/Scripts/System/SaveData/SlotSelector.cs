@@ -46,6 +46,7 @@ public class SlotSelector : MonoBehaviour
 
     private InputActions inputActions;
     private bool popupOpen = false;
+    private float inputCooldown = 0f;
 
     // ═══════════════════════════════════════════════════════════
     // LIFECYCLE
@@ -83,16 +84,22 @@ public class SlotSelector : MonoBehaviour
 
     void Update()
     {
-        // Jangan track focus kalau popup sedang buka
+        if (inputCooldown > 0f) inputCooldown -= Time.unscaledDeltaTime;
         if (popupOpen) return;
         if (EventSystem.current == null) return;
 
         GameObject focused = EventSystem.current.currentSelectedGameObject;
         if (focused == null) return;
 
+        Debug.Log($"Focused: {focused.name} | selectedIndex: {selectedIndex}");
+
         for (int i = 0; i < slotBgs.Length; i++)
         {
-            if (slotBgs[i] == focused || focused.transform.IsChildOf(slotBgs[i].transform))
+            if (slotBgs[i] == null) continue;
+            if (focused == slotBgs[i]
+                || focused.transform == slotBgs[i].transform
+                || focused.transform.IsChildOf(slotBgs[i].transform)
+                || slotBgs[i].transform.IsChildOf(focused.transform))
             {
                 selectedIndex = i;
                 return;
@@ -106,7 +113,9 @@ public class SlotSelector : MonoBehaviour
     private void OnBtnA(InputAction.CallbackContext ctx)
     {
         if (!gameObject.activeInHierarchy) return;
-        if (popupOpen) return; // popup handle sendiri via Button
+        if (popupOpen) return;
+        if (inputCooldown > 0f) return;
+        inputCooldown = 0.3f;
         ConfirmLoad();
     }
 
@@ -114,6 +123,7 @@ public class SlotSelector : MonoBehaviour
     {
         if (!gameObject.activeInHierarchy) return;
         if (popupOpen) return;
+        if (menuSelector == null || !menuSelector.isInContinuePanel) return;
         TryOpenDeletePopup();
     }
 
@@ -150,18 +160,20 @@ public class SlotSelector : MonoBehaviour
 
         popupDelete.SetActive(true);
         popupOpen = true;
+        inputCooldown = 0.3f;
 
         // Fokus ke tombol Tidak (aman, biar tidak salah hapus)
         EventSystem.current.SetSelectedGameObject(popupBtnTidak.gameObject);
     }
 
-    void OnPopupYa()
+    public void OnPopupYa()
     {
+        int indexToDelete = selectedIndex; // simpan dulu sebelum di-reset
+        DoDelete(indexToDelete);
         ClosePopup();
-        DoDelete(selectedIndex);
     }
 
-    void OnPopupTidak()
+    public void OnPopupTidak()
     {
         ClosePopup();
     }
@@ -171,12 +183,29 @@ public class SlotSelector : MonoBehaviour
         popupDelete.SetActive(false);
         popupOpen = false;
 
-        // Kembalikan fokus ke slot yang tadi dipilih
+        StartCoroutine(RestoreFocusNextFrame());
+    }
+
+    IEnumerator RestoreFocusNextFrame()
+    {
+        yield return null;
+
+        // Coba fokus ke slot yang tadi dipilih
         if (selectedIndex >= 0 && slotBgs != null && selectedIndex < slotBgs.Length)
         {
             Button btn = slotBgs[selectedIndex].GetComponent<Button>();
-            if (btn != null)
+            if (btn != null && btn.interactable)
+            {
                 EventSystem.current.SetSelectedGameObject(btn.gameObject);
+                yield break;
+            }
+        }
+
+        // Fallback ke firstSelectedButton
+        if (firstSelectedButton != null)
+        {
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(firstSelectedButton.gameObject);
         }
     }
 
@@ -234,6 +263,7 @@ public class SlotSelector : MonoBehaviour
         if (File.Exists(thumbPath))
             File.Delete(thumbPath);
 
+        selectedIndex = -1; // reset supaya fokus fallback ke firstSelectedButton
         RefreshSlotLabels();
         RefreshThumbnails();
 

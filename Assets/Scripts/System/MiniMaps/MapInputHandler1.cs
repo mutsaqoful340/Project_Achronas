@@ -29,9 +29,12 @@ public class MapInputHandler : MonoBehaviour
     bool IsInMenu()
     {
         if (menuSelector == null) return false;
-
-        // Kalau playerMovement disabled = masih di menu
-        return !menuSelector.playerMovement.enabled;
+        // Salah satu panel aktif = sedang di menu
+        return menuSelector.isInContinuePanel
+            || menuSelector.isInControlPanel
+            || menuSelector.isInAudioPanel
+            || menuSelector.isInVideoPanel
+            || menuSelector.isInSetting;
     }
 
     void Update()
