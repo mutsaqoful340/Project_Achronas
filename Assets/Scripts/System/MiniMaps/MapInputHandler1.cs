@@ -1,10 +1,11 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class MapInputHandler : MonoBehaviour
 {
     [Header("References")]
     public MapController mapController;
+    public MenuSelector menuSelector;       // ← assign di Inspector
 
     [Header("Sensitivities - Keyboard/Mouse")]
     public float panKeySensitivity = 1f;
@@ -23,6 +24,15 @@ public class MapInputHandler : MonoBehaviour
     private Vector3 _lastMousePos;
     private bool _isPanDragging;
     private bool _isPitchDragging;
+
+    // Cek apakah sedang di UI menu (bukan gameplay)
+    bool IsInMenu()
+    {
+        if (menuSelector == null) return false;
+
+        // Kalau playerMovement disabled = masih di menu
+        return !menuSelector.playerMovement.enabled;
+    }
 
     void Update()
     {
@@ -54,15 +64,13 @@ public class MapInputHandler : MonoBehaviour
                 mapController.FocusOnPlayer();
         }
 
-        // Gamepad
+        // Gamepad — hanya aktif kalau tidak sedang di menu
         Gamepad gp = Gamepad.current;
-        if (gp != null)
+        if (gp != null && !IsInMenu())
         {
-            // X untuk toggle map
             if (gp.buttonWest.wasPressedThisFrame)
                 mapController.ToggleMap();
 
-            // Y untuk focus ke player
             if (gp.buttonNorth.wasPressedThisFrame)
                 mapController.FocusOnPlayer();
         }
@@ -131,12 +139,10 @@ public class MapInputHandler : MonoBehaviour
         Gamepad gp = Gamepad.current;
         if (gp == null) return;
 
-        // Left stick = Pan
         Vector2 left = gp.leftStick.ReadValue();
         if (left.magnitude > stickDeadzone)
             mapController.ApplyPan(left * gamepadPanSensitivity);
 
-        // Right stick X = Rotate, Right stick Y = Pitch
         Vector2 right = gp.rightStick.ReadValue();
         if (Mathf.Abs(right.x) > stickDeadzone)
             mapController.ApplyRotate(right.x * gamepadRotateSensitivity);
@@ -144,7 +150,6 @@ public class MapInputHandler : MonoBehaviour
         if (Mathf.Abs(right.y) > stickDeadzone)
             mapController.ApplyPitch(right.y * gamepadPitchSensitivity);
 
-        // Triggers / Bumpers = Zoom
         float zoomInput = gp.rightTrigger.ReadValue() - gp.leftTrigger.ReadValue();
         if (Mathf.Abs(zoomInput) > 0.01f)
             mapController.ApplyZoom(zoomInput * gamepadZoomSensitivity);

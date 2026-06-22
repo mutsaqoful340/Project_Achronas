@@ -4,16 +4,23 @@ using TMPro;
 using System.IO;
 using System.Collections;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class SlotSelector : MonoBehaviour
 {
     // ═══════════════════════════════════════════════════════════
     // REFERENCES
     // ═══════════════════════════════════════════════════════════
-    [Header("UI")]
+    [Header("UI - Slot")]
     public GameObject[] slotBgs;
     public TextMeshProUGUI[] slotLabels;
     public Image[] slotThumbnails;
+
+    [Header("UI - Popup Delete")]
+    public GameObject popupDelete;
+    public TextMeshProUGUI popupSlotText;   // Text-SlotSave → tampilkan "SLOT 1", "SLOT 2", dst
+    public Button popupBtnYa;
+    public Button popupBtnTidak;
 
     [Header("Players")]
     public Transform player1Transform;
@@ -33,8 +40,12 @@ public class SlotSelector : MonoBehaviour
     private int totalSlots = 6;
     private int selectedIndex = -1;
     private string[] slotNames = { "slot1", "slot2", "slot3", "slot4", "slot5", "slot6" };
+    private string[] slotLabelsUI = { "SLOT 1", "SLOT 2", "SLOT 3", "SLOT 4", "SLOT 5", "SLOT 6" };
     private int thumbWidth = 320;
     private int thumbHeight = 180;
+
+    private InputActions inputActions;
+    private bool popupOpen = false;
 
     // ═══════════════════════════════════════════════════════════
     // LIFECYCLE
@@ -42,37 +53,153 @@ public class SlotSelector : MonoBehaviour
     void OnEnable()
     {
         selectedIndex = -1;
+        popupOpen = false;
+
+        if (popupDelete != null) popupDelete.SetActive(false);
+
         RefreshSlotLabels();
         RefreshThumbnails();
         StartCoroutine(SelectFirstNextFrame());
+
+        inputActions = new InputActions();
+        inputActions.UI.Enable();
+        inputActions.UI.BtnA.performed += OnBtnA;
+        inputActions.UI.BtnX.performed += OnBtnX;
+        inputActions.UI.Cancel.performed += OnCancel;
+    }
+
+    void OnDisable()
+    {
+        if (inputActions != null)
+        {
+            inputActions.UI.BtnA.performed -= OnBtnA;
+            inputActions.UI.BtnX.performed -= OnBtnX;
+            inputActions.UI.Cancel.performed -= OnCancel;
+            inputActions.UI.Disable();
+            inputActions.Dispose();
+            inputActions = null;
+        }
     }
 
     void Update()
     {
-        if (EventSystem.current.currentSelectedGameObject == null)
-            Debug.LogWarning("Selection LOST!");
+        // Jangan track focus kalau popup sedang buka
+        if (popupOpen) return;
+        if (EventSystem.current == null) return;
+
+        GameObject focused = EventSystem.current.currentSelectedGameObject;
+        if (focused == null) return;
+
+        for (int i = 0; i < slotBgs.Length; i++)
+        {
+            if (slotBgs[i] == focused || focused.transform.IsChildOf(slotBgs[i].transform))
+            {
+                selectedIndex = i;
+                return;
+            }
+        }
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // INPUT CALLBACKS
+    // ═══════════════════════════════════════════════════════════
+    private void OnBtnA(InputAction.CallbackContext ctx)
+    {
+        if (!gameObject.activeInHierarchy) return;
+        if (popupOpen) return; // popup handle sendiri via Button
+        ConfirmLoad();
+    }
+
+    private void OnBtnX(InputAction.CallbackContext ctx)
+    {
+        if (!gameObject.activeInHierarchy) return;
+        if (popupOpen) return;
+        TryOpenDeletePopup();
+    }
+
+    private void OnCancel(InputAction.CallbackContext ctx)
+    {
+        if (!gameObject.activeInHierarchy) return;
+        if (popupOpen) ClosePopup();
+        // Kalau popup tidak buka, biarkan MenuSelector.GoBack() handle
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // POPUP
+    // ═══════════════════════════════════════════════════════════
+    void TryOpenDeletePopup()
+    {
+        if (selectedIndex == -1) return;
+
+        string slot = slotNames[selectedIndex];
+        if (SaveManager.Instance == null || !SaveManager.Instance.SlotExists(slot))
+        {
+            Debug.Log($"[SlotSelector] Slot '{slot}' kosong, tidak bisa dihapus.");
+            return;
+        }
+
+        // Update teks slot di popup
+        if (popupSlotText != null)
+            popupSlotText.text = slotLabelsUI[selectedIndex];
+
+        // Pasang listener tombol (clear dulu biar tidak double)
+        popupBtnYa.onClick.RemoveAllListeners();
+        popupBtnTidak.onClick.RemoveAllListeners();
+        popupBtnYa.onClick.AddListener(OnPopupYa);
+        popupBtnTidak.onClick.AddListener(OnPopupTidak);
+
+        popupDelete.SetActive(true);
+        popupOpen = true;
+
+        // Fokus ke tombol Tidak (aman, biar tidak salah hapus)
+        EventSystem.current.SetSelectedGameObject(popupBtnTidak.gameObject);
+    }
+
+    void OnPopupYa()
+    {
+        ClosePopup();
+        DoDelete(selectedIndex);
+    }
+
+    void OnPopupTidak()
+    {
+        ClosePopup();
+    }
+
+    void ClosePopup()
+    {
+        popupDelete.SetActive(false);
+        popupOpen = false;
+
+        // Kembalikan fokus ke slot yang tadi dipilih
+        if (selectedIndex >= 0 && slotBgs != null && selectedIndex < slotBgs.Length)
+        {
+            Button btn = slotBgs[selectedIndex].GetComponent<Button>();
+            if (btn != null)
+                EventSystem.current.SetSelectedGameObject(btn.gameObject);
+        }
     }
 
     // ═══════════════════════════════════════════════════════════
     // PUBLIC
     // ═══════════════════════════════════════════════════════════
-
-    /// <summary>Dipanggil dari OnClick tiap BtnSave — cuma highlight, tidak load.</summary>
     public void SelectSlot(int slotIndex)
     {
         if (slotIndex < 0 || slotIndex >= totalSlots) return;
         selectedIndex = slotIndex;
-        Debug.Log($"[SlotSelector] Slot dipilih: {slotNames[slotIndex]}");
     }
 
-    /// <summary>Dipanggil dari tombol Load di panel Continue.</summary>
     public void ConfirmLoad()
     {
-        if (selectedIndex == -1)
+        if (selectedIndex == -1) return;
+
+        string slot = slotNames[selectedIndex];
+        if (SaveManager.Instance == null || !SaveManager.Instance.SlotExists(slot))
         {
-            Debug.LogWarning("[SlotSelector] Belum ada slot yang dipilih!");
+            Debug.Log($"[SlotSelector] Slot '{slot}' kosong.");
             return;
         }
+
         DoLoad(selectedIndex);
     }
 
@@ -83,28 +210,34 @@ public class SlotSelector : MonoBehaviour
     {
         string slot = slotNames[slotIndex];
 
-        if (SaveManager.Instance == null)
-        {
-            Debug.LogError("[SlotSelector] SaveManager.Instance is NULL!");
-            return;
-        }
-
-        if (!SaveManager.Instance.SlotExists(slot))
-        {
-            Debug.Log($"[SlotSelector] Slot '{slot}' kosong.");
-            return;
-        }
-
         if (pauseMenu != null) pauseMenu.isInSavePanel = false;
         menuSelector.isInContinuePanel = false;
         Time.timeScale = 1f;
 
         SaveManager.Instance.Load(slot, player1Transform, player2Transform);
 
-        // Hide semua panel & aktifkan player
         menuSelector.DisableAll();
         menuSelector.playerMovement.enabled = true;
         menuSelector.panelHistory.Clear();
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // DELETE
+    // ═══════════════════════════════════════════════════════════
+    void DoDelete(int slotIndex)
+    {
+        string slot = slotNames[slotIndex];
+
+        SaveManager.Instance.DeleteSave(slot);
+
+        string thumbPath = ThumbnailPath(slot);
+        if (File.Exists(thumbPath))
+            File.Delete(thumbPath);
+
+        RefreshSlotLabels();
+        RefreshThumbnails();
+
+        Debug.Log($"[SlotSelector] Slot '{slot}' berhasil dihapus.");
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -170,7 +303,7 @@ public class SlotSelector : MonoBehaviour
         {
             EventSystem.current.SetSelectedGameObject(null);
             EventSystem.current.SetSelectedGameObject(firstSelectedButton.gameObject);
-            Debug.Log("Selected: " + EventSystem.current.currentSelectedGameObject?.name);
+            selectedIndex = 0;
         }
     }
 
