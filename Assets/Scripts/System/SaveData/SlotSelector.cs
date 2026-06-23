@@ -37,10 +37,10 @@ public class SlotSelector : MonoBehaviour
     // ═══════════════════════════════════════════════════════════
     // PRIVATE
     // ═══════════════════════════════════════════════════════════
-    private int totalSlots = 6;
+    private int totalSlots = 9;
     private int selectedIndex = -1;
-    private string[] slotNames = { "slot1", "slot2", "slot3", "slot4", "slot5", "slot6" };
-    private string[] slotLabelsUI = { "SLOT 1", "SLOT 2", "SLOT 3", "SLOT 4", "SLOT 5", "SLOT 6" };
+    private string[] slotNames = { "slot1", "slot2", "slot3", "slot4", "slot5", "slot6", "slot7", "slot8", "slot9" };
+    private string[] slotLabelsUI = { "SLOT 1", "SLOT 2", "SLOT 3", "SLOT 4", "SLOT 5", "SLOT 6", "SLOT 7", "SLOT 8", "SLOT 9" };
     private int thumbWidth = 320;
     private int thumbHeight = 180;
 
@@ -130,8 +130,12 @@ public class SlotSelector : MonoBehaviour
     private void OnCancel(InputAction.CallbackContext ctx)
     {
         if (!gameObject.activeInHierarchy) return;
-        if (popupOpen) ClosePopup();
-        // Kalau popup tidak buka, biarkan MenuSelector.GoBack() handle
+        if (popupOpen)
+        {
+            ClosePopup();
+            return;
+        }
+        if (menuSelector != null) menuSelector.GoBack();
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -276,14 +280,16 @@ public class SlotSelector : MonoBehaviour
     void RefreshSlotLabels()
     {
         if (slotLabels == null || slotLabels.Length == 0) return;
-
         for (int i = 0; i < totalSlots; i++)
         {
             string slot = slotNames[i];
+            bool exists = SaveManager.Instance != null && SaveManager.Instance.SlotExists(slot);
+            Debug.Log($"[RefreshLabels] Slot {i} ({slot}) exists={exists} | label obj={slotLabels[i]?.gameObject.name}");
 
-            if (SaveManager.Instance != null && SaveManager.Instance.SlotExists(slot))
+            if (exists)
             {
                 SaveData data = SaveManager.Instance.LoadRaw(slot);
+                Debug.Log($"[RefreshLabels] Slot {i} data={data != null} | room={data?.lastRoomID} | time={data?.playTimeSeconds}");
                 if (data != null)
                 {
                     int menit = data.playTimeSeconds / 60;
