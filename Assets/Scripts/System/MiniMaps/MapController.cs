@@ -11,6 +11,10 @@ public class MapController : MonoBehaviour
     public float panSpeed = 30f;
     public float panDamping = 8f;
 
+    [Header("Pan Limits")]
+    public Vector2 panLimit = new Vector2(50f, 50f);
+    public Vector3 mapCenter = Vector3.zero;
+
     [Header("Rotate (Yaw)")]
     public float rotateSpeed = 100f;
     public float rotateDamping = 12f;
@@ -103,6 +107,10 @@ public class MapController : MonoBehaviour
         float speedMod = _currentZoom / defaultZoom;
         _targetLookAt += (right * input.x + forward * input.y)
                           * panSpeed * speedMod * Time.unscaledDeltaTime;
+
+        _targetLookAt.x = Mathf.Clamp(_targetLookAt.x, mapCenter.x - panLimit.x, mapCenter.x + panLimit.x);
+        _targetLookAt.z = Mathf.Clamp(_targetLookAt.z, mapCenter.z - panLimit.y, mapCenter.z + panLimit.y);
+
         _isFocused = false;
     }
 
