@@ -32148,6 +32148,7 @@ GameObject:
   - component: {fileID: 1010594573}
   - component: {fileID: 1010594574}
   - component: {fileID: 1010594575}
+  - component: {fileID: 1010594576}
   m_Layer: 5
   m_Name: TextSv1
   m_TagString: Untagged
@@ -32276,6 +32277,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &1010594576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1010594572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 150420cde3febd34eb335c9569a1356f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedText
+  key: text_save
+  textComponent: {fileID: 1010594575}
 --- !u!1 &1012402526
 GameObject:
   m_ObjectHideFlags: 0
