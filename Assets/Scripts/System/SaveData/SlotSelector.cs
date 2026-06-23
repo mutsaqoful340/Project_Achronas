@@ -295,7 +295,7 @@ public class SlotSelector : MonoBehaviour
                     int menit = data.playTimeSeconds / 60;
                     int detik = data.playTimeSeconds % 60;
                     string roomName = string.IsNullOrEmpty(data.lastRoomID) ? "Unknown" : data.lastRoomID;
-                    slotLabels[i].text = $"{roomName}\n{menit:00}:{detik:00}";
+                    slotLabels[i].text = $"{roomName}  {menit:00}:{detik:00}";
                 }
             }
             else
