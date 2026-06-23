@@ -71,6 +71,12 @@ public class MenuSelector : MonoBehaviour
 
     private void OnCancelInput(InputAction.CallbackContext context)
     {
+        // Block kalau semua panel nonaktif (sedang gameplay)
+        if (!mainPanel.activeSelf && !settingsPanel.activeSelf && !extrasPanel.activeSelf
+            && !gameplayPanel.activeSelf && !controlPanel.activeSelf && !audioPanel.activeSelf
+            && !videoPanel.activeSelf && !playPanel.activeSelf && !continuePanel.activeSelf)
+            return;
+
         GoBack();
     }
     void PushCurrentState(GameObject currentPanel)
