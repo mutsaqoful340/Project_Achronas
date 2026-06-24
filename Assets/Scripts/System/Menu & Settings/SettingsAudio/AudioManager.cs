@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Audio;
+using System.Collections;
 
 public class AudioManager : MonoBehaviour
 {
@@ -7,6 +8,9 @@ public class AudioManager : MonoBehaviour
 
     [Header("AUDIO MIXER")]
     public AudioMixer audioMixer;
+
+    [Header("BGM")]
+    public AudioSource mainMenuBGM;
 
     void Awake()
     {
@@ -21,6 +25,29 @@ public class AudioManager : MonoBehaviour
 
         // Load saved volumes
         LoadVolumes();
+    }
+
+    public void StopMainMenuBGM()
+    {
+        if (mainMenuBGM == null) return;
+        StartCoroutine(FadeOutBGM());
+    }
+
+    IEnumerator FadeOutBGM()
+    {
+        float duration = 1f;
+        float start = mainMenuBGM.volume;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            mainMenuBGM.volume = Mathf.Lerp(start, 0f, elapsed / duration);
+            yield return null;
+        }
+
+        mainMenuBGM.Stop();
+        mainMenuBGM.volume = start;
     }
 
     void LoadVolumes()

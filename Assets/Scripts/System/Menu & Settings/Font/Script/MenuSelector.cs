@@ -195,6 +195,7 @@ public class MenuSelector : MonoBehaviour
     {
         PlayerPrefs.DeleteAll();
         DisableAll();
+        AudioManager.Instance.StopMainMenuBGM();
         playerMovement.enabled = true;
         inSinglePlayer = false;
         panelHistory.Clear();

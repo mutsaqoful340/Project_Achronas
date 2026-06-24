@@ -247,6 +247,8 @@ public class SlotSelector : MonoBehaviour
         menuSelector.isInContinuePanel = false;
         Time.timeScale = 1f;
 
+        AudioManager.Instance.StopMainMenuBGM();
+
         SaveManager.Instance.Load(slot, player1Transform, player2Transform);
 
         menuSelector.DisableAll();
