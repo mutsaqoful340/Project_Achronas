@@ -5223,7 +5223,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -8125335159339077506, guid: 301aae97b889a7844ace51dbf4fb329b, type: 2}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: cde81e80f1656c743b39f912e2e13e0a, type: 3}
+  m_Resource: {fileID: 8300000, guid: 9f198b599f91eac48a572f850e74f7f5, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -8377,7 +8377,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &224318203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32664,6 +32664,61 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LocalizedText
   key: btn_back
   textComponent: {fileID: 2705490265294174700}
+--- !u!1 &1047635807
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1047635808}
+  - component: {fileID: 1047635810}
+  - component: {fileID: 1047635809}
+  m_Layer: 0
+  m_Name: AudioListener
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1047635808
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1047635807}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1525131561}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1047635809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1047635807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebfce616305bfba40a586c05c412dc8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioListenerFollow
+  player1: {fileID: 1070216318722654372}
+  player2: {fileID: 493402370082063398}
+--- !u!81 &1047635810
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1047635807}
+  m_Enabled: 1
 --- !u!1 &1050598613
 GameObject:
   m_ObjectHideFlags: 0
@@ -34730,7 +34785,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1114321722}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &1114321724
 Camera:
   m_ObjectHideFlags: 0
@@ -48501,6 +48556,38 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1520917288}
   m_CullTransparentMesh: 1
+--- !u!1 &1525131560
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1525131561}
+  m_Layer: 0
+  m_Name: === AUDIO ===
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1525131561
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1525131560}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -9.96927, y: -7.00601, z: -40.87536}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1047635808}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &1525631955
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -51872,7 +51959,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1663190213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57556,7 +57643,7 @@ AudioSource:
   MinDistance: 11.9
   MaxDistance: 20.8
   Pan2D: 0
-  rolloffMode: 1
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -57573,13 +57660,31 @@ AudioSource:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
+      time: 0.080268905
+      value: 0.9254848
+      inSlope: -1.1503409
+      outSlope: -1.1503409
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 1
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.41803148
+      value: 0.5060599
+      inSlope: -1.1731666
+      outSlope: -1.1731666
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.32250318
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.9046936
+      value: 0
+      inSlope: -0.82005656
+      outSlope: -0.82005656
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.2598121
       outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -133745,3 +133850,4 @@ SceneRoots:
   - {fileID: 307017167}
   - {fileID: 1392976579}
   - {fileID: 1671767109}
+  - {fileID: 1525131561}
