@@ -98,6 +98,7 @@ public class MenuSelector : MonoBehaviour
         PanelState prev = panelHistory.Pop();
 
         DisableAll();
+        
 
         prev.panel.SetActive(true);
         inSettings = prev.wasInSettings;
@@ -105,6 +106,8 @@ public class MenuSelector : MonoBehaviour
         isInControlPanel = prev.wasInControlPanel;
         inSinglePlayer = prev.wasInSinglePlayer;
         isInContinuePanel = false;
+
+        EventSystem.current.SetSelectedGameObject(null);
         SelectFirstButton(prev.panel);
     }
 
