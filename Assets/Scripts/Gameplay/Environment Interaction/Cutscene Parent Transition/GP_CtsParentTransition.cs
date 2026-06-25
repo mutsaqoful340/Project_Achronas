@@ -33,15 +33,15 @@ public class GP_CtsParentTransition : MonoBehaviour
         currentChild.localRotation = Quaternion.Slerp(currentChild.localRotation, Quaternion.identity, Time.deltaTime / Mathf.Max(0.0001f, smoothTime));
 
         // Stop transitioning when close enough to target
-        if (currentChild.localPosition.magnitude < transitionThreshold && 
-            Quaternion.Angle(currentChild.localRotation, Quaternion.identity) < transitionThreshold)
-        {
-            currentChild.localPosition = Vector3.zero;
-            currentChild.localRotation = Quaternion.identity;
+        // if (currentChild.localPosition.magnitude < transitionThreshold && 
+        //     Quaternion.Angle(currentChild.localRotation, Quaternion.identity) < transitionThreshold)
+        // {
+        //     currentChild.localPosition = Vector3.zero;
+        //     currentChild.localRotation = Quaternion.identity;
             
-            ReparentToOldParent();
-            isTransitioning = false;
-        }
+        //     ReparentToOldParent();
+        //     isTransitioning = false;
+        // }
     }
 
     public void ReparentToOldParent()

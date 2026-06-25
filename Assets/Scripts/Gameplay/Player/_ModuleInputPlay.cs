@@ -119,6 +119,10 @@ public class _ModuleInputPlay : ScriptableObject
         // Balance
         inputActions.Player.BalanceRight.performed += ctx => OnAction?.Invoke(ActionState.BalaneceRight);
         inputActions.Player.BalanceLeft.performed += ctx => OnAction?.Invoke(ActionState.BalanceLeft);
+
+        // SubMenu navigation
+        inputActions.UI.SubMenuLeft.performed += ctx => OnAction?.Invoke(ActionState.SubMenuLeft);
+        inputActions.UI.SubMenuRight.performed += ctx => OnAction?.Invoke(ActionState.SubMenuRight);
     }
 
     private void UnsubscribeFromActions()
