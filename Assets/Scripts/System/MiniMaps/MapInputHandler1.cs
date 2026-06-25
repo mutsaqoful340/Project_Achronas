@@ -30,16 +30,15 @@ public class MapInputHandler : MonoBehaviour
     {
         if (menuSelector == null) return false;
 
-        // Block kalau panel apapun selain gameplay aktif
-        return (menuSelector.mainPanel != null && menuSelector.mainPanel.activeSelf)
-            || (menuSelector.playPanel != null && menuSelector.playPanel.activeSelf)
-            || (menuSelector.settingsPanel != null && menuSelector.settingsPanel.activeSelf)
-            || (menuSelector.extrasPanel != null && menuSelector.extrasPanel.activeSelf)
-            || menuSelector.isInContinuePanel
-            || menuSelector.isInControlPanel
-            || menuSelector.isInAudioPanel
-            || menuSelector.isInVideoPanel
-            || menuSelector.isInSetting;
+        return menuSelector.mainPanel.activeSelf
+            || menuSelector.playPanel.activeSelf
+            || menuSelector.settingsPanel.activeSelf
+            || menuSelector.extrasPanel.activeSelf
+            || menuSelector.gameplayPanel.activeSelf
+            || menuSelector.audioPanel.activeSelf
+            || menuSelector.videoPanel.activeSelf
+            || menuSelector.controlPanel.activeSelf
+            || menuSelector.continuePanel.activeSelf;
     }
 
     void Update()
