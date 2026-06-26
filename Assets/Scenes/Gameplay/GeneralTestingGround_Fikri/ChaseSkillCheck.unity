@@ -42973,10 +42973,26 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -1807970279642858887, guid: cfdd10d795a872a49b971740a0cac847, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -1660384031183063813, guid: cfdd10d795a872a49b971740a0cac847, type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -1660384031183063813, guid: cfdd10d795a872a49b971740a0cac847, type: 3}
+      propertyPath: m_CastShadows
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -1660384031183063813, guid: cfdd10d795a872a49b971740a0cac847, type: 3}
+      propertyPath: m_StaticShadowCaster
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1660384031183063813, guid: cfdd10d795a872a49b971740a0cac847, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: afe25f526140aed418de3db8942b3cca, type: 2}
     - target: {fileID: -1601130020527398279, guid: cfdd10d795a872a49b971740a0cac847, type: 3}
       propertyPath: m_Layer
       value: 10
@@ -43108,6 +43124,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: cfdd10d795a872a49b971740a0cac847, type: 3}
       propertyPath: m_Name
       value: Sanka Ati
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: cfdd10d795a872a49b971740a0cac847, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: cfdd10d795a872a49b971740a0cac847, type: 3}
       propertyPath: m_StaticEditorFlags
