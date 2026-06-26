@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PauseMenuSelectorAsli : MonoBehaviour
 {
@@ -40,6 +41,11 @@ public class PauseMenuSelectorAsli : MonoBehaviour
             && !settingsGameplayPanel.activeSelf && !settingsAudioPanel.activeSelf
             && !settingsVideoPanel.activeSelf && !kontrolPanel.activeSelf) return;
         GoBack();
+    }
+
+    public void BackToMainMenu()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     void PushCurrentState(GameObject current)
