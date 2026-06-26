@@ -13,6 +13,9 @@ public class Sys_CharacterSelectionCoordinator : MonoBehaviour
     [Tooltip("The game mode switch that controls player/UI modes")]
     public Sys_GameModeSwitch gameModeSwitch;
 
+    [Tooltip("The camera save/load manager that handles room-specific VCam priorities")]
+    public Sys_CamSaveLoadManager camSaveLoadManager;
+
     [Header("Optional: Cutscene Control")]
     [Tooltip("If assigned, will resume/unpause cutscene after confirmation")]
     public GameObject cutsceneController;
@@ -43,6 +46,16 @@ public class Sys_CharacterSelectionCoordinator : MonoBehaviour
         else
         {
             Debug.LogError("<color=red>CharacterSelectionCoordinator: assignmentManager is NULL! Please assign it in inspector!</color>");
+        }
+
+        // Step 1c: Drop the room camera priority back to neutral after confirmation
+        if (camSaveLoadManager != null)
+        {
+            camSaveLoadManager.ResetAllCameraPriorities();
+        }
+        else
+        {
+            Debug.LogWarning("CharacterSelectionCoordinator: camSaveLoadManager is NULL, room cameras will not be reset.");
         }
 
         // Step 2: Switch to gameplay mode

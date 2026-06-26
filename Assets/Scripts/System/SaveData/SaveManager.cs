@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class SaveManager : MonoBehaviour
 {
@@ -32,6 +33,7 @@ public class SaveManager : MonoBehaviour
     public event Action<string> OnSaveSuccess;
     public event Action<string> OnLoadSuccess;
     public event Action<string> OnSaveError;
+    public UnityEvent OnLoadSuccessEvent;
 
     // ═══════════════════════════════════════════════════════════
     // PATH HELPERS
@@ -152,6 +154,7 @@ public class SaveManager : MonoBehaviour
 
             Debug.Log($"[SaveManager] Dimuat dari slot '{slot}' — Room: {data.lastRoomID}");
             OnLoadSuccess?.Invoke(slot);
+            OnLoadSuccessEvent?.Invoke();
             return data;
         }
         catch (Exception ex)

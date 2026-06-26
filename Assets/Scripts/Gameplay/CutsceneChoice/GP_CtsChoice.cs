@@ -3,73 +3,40 @@ using UnityEngine.Playables;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class GP_CtsChoice : MonoBehaviour, ISelectHandler
+public class GP_CtsChoice : MonoBehaviour
 {
-    [Tooltip("The first choice button.")]
-    public Button choice0;
-    public Button choice1;
-    public Button choice2;
+    [Tooltip("The choice buttons.")]
+    public Button[] buttons;
 
     void Start()
     {
-        if (choice0 != null)
+        if (buttons != null && buttons.Length > 0 && buttons[0] != null)
         {
-            EventSystem.current.SetSelectedGameObject(choice0.gameObject);
+            EventSystem.current.SetSelectedGameObject(buttons[0].gameObject);
         }
     }
 
     public void OnRandomChoiceSelected()
     {
-        int randomChoice = Random.Range(0, 2);
-        if (randomChoice == 0 && choice1 != null)
-        {
-            EventSystem.current.SetSelectedGameObject(choice1.gameObject);
-            InvokeChoiceOnClick(choice1);
-        }
-        else if (randomChoice == 1 && choice2 != null)
-        {
-            EventSystem.current.SetSelectedGameObject(choice2.gameObject);
-            InvokeChoiceOnClick(choice2);
-        }
-    }
-
-    private void InvokeChoiceOnClick(Button choiceButton)
-    {
-        if (choiceButton != null)
-        {
-            choiceButton.onClick.Invoke();
-        }
-    }
-
-    public void OnSelect(BaseEventData eventData)
-    {
-        GameObject selectedObject = eventData != null ? eventData.selectedObject : null;
-        if (selectedObject == null)
+        if (buttons == null || buttons.Length == 0)
         {
             return;
         }
 
-        if ((choice1 != null && selectedObject == choice1.gameObject) ||
-            (choice2 != null && selectedObject == choice2.gameObject))
+        int randomChoice = Random.Range(0, buttons.Length);
+        Button selectedButton = buttons[randomChoice];
+        if (selectedButton != null)
         {
-            Debug.Log($"<color=green>Choice selected: {selectedObject.name}</color>");
-            DisableChoice0();
+            EventSystem.current.SetSelectedGameObject(selectedButton.gameObject);
+            InvokeChoiceOnClick(selectedButton, randomChoice);
         }
     }
 
-    public void DisableChoice0()
+    private void InvokeChoiceOnClick(Button choiceButton, int choiceIndex)
     {
-        if (choice0 != null)
+        if (choiceButton != null)
         {
-            choice0.interactable = false;
-        }
-    }
-
-    public void OnPlayTimeline(PlayableDirector director)
-    {
-        if (director != null)
-        {
-            director.Play();
+            choiceButton.onClick.Invoke();
         }
     }
 }
