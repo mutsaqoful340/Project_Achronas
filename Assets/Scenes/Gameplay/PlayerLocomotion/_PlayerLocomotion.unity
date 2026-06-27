@@ -14370,7 +14370,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &291819698
 Transform:
   m_ObjectHideFlags: 0
@@ -14401,7 +14401,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6663f99270b0ad94f9848fbd32dd3fde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MinimapRoom
-  roomID: 
+  roomID: Room_E
   coverHiddens:
   - {fileID: 705376491}
   coverBlurs:
@@ -30463,7 +30463,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6663f99270b0ad94f9848fbd32dd3fde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MinimapRoom
-  roomID: 
+  roomID: Room_F
   coverHiddens:
   - {fileID: 240259716}
   coverBlurs:
@@ -30602,7 +30602,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &695719425
 Transform:
   m_ObjectHideFlags: 0
@@ -30633,7 +30633,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6663f99270b0ad94f9848fbd32dd3fde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MinimapRoom
-  roomID: 
+  roomID: Room_D
   coverHiddens:
   - {fileID: 1922351695}
   coverBlurs:
@@ -47419,7 +47419,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6663f99270b0ad94f9848fbd32dd3fde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MinimapRoom
-  roomID: 
+  roomID: Room_G
   coverHiddens:
   - {fileID: 294196967}
   coverBlurs:
@@ -59713,7 +59713,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1326399216
 Transform:
   m_ObjectHideFlags: 0
@@ -63757,7 +63757,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6663f99270b0ad94f9848fbd32dd3fde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MinimapRoom
-  roomID: 
+  roomID: Room_F
   coverHiddens:
   - {fileID: 2129570479}
   coverBlurs:
@@ -68654,7 +68654,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1531378864
 Transform:
   m_ObjectHideFlags: 0
@@ -68686,7 +68686,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6663f99270b0ad94f9848fbd32dd3fde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MinimapRoom
-  roomID: 
+  roomID: Room_H
   coverHiddens:
   - {fileID: 350531613}
   coverBlurs:
@@ -80473,7 +80473,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1810299676
 Transform:
   m_ObjectHideFlags: 0
@@ -86916,7 +86916,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1956509073
 Transform:
   m_ObjectHideFlags: 0
@@ -86947,7 +86947,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6663f99270b0ad94f9848fbd32dd3fde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MinimapRoom
-  roomID: 
+  roomID: Room_C
   coverHiddens:
   - {fileID: 667737703}
   - {fileID: 2038529801}
@@ -149924,7 +149924,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!222 &7601010857116276641
 CanvasRenderer:
   m_ObjectHideFlags: 0
