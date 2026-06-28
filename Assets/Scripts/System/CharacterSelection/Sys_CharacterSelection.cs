@@ -291,9 +291,26 @@ public class Sys_CharacterSelection : MonoBehaviour
         {
             bothPlayersConfirmed = true;
             Debug.Log($"Both players confirmed! P1={GetIndexName(player1SelectedCharacter)}, P2={GetIndexName(player2SelectedCharacter)}");
+
+            // Safety fallback: ensure room/load camera priorities are cleared even if coordinator event wiring is missing.
+            TryResetRoomLoadCameras();
+
             SaveSelections();
             OnBothPlayersConfirmed?.Invoke();
         }
+    }
+
+    private void TryResetRoomLoadCameras()
+    {
+        Sys_CamSaveLoadManager camManager = FindObjectOfType<Sys_CamSaveLoadManager>();
+        if (camManager == null)
+        {
+            Debug.LogWarning("Sys_CharacterSelection: Sys_CamSaveLoadManager not found. Cannot reset room camera priorities on confirmation.");
+            return;
+        }
+
+        camManager.ResetAllCameraPriorities();
+        Debug.Log("Sys_CharacterSelection: Room/load camera priorities reset on both-player confirmation.");
     }
 
     // Input cooldown to prevent rapid switching

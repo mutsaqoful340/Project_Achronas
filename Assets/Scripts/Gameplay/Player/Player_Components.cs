@@ -91,6 +91,7 @@ public class Player_Components : Sys_GameplayBehaviour
     private int reversalCount = 0;
     private float lastRotationDelta = 0f;
     private bool strafeTriggered = false;
+    private bool isStrafeDetectionPaused = false;
     #endregion
 
     #region Public Properties
@@ -241,6 +242,16 @@ public class Player_Components : Sys_GameplayBehaviour
     // Detect strafe based on rotation speed AND direction reversals (left-right-left pattern)
     private void DetectStrafe(Vector3 inputDir)
     {
+        if (isStrafeDetectionPaused || currentActionState == ActionState.Dead || IsDead)
+        {
+            rotationSpeedAccumulator = 0f;
+            rotationSpeedResetTimer = 0f;
+            reversalCount = 0;
+            strafeTriggered = false;
+            lastRotationDelta = 0f;
+            return;
+        }
+
         float currentYRotation = transform.eulerAngles.y;
         float rotationDelta = Mathf.DeltaAngle(lastYRotation, currentYRotation);
         float absDelta = Mathf.Abs(rotationDelta);
@@ -565,6 +576,49 @@ public class Player_Components : Sys_GameplayBehaviour
         }
     }
 
+    public void HandleIdle()
+    {
+        // Reset animator parameters for idle state
+        animator.SetFloat("Move", 0f);
+        animator.SetBool("IsCrouching", false);
+        animator.SetBool("IsDepressed", false);
+        currentActionState = ActionState.Idle;
+        isStrafeDetectionPaused = false;
+        Debug.Log("Returned to Idle state.");
+    }
+
+    /// <summary>
+    /// Clears movement-blocking state after respawn so the player can rotate and move normally again.
+    /// </summary>
+    public void ResetAfterRespawn()
+    {
+        IsStumble = false;
+        isStumbling = false;
+        isStrafeDetectionPaused = false;
+        currentActionState = ActionState.Idle;
+
+        rotationSpeedAccumulator = 0f;
+        rotationSpeedResetTimer = 0f;
+        reversalCount = 0;
+        lastRotationDelta = 0f;
+        strafeTriggered = false;
+
+        if (controller != null && !controller.enabled)
+        {
+            controller.enabled = true;
+        }
+
+        if (animator != null)
+        {
+            animator.SetTrigger("DoRevive");
+            animator.SetFloat("Move", 0f);
+            animator.SetBool("IsCrouching", false);
+            animator.SetBool("IsDepressed", false);
+        }
+
+        Debug.Log("Respawn state reset: stumble and rotation locks cleared.");
+    }
+
     /// <summary>
     /// Drop carried player (called via Cancel input)
     /// </summary>
@@ -651,6 +705,7 @@ public class Player_Components : Sys_GameplayBehaviour
     {
         IsDead = !IsDead;
         currentActionState = IsDead ? ActionState.Dead : ActionState.Idle;
+        isStrafeDetectionPaused = IsDead;
         animator.SetTrigger(IsDead ? "DoDeath" : "DoRevive");
         Debug.Log("Dead action executed.");
     }
@@ -665,6 +720,7 @@ public class Player_Components : Sys_GameplayBehaviour
                 // Sprint released or other state cancelled
                 currentActionState = ActionState.Idle;
                 Debug.Log("Returned to Idle");
+                HandleIdle();
                 break;
             case ActionState.Sprint:
                 // If crouching, stand up first

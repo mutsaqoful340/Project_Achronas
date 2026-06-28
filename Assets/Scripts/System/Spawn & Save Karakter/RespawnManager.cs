@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Events;
 
 public class RespawnManager : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class RespawnManager : MonoBehaviour
     [Header("Default Spawn (jika belum ada save)")]
     public Transform defaultSpawnP1;
     public Transform defaultSpawnP2;
+
+    [Header("Events")]
+    public UnityEvent onRespawn;
 
     private bool isRespawning = false;
 
@@ -56,7 +60,13 @@ public class RespawnManager : MonoBehaviour
         WarpPlayer(player2, spawnP2);
 
         player1.IsDead = false;
+        player1.currentActionState = ActionState.Idle;
+        player1.HandleIdle();
         player2.IsDead = false;
+        player2.currentActionState = ActionState.Idle;
+        player2.HandleIdle();
+        player2.ResetAfterRespawn();
+        player1.ResetAfterRespawn();
         isRespawning = false;
 
         Debug.Log("[RESPAWN] Kedua player respawn!");

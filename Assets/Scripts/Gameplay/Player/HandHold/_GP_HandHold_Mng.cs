@@ -545,7 +545,7 @@ public class _GP_HandHold_Mng : MonoBehaviour
                 // Hit something else blocking the line of sight
                 isObstacleBetweenPlayers = true;
                 Debug.DrawRay(rayOrigin, toPlayer.normalized * hit.distance, Color.red);
-                Debug.Log("Rinda tidak memiliki line of sight ke Naya - ada penghalang.");
+                // Debug.Log("Rinda tidak memiliki line of sight ke Naya - ada penghalang.");
             }
         }
         else
