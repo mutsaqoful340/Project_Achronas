@@ -71,6 +71,8 @@ public class MenuSelector : MonoBehaviour
 
     private void OnCancelInput(InputAction.CallbackContext context)
     {
+
+        if (slotSelector != null && slotSelector.IsPopupOpen()) return;
         // Block kalau semua panel nonaktif (sedang gameplay)
         if (!mainPanel.activeSelf && !settingsPanel.activeSelf && !extrasPanel.activeSelf
             && !gameplayPanel.activeSelf && !controlPanel.activeSelf && !audioPanel.activeSelf

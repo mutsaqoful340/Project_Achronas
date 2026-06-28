@@ -34,13 +34,15 @@ public class SlotSelector : MonoBehaviour
     [Header("First Selected Button")]
     public Button firstSelectedButton;
 
+    public bool IsPopupOpen() => popupOpen;
+
     // ═══════════════════════════════════════════════════════════
     // PRIVATE
     // ═══════════════════════════════════════════════════════════
-    private int totalSlots = 9;
+    private int totalSlots = 6;
     private int selectedIndex = -1;
-    private string[] slotNames = { "slot1", "slot2", "slot3", "slot4", "slot5", "slot6", "slot7", "slot8", "slot9" };
-    private string[] slotLabelsUI = { "SLOT 1", "SLOT 2", "SLOT 3", "SLOT 4", "SLOT 5", "SLOT 6", "SLOT 7", "SLOT 8", "SLOT 9" };
+    private string[] slotNames = { "slot1", "slot2", "slot3", "slot4", "slot5", "slot6" };
+    private string[] slotLabelsUI = { "SLOT 1", "SLOT 2", "SLOT 3", "SLOT 4", "SLOT 5", "SLOT 6" };
     private int thumbWidth = 320;
     private int thumbHeight = 180;
 
