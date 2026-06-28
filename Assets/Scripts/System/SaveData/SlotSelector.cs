@@ -36,6 +36,8 @@ public class SlotSelector : MonoBehaviour
 
     public bool IsPopupOpen() => popupOpen;
 
+    public bool isFromPauseMenu = false;
+
     // ═══════════════════════════════════════════════════════════
     // PRIVATE
     // ═══════════════════════════════════════════════════════════
@@ -237,6 +239,7 @@ public class SlotSelector : MonoBehaviour
 
         DoLoad(selectedIndex);
     }
+
 
     // ═══════════════════════════════════════════════════════════
     // LOAD

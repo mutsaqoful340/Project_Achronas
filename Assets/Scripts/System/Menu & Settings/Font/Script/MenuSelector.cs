@@ -154,6 +154,15 @@ public class MenuSelector : MonoBehaviour
         isInControlPanel = false;
     }
 
+    public void OpenPanel_Control()
+    {
+        PushCurrentState(gameplayPanel);
+        DisableAll();
+        controlPanel.SetActive(true);
+        SelectFirstButton(controlPanel);
+        isInControlPanel = true;
+    }
+
     public void OpenPanel_Video()
     {
         PushCurrentState(settingsPanel);
@@ -170,6 +179,7 @@ public class MenuSelector : MonoBehaviour
         SelectFirstButton(audioPanel);
     }
 
+
     public void OpenPanel_Continue()
     {
         PushCurrentState(playPanel);
@@ -177,15 +187,7 @@ public class MenuSelector : MonoBehaviour
         continuePanel.SetActive(true);
         isInContinuePanel = true;
         inSinglePlayer = false;
-    }
-
-    public void OpenPanel_Control()
-    {
-        PushCurrentState(gameplayPanel);
-        DisableAll();
-        controlPanel.SetActive(true);
-        SelectFirstButton(controlPanel);
-        isInControlPanel = true;
+        if (slotSelector != null) slotSelector.isFromPauseMenu = false;
     }
     #endregion
 

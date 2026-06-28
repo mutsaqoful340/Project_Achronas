@@ -21,6 +21,8 @@ public class MapInputHandler : MonoBehaviour
     public float gamepadZoomSensitivity = 1f;
     public float stickDeadzone = 0.15f;
 
+    public SlotSelector slotSelector;
+
     private Vector3 _lastMousePos;
     private bool _isPanDragging;
     private bool _isPitchDragging;
@@ -75,6 +77,8 @@ public class MapInputHandler : MonoBehaviour
         Gamepad gp = Gamepad.current;
         if (gp != null && !IsInMenu())
         {
+            if (slotSelector != null && slotSelector.gameObject.activeInHierarchy && slotSelector.isFromPauseMenu) return;
+
             if (gp.buttonWest.wasPressedThisFrame)
                 mapController.ToggleMap();
 
