@@ -24990,6 +24990,8 @@ MonoBehaviour:
   roomAudio: {fileID: 1829750851}
   targetVolume: 1
   fadeDuration: 4
+  snapshotInside: {fileID: 1501105672616534189, guid: 301aae97b889a7844ace51dbf4fb329b, type: 2}
+  snapshotOutside: {fileID: 6975233952395833656, guid: 301aae97b889a7844ace51dbf4fb329b, type: 2}
 --- !u!65 &545207776
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25009,8 +25011,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 66.48299, y: 5.3909183, z: 55.003708}
-  m_Center: {x: -1.9048328, y: 2.1954596, z: -5.7920914}
+  m_Size: {x: 28.280533, y: 5.3909183, z: 31.27557}
+  m_Center: {x: -0.39686584, y: 2.1954596, z: -0.20249748}
 --- !u!1 &548843785
 GameObject:
   m_ObjectHideFlags: 0
@@ -27062,6 +27064,8 @@ MonoBehaviour:
   roomAudio: {fileID: 1515944237}
   targetVolume: 1
   fadeDuration: 4
+  snapshotInside: {fileID: 0}
+  snapshotOutside: {fileID: 0}
 --- !u!65 &599980468
 BoxCollider:
   m_ObjectHideFlags: 0
