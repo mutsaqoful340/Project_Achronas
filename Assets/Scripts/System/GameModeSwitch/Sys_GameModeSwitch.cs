@@ -141,17 +141,20 @@ public class Sys_GameModeSwitch : MonoBehaviour
             }
         }
         
-        // Disable/Enable this specific player's input module
-        Player_Components[] allPlayers = FindObjectsByType<Player_Components>();
-        if (playerIndex < allPlayers.Length && allPlayers[playerIndex] != null && allPlayers[playerIndex].moduleInputPlay != null)
+        // Disable/Enable this specific player's input module via their PlayerInput GameObject
+        if (PlayerInput[playerIndex] != null)
         {
-            if (mode == GameMode.UI)
+            Player_Components playerComponent = PlayerInput[playerIndex].GetComponent<Player_Components>();
+            if (playerComponent != null && playerComponent.moduleInputPlay != null)
             {
-                allPlayers[playerIndex].moduleInputPlay.DisablePlayerActions();
-            }
-            else
-            {
-                allPlayers[playerIndex].moduleInputPlay.EnablePlayerActions();
+                if (mode == GameMode.UI)
+                {
+                    playerComponent.moduleInputPlay.DisablePlayerActions();
+                }
+                else
+                {
+                    playerComponent.moduleInputPlay.EnablePlayerActions();
+                }
             }
         }
         

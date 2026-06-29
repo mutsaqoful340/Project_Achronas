@@ -283,7 +283,7 @@ public class Player_Components : Sys_GameplayBehaviour
             {
                 strafeTriggered = true;
                 isStumbling = true;
-                currentActionState = ActionState.Stumble;
+                HandleStumble();
                 Debug.Log($"Aggressive strafing detected! Speed: {avgRotationSpeed:F1}°/sec, Reversals: {reversalCount}");
             }
             
@@ -431,8 +431,14 @@ public class Player_Components : Sys_GameplayBehaviour
     public void HandleMove()
     {
         // Cannot move when depressed
-        if (currentActionState == ActionState.Depressed)
+        if (currentActionState == ActionState.Depressed ||
+        currentActionState == ActionState.Dead ||
+        IsDepressed || IsDead || isStumbling ||
+        currentActionState == ActionState.Stumble)
         {
+            currentMoveValue = 0f;
+            if (animator != null)
+                animator.SetFloat("Move", 0f);
             return;
         }
         
@@ -632,7 +638,7 @@ public class Player_Components : Sys_GameplayBehaviour
         }
     }
 
-    private void HandleStumble()
+    public void HandleStumble()
     {
         IsStumble = !IsStumble;
         if (IsStumble)
