@@ -478,19 +478,16 @@ public class Player_Components : Sys_GameplayBehaviour
 
     public void HandleJump()
     {
-        if (isGrounded && !IsCrouching)
+        if (isGrounded && !IsCrouching && (currentActionState != ActionState.Stumble) && (currentActionState != ActionState.Depressed) && (currentActionState != ActionState.Dead) && !isStumbling)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             animator.SetTrigger("DoJump");
             Debug.Log("Jump executed.");
         }
-        else if (IsCrouching)
+        else
         {
-            Debug.Log("Cannot jump while crouching.");
-        }
-        else if (!isGrounded)
-        {
-            Debug.Log("Cannot jump while in the air.");
+            // 
+            return;
         }
     }
 
