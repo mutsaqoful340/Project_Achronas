@@ -483,6 +483,7 @@ public class Player_Components : Sys_GameplayBehaviour
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             animator.SetTrigger("DoJump");
             Debug.Log("Jump executed.");
+            currentActionState = ActionState.Jump;
         }
         else
         {
@@ -510,12 +511,14 @@ public class Player_Components : Sys_GameplayBehaviour
                 animator.SetTrigger("DoCrouch");
                 controller.height = crouchHeight;
                 controller.center = new Vector3(0, crouchHeight / 2f, 0);
+                currentActionState = ActionState.Crouch;
             }
             else
             {
                 animator.SetTrigger("DoUncrouch");
                 controller.height = standingHeight;
                 controller.center = new Vector3(0, standingHeight / 2f, 0);
+                currentActionState = ActionState.Idle;
             }
         }
         else
@@ -532,6 +535,7 @@ public class Player_Components : Sys_GameplayBehaviour
             if (throwModule._itemToThrow != null)
             {
                 animator.SetTrigger("DoThrow");
+                currentActionState = ActionState.Throw;
             }
             else
             {
@@ -644,6 +648,7 @@ public class Player_Components : Sys_GameplayBehaviour
             if (cc != null)
             {
                 cc.enabled = false;
+                isStumbling = true;
             }
             animator.SetTrigger("DoStumble");
         }
@@ -654,6 +659,7 @@ public class Player_Components : Sys_GameplayBehaviour
             if (cc != null)
             {
                 cc.enabled = true;
+                isStumbling = false;
             }
             Debug.Log("Recovered from stumble.");
         }
@@ -738,22 +744,18 @@ public class Player_Components : Sys_GameplayBehaviour
                 Debug.Log("Sprint started");
                 break;
             case ActionState.Crouch:
-                currentActionState = ActionState.Crouch;
                 HandleCrouch();
                 Debug.Log("Crouch Action Triggered");
                 break;
             case ActionState.Jump:
-                currentActionState = ActionState.Jump;
                 HandleJump();
                 Debug.Log("Jump Action Triggered");
                 break;
             case ActionState.Interact:
-                currentActionState = ActionState.Interact;
                 HandleInteract();
                 // Debug.Log("Interact Action Triggered");
                 break;
             case ActionState.Throw:
-                currentActionState = ActionState.Throw;
                 HandleThrow();
                 Debug.Log("Throw Action Triggered");
                 break;
@@ -772,7 +774,6 @@ public class Player_Components : Sys_GameplayBehaviour
                 break;
             case ActionState.Depressed:
                 HandleDepressed();
-                IsDepressed = true;
                 Debug.Log("Depressed Action Triggered");
                 break;
             case ActionState.Cancel:
