@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using System.Collections.Generic;
 using UnityEngine.AI;
+using UnityEngine.Playables;
 
 public class _Enemy_Boss : MonoBehaviour
 {
@@ -24,7 +25,6 @@ public class _Enemy_Boss : MonoBehaviour
 
     [Header("Enemy Properties")]
     public Light detectionLight;
-    public Animator animator;
 
     [Header("Visual Detection Settings")]
     [Tooltip("Detection range (uses spotlight range if available)")]
@@ -55,6 +55,26 @@ public class _Enemy_Boss : MonoBehaviour
     [Header("Mannequinn Interaction")]
     public _Enemy_Mannequin[] enemyMannequin;
 
+    [Header("DadakMerak Chase Settings")]
+    [Tooltip("Speed at which DadakMerak moves when chasing the player")]
+    [SerializeField] private float chaseSpeed = 5f;
+    [Tooltip("Rotation speed when chasing player (degrees per second)")]
+    [SerializeField] private float chaseRotationSpeed = 360f;
+    
+    [Header("DadakMerak Dynamic Waypoint Settings")]
+    [Tooltip("Distance player must move to spawn a new waypoint")]
+    [SerializeField] private float waypointSpawnDistance = 2f;
+    [Tooltip("Radius around waypoint to consider it 'reached'")]
+    [SerializeField] private float waypointReachDistance = 0.5f;
+
+    [Header("DadakMerak Death Sequence")]
+    [Tooltip("Timeline to play when player is caught (for death animation/cutscene)")]
+    [SerializeField] private PlayableDirector deathTimeline;
+
+    [Header("DadakMerak Patrol")]
+    [Tooltip("Timeline for idle/patrol behavior (looping animation)")]
+    [SerializeField] private PlayableDirector patrolTimeline;
+
     [Header("Spotting Events")]
     public UnityEvent OnSpottingPlayer;
 
@@ -73,6 +93,9 @@ public class _Enemy_Boss : MonoBehaviour
     
     // Chase variables
     private float defaultAngularSpeed;
+    private List<Vector3> dynamicWaypoints = new List<Vector3>();
+    private int currentWaypointIndex = 0;
+    private Vector3 lastSpawnedWaypointPosition = Vector3.zero;
 
     private void Start()
     {
@@ -141,9 +164,11 @@ public class _Enemy_Boss : MonoBehaviour
     private void HandleIdle()
     {
         // Stationary guard - stays at post, watches for player
-        // TODO: Can add idle animations, looking around, etc.
-        // Will transition to Chase if player detected
-        // Returns to Idle after losing player (unlike Patrol enemies)
+        // Play patrol timeline on entry (set once)
+        if (patrolTimeline != null && patrolTimeline.state != PlayState.Playing)
+        {
+            patrolTimeline.Play();
+        }
     }
 
     private void HandleAlerted()
@@ -152,10 +177,106 @@ public class _Enemy_Boss : MonoBehaviour
         {
             case BossType.Hanoman:
             case BossType.Leak:
+                // These bosses don't actively chase - they wait or investigate
                 break;
             case BossType.DadakMerak:
+                ChaseBehavior();
                 break;
         }
+    }
+
+    private void ChaseBehavior()
+    {
+        if (navAgent == null || !navAgent.isOnNavMesh)
+            return;
+
+        if (cachedPlayer == null)
+            return;
+
+        // Set chase movement speed
+        if (navAgent.speed != chaseSpeed)
+        {
+            navAgent.speed = chaseSpeed;
+        }
+
+        // Set chase rotation speed
+        if (navAgent.angularSpeed != chaseRotationSpeed)
+        {
+            navAgent.angularSpeed = chaseRotationSpeed;
+        }
+
+        // **PATHFINDING LOGIC:**
+        // If direct line of sight to player → chase directly (faster, no waypoints needed)
+        // If blocked by obstacle → use dynamic waypoints to navigate around it
+        
+        if (isPlayerVisible)
+        {
+            // Clear path to player - chase directly
+            navAgent.SetDestination(cachedPlayer.transform.position);
+            
+            // Clear waypoints if they exist (obstacle must have been removed)
+            if (dynamicWaypoints.Count > 0)
+            {
+                dynamicWaypoints.Clear();
+                currentWaypointIndex = 0;
+                lastSpawnedWaypointPosition = Vector3.zero;
+            }
+        }
+        else
+        {
+            // Blocked by obstacle - use waypoint trail
+            // Spawn dynamic waypoints as player moves (creates breadcrumb trail)
+            if (cachedPlayer != null)
+            {
+                Vector3 playerPos = cachedPlayer.transform.position;
+                float distanceFromLastWaypoint = Vector3.Distance(playerPos, lastSpawnedWaypointPosition);
+
+                // Spawn new waypoint if player moved far enough
+                if (distanceFromLastWaypoint >= waypointSpawnDistance)
+                {
+                    SpawnDynamicWaypoint(playerPos);
+                }
+            }
+
+            // Navigate through dynamic waypoints
+            if (dynamicWaypoints.Count > 0)
+            {
+                // Remove waypoints we've already passed
+                if (currentWaypointIndex < dynamicWaypoints.Count)
+                {
+                    Vector3 currentWaypoint = dynamicWaypoints[currentWaypointIndex];
+                    float distToWaypoint = Vector3.Distance(transform.position, currentWaypoint);
+
+                    // Check if reached current waypoint
+                    if (distToWaypoint <= waypointReachDistance)
+                    {
+                        currentWaypointIndex++;
+                    }
+                    else
+                    {
+                        // Set destination to current waypoint
+                        navAgent.SetDestination(currentWaypoint);
+                    }
+                }
+                else if (cachedPlayer != null)
+                {
+                    // All waypoints cleared, try direct chase
+                    navAgent.SetDestination(cachedPlayer.transform.position);
+                }
+            }
+            else if (lastKnownPlayerPosition != Vector3.zero)
+            {
+                // Chase last known position if player not visible and no waypoints yet
+                navAgent.SetDestination(lastKnownPlayerPosition);
+            }
+        }
+    }
+
+    private void SpawnDynamicWaypoint(Vector3 playerPosition)
+    {
+        dynamicWaypoints.Add(playerPosition);
+        lastSpawnedWaypointPosition = playerPosition;
+        Debug.Log($"{gameObject.name}: Dynamic waypoint spawned at {playerPosition}. Total waypoints: {dynamicWaypoints.Count}");
     }
 
     private void HandleCatchingPlayer()
@@ -171,11 +292,25 @@ public class _Enemy_Boss : MonoBehaviour
         // Guard clause: prevent duplicate transitions
         if (currentState == newState) return;
 
-        // // Exit current state (if cleanup needed)
-        // switch (currentState)
-        // {
-        //     // Add exit logic here if needed
-        // }
+        // Exit current state (cleanup)
+        switch (currentState)
+        {
+            case EnemyState.Idle:
+                // Stop patrol timeline when leaving idle
+                if (patrolTimeline != null && patrolTimeline.state == PlayState.Playing)
+                {
+                    patrolTimeline.Stop();
+                }
+                break;
+
+            case EnemyState.Alerted:
+                // Clean up dynamic waypoints when exiting alert state
+                dynamicWaypoints.Clear();
+                currentWaypointIndex = 0;
+                lastSpawnedWaypointPosition = Vector3.zero;
+                Debug.Log($"{gameObject.name}: Cleared dynamic waypoints.");
+                break;
+        }
 
         currentState = newState;
 
@@ -208,8 +343,6 @@ public class _Enemy_Boss : MonoBehaviour
         GameObject[] allPlayers = GameObject.FindGameObjectsWithTag("Player");
         if (allPlayers.Length == 0)
             return false;
-
-        // Use spotlight properties if available, otherwise use manual settings
         float range = detectionLight != null ? detectionLight.range : detectionRange;
         float angle = detectionLight != null ? detectionLight.spotAngle : detectionAngle;
 
@@ -340,6 +473,8 @@ public class _Enemy_Boss : MonoBehaviour
             return;
         }
 
+
+
         // Primary: Switch to UI mode to disable gameplay input while preserving UI access
         if (Sys_GameModeSwitch.Instance != null)
         {
@@ -393,6 +528,16 @@ public class _Enemy_Boss : MonoBehaviour
         switch (bossType)
         {
             case BossType.DadakMerak:
+                Debug.Log($"{gameObject.name} (Dadak Merak): Player caught! Starting death sequence Timeline...");
+                if (deathTimeline != null)
+                {
+                    deathTimeline.Play();
+                    Debug.Log($"{gameObject.name}: Death Timeline started. Timeline will control parenting and death signal.");
+                }
+                else
+                {
+                    Debug.LogWarning($"{gameObject.name}: Death Timeline not assigned!");
+                }
                 break;
                 
             case BossType.Hanoman:
@@ -400,6 +545,34 @@ public class _Enemy_Boss : MonoBehaviour
                 Debug.Log($"{gameObject.name} (Hanoman): Player caught! You are ded!");
                 CatchPlayer();
                 break;
+        }
+    }
+
+    /// <summary>
+    /// Called by Timeline when it's time to parent the player to the grab slot.
+    /// Place this as a signal or call it from an animation event in your Timeline.
+    /// </summary>
+    public void OnTimelineParentPlayer()
+    {
+        Debug.Log($"{gameObject.name}: Timeline signal - parenting player to grab slot");
+        CatchPlayer();
+    }
+
+    /// <summary>
+    /// Called by Timeline Signal when death animation reaches the point where player should be marked dead.
+    /// Hook this method to a Signal Track in your Timeline editor.
+    /// </summary>
+    public void OnDeathSignalFired()
+    {
+        Debug.Log($"{gameObject.name}: Death signal fired from Timeline!");
+        if (caughtPlayerComponent != null)
+        {
+            caughtPlayerComponent.HandleDead();
+            Debug.Log($"{gameObject.name}: Player marked as dead via Timeline signal");
+        }
+        else
+        {
+            Debug.LogWarning($"{gameObject.name}: Caught player component not found!");
         }
     }
 
@@ -415,6 +588,46 @@ public class _Enemy_Boss : MonoBehaviour
             case BossType.Leak:
                 Debug.Log($"{gameObject.name} ({bossType}): Player spotted! Do nothing.");
                 break;
+        }
+    }
+    #endregion
+
+    #region Gizmo Visualization
+    private void OnDrawGizmos()
+    {
+        // Visualize dynamic waypoints
+        if (dynamicWaypoints != null && dynamicWaypoints.Count > 0)
+        {
+            Gizmos.color = Color.cyan;
+            
+            for (int i = 0; i < dynamicWaypoints.Count; i++)
+            {
+                Vector3 waypoint = dynamicWaypoints[i];
+                
+                // Draw waypoint sphere
+                Gizmos.DrawWireSphere(waypoint, 0.3f);
+                
+                // Draw line to next waypoint
+                if (i < dynamicWaypoints.Count - 1)
+                {
+                    Gizmos.DrawLine(waypoint, dynamicWaypoints[i + 1]);
+                }
+                
+                // Highlight current waypoint being pursued
+                if (i == currentWaypointIndex)
+                {
+                    Gizmos.color = Color.yellow;
+                    Gizmos.DrawWireSphere(waypoint, 0.5f);
+                    Gizmos.color = Color.cyan;
+                }
+            }
+        }
+
+        // Visualize last known player position
+        if (lastKnownPlayerPosition != Vector3.zero)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(lastKnownPlayerPosition, 0.2f);
         }
     }
     #endregion
