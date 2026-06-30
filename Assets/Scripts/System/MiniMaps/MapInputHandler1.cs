@@ -68,20 +68,16 @@ public class MapInputHandler : MonoBehaviour
             if (Keyboard.current.mKey.wasPressedThisFrame ||
                 Keyboard.current.tabKey.wasPressedThisFrame)
                 mapController.ToggleMap();
-
             if (Keyboard.current.fKey.wasPressedThisFrame)
                 mapController.FocusOnPlayer();
         }
-
         // Gamepad — hanya aktif kalau tidak sedang di menu
         Gamepad gp = Gamepad.current;
         if (gp != null && !IsInMenu())
         {
             if (slotSelector != null && slotSelector.gameObject.activeInHierarchy && slotSelector.isFromPauseMenu) return;
-
-            if (gp.buttonWest.wasPressedThisFrame)
+            if (gp.dpad.up.wasPressedThisFrame)
                 mapController.ToggleMap();
-
             if (gp.buttonNorth.wasPressedThisFrame)
                 mapController.FocusOnPlayer();
         }
