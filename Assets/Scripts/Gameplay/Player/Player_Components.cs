@@ -601,6 +601,7 @@ public class Player_Components : Sys_GameplayBehaviour
     {
         IsStumble = false;
         isStumbling = false;
+        IsDepressed = false;
         isStrafeDetectionPaused = false;
         currentActionState = ActionState.Idle;
 
@@ -609,6 +610,10 @@ public class Player_Components : Sys_GameplayBehaviour
         reversalCount = 0;
         lastRotationDelta = 0f;
         strafeTriggered = false;
+        lastYRotation = 0f;
+
+        // Reset player rotation to face forward
+        transform.rotation = Quaternion.identity;
 
         if (controller != null && !controller.enabled)
         {
@@ -617,13 +622,13 @@ public class Player_Components : Sys_GameplayBehaviour
 
         if (animator != null)
         {
-            animator.SetTrigger("DoRevive");
             animator.SetFloat("Move", 0f);
             animator.SetBool("IsCrouching", false);
             animator.SetBool("IsDepressed", false);
+            animator.SetTrigger("DoRevive");
         }
 
-        Debug.Log("Respawn state reset: stumble and rotation locks cleared.");
+        Debug.Log("Respawn state reset: rotation, stumble and rotation locks cleared.");
     }
 
     /// <summary>

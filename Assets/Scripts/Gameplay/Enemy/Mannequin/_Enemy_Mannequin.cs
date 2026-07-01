@@ -77,6 +77,8 @@ public class _Enemy_Mannequin : MonoBehaviour
     
     // Patrol variables
     private NavMeshAgent navAgent;
+    private Vector3 initialPosition; // Store starting position for reset
+    private Quaternion initialRotation; // Store starting rotation for reset
     private int currentWaypointIndex = 0;
     private float waypointWaitTimer = 0f;
     private bool isWaitingAtWaypoint = false;
@@ -101,6 +103,10 @@ public class _Enemy_Mannequin : MonoBehaviour
             Debug.LogError($"{gameObject.name}: NavMeshAgent component is missing!");
             return;
         }
+        
+        // Store initial position and rotation for reset
+        initialPosition = transform.position;
+        initialRotation = transform.rotation;
         
         // Store default angular speed for restoration
         defaultAngularSpeed = navAgent.angularSpeed;
@@ -547,6 +553,51 @@ public class _Enemy_Mannequin : MonoBehaviour
                 Gizmos.DrawLine(patrolWaypoints[i].position, patrolWaypoints[nextIndex].position);
             }
         }
+    }
+    #endregion
+
+    #region Reset System
+    /// <summary>
+    /// Reset mannequin to initial state (called on respawn)
+    /// </summary>
+    public void ResetToInitialState()
+    {
+        // Clear all detection and awareness
+        currentAwareness = 0f;
+        detectedPlayers.Clear();
+        cachedPlayer = null;
+        isPlayerVisible = false;
+        lastKnownPlayerPosition = Vector3.zero;
+        investigateTimer = 0f;
+        hasSetInvestigationDestination = false;
+
+        // Reset position and rotation
+        transform.position = initialPosition;
+        transform.rotation = initialRotation;
+
+        // Reset NavMesh agent
+        if (navAgent != null)
+        {
+            navAgent.ResetPath();
+            navAgent.speed = 0f;
+            navAgent.angularSpeed = defaultAngularSpeed;
+        }
+
+        // Return to initial state
+        if (patrolWaypoints.Length > 0)
+        {
+            currentState = EnemyState.Patrol;
+            currentWaypointIndex = 0;
+            waypointWaitTimer = 0f;
+            isWaitingAtWaypoint = false;
+            MoveToCurrentWaypoint();
+        }
+        else
+        {
+            currentState = EnemyState.Idle;
+        }
+
+        Debug.Log($"[RESET] {gameObject.name} reset to initial state at position {initialPosition}");
     }
     #endregion
 }

@@ -43,8 +43,16 @@ public class RoomSaveZone : MonoBehaviour
 
         // Simpan spawn point ke PlayerPrefs
         PlayerPrefs.SetString("lastRoomID", roomID);
-        PlayerPrefs.SetString("spawnP1", JsonUtility.ToJson(spawnP1.position));
-        PlayerPrefs.SetString("spawnP2", JsonUtility.ToJson(spawnP2.position));
+        
+        // Ensure spawn points are above minimum Y (0.5) to prevent floor clipping on respawn
+        Vector3 safeSpawnP1 = spawnP1.position;
+        Vector3 safeSpawnP2 = spawnP2.position;
+        if (safeSpawnP1.y < 0.5f) safeSpawnP1.y = 0.5f;
+        if (safeSpawnP2.y < 0.5f) safeSpawnP2.y = 0.5f;
+        
+        PlayerPrefs.SetString("spawnP1", JsonUtility.ToJson(safeSpawnP1));
+        PlayerPrefs.SetString("spawnP2", JsonUtility.ToJson(safeSpawnP2));
+        Debug.Log($"[ROOMSAVE] Saved spawn points - P1: {safeSpawnP1}, P2: {safeSpawnP2}");
         PlayerPrefs.Save();
 
         if (SaveManager.Instance != null)

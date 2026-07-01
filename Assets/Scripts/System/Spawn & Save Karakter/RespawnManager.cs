@@ -10,6 +10,8 @@ public class RespawnManager : MonoBehaviour
 
     [Header("Respawn Settings")]
     public float respawnDelay = 3f;
+    [Tooltip("If true, fully reload the scene from checkpoint. If false, soft-reset enemies in place.")]
+    public bool reloadSceneOnRespawn = false;
 
     [Header("Default Spawn (jika belum ada save)")]
     public Transform defaultSpawnP1;
@@ -34,56 +36,195 @@ public class RespawnManager : MonoBehaviour
     {
         yield return new WaitForSeconds(respawnDelay);
 
-        Vector3 spawnP1, spawnP2;
-
-        // Kalau belum ada save, pakai default spawn point
-        if (!PlayerPrefs.HasKey("spawnP1") || !PlayerPrefs.HasKey("spawnP2"))
+        if (reloadSceneOnRespawn)
         {
-            if (defaultSpawnP1 == null || defaultSpawnP2 == null)
+            // ═══════════════════════════════════════════════════════════
+            // MODE 1: FULL SCENE RELOAD (resets all enemies)
+            // ═══════════════════════════════════════════════════════════
+            Debug.Log("[RESPAWN] Reloading scene from last checkpoint...");
+            
+            // Get last saved slot and room
+            if (!PlayerPrefs.HasKey("lastRoomID"))
             {
-                Debug.LogWarning("[RESPAWN] Tidak ada data spawn point dan default spawn belum di-set!");
-                isRespawning = false;
+                Debug.LogWarning("[RESPAWN] No checkpoint found!");
                 yield break;
             }
 
-            Debug.Log("[RESPAWN] Pakai default spawn point.");
-            spawnP1 = defaultSpawnP1.position;
-            spawnP2 = defaultSpawnP2.position;
+            string lastRoomID = PlayerPrefs.GetString("lastRoomID");
+            
+            if (SaveManager.Instance != null)
+            {
+                string slot = SaveManager.Instance.FindSlotByRoomID(lastRoomID);
+                if (slot != null)
+                {
+                    // Load from checkpoint (resets player positions and room state)
+                    SaveManager.Instance.Load(slot, player1.transform, player2.transform);
+                    
+                    // Reload scene asynchronously and wait for it to complete
+                    string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+                    AsyncOperation sceneLoad = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(sceneName);
+                    
+                    // Wait for scene to fully load
+                    while (!sceneLoad.isDone)
+                    {
+                        yield return null;
+                    }
+                    
+                    // Scene is now loaded - reassign devices to the new player instances
+                    yield return new WaitForEndOfFrame(); // Extra frame to ensure all Start() methods have run
+                    
+                    Sys_CharacterAssignmentManager assignmentManager = FindAnyObjectByType<Sys_CharacterAssignmentManager>();
+                    if (assignmentManager != null)
+                    {
+                        assignmentManager.AssignCharacters();
+                        Debug.Log("[RESPAWN] Device assignments restored after scene reload");
+                    }
+                    else
+                    {
+                        Debug.LogWarning("[RESPAWN] CharacterAssignmentManager not found in scene!");
+                    }
+                    
+                    yield break;
+                }
+            }
+            
+            Debug.LogWarning("[RESPAWN] SaveManager not found or checkpoint slot not found!");
         }
         else
         {
-            spawnP1 = JsonUtility.FromJson<Vector3>(PlayerPrefs.GetString("spawnP1"));
-            spawnP2 = JsonUtility.FromJson<Vector3>(PlayerPrefs.GetString("spawnP2"));
+            // ═══════════════════════════════════════════════════════════
+            // MODE 2: SOFT RESET (respawn in place + reset enemies)
+            // ═══════════════════════════════════════════════════════════
+            Vector3 spawnP1, spawnP2;
+
+            // Kalau belum ada save, pakai default spawn point
+            if (!PlayerPrefs.HasKey("spawnP1") || !PlayerPrefs.HasKey("spawnP2"))
+            {
+                if (defaultSpawnP1 == null || defaultSpawnP2 == null)
+                {
+                    Debug.LogWarning("[RESPAWN] Tidak ada data spawn point dan default spawn belum di-set!");
+                    isRespawning = false;
+                    yield break;
+                }
+
+                Debug.Log("[RESPAWN] Pakai default spawn point.");
+                spawnP1 = defaultSpawnP1.position;
+                spawnP2 = defaultSpawnP2.position;
+            }
+            else
+            {
+                spawnP1 = JsonUtility.FromJson<Vector3>(PlayerPrefs.GetString("spawnP1"));
+                spawnP2 = JsonUtility.FromJson<Vector3>(PlayerPrefs.GetString("spawnP2"));
+                Debug.Log($"[RESPAWN] Loaded spawn positions from PlayerPrefs - P1: {spawnP1}, P2: {spawnP2}");
+                
+                // Clamp spawn Y to minimum 0.5 to prevent low spawn points
+                if (spawnP1.y < 0.5f) 
+                {
+                    spawnP1.y = 0.5f;
+                    Debug.Log($"[RESPAWN] Clamped P1 Y to 0.5 (was too low)");
+                }
+                if (spawnP2.y < 0.5f) 
+                {
+                    spawnP2.y = 0.5f;
+                    Debug.Log($"[RESPAWN] Clamped P2 Y to 0.5 (was too low)");
+                }
+            }
+
+            Debug.Log($"[RESPAWN] About to warp P1 to Y={spawnP1.y}, P2 to Y={spawnP2.y}");
+            WarpPlayer(player1, spawnP1);
+            WarpPlayer(player2, spawnP2);
+
+            player1.IsDead = false;
+            player1.currentActionState = ActionState.Idle;
+            player1.HandleIdle();
+            player2.IsDead = false;
+            player2.currentActionState = ActionState.Idle;
+            player2.HandleIdle();
+            player2.ResetAfterRespawn();
+            player1.ResetAfterRespawn();
+            
+            // Reset all enemies in scene to initial state
+            ResetAllEnemies();
+
+            // Switch to Player mode so players can control their characters again
+            if (Sys_GameModeSwitch.Instance != null)
+            {
+                Sys_GameModeSwitch.Instance.SetMode(Sys_GameModeSwitch.GameMode.Player);
+                Debug.Log("[RESPAWN] Switched to Player mode - players can control now");
+            }
+            else
+            {
+                Debug.LogWarning("[RESPAWN] GameModeSwitch instance not found!");
+            }
+
+            isRespawning = false;
+
+            Debug.Log("[RESPAWN] Kedua player respawn!");
         }
-
-        WarpPlayer(player1, spawnP1);
-        WarpPlayer(player2, spawnP2);
-
-        player1.IsDead = false;
-        player1.currentActionState = ActionState.Idle;
-        player1.HandleIdle();
-        player2.IsDead = false;
-        player2.currentActionState = ActionState.Idle;
-        player2.HandleIdle();
-        player2.ResetAfterRespawn();
-        player1.ResetAfterRespawn();
-        isRespawning = false;
-
-        Debug.Log("[RESPAWN] Kedua player respawn!");
     }
 
     private void WarpPlayer(Player_Components player, Vector3 spawnPos)
     {
-        CharacterController cc = player.GetComponent<CharacterController>();
-        if (cc != null)
+        // Ensure player is detached from any boss/grab slot before repositioning.
+        if (player.transform.parent != null)
         {
+            player.transform.SetParent(null, true);
+        }
+
+        CharacterController cc = player.GetComponent<CharacterController>();
+        if (cc != null && cc.enabled)
+        {
+            // Use CharacterController.Move() to warp while controller is active
+            // This avoids collision settling issues that occur when disabling/re-enabling
+            Vector3 currentPos = player.transform.position;
+            Vector3 displacement = spawnPos - currentPos;
+            cc.Move(displacement);
+            Debug.Log($"[RESPAWN] Warped {player.gameObject.name} to {spawnPos} using Move()");
+        }
+        else if (cc != null)
+        {
+            // Fallback: controller is disabled, use traditional disable/enable method
             cc.enabled = false;
-            player.transform.position = spawnPos;
+            Vector3 adjustedPos = spawnPos + Vector3.up * 1.0f;
+            player.transform.position = adjustedPos;
             cc.enabled = true;
+            Debug.Log($"[RESPAWN] Warped {player.gameObject.name} to {adjustedPos} (controller was disabled)");
         }
         else
         {
+            // No CharacterController, just set position
             player.transform.position = spawnPos;
+            Debug.Log($"[RESPAWN] Warped {player.gameObject.name} to {spawnPos} (no CharacterController)");
+        }
+    }
+
+    /// <summary>
+    /// Reset all enemy AI states to initial/idle state (for soft respawn)
+    /// </summary>
+    private void ResetAllEnemies()
+    {
+        // Find all bosses in scene
+        _Enemy_Boss[] bosses = FindObjectsByType<_Enemy_Boss>();
+        foreach (var boss in bosses)
+        {
+            if (boss != null)
+            {
+                // Reset boss to idle state
+                boss.ResetToInitialState();
+                Debug.Log($"[RESPAWN] Reset {boss.gameObject.name} to initial state");
+            }
+        }
+
+        // Find all mannequins in scene  
+        _Enemy_Mannequin[] mannequins = FindObjectsByType<_Enemy_Mannequin>();
+        foreach (var mannequin in mannequins)
+        {
+            if (mannequin != null)
+            {
+                // Reset mannequin to idle state
+                mannequin.ResetToInitialState();
+                Debug.Log($"[RESPAWN] Reset {mannequin.gameObject.name} to initial state");
+            }
         }
     }
 }

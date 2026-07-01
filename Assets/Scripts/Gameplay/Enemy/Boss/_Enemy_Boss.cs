@@ -17,6 +17,7 @@ public class _Enemy_Boss : MonoBehaviour
     {
         Idle,
         Alerted,
+        SearchMode,
         CaughtPlayer
     }
 
@@ -51,6 +52,9 @@ public class _Enemy_Boss : MonoBehaviour
     [Tooltip("Slot for caught player (e.g., for parenting or animation)")]
     public Transform caughtPlayerSlot;
     [SerializeField] private Player_Components caughtPlayerComponent; // Reference to caught player's components for control
+    
+    // Safety: Track which player actually entered the trigger
+    private GameObject triggerPlayer = null;
 
     [Header("Mannequinn Interaction")]
     public _Enemy_Mannequin[] enemyMannequin;
@@ -66,6 +70,10 @@ public class _Enemy_Boss : MonoBehaviour
     [SerializeField] private float waypointSpawnDistance = 2f;
     [Tooltip("Radius around waypoint to consider it 'reached'")]
     [SerializeField] private float waypointReachDistance = 0.5f;
+    
+    [Header("DadakMerak Search State Settings")]
+    [Tooltip("Duration to follow first spotted player's waypoints after they exit LOS (seconds)")]
+    [SerializeField] private float searchStateDuration = 10f;
 
     [Header("DadakMerak Death Sequence")]
     [Tooltip("Timeline to play when player is caught (for death animation/cutscene)")]
@@ -80,20 +88,29 @@ public class _Enemy_Boss : MonoBehaviour
 
     // State management
     private EnemyState currentState = EnemyState.Idle;
+    private bool playerCaught = false; // Hard lock: prevents all detection/movement after player is caught
     
     // Navigation
     private NavMeshAgent navAgent;
+    private Vector3 initialPosition; // Store starting position for reset
+    private Quaternion initialRotation; // Store starting rotation for reset
 
+    [Header("DO NOT MANUALLY ASSIGN!!!")]
     // Detection variables
-    private List<GameObject> detectedPlayers = new List<GameObject>();
-    private GameObject cachedPlayer;
+    [SerializeField] private List<GameObject> detectedPlayers = new List<GameObject>(); // Temporarily holds all currently detected players this frame
+    [SerializeField] private List<GameObject> spottedPlayers = new List<GameObject>(); // Priority queue: [0] = first spotted, [1] = second spotted, etc.
+    [SerializeField] private List<Vector3> dynamicWaypoints = new List<Vector3>();
+    private GameObject cachedPlayer; // Legacy field, kept for compatibility
     private float nextDetectionTime;
     private bool isPlayerVisible = false;
     private Vector3 lastKnownPlayerPosition;
     
+    // Search state variables
+    private float searchStateTimer = 0f;
+    private GameObject searchTargetPlayer = null; // The player being followed during search state
+    
     // Chase variables
     private float defaultAngularSpeed;
-    private List<Vector3> dynamicWaypoints = new List<Vector3>();
     private int currentWaypointIndex = 0;
     private Vector3 lastSpawnedWaypointPosition = Vector3.zero;
 
@@ -106,6 +123,10 @@ public class _Enemy_Boss : MonoBehaviour
             Debug.LogError($"{gameObject.name}: NavMeshAgent component is missing!");
             return;
         }
+        
+        // Store initial position and rotation for reset
+        initialPosition = transform.position;
+        initialRotation = transform.rotation;
         
         // Store default angular speed for restoration
         defaultAngularSpeed = navAgent.angularSpeed;
@@ -133,17 +154,43 @@ public class _Enemy_Boss : MonoBehaviour
 
     private void Update()
     {
-        // OPTIMIZATION: Check for player at intervals (more frequently during chase)
-        float currentInterval = currentState == EnemyState.Alerted ? 0.05f : detectionInterval;
-        
-        if (Time.time >= nextDetectionTime)
+        // Hard lock: once a player is caught, stop everything
+        if (playerCaught)
+            return;
+
+        // Skip detection and awareness updates while catching player
+        if (currentState != EnemyState.CaughtPlayer)
         {
-            nextDetectionTime = Time.time + currentInterval;
-            isPlayerVisible = IsPlayerInLOS();
+            // OPTIMIZATION: Check for player at intervals (more frequently during chase)
+            float currentInterval = currentState == EnemyState.Alerted || currentState == EnemyState.SearchMode ? 0.05f : detectionInterval;
+            
+            if (Time.time >= nextDetectionTime)
+            {
+                nextDetectionTime = Time.time + currentInterval;
+                isPlayerVisible = IsPlayerInLOS();
+            }
+
+            // Update awareness based on player visibility
+            UpdateAwareness();
         }
 
-        // Update awareness based on player visibility
-        UpdateAwareness();
+        // Update search state timer if in search mode
+        if (currentState == EnemyState.SearchMode)
+        {
+            searchStateTimer -= Time.deltaTime;
+            if (searchStateTimer <= 0f)
+            {
+                // Search state expired, transition back to Alerted or Idle
+                if (spottedPlayers.Count > 0)
+                {
+                    TransitionToState(EnemyState.Alerted);
+                }
+                else
+                {
+                    TransitionToState(EnemyState.Idle);
+                }
+            }
+        }
 
         // Execute current state behavior
         switch (currentState)
@@ -153,6 +200,9 @@ public class _Enemy_Boss : MonoBehaviour
                 break;
             case EnemyState.Alerted:
                 HandleAlerted();
+                break;
+            case EnemyState.SearchMode:
+                HandleSearchMode();
                 break;
             case EnemyState.CaughtPlayer:
                 HandleCatchingPlayer();
@@ -185,12 +235,30 @@ public class _Enemy_Boss : MonoBehaviour
         }
     }
 
+    private void HandleSearchMode()
+    {
+        // During search state, boss follows the first spotted player's dynamic waypoints
+        switch (bossType)
+        {
+            case BossType.DadakMerak:
+                ChaseBehavior();
+                break;
+        }
+    }
+
     private void ChaseBehavior()
     {
+        // Guard: only chase if actively alerted or in search mode (not caught or idle)
+        if (currentState != EnemyState.Alerted && currentState != EnemyState.SearchMode)
+            return;
+            
         if (navAgent == null || !navAgent.isOnNavMesh)
             return;
 
-        if (cachedPlayer == null)
+        // During search mode, use searchTargetPlayer; during alert, use primary spotted player
+        GameObject targetPlayer = currentState == EnemyState.SearchMode ? searchTargetPlayer : (spottedPlayers.Count > 0 ? spottedPlayers[0] : null);
+        
+        if (targetPlayer == null)
             return;
 
         // Set chase movement speed
@@ -208,11 +276,12 @@ public class _Enemy_Boss : MonoBehaviour
         // **PATHFINDING LOGIC:**
         // If direct line of sight to player → chase directly (faster, no waypoints needed)
         // If blocked by obstacle → use dynamic waypoints to navigate around it
+        // Special case: During search mode, continue following waypoints of the last spotted player
         
-        if (isPlayerVisible)
+        if (isPlayerVisible && targetPlayer != null && spottedPlayers.Contains(targetPlayer))
         {
             // Clear path to player - chase directly
-            navAgent.SetDestination(cachedPlayer.transform.position);
+            navAgent.SetDestination(targetPlayer.transform.position);
             
             // Clear waypoints if they exist (obstacle must have been removed)
             if (dynamicWaypoints.Count > 0)
@@ -226,13 +295,13 @@ public class _Enemy_Boss : MonoBehaviour
         {
             // Blocked by obstacle - use waypoint trail
             // Spawn dynamic waypoints as player moves (creates breadcrumb trail)
-            if (cachedPlayer != null)
+            if (targetPlayer != null)
             {
-                Vector3 playerPos = cachedPlayer.transform.position;
+                Vector3 playerPos = targetPlayer.transform.position;
                 float distanceFromLastWaypoint = Vector3.Distance(playerPos, lastSpawnedWaypointPosition);
 
-                // Spawn new waypoint if player moved far enough
-                if (distanceFromLastWaypoint >= waypointSpawnDistance)
+                // Spawn new waypoint if player moved far enough (only in Alerted state, not search)
+                if (currentState == EnemyState.Alerted && distanceFromLastWaypoint >= waypointSpawnDistance)
                 {
                     SpawnDynamicWaypoint(playerPos);
                 }
@@ -258,10 +327,10 @@ public class _Enemy_Boss : MonoBehaviour
                         navAgent.SetDestination(currentWaypoint);
                     }
                 }
-                else if (cachedPlayer != null)
+                else if (targetPlayer != null)
                 {
                     // All waypoints cleared, try direct chase
-                    navAgent.SetDestination(cachedPlayer.transform.position);
+                    navAgent.SetDestination(targetPlayer.transform.position);
                 }
             }
             else if (lastKnownPlayerPosition != Vector3.zero)
@@ -274,6 +343,10 @@ public class _Enemy_Boss : MonoBehaviour
 
     private void SpawnDynamicWaypoint(Vector3 playerPosition)
     {
+        // Only spawn waypoints during active chase (Alerted state)
+        if (currentState != EnemyState.Alerted)
+            return;
+            
         dynamicWaypoints.Add(playerPosition);
         lastSpawnedWaypointPosition = playerPosition;
         Debug.Log($"{gameObject.name}: Dynamic waypoint spawned at {playerPosition}. Total waypoints: {dynamicWaypoints.Count}");
@@ -304,11 +377,24 @@ public class _Enemy_Boss : MonoBehaviour
                 break;
 
             case EnemyState.Alerted:
-                // Clean up dynamic waypoints when exiting alert state
+                // Don't clear waypoints when entering search mode - they're needed for pursuit
+                if (newState != EnemyState.SearchMode)
+                {
+                    dynamicWaypoints.Clear();
+                    currentWaypointIndex = 0;
+                    lastSpawnedWaypointPosition = Vector3.zero;
+                    Debug.Log($"{gameObject.name}: Cleared dynamic waypoints.");
+                }
+                break;
+                
+            case EnemyState.SearchMode:
+                // Clean up when exiting search mode
                 dynamicWaypoints.Clear();
                 currentWaypointIndex = 0;
                 lastSpawnedWaypointPosition = Vector3.zero;
-                Debug.Log($"{gameObject.name}: Cleared dynamic waypoints.");
+                searchStateTimer = 0f;
+                searchTargetPlayer = null;
+                Debug.Log($"{gameObject.name}: Exited search mode. Cleared waypoints and timer.");
                 break;
         }
 
@@ -319,14 +405,44 @@ public class _Enemy_Boss : MonoBehaviour
         {
             case EnemyState.Idle:
                 // Idle entry behavior
+                spottedPlayers.Clear();
+                searchTargetPlayer = null;
                 break;
 
             case EnemyState.Alerted:
                 OnSpottingPlayer?.Invoke(); // Invoked once when player is spotted
                 OnPlayerSpotted(); // Call spotted method
+                searchStateTimer = 0f;
+                searchTargetPlayer = null;
+                
+                // Spawn initial waypoint at the player's current position when chase starts
+                if (spottedPlayers.Count > 0)
+                {
+                    Vector3 playerStartPos = spottedPlayers[0].transform.position;
+                    dynamicWaypoints.Add(playerStartPos);
+                    lastSpawnedWaypointPosition = playerStartPos;
+                    Debug.Log($"{gameObject.name}: Initial waypoint spawned at chase start position: {playerStartPos}");
+                }
+                break;
+                
+            case EnemyState.SearchMode:
+                // Start search state - save which player we're following
+                if (spottedPlayers.Count > 0)
+                {
+                    searchTargetPlayer = spottedPlayers[0];
+                    searchStateTimer = searchStateDuration;
+                    Debug.Log($"{gameObject.name}: Entered search mode for {searchStateDuration}s, following {searchTargetPlayer.name}'s waypoints");
+                }
                 break;
 
             case EnemyState.CaughtPlayer:
+                // Clear awareness of other players - focus only on the caught one
+                currentAwareness = 0f;
+                detectedPlayers.Clear();
+                spottedPlayers.Clear();
+                cachedPlayer = null; // Clear detection cache
+                searchTargetPlayer = null;
+                // NOTE: Do NOT clear triggerPlayer here - it's needed by OnPlayerCaught() -> CatchPlayer()
                 OnPlayerCaught(); // Called once when player is caught
                 break;
         }
@@ -388,7 +504,7 @@ public class _Enemy_Boss : MonoBehaviour
                     Debug.DrawRay(enemyPosition, directionToPlayer * hit.distance, Color.green);
                     detectedPlayers.Add(player); // Add to detected players list
                     lastKnownPlayerPosition = playerCenter;
-                    cachedPlayer = player; // Cache for single-player targeting
+                    cachedPlayer = player; // Cache for legacy compatibility
                 }
                 else
                 {
@@ -401,12 +517,61 @@ public class _Enemy_Boss : MonoBehaviour
                 Debug.DrawRay(enemyPosition, directionToPlayer * actualDistance, Color.red);
             }
         }
+        
+        // Update spotted players queue: maintain players in LOS, remove those who exited
+        UpdateSpottedPlayersQueue();
+        
         // Return true if ANY player was detected
         return detectedPlayers.Count > 0;
     }
 
+    private void UpdateSpottedPlayersQueue()
+    {
+        // Remove players from spotted list if they're no longer in detectedPlayers
+        for (int i = spottedPlayers.Count - 1; i >= 0; i--)
+        {
+            GameObject spottedPlayer = spottedPlayers[i];
+            if (!detectedPlayers.Contains(spottedPlayer))
+            {
+                // Player exited LOS - remove from queue
+                spottedPlayers.RemoveAt(i);
+                Debug.Log($"{gameObject.name}: {spottedPlayer.name} exited LOS. Removed from queue. Queue size: {spottedPlayers.Count}");
+                
+                // If we were in Alerted state and just lost the primary target, enter search mode
+                if (currentState == EnemyState.Alerted && i == 0 && spottedPlayers.Count > 0)
+                {
+                    // Primary target exited, but secondary target still in LOS
+                    // Enter search mode to follow primary target's waypoints
+                    TransitionToState(EnemyState.SearchMode);
+                    Debug.Log($"{gameObject.name}: Primary target lost LOS. Entering search mode.");
+                }
+                else if (currentState == EnemyState.Alerted && i == 0 && spottedPlayers.Count == 0)
+                {
+                    // All players lost LOS
+                    TransitionToState(EnemyState.Idle);
+                    Debug.Log($"{gameObject.name}: All targets lost LOS. Returning to Idle.");
+                }
+            }
+        }
+        
+        // Add newly detected players to the queue
+        foreach (GameObject detectedPlayer in detectedPlayers)
+        {
+            if (!spottedPlayers.Contains(detectedPlayer))
+            {
+                // New player spotted - add to queue
+                spottedPlayers.Add(detectedPlayer);
+                Debug.Log($"{gameObject.name}: {detectedPlayer.name} spotted and added to queue. Queue size: {spottedPlayers.Count}");
+            }
+        }
+    }
+
     private void UpdateAwareness()
     {
+        // Only update awareness in Idle and Alerted states (not during search mode)
+        if (currentState == EnemyState.SearchMode)
+            return;
+            
         if (isPlayerVisible)
         {
             // Player visible - increase awareness
@@ -431,19 +596,35 @@ public class _Enemy_Boss : MonoBehaviour
     #region Catching Methods
     private void CatchPlayer()
     {
-        if (cachedPlayer != null)
+        // Use the player that actually triggered (not cached detection)
+        GameObject playerToCatch = triggerPlayer ?? cachedPlayer;
+        
+        if (playerToCatch != null)
         {
+            // Clear chase waypoints - stop following traces
+            dynamicWaypoints.Clear();
+            currentWaypointIndex = 0;
+            lastSpawnedWaypointPosition = Vector3.zero;
+            
+            // Stop NavMesh movement completely
+            if (navAgent != null && navAgent.isOnNavMesh)
+            {
+                navAgent.ResetPath();
+                navAgent.SetDestination(transform.position); // Set destination to current position (prevent any movement)
+                navAgent.speed = 0f;
+            }
+            
             // Attempt to get Player_Components from the caught player
-            caughtPlayerComponent = cachedPlayer.GetComponent<Player_Components>();
+            caughtPlayerComponent = playerToCatch.GetComponent<Player_Components>();
             
             if (caughtPlayerComponent != null)
             {
                 // Parent player to the caught player slot
                 if (caughtPlayerSlot != null)
                 {
-                    cachedPlayer.transform.SetParent(caughtPlayerSlot);
-                    cachedPlayer.transform.localPosition = Vector3.zero;
-                    cachedPlayer.transform.localRotation = Quaternion.identity;
+                    playerToCatch.transform.SetParent(caughtPlayerSlot);
+                    playerToCatch.transform.localPosition = Vector3.zero;
+                    playerToCatch.transform.localRotation = Quaternion.identity;
                     Debug.Log($"{gameObject.name}: Player parented to caught slot.");
                 }
                 else
@@ -456,20 +637,23 @@ public class _Enemy_Boss : MonoBehaviour
             }
             else
             {
-                Debug.LogError($"{gameObject.name}: Caught player {cachedPlayer.name} does not have Player_Components!");
+                Debug.LogError($"{gameObject.name}: Caught player {playerToCatch.name} does not have Player_Components!");
             }
         }
         else
         {
-            Debug.LogError($"{gameObject.name}: No cached player to catch!");
+            Debug.LogError($"{gameObject.name}: No player to catch!");
         }
+        
+        // Clear trigger reference only after using it
+        triggerPlayer = null;
     }
 
     private void FreezePlayer()
     {
-        if (cachedPlayer == null)
+        if (caughtPlayerComponent == null)
         {
-            Debug.LogWarning($"{gameObject.name}: Cannot freeze player - cachedPlayer is null!");
+            Debug.LogWarning($"{gameObject.name}: Cannot freeze player - caughtPlayerComponent is null!");
             return;
         }
 
@@ -487,20 +671,20 @@ public class _Enemy_Boss : MonoBehaviour
         }
 
         // Backup: Disable CharacterController
-        CharacterController controller = cachedPlayer.GetComponent<CharacterController>();
+        CharacterController controller = caughtPlayerComponent.gameObject.GetComponent<CharacterController>();
         if (controller != null)
         {
             controller.enabled = false;
-            Debug.Log($"{gameObject.name}: Disabled CharacterController on {cachedPlayer.name}");
+            Debug.Log($"{gameObject.name}: Disabled CharacterController on {caughtPlayerComponent.gameObject.name}");
         }
         
         // Backup: Disable Rigidbody physics
-        Rigidbody rb = cachedPlayer.GetComponent<Rigidbody>();
+        Rigidbody rb = caughtPlayerComponent.gameObject.GetComponent<Rigidbody>();
         if (rb != null)
         {
             rb.isKinematic = true;
             rb.linearVelocity = Vector3.zero;
-            Debug.Log($"{gameObject.name}: Froze Rigidbody on {cachedPlayer.name}");
+            Debug.Log($"{gameObject.name}: Froze Rigidbody on {caughtPlayerComponent.gameObject.name}");
         }
         
         // Call Player_Components freeze method (if it exists)
@@ -518,13 +702,46 @@ public class _Enemy_Boss : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log($"{gameObject.name}: Player entered trigger zone.");
-            TransitionToState(EnemyState.CaughtPlayer);
+            GameObject enteredPlayer = other.gameObject;
+            
+            // Determine which player should be the valid catch target based on current state
+            GameObject validTarget = currentState == EnemyState.SearchMode ? searchTargetPlayer : (spottedPlayers.Count > 0 ? spottedPlayers[0] : null);
+            
+            // Only catch if the entered player is the one we're actually chasing
+            if (enteredPlayer == validTarget)
+            {
+                Debug.Log($"{gameObject.name}: Target player {enteredPlayer.name} entered trigger zone. Catching!");
+                triggerPlayer = enteredPlayer;
+                TransitionToState(EnemyState.CaughtPlayer);
+            }
+            else
+            {
+                Debug.LogWarning($"{gameObject.name}: Non-target player {enteredPlayer.name} entered trigger zone, but current target is {validTarget?.name ?? "none"}. Ignoring catch.");
+            }
         }
     }
 
     public void OnPlayerCaught()
     {
+        playerCaught = true; // Hard lock - stop all detection and movement immediately
+        Debug.Log($"{gameObject.name}: OnPlayerCaught() called! BossType is: {bossType}");
+        
+        if (patrolTimeline != null && patrolTimeline.state == PlayState.Playing)
+        {
+            patrolTimeline.Stop();
+        }
+        
+        // Stop NavMesh movement completely regardless of boss type
+        dynamicWaypoints.Clear();
+        currentWaypointIndex = 0;
+        lastSpawnedWaypointPosition = Vector3.zero;
+        if (navAgent != null && navAgent.isOnNavMesh)
+        {
+            navAgent.ResetPath();
+            navAgent.SetDestination(transform.position);
+            navAgent.speed = 0f;
+        }
+        
         switch (bossType)
         {
             case BossType.DadakMerak:
@@ -542,7 +759,12 @@ public class _Enemy_Boss : MonoBehaviour
                 
             case BossType.Hanoman:
             case BossType.Leak:
-                Debug.Log($"{gameObject.name} (Hanoman): Player caught! You are ded!");
+                Debug.Log($"{gameObject.name} ({bossType}): Player caught! You are ded!");
+                CatchPlayer();
+                break;
+            
+            default:
+                Debug.LogWarning($"{gameObject.name}: Unknown BossType {bossType}! Applying Leak behavior as fallback.");
                 CatchPlayer();
                 break;
         }
@@ -629,6 +851,59 @@ public class _Enemy_Boss : MonoBehaviour
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(lastKnownPlayerPosition, 0.2f);
         }
+    }
+    #endregion
+
+    #region Reset System
+    /// <summary>
+    /// Reset boss to initial/idle state (called on respawn)
+    /// </summary>
+    public void ResetToInitialState()
+    {
+        // Clear all detection and awareness
+        playerCaught = false; // Release hard lock so boss can detect again after reset
+        currentAwareness = 0f;
+        detectedPlayers.Clear();
+        spottedPlayers.Clear();
+        cachedPlayer = null;
+        triggerPlayer = null;
+        caughtPlayerComponent = null;
+        isPlayerVisible = false;
+        lastKnownPlayerPosition = Vector3.zero;
+        searchStateTimer = 0f;
+        searchTargetPlayer = null;
+        
+        // Clear chase waypoints
+        dynamicWaypoints.Clear();
+        currentWaypointIndex = 0;
+        lastSpawnedWaypointPosition = Vector3.zero;
+
+        // Stop current timelines
+        if (deathTimeline != null && deathTimeline.state == PlayState.Playing)
+        {
+            deathTimeline.Stop();
+        }
+        if (patrolTimeline != null && patrolTimeline.state == PlayState.Playing)
+        {
+            patrolTimeline.Stop();
+        }
+
+        // Reset position and rotation
+        transform.position = initialPosition;
+        transform.rotation = initialRotation;
+
+        // Transition back to idle
+        TransitionToState(EnemyState.Idle);
+        
+        // Reset NavMesh agent
+        if (navAgent != null)
+        {
+            navAgent.ResetPath();
+            navAgent.speed = 0f;
+            navAgent.angularSpeed = defaultAngularSpeed;
+        }
+
+        Debug.Log($"[RESET] {gameObject.name} reset to initial state at position {initialPosition}");
     }
     #endregion
 }
