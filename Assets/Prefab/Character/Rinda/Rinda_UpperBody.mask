@@ -11,489 +11,459 @@ AvatarMask:
   m_Elements:
   - m_Path: 
     m_Weight: 1
-  - m_Path: Body
+  - m_Path: Armature
     m_Weight: 1
-  - m_Path: Eyebrows
-    m_Weight: 0
-  - m_Path: Eyelash
-    m_Weight: 0
-  - m_Path: Eyelids
-    m_Weight: 0
-  - m_Path: Iris
-    m_Weight: 0
-  - m_Path: LowerSideHair
-    m_Weight: 0
-  - m_Path: NurbsPath.006
-    m_Weight: 0
-  - m_Path: NurbsPath.014
-    m_Weight: 0
-  - m_Path: NurbsPath.015
-    m_Weight: 0
-  - m_Path: NurbsPath.016
-    m_Weight: 0
-  - m_Path: NurbsPath.018
-    m_Weight: 0
-  - m_Path: PoniLayer1
-    m_Weight: 0
-  - m_Path: PoniLayer2
-    m_Weight: 0
-  - m_Path: Rinda
-    m_Weight: 0
-  - m_Path: Rinda/Bone
-    m_Weight: 0
-  - m_Path: Rinda/Bone/Bone_end
-    m_Weight: 0
-  - m_Path: Rinda/Bone.001
-    m_Weight: 0
-  - m_Path: Rinda/Bone.001/Bone.001_end
-    m_Weight: 0
-  - m_Path: Rinda/Bone.002
-    m_Weight: 0
-  - m_Path: Rinda/Bone.002/Bone.002_end
-    m_Weight: 0
-  - m_Path: Rinda/FK.Leg.L
-    m_Weight: 0
-  - m_Path: Rinda/FK.Leg.L/IK.Foot.L
-    m_Weight: 0
-  - m_Path: Rinda/FK.Leg.L/IK.Foot.L/POLE.Knee.L
-    m_Weight: 0
-  - m_Path: Rinda/FK.Leg.L/IK.Foot.L/POLE.Knee.L/POLE.Knee.L_end
-    m_Weight: 0
-  - m_Path: Rinda/FK.Leg.R
-    m_Weight: 0
-  - m_Path: Rinda/FK.Leg.R/IK.Foot.R
-    m_Weight: 0
-  - m_Path: Rinda/FK.Leg.R/IK.Foot.R/POLE.Knee.R
-    m_Weight: 0
-  - m_Path: Rinda/FK.Leg.R/IK.Foot.R/POLE.Knee.R/POLE.Knee.R_end
-    m_Weight: 0
-  - m_Path: Rinda/POLE.Arm.L
-    m_Weight: 0
-  - m_Path: Rinda/POLE.Arm.L/POLE.Arm.L_end
-    m_Weight: 0
-  - m_Path: Rinda/POLE.Arm.R
-    m_Weight: 0
-  - m_Path: Rinda/POLE.Arm.R/POLE.Arm.R_end
-    m_Weight: 0
-  - m_Path: Rinda/ROOT
-    m_Weight: 0
-  - m_Path: Rinda/ROOT/Upper.ROOT
-    m_Weight: 0
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip
+  - m_Path: Armature/Bone
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine
+  - m_Path: Armature/Bone/Bone_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine
+  - m_Path: Armature/Bone.001
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine
+  - m_Path: Armature/Bone.001/Bone.001_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head
+  - m_Path: Armature/Bone.002
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head
+  - m_Path: Armature/Bone.002/Bone.002_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head
+  - m_Path: Armature/FK.Leg.L
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
+  - m_Path: Armature/FK.Leg.L/IK.Foot.L
+    m_Weight: 1
+  - m_Path: Armature/FK.Leg.L/IK.Foot.L/POLE.Knee.L
+    m_Weight: 1
+  - m_Path: Armature/FK.Leg.L/IK.Foot.L/POLE.Knee.L/POLE.Knee.L_end
+    m_Weight: 1
+  - m_Path: Armature/FK.Leg.R
+    m_Weight: 1
+  - m_Path: Armature/FK.Leg.R/IK.Foot.R
+    m_Weight: 1
+  - m_Path: Armature/FK.Leg.R/IK.Foot.R/POLE.Knee.R
+    m_Weight: 1
+  - m_Path: Armature/FK.Leg.R/IK.Foot.R/POLE.Knee.R/POLE.Knee.R_end
+    m_Weight: 1
+  - m_Path: Armature/POLE.Arm.L
+    m_Weight: 1
+  - m_Path: Armature/POLE.Arm.L/POLE.Arm.L_end
+    m_Weight: 1
+  - m_Path: Armature/POLE.Arm.R
+    m_Weight: 1
+  - m_Path: Armature/POLE.Arm.R/POLE.Arm.R_end
+    m_Weight: 1
+  - m_Path: Armature/ROOT
+    m_Weight: 1
+  - m_Path: Armature/ROOT/Upper.ROOT
+    m_Weight: 1
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip
+    m_Weight: 1
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine
+    m_Weight: 1
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine
+    m_Weight: 1
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine
+    m_Weight: 1
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head
+    m_Weight: 1
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head
+    m_Weight: 1
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head
+    m_Weight: 1
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
       Hair
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
       Hair/Back Hair.001
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
       Hair/Back Hair.001/Back Hair.002
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
       Hair/Back Hair.001/Back Hair.002/Back Hair.003
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
       Hair/Back Hair.001/Back Hair.002/Back Hair.003/Back Hair.003_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
       Hair kanan
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
       Hair kanan/Back Hair kanan.001
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
       Hair kanan/Back Hair kanan.001/Back Hair kanan.002
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
       Hair kanan/Back Hair kanan.001/Back Hair kanan.002/Back Hair kanan.003
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
       Hair kanan/Back Hair kanan.001/Back Hair kanan.002/Back Hair kanan.003/Back
       Hair kanan.003_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
       Hair Kiri
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
       Hair Kiri/Back Hair Kiri.001
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
       Hair Kiri/Back Hair Kiri.001/Back Hair Kiri.002
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
       Hair Kiri/Back Hair Kiri.001/Back Hair Kiri.002/Back Hair Kiri.003
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
       Hair Kiri/Back Hair Kiri.001/Back Hair Kiri.002/Back Hair Kiri.003/Back Hair
       Kiri.003_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
       Hair tengah kanan
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
       Hair tengah kanan/Back Hair tengah kanan.001
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
       Hair tengah kanan/Back Hair tengah kanan.001/Back Hair tengah kanan.002
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
       Hair tengah kanan/Back Hair tengah kanan.001/Back Hair tengah kanan.002/Back
       Hair tengah kanan.003
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
       Hair tengah kanan/Back Hair tengah kanan.001/Back Hair tengah kanan.002/Back
       Hair tengah kanan.003/Back Hair tengah kanan.003_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
       Hair tengah kiri
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
       Hair tengah kiri/Back Hair tengah kiri.001
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
       Hair tengah kiri/Back Hair tengah kiri.001/Back Hair tengah kiri.002
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
       Hair tengah kiri/Back Hair tengah kiri.001/Back Hair tengah kiri.002/Back Hair
       tengah kiri.003
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Back
       Hair tengah kiri/Back Hair tengah kiri.001/Back Hair tengah kiri.002/Back Hair
       tengah kiri.003/Back Hair tengah kiri.003_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Bangs
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Bangs
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Bangs/Bangs.001
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Bangs/Bangs.001
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Bangs/Bangs.001/Bangs.002
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Bangs/Bangs.001/Bangs.002
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Bangs/Bangs.001/Bangs.002/Bangs.003
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Bangs/Bangs.001/Bangs.002/Bangs.003
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Bangs/Bangs.001/Bangs.002/Bangs.003/Bangs.004
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Bangs/Bangs.001/Bangs.002/Bangs.003/Bangs.004
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Bangs/Bangs.001/Bangs.002/Bangs.003/Bangs.004/Bangs.004_end
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Bangs/Bangs.001/Bangs.002/Bangs.003/Bangs.004/Bangs.004_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Bangs
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Bangs
       Sisi.L
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Bangs
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Bangs
       Sisi.L/Bangs Sisi.L.001
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Bangs
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Bangs
       Sisi.L/Bangs Sisi.L.001/Bangs Sisi.L.002
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Bangs
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Bangs
       Sisi.L/Bangs Sisi.L.001/Bangs Sisi.L.002/Bangs Sisi.L.002_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/CON.Eyes
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/CON.Eyes
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/CON.Eyes/CON.Eyes_end
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/CON.Eyes/CON.Eyes_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Eyes.L
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Eyes.L
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Eyes.L/Eyes.L_end
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Eyes.L/Eyes.L_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Eyes.R
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Eyes.R
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Eyes.R/Eyes.R_end
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Eyes.R/Eyes.R_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Rambut
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Rambut
       Pundak
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Rambut
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Rambut
       Pundak/Rambut Pundak.001
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Rambut
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Rambut
       Pundak/Rambut Pundak.001/Rambut Pundak.002
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Rambut
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Rambut
       Pundak/Rambut Pundak.001/Rambut Pundak.002/Rambut Pundak.003
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Rambut
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Rambut
       Pundak/Rambut Pundak.001/Rambut Pundak.002/Rambut Pundak.003/Rambut Pundak.003_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Side
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Side
       Hair
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Side
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Side
       Hair/Side Hair.001
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Side
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Side
       Hair/Side Hair.001/Side Hair.002
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Side
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Side
       Hair/Side Hair.001/Side Hair.002/Side Hair.003
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Side
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Side
       Hair/Side Hair.001/Side Hair.002/Side Hair.003/Side Hair.004
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Side
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Side
       Hair/Side Hair.001/Side Hair.002/Side Hair.003/Side Hair.004/Side Hair.005
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Side
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Side
       Hair/Side Hair.001/Side Hair.002/Side Hair.003/Side Hair.004/Side Hair.005/Side
       Hair.006
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Side
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Side
       Hair/Side Hair.001/Side Hair.002/Side Hair.003/Side Hair.004/Side Hair.005/Side
       Hair.006/Side Hair.007
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Side
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Side
       Hair/Side Hair.001/Side Hair.002/Side Hair.003/Side Hair.004/Side Hair.005/Side
       Hair.006/Side Hair.007/Side Hair.007_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Side
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Side
       Hair Kanan
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Side
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Side
       Hair Kanan/Side Hair Kanan.001
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Side
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Side
       Hair Kanan/Side Hair Kanan.001/Side Hair Kanan.002
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Side
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Side
       Hair Kanan/Side Hair Kanan.001/Side Hair Kanan.002/Side Hair Kanan.003
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Side
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Side
       Hair Kanan/Side Hair Kanan.001/Side Hair Kanan.002/Side Hair Kanan.003/Side
       Hair Kanan.004
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Side
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Side
       Hair Kanan/Side Hair Kanan.001/Side Hair Kanan.002/Side Hair Kanan.003/Side
       Hair Kanan.004/Side Hair Kanan.005
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Side
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Side
       Hair Kanan/Side Hair Kanan.001/Side Hair Kanan.002/Side Hair Kanan.003/Side
       Hair Kanan.004/Side Hair Kanan.005/Side Hair Kanan.005_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Tuing
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Tuing
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Tuing/Tuing.001
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Tuing/Tuing.001
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Tuing/Tuing.001/Tuing.002
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Tuing/Tuing.001/Tuing.002
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Tuing/Tuing.001/Tuing.002/Tuing.002_end
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/Tuing/Tuing.001/Tuing.002/Tuing.002_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/TUING
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/TUING
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/TUING/TUING.001
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/TUING/TUING.001
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/TUING/TUING.001/TUING.002
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/TUING/TUING.001/TUING.002
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/TUING/TUING.001/TUING.002/TUING.002_end
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Fk.Head/IK.Head/Head/TUING/TUING.001/TUING.002/TUING.002_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Neck
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Neck
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Neck/Neck_end
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Neck/Neck_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/CON.Index.L
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/CON.Index.L
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/CON.Index.L/CON.Index.L_end
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/CON.Index.L/CON.Index.L_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/CON.Little.R
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/CON.Little.R
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/CON.Little.R/CON.Little.R_end
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/CON.Little.R/CON.Little.R_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/CON.Middle.R
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/CON.Middle.R
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/CON.Middle.R/CON.Middle.R_end
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/CON.Middle.R/CON.Middle.R_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/CON.Ring.R
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/CON.Ring.R
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/CON.Ring.R/CON.Ring.R_end
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/CON.Ring.R/CON.Ring.R_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/CON.Thumb.R
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/CON.Thumb.R
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/CON.Thumb.R/CON.Thumb.R_end
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/CON.Thumb.R/CON.Thumb.R_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Index.Proximal.R
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Index.Proximal.R
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Index.Proximal.R/Index.Intermediate.R
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Index.Proximal.R/Index.Intermediate.R
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Index.Proximal.R/Index.Intermediate.R/Index.Distal.R
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Index.Proximal.R/Index.Intermediate.R/Index.Distal.R
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Index.Proximal.R/Index.Intermediate.R/Index.Distal.R/Index.Distal.R_end
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Index.Proximal.R/Index.Intermediate.R/Index.Distal.R/Index.Distal.R_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Little.Proximal.R
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Little.Proximal.R
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Little.Proximal.R/Little.Intermediate.R
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Little.Proximal.R/Little.Intermediate.R
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Little.Proximal.R/Little.Intermediate.R/Little.Distal.R
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Little.Proximal.R/Little.Intermediate.R/Little.Distal.R
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Little.Proximal.R/Little.Intermediate.R/Little.Distal.R/Little.Distal.R_end
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Little.Proximal.R/Little.Intermediate.R/Little.Distal.R/Little.Distal.R_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Middle.Proximal.R
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Middle.Proximal.R
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Middle.Proximal.R/Middle.Intermediate.R
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Middle.Proximal.R/Middle.Intermediate.R
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Middle.Proximal.R/Middle.Intermediate.R/Middle.Distal.R
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Middle.Proximal.R/Middle.Intermediate.R/Middle.Distal.R
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Middle.Proximal.R/Middle.Intermediate.R/Middle.Distal.R/Middle.Distal.R_end
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Middle.Proximal.R/Middle.Intermediate.R/Middle.Distal.R/Middle.Distal.R_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Ring.Proximal.R
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Ring.Proximal.R
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Ring.Proximal.R/Ring.Intermediate.R
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Ring.Proximal.R/Ring.Intermediate.R
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Ring.Proximal.R/Ring.Intermediate.R/Ring.Distal.R
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Ring.Proximal.R/Ring.Intermediate.R/Ring.Distal.R
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Ring.Proximal.R/Ring.Intermediate.R/Ring.Distal.R/Ring.Distal.R_end
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Ring.Proximal.R/Ring.Intermediate.R/Ring.Distal.R/Ring.Distal.R_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Thumb.Proximal.R
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Thumb.Proximal.R
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Thumb.Proximal.R/Thumb.Intermediate.R
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Thumb.Proximal.R/Thumb.Intermediate.R
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Thumb.Proximal.R/Thumb.Intermediate.R/Thumb.Distal.R
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Thumb.Proximal.R/Thumb.Intermediate.R/Thumb.Distal.R
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Thumb.Proximal.R/Thumb.Intermediate.R/Thumb.Distal.R/Thumb.Distal.R_end
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/Arm.R/Arm.001.R/Hand.R/Thumb.Proximal.R/Thumb.Intermediate.R/Thumb.Distal.R/Thumb.Distal.R_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/IK.Hand.R
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/IK.Hand.R
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/IK.Hand.R/IK.Hand.R_end
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.L/FK.Arm.R/IK.Hand.R/IK.Hand.R_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/CON.Index.L.001
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/CON.Index.L.001
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/CON.Index.L.001/CON.Index.L.001_end
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/CON.Index.L.001/CON.Index.L.001_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/CON.Little.L
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/CON.Little.L
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/CON.Little.L/CON.Little.L_end
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/CON.Little.L/CON.Little.L_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/CON.Middle.L
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/CON.Middle.L
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/CON.Middle.L/CON.Middle.L_end
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/CON.Middle.L/CON.Middle.L_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/CON.Ring.L
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/CON.Ring.L
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/CON.Ring.L/CON.Ring.L_end
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/CON.Ring.L/CON.Ring.L_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/CON.Thumb.L
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/CON.Thumb.L
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/CON.Thumb.L/CON.Thumb.L_end
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/CON.Thumb.L/CON.Thumb.L_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Index.Proximal.L
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Index.Proximal.L
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Index.Proximal.L/Index.Intermediate.L
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Index.Proximal.L/Index.Intermediate.L
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Index.Proximal.L/Index.Intermediate.L/Index.Distal.L
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Index.Proximal.L/Index.Intermediate.L/Index.Distal.L
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Index.Proximal.L/Index.Intermediate.L/Index.Distal.L/Index.Distal.L_end
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Index.Proximal.L/Index.Intermediate.L/Index.Distal.L/Index.Distal.L_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Little.Proximal.L
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Little.Proximal.L
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Little.Proximal.L/Little.Intermediate.L
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Little.Proximal.L/Little.Intermediate.L
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Little.Proximal.L/Little.Intermediate.L/Little.Distal.L
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Little.Proximal.L/Little.Intermediate.L/Little.Distal.L
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Little.Proximal.L/Little.Intermediate.L/Little.Distal.L/Little.Distal.L_end
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Little.Proximal.L/Little.Intermediate.L/Little.Distal.L/Little.Distal.L_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Middle.Proximal.L
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Middle.Proximal.L
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Middle.Proximal.L/Middle.Intermediate.L
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Middle.Proximal.L/Middle.Intermediate.L
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Middle.Proximal.L/Middle.Intermediate.L/Middle.Distal.L
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Middle.Proximal.L/Middle.Intermediate.L/Middle.Distal.L
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Middle.Proximal.L/Middle.Intermediate.L/Middle.Distal.L/Middle.Distal.L_end
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Middle.Proximal.L/Middle.Intermediate.L/Middle.Distal.L/Middle.Distal.L_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Ring.Proximal.L
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Ring.Proximal.L
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Ring.Proximal.L/Ring.Intermediate.L
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Ring.Proximal.L/Ring.Intermediate.L
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Ring.Proximal.L/Ring.Intermediate.L/Ring.Distal.L
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Ring.Proximal.L/Ring.Intermediate.L/Ring.Distal.L
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Ring.Proximal.L/Ring.Intermediate.L/Ring.Distal.L/Ring.Distal.L_end
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Ring.Proximal.L/Ring.Intermediate.L/Ring.Distal.L/Ring.Distal.L_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Thumb.Proximal.L
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Thumb.Proximal.L
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Thumb.Proximal.L/Thumb.Intermediate.L
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Thumb.Proximal.L/Thumb.Intermediate.L
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Thumb.Proximal.L/Thumb.Intermediate.L/Thumb.Distal.L
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Thumb.Proximal.L/Thumb.Intermediate.L/Thumb.Distal.L
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Thumb.Proximal.L/Thumb.Intermediate.L/Thumb.Distal.L/Thumb.Distal.L_end
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/Arm.L/Arm.001.L/Hand.L/Thumb.Proximal.L/Thumb.Intermediate.L/Thumb.Distal.L/Thumb.Distal.L_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/IK.Hand.L
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/IK.Hand.L
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/IK.Hand.L/IK.Hand.L_end
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Fk.Spine/IK.Spine/Upper.Spine/Shoulder.R/FK.Arm.L/IK.Hand.L/IK.Hand.L_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Spine
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Spine
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Spine/Spine_end
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Spine/Spine_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Waist.L
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Waist.L
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Waist.L/Waist.L_end
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Waist.L/Waist.L_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Waist.R
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Waist.R
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Hip/Waist.R/Waist.R_end
+  - m_Path: Armature/ROOT/Upper.ROOT/Hip/Waist.R/Waist.R_end
     m_Weight: 1
-  - m_Path: Rinda/ROOT/Upper.ROOT/Upper.Leg.L
-    m_Weight: 0
-  - m_Path: Rinda/ROOT/Upper.ROOT/Upper.Leg.L/Leg.L
-    m_Weight: 0
-  - m_Path: Rinda/ROOT/Upper.ROOT/Upper.Leg.L/Leg.L/Foot.L
-    m_Weight: 0
-  - m_Path: Rinda/ROOT/Upper.ROOT/Upper.Leg.L/Leg.L/Foot.L/FK.Toe.L
-    m_Weight: 0
-  - m_Path: Rinda/ROOT/Upper.ROOT/Upper.Leg.L/Leg.L/Foot.L/FK.Toe.L/Toe.L
-    m_Weight: 0
-  - m_Path: Rinda/ROOT/Upper.ROOT/Upper.Leg.L/Leg.L/Foot.L/FK.Toe.L/Toe.L/Toe.L_end
-    m_Weight: 0
-  - m_Path: Rinda/ROOT/Upper.ROOT/Upper.Leg.R
-    m_Weight: 0
-  - m_Path: Rinda/ROOT/Upper.ROOT/Upper.Leg.R/Leg.R
-    m_Weight: 0
-  - m_Path: Rinda/ROOT/Upper.ROOT/Upper.Leg.R/Leg.R/Foot.R
-    m_Weight: 0
-  - m_Path: Rinda/ROOT/Upper.ROOT/Upper.Leg.R/Leg.R/Foot.R/FK.Toe.R
-    m_Weight: 0
-  - m_Path: Rinda/ROOT/Upper.ROOT/Upper.Leg.R/Leg.R/Foot.R/FK.Toe.R/Toe.R
-    m_Weight: 0
-  - m_Path: Rinda/ROOT/Upper.ROOT/Upper.Leg.R/Leg.R/Foot.R/FK.Toe.R/Toe.R/Toe.R_end
-    m_Weight: 0
-  - m_Path: SideBangs.L
-    m_Weight: 0
-  - m_Path: SideBangs.R
-    m_Weight: 0
-  - m_Path: SideHairLayer1
-    m_Weight: 0
-  - m_Path: SideHairLayer2.L
-    m_Weight: 0
-  - m_Path: SideHairLayer2.R
-    m_Weight: 0
-  - m_Path: TuingTuing
-    m_Weight: 0
-  - m_Path: UpperHair
-    m_Weight: 0
+  - m_Path: Armature/ROOT/Upper.ROOT/Upper.Leg.L
+    m_Weight: 1
+  - m_Path: Armature/ROOT/Upper.ROOT/Upper.Leg.L/Leg.L
+    m_Weight: 1
+  - m_Path: Armature/ROOT/Upper.ROOT/Upper.Leg.L/Leg.L/Foot.L
+    m_Weight: 1
+  - m_Path: Armature/ROOT/Upper.ROOT/Upper.Leg.L/Leg.L/Foot.L/FK.Toe.L
+    m_Weight: 1
+  - m_Path: Armature/ROOT/Upper.ROOT/Upper.Leg.L/Leg.L/Foot.L/FK.Toe.L/Toe.L
+    m_Weight: 1
+  - m_Path: Armature/ROOT/Upper.ROOT/Upper.Leg.L/Leg.L/Foot.L/FK.Toe.L/Toe.L/Toe.L_end
+    m_Weight: 1
+  - m_Path: Armature/ROOT/Upper.ROOT/Upper.Leg.R
+    m_Weight: 1
+  - m_Path: Armature/ROOT/Upper.ROOT/Upper.Leg.R/Leg.R
+    m_Weight: 1
+  - m_Path: Armature/ROOT/Upper.ROOT/Upper.Leg.R/Leg.R/Foot.R
+    m_Weight: 1
+  - m_Path: Armature/ROOT/Upper.ROOT/Upper.Leg.R/Leg.R/Foot.R/FK.Toe.R
+    m_Weight: 1
+  - m_Path: Armature/ROOT/Upper.ROOT/Upper.Leg.R/Leg.R/Foot.R/FK.Toe.R/Toe.R
+    m_Weight: 1
+  - m_Path: Armature/ROOT/Upper.ROOT/Upper.Leg.R/Leg.R/Foot.R/FK.Toe.R/Toe.R/Toe.R_end
+    m_Weight: 1
+  - m_Path: Body
+    m_Weight: 1
+  - m_Path: Eyebrows
+    m_Weight: 1
+  - m_Path: Eyelash
+    m_Weight: 1
+  - m_Path: Eyelids
+    m_Weight: 1
+  - m_Path: Iris
+    m_Weight: 1

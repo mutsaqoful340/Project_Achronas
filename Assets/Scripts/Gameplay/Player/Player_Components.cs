@@ -92,6 +92,7 @@ public class Player_Components : Sys_GameplayBehaviour
     private float lastRotationDelta = 0f;
     private bool strafeTriggered = false;
     private bool isStrafeDetectionPaused = false;
+    private bool jumpRequested = false;
     #endregion
 
     #region Public Properties
@@ -478,12 +479,18 @@ public class Player_Components : Sys_GameplayBehaviour
 
     public void HandleJump()
     {
+        if (!jumpRequested)
+        {
+            return;
+        }
+
         if (isGrounded && !IsCrouching && (currentActionState != ActionState.Stumble) && (currentActionState != ActionState.Depressed) && (currentActionState != ActionState.Dead) && !isStumbling)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             animator.SetTrigger("DoJump");
             Debug.Log("Jump executed.");
             currentActionState = ActionState.Jump;
+            jumpRequested = false;
         }
         else
         {
@@ -753,7 +760,8 @@ public class Player_Components : Sys_GameplayBehaviour
                 Debug.Log("Crouch Action Triggered");
                 break;
             case ActionState.Jump:
-                HandleJump();
+                jumpRequested = true;
+                animator.SetTrigger("DoJump");
                 Debug.Log("Jump Action Triggered");
                 break;
             case ActionState.Interact:

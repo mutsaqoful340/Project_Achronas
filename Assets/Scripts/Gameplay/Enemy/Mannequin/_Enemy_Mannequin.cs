@@ -66,11 +66,16 @@ public class _Enemy_Mannequin : MonoBehaviour
     [SerializeField] private float investigationDuration = 5f; // How long to search before giving up
     
     [Header("Chase Settings")]
+    [Tooltip("How fast enemy moves when chasing the player")]
+    [SerializeField] private float chaseSpeed = 5f;
     [Tooltip("How fast enemy rotates when chasing player (degrees per second)")]
     [SerializeField] private float chaseRotationSpeed = 360f;
     
     [Header("Light Reaction")]
     public UnityEvent onLitByPlayerLight;
+
+    [Header("On Aggravated Caught")]
+    public UnityEvent onAggravatedCaught;
 
     // State management
     private EnemyState currentState = EnemyState.Patrol;
@@ -86,10 +91,16 @@ public class _Enemy_Mannequin : MonoBehaviour
     // Detection variables
     private List<GameObject> detectedPlayers = new List<GameObject>();
     private GameObject cachedPlayer;
+    [SerializeField] private GameObject caughtPlayer;
     private float nextDetectionTime;
     private bool isPlayerVisible = false;
     private Vector3 lastKnownPlayerPosition;
     private bool hasSetInvestigationDestination = false;
+    private bool aggravatedChaseLock = false;
+
+    // Shared catch lock: once one mannequin catches a player, all mannequins stop chasing.
+    private static bool anyMannequinHasCaughtPlayer = false;
+    private static _Enemy_Mannequin mannequinThatCaughtPlayer = null;
     
     // Chase variables
     private float defaultAngularSpeed;
@@ -148,6 +159,12 @@ public class _Enemy_Mannequin : MonoBehaviour
 
     private void Update()
     {
+        if (anyMannequinHasCaughtPlayer)
+        {
+            StopMovement();
+            return;
+        }
+
         // OPTIMIZATION: Check for player at intervals (more frequently during chase)
         float currentInterval = currentState == EnemyState.Chase ? 0.05f : detectionInterval;
         
@@ -221,10 +238,25 @@ public class _Enemy_Mannequin : MonoBehaviour
 
     private void HandleChase()
     {
+        // Apply inspector-configured chase speed while pursuing the player
+        if (navAgent.speed != chaseSpeed)
+        {
+            navAgent.speed = chaseSpeed;
+        }
+
         // Set chase rotation speed
         if (navAgent.angularSpeed != chaseRotationSpeed)
         {
             navAgent.angularSpeed = chaseRotationSpeed;
+        }
+
+        // Aggravated enemies stay locked onto their target even if LOS is broken
+        if (aggravatedChaseLock && cachedPlayer != null)
+        {
+            navAgent.SetDestination(cachedPlayer.transform.position);
+            lastKnownPlayerPosition = cachedPlayer.transform.position;
+            isPlayerVisible = true;
+            return;
         }
         
         // Chase the player while they're visible
@@ -236,6 +268,11 @@ public class _Enemy_Mannequin : MonoBehaviour
         }
         else
         {
+            if (aggravatedChaseLock)
+            {
+                return;
+            }
+
             // Lost sight of player - transition to Investigate
             Debug.Log($"{gameObject.name}: Lost sight of player. Investigating last known position...");
             navAgent.angularSpeed = defaultAngularSpeed; // Restore default rotation speed
@@ -296,6 +333,112 @@ public class _Enemy_Mannequin : MonoBehaviour
                 }
             }
         }
+    }
+    #endregion
+
+    #region Catch Methods
+    private void StopMovement()
+    {
+        if (navAgent == null || !navAgent.isOnNavMesh)
+            return;
+
+        navAgent.ResetPath();
+        navAgent.speed = 0f;
+        navAgent.angularSpeed = defaultAngularSpeed;
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        TryCatchPlayerFromTrigger(other);
+    }
+
+    public void OnTriggerStay(Collider other)
+    {
+        TryCatchPlayerFromTrigger(other);
+    }
+
+    public void InvokeOnAggravatedCaught()
+    {
+        onAggravatedCaught?.Invoke();
+    }
+
+    /// <summary>
+    /// Stops the mannequin from chasing without performing a full reset.
+    /// </summary>
+    public void StopChasing()
+    {
+        aggravatedChaseLock = false;
+        hasSetInvestigationDestination = false;
+        isPlayerVisible = false;
+        currentAwareness = 0f;
+        cachedPlayer = null;
+
+        StopMovement();
+
+        if (patrolWaypoints != null && patrolWaypoints.Length > 0)
+        {
+            currentState = EnemyState.Patrol;
+            MoveToCurrentWaypoint();
+        }
+        else
+        {
+            currentState = EnemyState.Idle;
+        }
+
+        Debug.Log($"{gameObject.name}: StopChasing() called. Chase cancelled.");
+    }
+
+    private void TryCatchPlayerFromTrigger(Collider other)
+    {
+        if (anyMannequinHasCaughtPlayer)
+            return;
+
+        Player_Components playerComponents = other.GetComponentInParent<Player_Components>();
+        if (playerComponents == null && other.attachedRigidbody != null)
+        {
+            playerComponents = other.attachedRigidbody.GetComponent<Player_Components>();
+        }
+
+        if (playerComponents == null)
+            return;
+
+        if (currentState != EnemyState.Chase)
+            return;
+
+        HandleAggravatedCaught(playerComponents.gameObject);
+    }
+
+    private void HandleAggravatedCaught(GameObject playerObject)
+    {
+        if (anyMannequinHasCaughtPlayer)
+            return;
+
+        anyMannequinHasCaughtPlayer = true;
+        mannequinThatCaughtPlayer = this;
+
+        cachedPlayer = playerObject;
+        caughtPlayer = playerObject;
+        lastKnownPlayerPosition = playerObject.transform.position;
+        isPlayerVisible = false;
+        hasSetInvestigationDestination = false;
+        aggravatedChaseLock = false;
+        currentAwareness = 0f;
+        currentState = EnemyState.Idle;
+
+        Player_Components playerComponents = playerObject.GetComponent<Player_Components>();
+        if (playerComponents != null)
+        {
+            playerComponents.HandleDead();
+        }
+        else
+        {
+            Debug.LogWarning($"{gameObject.name}: Caught player {playerObject.name} does not have Player_Components.");
+        }
+
+        StopMovement();
+        InvokeOnAggravatedCaught();
+
+        Debug.Log($"{gameObject.name} ({enemyType}): Caught {playerObject.name}. All mannequins will stop chasing.");
     }
     #endregion
 
@@ -522,6 +665,29 @@ public class _Enemy_Mannequin : MonoBehaviour
                 break;
         }                
     }
+
+    public void OnAggravated()
+    {
+        // Find all players in scene
+        GameObject[] allPlayers = GameObject.FindGameObjectsWithTag("Player");
+        
+        if (allPlayers.Length == 0)
+        {
+            Debug.LogWarning($"{gameObject.name}: OnAggravated() called but no player found in scene!");
+            return;
+        }
+        
+        // Cache the first player found
+        cachedPlayer = allPlayers[0];
+        lastKnownPlayerPosition = cachedPlayer.transform.position;
+        aggravatedChaseLock = true;
+        isPlayerVisible = true;
+        
+        // Force transition to Chase state immediately
+        currentState = EnemyState.Chase;
+        
+        Debug.Log($"{gameObject.name} ({enemyType}): Aggravated! Immediately chasing {cachedPlayer.name}!");
+    }
     #endregion
 
     #region Gizmos
@@ -566,10 +732,12 @@ public class _Enemy_Mannequin : MonoBehaviour
         currentAwareness = 0f;
         detectedPlayers.Clear();
         cachedPlayer = null;
+        caughtPlayer = null;
         isPlayerVisible = false;
         lastKnownPlayerPosition = Vector3.zero;
         investigateTimer = 0f;
         hasSetInvestigationDestination = false;
+        aggravatedChaseLock = false;
 
         // Reset position and rotation
         transform.position = initialPosition;
@@ -581,6 +749,12 @@ public class _Enemy_Mannequin : MonoBehaviour
             navAgent.ResetPath();
             navAgent.speed = 0f;
             navAgent.angularSpeed = defaultAngularSpeed;
+        }
+
+        if (mannequinThatCaughtPlayer == this)
+        {
+            anyMannequinHasCaughtPlayer = false;
+            mannequinThatCaughtPlayer = null;
         }
 
         // Return to initial state
