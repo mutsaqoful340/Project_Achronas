@@ -60,6 +60,13 @@ public class MapInputHandler : MonoBehaviour
         HandleGamepad();
     }
 
+    // Dipanggil dari OnClick() Button UI
+    public void OnClickToggleMapButton()
+    {
+        if (mapController == null) return;
+        mapController.ToggleMap();
+    }
+
     void HandleToggleAndFocus()
     {
         // Keyboard
