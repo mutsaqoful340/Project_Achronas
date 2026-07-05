@@ -3,7 +3,7 @@ using UnityEngine;
 public class GP_CtsParentTransition : MonoBehaviour
 {
     private Vector3 positionVelocity = Vector3.zero;
-    private GameObject oldParent;
+    // private GameObject oldParent;
     [SerializeField]
     private float smoothTime = 0.1f;
     private float transitionThreshold = 0.001f;
@@ -14,7 +14,7 @@ public class GP_CtsParentTransition : MonoBehaviour
     public void OnTransition(GameObject child)
     {
         currentChild = child.transform;
-        oldParent = currentChild.parent.gameObject;
+        // oldParent = currentChild.parent.gameObject;
         currentChild.SetParent(transform);
         isTransitioning = true;
         positionVelocity = Vector3.zero;
@@ -46,14 +46,14 @@ public class GP_CtsParentTransition : MonoBehaviour
 
     public void ReparentToOldParent()
     {
-        if (currentChild == null || oldParent == null) return;
+        // if (currentChild == null || oldParent == null) return;
 
         // Store world position/rotation before reparenting
         Vector3 worldPos = currentChild.position;
         Quaternion worldRot = currentChild.rotation;
         
         // Reparent to old parent
-        currentChild.SetParent(oldParent.transform);
+        // currentChild.SetParent(oldParent.transform);
         
         // Restore world position/rotation
         currentChild.position = worldPos;

@@ -3,7 +3,47 @@ guid: 3961c9e991579e244bd83ecc03af3859
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Box_Glass
+    second: {fileID: 2100000, guid: a7cf6849c93a9c749838be756149a72a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Box_Glass.001
+    second: {fileID: 2100000, guid: f9d4ca745aeb69d43ab5ce6f3e3bbd29, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Box_cell
+    second: {fileID: 2100000, guid: 185e93539580cef498086932b9412e8b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Box_cell.001
+    second: {fileID: 2100000, guid: 60533c5f8f6bd6846a5cf4f01e1a1c05, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Box_cell.002
+    second: {fileID: 2100000, guid: 69ee1c7365c61b6438250bf3cc6d86de, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Box_cell.003
+    second: {fileID: 2100000, guid: bd683558f5805474db491847980c42f3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Box_cell.004
+    second: {fileID: 2100000, guid: f821c6af7fb7a09458b351a91253672d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Box_cell.005
+    second: {fileID: 2100000, guid: eacf1b30f1f1a4b479febd369b58d262, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -33,7 +73,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 0.7
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -91,7 +131,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 1
+    globalScale: 0.0069999998
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

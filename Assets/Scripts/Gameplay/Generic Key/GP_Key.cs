@@ -11,4 +11,10 @@ public class GP_Key : MonoBehaviour
         isCollected = true;
         gameObject.SetActive(false);
     }
+
+    public void OnReset()
+    {
+        isCollected = false;
+        gameObject.SetActive(true);
+    }
 }
