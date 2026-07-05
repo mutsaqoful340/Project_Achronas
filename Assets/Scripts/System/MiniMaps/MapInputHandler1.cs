@@ -1,11 +1,17 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class MapInputHandler : MonoBehaviour
 {
     [Header("References")]
     public MapController mapController;
-    public MenuSelector menuSelector;       // ← assign di Inspector
+    public MenuSelector menuSelector;
+    public SlotSelector slotSelector;
+
+    [Header("Map UI")]
+    public Button mapBackButton;
 
     [Header("Sensitivities - Keyboard/Mouse")]
     public float panKeySensitivity = 1f;
@@ -21,13 +27,13 @@ public class MapInputHandler : MonoBehaviour
     public float gamepadZoomSensitivity = 1f;
     public float stickDeadzone = 0.15f;
 
-    public SlotSelector slotSelector;
-
     private Vector3 _lastMousePos;
     private bool _isPanDragging;
     private bool _isPitchDragging;
 
-    // Cek apakah sedang di UI menu (bukan gameplay)
+    private bool _canSelectMapUI = true;
+    private float _uiSelectCooldown = 0f;
+
     bool IsInMenu()
     {
         if (menuSelector == null) return false;
@@ -45,22 +51,35 @@ public class MapInputHandler : MonoBehaviour
 
     void Update()
     {
-        if (mapController == null) return;
+        // Kalau map belum aktif, jangan proses input map sama sekali
+        if (!mapController.isOpen || !mapController.mapUIRoot.activeSelf)
+            return;
 
+        UpdateUICooldown();
         HandleToggleAndFocus();
-
-        if (!mapController.isOpen) return;
 
         HandleKeyboardPan();
         HandleMiddleMousePan();
         HandleRightMousePitch();
         HandleRotate();
         HandleZoom();
-
         HandleGamepad();
     }
 
-    // Dipanggil dari OnClick() Button UI
+    void UpdateUICooldown()
+    {
+        if (_uiSelectCooldown > 0f)
+        {
+            _uiSelectCooldown -= Time.unscaledDeltaTime;
+
+            if (_uiSelectCooldown <= 0f)
+            {
+                _uiSelectCooldown = 0f;
+                _canSelectMapUI = true;
+            }
+        }
+    }
+
     public void OnClickToggleMapButton()
     {
         if (mapController == null) return;
@@ -69,22 +88,28 @@ public class MapInputHandler : MonoBehaviour
 
     void HandleToggleAndFocus()
     {
-        // Keyboard
         if (Keyboard.current != null)
         {
             if (Keyboard.current.mKey.wasPressedThisFrame ||
                 Keyboard.current.tabKey.wasPressedThisFrame)
                 mapController.ToggleMap();
+
             if (Keyboard.current.fKey.wasPressedThisFrame)
                 mapController.FocusOnPlayer();
         }
-        // Gamepad — hanya aktif kalau tidak sedang di menu
+
         Gamepad gp = Gamepad.current;
+
         if (gp != null && !IsInMenu())
         {
-            if (slotSelector != null && slotSelector.gameObject.activeInHierarchy && slotSelector.isFromPauseMenu) return;
+            if (slotSelector != null &&
+                slotSelector.gameObject.activeInHierarchy &&
+                slotSelector.isFromPauseMenu)
+                return;
+
             if (gp.dpad.up.wasPressedThisFrame)
                 mapController.ToggleMap();
+
             if (gp.buttonNorth.wasPressedThisFrame)
                 mapController.FocusOnPlayer();
         }
@@ -94,6 +119,7 @@ public class MapInputHandler : MonoBehaviour
     {
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
+
         if (h != 0f || v != 0f)
             mapController.ApplyPan(new Vector2(h, v) * panKeySensitivity);
     }
@@ -105,12 +131,18 @@ public class MapInputHandler : MonoBehaviour
             _isPanDragging = true;
             _lastMousePos = Input.mousePosition;
         }
-        if (Input.GetMouseButtonUp(2)) _isPanDragging = false;
+
+        if (Input.GetMouseButtonUp(2))
+            _isPanDragging = false;
 
         if (_isPanDragging)
         {
             Vector3 delta = Input.mousePosition - _lastMousePos;
-            mapController.ApplyPan(new Vector2(-delta.x, -delta.y) * panDragSensitivity);
+
+            mapController.ApplyPan(
+                new Vector2(-delta.x, -delta.y) * panDragSensitivity
+            );
+
             _lastMousePos = Input.mousePosition;
         }
     }
@@ -122,12 +154,16 @@ public class MapInputHandler : MonoBehaviour
             _isPitchDragging = true;
             _lastMousePos = Input.mousePosition;
         }
-        if (Input.GetMouseButtonUp(1)) _isPitchDragging = false;
+
+        if (Input.GetMouseButtonUp(1))
+            _isPitchDragging = false;
 
         if (_isPitchDragging)
         {
             float dy = Input.mousePosition.y - _lastMousePos.y;
+
             mapController.ApplyPitch(dy * pitchDragSensitivity);
+
             _lastMousePos = Input.mousePosition;
         }
     }
@@ -135,8 +171,10 @@ public class MapInputHandler : MonoBehaviour
     void HandleRotate()
     {
         float input = 0f;
+
         if (Input.GetKey(KeyCode.Q)) input = -1f;
         if (Input.GetKey(KeyCode.E)) input = 1f;
+
         if (input != 0f)
             mapController.ApplyRotate(input * rotateSensitivity);
     }
@@ -144,28 +182,82 @@ public class MapInputHandler : MonoBehaviour
     void HandleZoom()
     {
         float scroll = Input.GetAxis("Mouse ScrollWheel");
+
         if (Mathf.Abs(scroll) > 0.001f)
             mapController.ApplyZoom(scroll * scrollSensitivity);
     }
 
     void HandleGamepad()
     {
+
+        if (!mapController.isOpen)
+            return;
         Gamepad gp = Gamepad.current;
         if (gp == null) return;
 
+        // D-pad Down = masuk mode UI (select button Back)
+        if (gp.dpad.down.wasPressedThisFrame &&
+            mapBackButton != null &&
+            _canSelectMapUI)
+        {
+            EnterMapUIFocus();
+            return;
+        }
+
+        // Mode UI aktif
+        if (mapController.isUIFocus)
+        {
+            // B = keluar UI focus
+            if (gp.buttonEast.wasPressedThisFrame)
+            {
+                ExitMapUIFocus();
+            }
+
+            return;
+        }
+
+        // Map controls
         Vector2 left = gp.leftStick.ReadValue();
+
         if (left.magnitude > stickDeadzone)
             mapController.ApplyPan(left * gamepadPanSensitivity);
 
         Vector2 right = gp.rightStick.ReadValue();
+
         if (Mathf.Abs(right.x) > stickDeadzone)
             mapController.ApplyRotate(right.x * gamepadRotateSensitivity);
 
         if (Mathf.Abs(right.y) > stickDeadzone)
             mapController.ApplyPitch(right.y * gamepadPitchSensitivity);
 
-        float zoomInput = gp.rightTrigger.ReadValue() - gp.leftTrigger.ReadValue();
+        float zoomInput =
+            gp.rightTrigger.ReadValue() - gp.leftTrigger.ReadValue();
+
         if (Mathf.Abs(zoomInput) > 0.01f)
             mapController.ApplyZoom(zoomInput * gamepadZoomSensitivity);
+    }
+
+    void EnterMapUIFocus()
+    {
+        mapController.isUIFocus = true;
+
+        EventSystem.current.SetSelectedGameObject(null);
+
+        ExecuteEvents.Execute(
+            mapBackButton.gameObject,
+            new BaseEventData(EventSystem.current),
+            ExecuteEvents.selectHandler
+        );
+
+        EventSystem.current.SetSelectedGameObject(mapBackButton.gameObject);
+
+        _canSelectMapUI = false;
+        _uiSelectCooldown = 0.2f;
+    }
+
+    void ExitMapUIFocus()
+    {
+        mapController.isUIFocus = false;
+        EventSystem.current.SetSelectedGameObject(null);
     }
 }

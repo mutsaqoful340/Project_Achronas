@@ -40,6 +40,7 @@ public class MapController : MonoBehaviour
     public bool pauseGameWhenOpen = true;
 
     [HideInInspector] public bool isOpen = false;
+    [HideInInspector] public bool isUIFocus = false;
 
     private Vector3 _targetLookAt;
     private float _targetYaw;
@@ -59,10 +60,13 @@ public class MapController : MonoBehaviour
 
         _targetLookAt = playerTransform ? playerTransform.position : Vector3.zero;
         _currentLookAt = _targetLookAt;
+
         _targetYaw = 0f;
         _currentYaw = 0f;
+
         _targetPitch = defaultPitch;
         _currentPitch = defaultPitch;
+
         _targetZoom = defaultZoom;
         _currentZoom = defaultZoom;
 
@@ -101,15 +105,28 @@ public class MapController : MonoBehaviour
     public void ApplyPan(Vector2 input)
     {
         if (input.sqrMagnitude < 0.01f) return;
+
         float yawRad = _currentYaw * Mathf.Deg2Rad;
+
         Vector3 right = new Vector3(Mathf.Cos(yawRad), 0, -Mathf.Sin(yawRad));
         Vector3 forward = new Vector3(Mathf.Sin(yawRad), 0, Mathf.Cos(yawRad));
-        float speedMod = _currentZoom / defaultZoom;
-        _targetLookAt += (right * input.x + forward * input.y)
-                          * panSpeed * speedMod * Time.unscaledDeltaTime;
 
-        _targetLookAt.x = Mathf.Clamp(_targetLookAt.x, mapCenter.x - panLimit.x, mapCenter.x + panLimit.x);
-        _targetLookAt.z = Mathf.Clamp(_targetLookAt.z, mapCenter.z - panLimit.y, mapCenter.z + panLimit.y);
+        float speedMod = _currentZoom / defaultZoom;
+
+        _targetLookAt += (right * input.x + forward * input.y)
+                         * panSpeed * speedMod * Time.unscaledDeltaTime;
+
+        _targetLookAt.x = Mathf.Clamp(
+            _targetLookAt.x,
+            mapCenter.x - panLimit.x,
+            mapCenter.x + panLimit.x
+        );
+
+        _targetLookAt.z = Mathf.Clamp(
+            _targetLookAt.z,
+            mapCenter.z - panLimit.y,
+            mapCenter.z + panLimit.y
+        );
 
         _isFocused = false;
     }
@@ -123,19 +140,27 @@ public class MapController : MonoBehaviour
     {
         _targetPitch = Mathf.Clamp(
             _targetPitch + input * pitchSpeed * Time.unscaledDeltaTime,
-            minPitch, maxPitch);
+            minPitch,
+            maxPitch
+        );
     }
 
     public void ApplyZoom(float input)
     {
-        _targetZoom = Mathf.Clamp(_targetZoom - input * zoomSpeed, minZoom, maxZoom);
+        _targetZoom = Mathf.Clamp(
+            _targetZoom - input * zoomSpeed,
+            minZoom,
+            maxZoom
+        );
     }
 
     public void FocusOnPlayer()
     {
         _isFocused = true;
+
         _targetPitch = defaultPitch;
         _targetZoom = defaultZoom;
+
         if (playerTransform != null)
         {
             _targetLookAt = playerTransform.position;
@@ -146,17 +171,37 @@ public class MapController : MonoBehaviour
     public void ToggleMap()
     {
         isOpen = !isOpen;
+
         if (mapUIRoot) mapUIRoot.SetActive(isOpen);
         if (mapCamera) mapCamera.gameObject.SetActive(isOpen);
 
         if (isOpen)
         {
+            isUIFocus = false;
             FocusOnPlayer();
-            if (pauseGameWhenOpen) Time.timeScale = 0f;
+
+            if (pauseGameWhenOpen)
+                Time.timeScale = 0f;
         }
         else
         {
-            if (pauseGameWhenOpen) Time.timeScale = 1f;
+            isUIFocus = false;
+
+            if (pauseGameWhenOpen)
+                Time.timeScale = 1f;
         }
+    }
+
+    // dipanggil dari PauseMenuSelectorAsli saat balik dari map
+    public void CloseMap()
+    {
+        isOpen = false;
+        isUIFocus = false;
+
+        if (mapUIRoot) mapUIRoot.SetActive(false);
+        if (mapCamera) mapCamera.gameObject.SetActive(false);
+
+        if (pauseGameWhenOpen)
+            Time.timeScale = 0f; // tetap pause karena masih di pause menu
     }
 }
