@@ -6,20 +6,9 @@ using UnityEngine.Playables;
 
 public class _Enemy_Boss : MonoBehaviour
 {
-    public enum BossType
-    {
-        DadakMerak,
-        Leak,
-        Hanoman
-    }
+    public enum BossType {DadakMerak, Leak, Hanoman}
 
-    enum EnemyState
-    {
-        Idle,
-        Alerted,
-        SearchMode,
-        CaughtPlayer
-    }
+    enum EnemyState {Idle, Alerted, SearchMode, CaughtPlayer}
 
     [Header("Enemy Type")]
     public BossType bossType;
