@@ -3,7 +3,32 @@ guid: f74aeefd9dab5c647ae758716bbe0d37
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Plate 1
+    second: {fileID: 2100000, guid: 50bf197a67286134291bbca684f136cd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Plate 2
+    second: {fileID: 2100000, guid: 7c1db6eeb166df04dae7f4a2cac4e8ec, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Vas 1
+    second: {fileID: 2100000, guid: e7d13554e4a48bb49b19c6bdd5464f5b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Vas 2
+    second: {fileID: 2100000, guid: bad14237e98cfd34ba103def1dfcd699, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Vas 3
+    second: {fileID: 2100000, guid: 4f87a1adeeea72e43aabe165187bd2ab, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

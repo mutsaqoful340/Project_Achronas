@@ -76,6 +76,8 @@ public class Player_Components : Sys_GameplayBehaviour
     public bool IsDepressed;
     public bool IsStumble;
     public bool IsDead;
+    public bool IsPicking = false;
+    public bool IsThrowing = false;
 
     #region Private Variables
     private CharacterController controller;
@@ -435,7 +437,9 @@ public class Player_Components : Sys_GameplayBehaviour
         if (currentActionState == ActionState.Depressed ||
         currentActionState == ActionState.Dead ||
         IsDepressed || IsDead || isStumbling ||
-        currentActionState == ActionState.Stumble)
+        currentActionState == ActionState.Stumble ||
+        currentActionState == ActionState.Throw ||
+        IsPicking)
         {
             currentMoveValue = 0f;
             if (animator != null)
@@ -555,6 +559,11 @@ public class Player_Components : Sys_GameplayBehaviour
         }
     }
 
+    public void HandlePickup()
+    {
+        IsPicking = !IsPicking;
+    }
+
     public void HandleInteract()
     {
         var carrySystem = GetComponent<GP_PlayerCarrySystem>();
@@ -583,9 +592,10 @@ public class Player_Components : Sys_GameplayBehaviour
         }
 
         // Otherwise, pick up item
-        if (throwModule != null)
+        if (throwModule != null && throwModule.HasPickupCandidate())
         {
-            throwModule.OnPickUpItem();
+            animator.SetTrigger("DoPickItem");
+            // throwModule.OnPickUpItem();
             Debug.Log("Interact/Pickup action executed.");
         }
     }

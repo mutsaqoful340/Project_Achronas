@@ -4,7 +4,7 @@ public class _GP_ThrowItem : MonoBehaviour
 {
     [Header("Item to throw")]
     [Tooltip("GameObject yang akan di-pickup.")]
-    [SerializeField] private GameObject _itemToPickup;
+    public GameObject _itemToPickup;
     [Tooltip("GameObject yang akan di-throw.")]
     public GameObject _itemToThrow;
 
@@ -14,9 +14,16 @@ public class _GP_ThrowItem : MonoBehaviour
     [Header("Throwing Settings")]
     [SerializeField] private float _throwForce = 10f;
 
+    [Header("Pickup Validation")]
+    [SerializeField] private float _maxPickupDistance = 2.5f;
+
+    // Cached pickup target so animation events still work if trigger exit happens before the event frame.
+    private GameObject _pendingPickup;
+
     void Start()
     {
         _itemToThrow = null;
+        _pendingPickup = null;
     }
 
     public void OnTriggerEnter(Collider other)
@@ -24,6 +31,7 @@ public class _GP_ThrowItem : MonoBehaviour
         if (other.CompareTag("ThrowableItem"))
         {
             _itemToPickup = other.gameObject;
+            _pendingPickup = other.gameObject;
         }
     }
 
@@ -33,27 +41,79 @@ public class _GP_ThrowItem : MonoBehaviour
         {
             _itemToPickup = null;
         }
+
+        if (other.CompareTag("ThrowableItem") && other.gameObject == _pendingPickup)
+        {
+            _pendingPickup = null;
+        }
+    }
+
+    public bool HasPickupCandidate()
+    {
+        return GetValidPickupTarget() != null;
     }
 
     public void OnPickUpItem()
     {
-        if (_itemToPickup != null)
+        GameObject targetPickup = GetValidPickupTarget();
+        if (targetPickup != null)
         {
             // Drop currently held item before picking up the new one
             if (_itemToThrow != null)
             {
                 _itemToThrow.transform.SetParent(null);
-                _itemToThrow.GetComponent<Rigidbody>().isKinematic = false;
+                Rigidbody heldRb = _itemToThrow.GetComponent<Rigidbody>();
+                if (heldRb != null)
+                    heldRb.isKinematic = false;
                 _itemToThrow = null;
             }
 
-            _itemToPickup.transform.SetParent(_throwItemSlot);
-            _itemToPickup.GetComponent<Rigidbody>().isKinematic = true;
-            _itemToPickup.transform.localPosition = Vector3.zero;
-            _itemToPickup.transform.localRotation = Quaternion.identity;
-            _itemToThrow = _itemToPickup;
+            if (_throwItemSlot == null)
+            {
+                Debug.LogWarning("_GP_ThrowItem: Throw item slot is not assigned.");
+                return;
+            }
+
+            targetPickup.transform.SetParent(_throwItemSlot);
+            Rigidbody pickupRb = targetPickup.GetComponent<Rigidbody>();
+            if (pickupRb != null)
+                pickupRb.isKinematic = true;
+            targetPickup.transform.localPosition = Vector3.zero;
+            targetPickup.transform.localRotation = Quaternion.identity;
+            _itemToThrow = targetPickup;
             _itemToPickup = null;
+            _pendingPickup = null;
         }
+    }
+
+    private GameObject GetValidPickupTarget()
+    {
+        GameObject candidate = _itemToPickup != null ? _itemToPickup : _pendingPickup;
+        if (candidate == null)
+            return null;
+
+        if (!candidate.activeInHierarchy)
+        {
+            ClearCandidate(candidate);
+            return null;
+        }
+
+        float sqrDistance = (candidate.transform.position - transform.position).sqrMagnitude;
+        if (sqrDistance > _maxPickupDistance * _maxPickupDistance)
+        {
+            ClearCandidate(candidate);
+            return null;
+        }
+
+        return candidate;
+    }
+
+    private void ClearCandidate(GameObject candidate)
+    {
+        if (_itemToPickup == candidate)
+            _itemToPickup = null;
+        if (_pendingPickup == candidate)
+            _pendingPickup = null;
     }
 
     public void ThrowItem()

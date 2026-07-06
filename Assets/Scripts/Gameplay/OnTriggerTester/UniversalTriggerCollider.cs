@@ -4,54 +4,120 @@ using UnityEngine.Events;
 
 public class UniversalTriggerCollider : MonoBehaviour
 {
-    public bool useSpecificName = false;
-    public string specificName = "Player";
     public UnityEvent onTriggerEnterEvent;
 
-    private int playerCount;
+    private const int PlayerSlotCount = 2;
+    [SerializeField] private Player_Components[] playerInside = new Player_Components[PlayerSlotCount];
+    [SerializeField] private bool isTriggerActive = false;
+    [SerializeField] private bool twoPlayerMode = true;
 
     void OnTriggerEnter(Collider other)
     {
-        if (useSpecificName)
+        if (!other.CompareTag("Player"))
         {
-            if (other.name == specificName && other.CompareTag("Player"))
-            {
-                playerCount++;
-                Debug.Log($"<color=green>Trigger entered by {specificName}: {other.name} (Count: {playerCount})</color>");
-                onTriggerEnterEvent.Invoke();
-            }
-            else
-            {
-                return;
-            }
+            return;
         }
-        else
+
+        Player_Components playerComponent = other.GetComponent<Player_Components>();
+        if (playerComponent == null)
         {
-            if (other.CompareTag("Player"))
+            return;
+        }
+
+        if (IsPlayerAlreadyInside(playerComponent))
+        {
+            return;
+        }
+
+        AddPlayer(playerComponent);
+
+        if (!twoPlayerMode)
+        {
+            if (!isTriggerActive)
             {
-                playerCount++;
-                Debug.Log($"<color=green>Trigger entered by Player: {other.name} (Count: {playerCount})</color>");
-                onTriggerEnterEvent.Invoke();
+                isTriggerActive = true;
+                onTriggerEnterEvent?.Invoke();
             }
+
+            return;
+        }
+
+        if (GetPlayerCount() == PlayerSlotCount && !isTriggerActive)
+        {
+            isTriggerActive = true;
+            onTriggerEnterEvent?.Invoke();
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (useSpecificName)
+        if (!other.CompareTag("Player"))
         {
-            if (other.name == specificName && other.CompareTag("Player"))
+            return;
+        }
+
+        Player_Components playerComponent = other.GetComponent<Player_Components>();
+        if (playerComponent == null)
+        {
+            return;
+        }
+
+        RemovePlayer(playerComponent);
+
+        if (!twoPlayerMode || GetPlayerCount() < PlayerSlotCount)
+        {
+            isTriggerActive = false;
+        }
+    }
+
+    private bool IsPlayerAlreadyInside(Player_Components playerComponent)
+    {
+        for (int i = 0; i < playerInside.Length; i++)
+        {
+            if (playerInside[i] == playerComponent)
             {
-                playerCount--;
-                Debug.Log($"<color=yellow>Trigger exited by {specificName}: {other.name} (Count: {playerCount})</color>");
+                return true;
             }
         }
-        else
+
+        return false;
+    }
+
+    private int GetPlayerCount()
+    {
+        int count = 0;
+
+        for (int i = 0; i < playerInside.Length; i++)
         {
-            if (other.CompareTag("Player"))
+            if (playerInside[i] != null)
             {
-                playerCount--;
-                Debug.Log($"<color=yellow>Trigger exited by Player: {other.name} (Count: {playerCount})</color>");
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    private void AddPlayer(Player_Components playerComponent)
+    {
+        for (int i = 0; i < playerInside.Length; i++)
+        {
+            if (playerInside[i] == null)
+            {
+                playerInside[i] = playerComponent;
+                return;
+            }
+        }
+    }
+
+    private void RemovePlayer(Player_Components playerComponent)
+    {
+        for (int i = 0; i < playerInside.Length; i++)
+        {
+            if (playerInside[i] == playerComponent)
+            {
+                playerInside[i] = null;
+                return;
             }
         }
     }

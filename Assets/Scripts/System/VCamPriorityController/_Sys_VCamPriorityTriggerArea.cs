@@ -6,6 +6,8 @@ using UnityEngine.Events;
 
 public class _Sys_VCamPriorityTriggerArea : MonoBehaviour
 {
+    private const int PlayerSlotCount = 2;
+
     [Header("Priority Controller")]
     public _Sys_VCamPriorityController priorityController;
     
@@ -23,17 +25,31 @@ public class _Sys_VCamPriorityTriggerArea : MonoBehaviour
 
     public TextMeshProUGUI debugText; // Optional UI text element for debugging purposes
     
-    private int playersInside = 0;
-    private bool isAreaActive = false;
+    [Header("Debugging")]
+    [SerializeField] private bool isAreaActive = false;
+    [SerializeField] private Player_Components[] playerInside = new Player_Components[PlayerSlotCount];
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            playersInside++;
+            Player_Components playerComponent = other.GetComponent<Player_Components>();
+            if (playerComponent == null)
+            {
+                return;
+            }
+
+            if (IsPlayerAlreadyInside(playerComponent))
+            {
+                UpdateDebugState();
+                return;
+            }
+
+            AddPlayer(playerComponent);
+            UpdateDebugState();
             
             // Both players entered the trigger area
-            if (playersInside == 2 && !isAreaActive)
+            if (GetPlayerCount() == PlayerSlotCount && !isAreaActive)
             {
                 isAreaActive = true;
                 
@@ -58,15 +74,87 @@ public class _Sys_VCamPriorityTriggerArea : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            playersInside--;
+            Player_Components playerComponent = other.GetComponent<Player_Components>();
+            if (playerComponent == null)
+            {
+                return;
+            }
+
+            RemovePlayer(playerComponent);
+
+            UpdateDebugState();
             onPlayerExit?.Invoke();
             
             // A player left, deactivate this area
-            if (playersInside < 2 && isAreaActive)
+            if (GetPlayerCount() < PlayerSlotCount && isAreaActive)
             {
                 isAreaActive = false;
                 Debug.Log($"<color=cyan>[{areaName}] Player left, deactivated area camera</color>");
             }
         }
+    }
+
+    private bool IsPlayerAlreadyInside(Player_Components playerComponent)
+    {
+        for (int i = 0; i < playerInside.Length; i++)
+        {
+            if (playerInside[i] == playerComponent)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private int GetPlayerCount()
+    {
+        int count = 0;
+
+        for (int i = 0; i < playerInside.Length; i++)
+        {
+            if (playerInside[i] != null)
+            {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    private void AddPlayer(Player_Components playerComponent)
+    {
+        for (int i = 0; i < playerInside.Length; i++)
+        {
+            if (playerInside[i] == null)
+            {
+                playerInside[i] = playerComponent;
+                return;
+            }
+        }
+    }
+
+    private void RemovePlayer(Player_Components playerComponent)
+    {
+        for (int i = 0; i < playerInside.Length; i++)
+        {
+            if (playerInside[i] == playerComponent)
+            {
+                playerInside[i] = null;
+                return;
+            }
+        }
+    }
+
+    private void UpdateDebugState()
+    {
+        if (debugText == null)
+        {
+            return;
+        }
+
+        string playerOneName = playerInside.Length > 0 && playerInside[0] != null ? playerInside[0].gameObject.name : "None";
+        string playerTwoName = playerInside.Length > 1 && playerInside[1] != null ? playerInside[1].gameObject.name : "None";
+        debugText.text = $"{areaName}\nInside: {GetPlayerCount()}\nSlot 1: {playerOneName}\nSlot 2: {playerTwoName}";
     }
 }

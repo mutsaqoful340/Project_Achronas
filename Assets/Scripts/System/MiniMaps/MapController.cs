@@ -113,8 +113,8 @@ public class MapController : MonoBehaviour
 
         float speedMod = _currentZoom / defaultZoom;
 
-        _targetLookAt += (right * input.x + forward * input.y)
-                         * panSpeed * speedMod * Time.unscaledDeltaTime;
+        _targetLookAt -= (right * input.x + forward * input.y)
+                 * panSpeed * speedMod * Time.unscaledDeltaTime;
 
         _targetLookAt.x = Mathf.Clamp(
             _targetLookAt.x,

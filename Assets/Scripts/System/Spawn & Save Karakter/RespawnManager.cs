@@ -17,6 +17,9 @@ public class RespawnManager : MonoBehaviour
     public Transform defaultSpawnP1;
     public Transform defaultSpawnP2;
 
+    [Header("Reset Managers")]
+    public Sys_ObjResetManager[] resetManager;
+
     [Header("Events")]
     public UnityEvent onRespawn;
 
@@ -160,6 +163,15 @@ public class RespawnManager : MonoBehaviour
             isRespawning = false;
 
             Debug.Log("[RESPAWN] Kedua player respawn!");
+        }
+
+        for (int i = 0; i < resetManager.Length; i++)
+        {
+            if (resetManager[i] != null)
+            {
+                resetManager[i].OnResetObjects();
+                Debug.Log($"[RESPAWN] Reset manager {resetManager[i].gameObject.name} triggered");
+            }
         }
     }
 

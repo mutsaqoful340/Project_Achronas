@@ -14,18 +14,17 @@ public class _GP_UIInteract : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        OnUIOrientationController();
-    }
+    // void Update()
+    // {
+    //     OnUIOrientationController();
+    // }
 
-    private void OnUIOrientationController()
-    {
-        Camera mainCamera = Camera.main;
-        if (mainCamera != null)
-        {
-            // Make this UI object face the main camera
-            interactIcon.transform.LookAt(mainCamera.transform);
-        }
-    }
+    // private void OnUIOrientationController()
+    // {
+    //     Camera mainCamera = Camera.main;
+    //     if (mainCamera != null)
+    //     {
+    //         interactIcon.transform.LookAt(mainCamera.transform);
+    //     }
+    // }
 }
