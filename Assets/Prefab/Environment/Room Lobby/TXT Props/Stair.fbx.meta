@@ -1,0 +1,390 @@
+fileFormatVersion: 2
+guid: ee5839b4d53e17442b2b63762c31751f
+ModelImporter:
+  serializedVersion: 24200
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_GuardRailBase.0012
+    second: {fileID: 2100000, guid: 44dcddc50469d8645b3ac8cf2d1f3f08, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_GuardRailBase.002
+    second: {fileID: 2100000, guid: b9b920d942f58ad438e32808dc97cb4f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_GuardRailBase.003
+    second: {fileID: 2100000, guid: 31931454688f2bf469cb472332368e9a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_GuardRailBase.005
+    second: {fileID: 2100000, guid: 6c7662aa5161561498503be020558840, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_GuardRailBase.006
+    second: {fileID: 2100000, guid: b306c3b5e0aff2449ba36cd2050332cb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_GuardRailBase.007
+    second: {fileID: 2100000, guid: 79b4f3c9338e8de48b5fc5295d6095ae, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_GuardRail_12.001
+    second: {fileID: 2100000, guid: bf1db7995acd98a478f1c7e385e2216c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_GuardRail_12.002
+    second: {fileID: 2100000, guid: 3adb3059e75b56d4f8df4f290f7850c1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_GuardRail_12.003
+    second: {fileID: 2100000, guid: 4db9f4fb77e4aa74482a93fa58327563, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_GuardRail_12.004
+    second: {fileID: 2100000, guid: ee827c8bb3cb65b42b7e8738cf9e9072, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_GuardRail_12.006
+    second: {fileID: 2100000, guid: 8830fd3a90e7e16449af4002a4c04798, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_GuardRail_12.007
+    second: {fileID: 2100000, guid: 98e69777024deb94dada1bcb2c8a272f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_GuardRail_Poles
+    second: {fileID: 2100000, guid: c9885dabbd38b6f48a81cc8158386be1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Stairs
+    second: {fileID: 2100000, guid: 454922759fc2bc54598efb54092caad6, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRailBase.0012_AlbedoTransparency
+    second: {fileID: 2800000, guid: 7ae29597c3c92864d845e5a597f9ce0a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRailBase.0012_MetallicSmoothness
+    second: {fileID: 2800000, guid: 48c63c54963b89848888e6ffc158e45b, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRailBase.0012_Normal
+    second: {fileID: 2800000, guid: 91cf6139ef7c5a64198f93e9fc0ad2e1, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRailBase.002_AlbedoTransparency
+    second: {fileID: 2800000, guid: b818b71dc3d1ea349b986814bce7a297, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRailBase.002_MetallicSmoothness
+    second: {fileID: 2800000, guid: 4e37ed104e0e7d94a853b869b2bbcf01, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRailBase.002_Normal
+    second: {fileID: 2800000, guid: 6402f472b901d204599b438fd1530e9a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRailBase.003_AlbedoTransparency
+    second: {fileID: 2800000, guid: 101f727d267523b48b0f7af7558d0480, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRailBase.003_MetallicSmoothness
+    second: {fileID: 2800000, guid: 7b11e2da907e81644a9c78b1a59149f6, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRailBase.003_Normal
+    second: {fileID: 2800000, guid: c167b0548f4c51a47a99827cbe17db55, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRailBase.005_AlbedoTransparency
+    second: {fileID: 2800000, guid: b64c667a0cd5c7e4c81021409d3f1bf7, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRailBase.005_MetallicSmoothness
+    second: {fileID: 2800000, guid: 9eaa1445cdad7c742aa1cfeb93627a53, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRailBase.005_Normal
+    second: {fileID: 2800000, guid: 998ff7ab8c1299b4ea507a0f2191e4ae, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRailBase.006_AlbedoTransparency
+    second: {fileID: 2800000, guid: a48ab70c6a213f3489eb4c7a3161675a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRailBase.006_MetallicSmoothness
+    second: {fileID: 2800000, guid: 0d08a2f551c5c924db85a6a342008dbf, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRailBase.006_Normal
+    second: {fileID: 2800000, guid: 819e2d57066dc47449498a7242713dbd, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRailBase.007_AlbedoTransparency
+    second: {fileID: 2800000, guid: 4c7262ad430c5eb4b98de7e7244912e8, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRailBase.007_MetallicSmoothness
+    second: {fileID: 2800000, guid: b0bb4e7329f0b7a4ab489cc25db6ad11, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRailBase.007_Normal
+    second: {fileID: 2800000, guid: 98734602c838591468e6b10bcd22ef7b, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRail_12.001_AlbedoTransparency
+    second: {fileID: 2800000, guid: fd803fc4e767eeb40983e6d7d2f98b06, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRail_12.001_MetallicSmoothness
+    second: {fileID: 2800000, guid: d64a7d67eb2040d4ca01df128cc46714, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRail_12.001_Normal
+    second: {fileID: 2800000, guid: 23ff867d2ba0af74dbb45a0309b09db1, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRail_12.002_AlbedoTransparency
+    second: {fileID: 2800000, guid: a9324bf12a50bce40a1a06e3d48110dd, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRail_12.002_MetallicSmoothness
+    second: {fileID: 2800000, guid: e3d012dc6f8343541aba88686528323d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRail_12.002_Normal
+    second: {fileID: 2800000, guid: e24a34567a8c47247aca460bf60aa1e2, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRail_12.003_AlbedoTransparency
+    second: {fileID: 2800000, guid: 9628d8efb94d72543b022628e6595acd, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRail_12.003_MetallicSmoothness
+    second: {fileID: 2800000, guid: 57a166028ddd37748acccc836d5f576f, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRail_12.003_Normal
+    second: {fileID: 2800000, guid: 848a2f3d8416bd243b40a127228271b3, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRail_12.004_AlbedoTransparency
+    second: {fileID: 2800000, guid: 649b44e050b582b43ba391f80ed4ddd8, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRail_12.004_MetallicSmoothness
+    second: {fileID: 2800000, guid: a3a8248efac7c1f4daa79a5cfa03e6c1, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRail_12.004_Normal
+    second: {fileID: 2800000, guid: 50e9fbf80a7561342bfa3ead2b87c6b0, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRail_12.006_AlbedoTransparency
+    second: {fileID: 2800000, guid: c10d486d3413a1f47be3d457fcacca81, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRail_12.006_MetallicSmoothness
+    second: {fileID: 2800000, guid: cee85d849f50cd84b9da5228b2f5c3dc, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRail_12.006_Normal
+    second: {fileID: 2800000, guid: ee3673740ce81ba498555976e141821f, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRail_12.007_AlbedoTransparency
+    second: {fileID: 2800000, guid: 28cad5cbc8cd96a4ca78572d4cf5bc0d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRail_12.007_MetallicSmoothness
+    second: {fileID: 2800000, guid: ca5b07d8934febf4ab328e5017c82dd0, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRail_12.007_Normal
+    second: {fileID: 2800000, guid: 5d620b47214f5624e9ee13c29e6e6c2e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRail_Poles_AlbedoTransparency
+    second: {fileID: 2800000, guid: e2d6d0d7f0387f74abee5e4f16b16ce8, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRail_Poles_MetallicSmoothness
+    second: {fileID: 2800000, guid: 6fe3f72743a39d2439fe71622a8e08fd, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_GuardRail_Poles_Normal
+    second: {fileID: 2800000, guid: 24aeb25241af9e840846ae4d4978a8b5, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_Stairs_AlbedoTransparency
+    second: {fileID: 2800000, guid: 3df82a5433e9bda47b112913bbca8985, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_Stairs_MetallicSmoothness
+    second: {fileID: 2800000, guid: 67fddb460ce5062478e85c4b991d365b, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_R23_MT_Stairs_Normal
+    second: {fileID: 2800000, guid: 3db70894c237a35469db47c7a49f57ae, type: 3}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 1
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    generateMeshLods: 0
+    meshLodGenerationFlags: 0
+    maximumMeshLod: -1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
