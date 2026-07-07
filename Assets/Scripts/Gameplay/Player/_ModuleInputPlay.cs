@@ -24,7 +24,8 @@ public enum ActionState
     Stumble,
     Throw,
     SubMenuLeft,
-    SubMenuRight
+    SubMenuRight,
+    InCutscene
 }
 
 [CreateAssetMenu(fileName = "ModuleInputPlay", menuName = "AddOn Module/Input Play", order = 1)]

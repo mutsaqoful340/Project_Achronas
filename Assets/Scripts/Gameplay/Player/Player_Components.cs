@@ -78,6 +78,7 @@ public class Player_Components : Sys_GameplayBehaviour
     public bool IsDead;
     public bool IsPicking = false;
     public bool IsThrowing = false;
+    public bool IsInCutscene = false;
 
     #region Private Variables
     private CharacterController controller;
@@ -245,7 +246,7 @@ public class Player_Components : Sys_GameplayBehaviour
     // Detect strafe based on rotation speed AND direction reversals (left-right-left pattern)
     private void DetectStrafe(Vector3 inputDir)
     {
-        if (isStrafeDetectionPaused || currentActionState == ActionState.Dead || IsDead)
+        if (isStrafeDetectionPaused || currentActionState == ActionState.Dead || currentActionState == ActionState.InCutscene || IsDead)
         {
             rotationSpeedAccumulator = 0f;
             rotationSpeedResetTimer = 0f;
@@ -436,6 +437,7 @@ public class Player_Components : Sys_GameplayBehaviour
         // Cannot move when depressed
         if (currentActionState == ActionState.Depressed ||
         currentActionState == ActionState.Dead ||
+        currentActionState == ActionState.InCutscene ||
         IsDepressed || IsDead || isStumbling ||
         currentActionState == ActionState.Stumble ||
         currentActionState == ActionState.Throw ||
@@ -739,6 +741,14 @@ public class Player_Components : Sys_GameplayBehaviour
         isStrafeDetectionPaused = IsDead;
         animator.SetTrigger(IsDead ? "DoDeath" : "DoRevive");
         Debug.Log("Dead action executed.");
+    }
+
+    public void HandleInCutscene(bool inCutscene)
+    {
+        IsInCutscene = inCutscene;
+        currentActionState = inCutscene ? ActionState.InCutscene : ActionState.Idle;
+        isStrafeDetectionPaused = inCutscene;
+        Debug.Log($"InCutscene state set to {inCutscene}");
     }
     #endregion
 

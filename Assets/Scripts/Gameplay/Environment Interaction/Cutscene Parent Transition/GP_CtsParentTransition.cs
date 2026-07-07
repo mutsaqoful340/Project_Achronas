@@ -3,7 +3,7 @@ using UnityEngine;
 public class GP_CtsParentTransition : MonoBehaviour
 {
     private Vector3 positionVelocity = Vector3.zero;
-    // private GameObject oldParent;
+    private GameObject oldParent;
     [SerializeField]
     private float smoothTime = 0.1f;
     private float transitionThreshold = 0.001f;
@@ -14,15 +14,20 @@ public class GP_CtsParentTransition : MonoBehaviour
     public void OnTransition(GameObject child)
     {
         currentChild = child.transform;
-        // oldParent = currentChild.parent.gameObject;
+        oldParent = currentChild.parent != null ? currentChild.parent.gameObject : null;
         currentChild.SetParent(transform);
         isTransitioning = true;
         positionVelocity = Vector3.zero;
         
         // Disable player controller
-        CharacterController characterController = currentChild.GetComponent<CharacterController>();
-        if (characterController != null)
-            characterController.enabled = false;
+        // CharacterController characterController = currentChild.GetComponent<CharacterController>();
+        // if (characterController != null)
+        //     characterController.enabled = false;
+        Player_Components playerComponents = currentChild.GetComponent<Player_Components>();
+        if (playerComponents != null)
+        {
+            playerComponents.HandleInCutscene(true);
+        }
     }
 
     private void Update()
@@ -46,17 +51,44 @@ public class GP_CtsParentTransition : MonoBehaviour
 
     public void ReparentToOldParent()
     {
-        // if (currentChild == null || oldParent == null) return;
+        OnUnparent();
+    }
 
-        // Store world position/rotation before reparenting
+    public void OnUnparent()
+    {
+        if (currentChild == null) return;
+
+        isTransitioning = false;
+        positionVelocity = Vector3.zero;
+
+        // Preserve the current world pose while moving the child back.
         Vector3 worldPos = currentChild.position;
         Quaternion worldRot = currentChild.rotation;
-        
-        // Reparent to old parent
-        // currentChild.SetParent(oldParent.transform);
-        
-        // Restore world position/rotation
+
+        if (oldParent != null)
+        {
+            currentChild.SetParent(oldParent.transform);
+        }
+        else
+        {
+            currentChild.SetParent(null);
+        }
+
         currentChild.position = worldPos;
         currentChild.rotation = worldRot;
+
+        // Re-enable player controller
+        CharacterController characterController = currentChild.GetComponent<CharacterController>();
+        if (characterController != null)
+            characterController.enabled = true;
+        
+        Player_Components playerComponents = currentChild.GetComponent<Player_Components>();
+        if (playerComponents != null)
+        {
+            playerComponents.HandleInCutscene(false);
+        }
+
+        currentChild = null;
+        oldParent = null;
     }
 }
