@@ -1,3 +1,6 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 .fbx filter=lfs diff=lfs merge=lfs -text
+Assets/Prefab/Environment/Room[[:space:]]Wayang/Gamelan_Fix[[:space:]]Origin.fbx filter=lfs diff=lfs merge=lfs -text
+Assets/Prefab/Environment/Room[[:space:]]Wayang/Ruang[[:space:]]Wayang[[:space:]]29[[:space:]]Jun_Add[[:space:]]Gamelan_Fix[[:space:]]Origin.fbx filter=lfs diff=lfs merge=lfs -text
+Assets/Prefab/Environment/Room[[:space:]]Wayang/** filter=lfs diff=lfs merge=lfs -text
