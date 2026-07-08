@@ -6,9 +6,27 @@ using UnityEngine.Playables;
 
 public class _Enemy_Boss : MonoBehaviour
 {
+    /// <summary>
+    /// Patrol waypoint with configurable wait duration
+    /// </summary>
+    [System.Serializable]
+    public struct PatrolWaypoint
+    {
+        public Transform position;
+        [Tooltip("Time to wait at this waypoint (0 = proceed immediately)")]
+        public float waitDuration;
+        [Tooltip("Move speed when transitioning to this waypoint (<= 0 uses default speed)")]
+        public float moveSpeed;
+        [Tooltip("If true, invoke OnArrivedAtPatrolWaypoint event when reaching this waypoint")]
+        public bool invokeArrivalEvent;
+    }
+
     public enum BossType {DadakMerak, Leak, Hanoman}
 
     enum EnemyState {Idle, Alerted, SearchMode, CaughtPlayer}
+
+    [Header("References")]
+    public Animator animator;
 
     [Header("Enemy Type")]
     public BossType bossType;
@@ -50,7 +68,7 @@ public class _Enemy_Boss : MonoBehaviour
 
     [Header("DadakMerak Chase Settings")]
     [Tooltip("Speed at which DadakMerak moves when chasing the player")]
-    [SerializeField] private float chaseSpeed = 5f;
+    [SerializeField] private float chaseSpeed = 10f;
     [Tooltip("Rotation speed when chasing player (degrees per second)")]
     [SerializeField] private float chaseRotationSpeed = 360f;
     
@@ -58,7 +76,7 @@ public class _Enemy_Boss : MonoBehaviour
     [Tooltip("Distance player must move to spawn a new waypoint")]
     [SerializeField] private float waypointSpawnDistance = 2f;
     [Tooltip("Radius around waypoint to consider it 'reached'")]
-    [SerializeField] private float waypointReachDistance = 0.5f;
+    [SerializeField] private float waypointDynamicReachDistance = 0.5f;
     
     [Header("DadakMerak Search State Settings")]
     [Tooltip("Duration to follow first spotted player's waypoints after they exit LOS (seconds)")]
@@ -67,13 +85,37 @@ public class _Enemy_Boss : MonoBehaviour
     [Header("DadakMerak Death Sequence")]
     [Tooltip("Timeline to play when player is caught (for death animation/cutscene)")]
     [SerializeField] private PlayableDirector deathTimeline;
-
-    [Header("DadakMerak Patrol")]
-    [Tooltip("Timeline for idle/patrol behavior (looping animation)")]
+    
+    [Header("DadakMerak Patrol Timeline")]
+    [Tooltip("Timeline for idle/patrol behavior (looping animation, used when not using waypoint patrol)")]
     [SerializeField] private PlayableDirector patrolTimeline;
+
+    [Header("Spotting Pause")]
+    [Tooltip("Pause the spotting system if true (used for cutscenes or special events)")]
+    [SerializeField] private bool pauseSpotting = false;
+
+    [Header("Patrol Settings")]
+    [Tooltip("Is this enemy using patrol waypoints? (If true, will follow patrol waypoints)")]
+    [SerializeField] private bool isPatrolWaypoint;
+    [Tooltip("If true, enemy will loop through patrol waypoints indefinitely; if false, will stop at last waypoint")]
+    [SerializeField] private bool loopPatrolWaypoints;
+    [Tooltip("Array of patrol waypoints with individual wait durations")]
+    [SerializeField] private PatrolWaypoint[] patrolWaypoints;
+    [Tooltip("How close to get to waypoint before moving to next")]
+    [SerializeField] private float waypointReachDistance = 0.5f;
+    [Tooltip("How fast to rotate towards next waypoint")]
+    [SerializeField] private float waypointRotationSpeed = 5f;
 
     [Header("Spotting Events")]
     public UnityEvent OnSpottingPlayer;
+
+    [Header("Patrol Events")]
+    [Tooltip("Invoked when the boss reaches the last patrol waypoint")]
+    public UnityEvent OnReachedLastPatrolWaypoint;
+    [Tooltip("Invoked after the wait duration at a patrol waypoint has finished")]
+    public UnityEvent OnAfterDurationFinished;
+    [Tooltip("Invoked on each waypoint arrival immediately before waiting (if wait duration > 0)")]
+    public UnityEvent OnArrivedAtPatrolWaypoint;
 
     // State management
     private EnemyState currentState = EnemyState.Idle;
@@ -100,8 +142,22 @@ public class _Enemy_Boss : MonoBehaviour
     
     // Chase variables
     private float defaultAngularSpeed;
+    private float defaultMoveSpeed;
     private int currentWaypointIndex = 0;
     private Vector3 lastSpawnedWaypointPosition = Vector3.zero;
+    private bool isAggravated = false;  // Lock onto player after OnAggravated() - always maintains LOS
+    
+    // Patrol variables
+    private int currentPatrolWaypointIndex = 0;
+    private float waypointWaitTimer = 0f;
+    private bool isWaitingAtWaypoint = false;
+    private bool hasInvokedLastWaypointEvent = false;
+    private bool patrolInitialized = false;  // Track if patrol has been initialized to avoid resetting index unnecessarily
+
+    // Startup config snapshots for reliable respawn reset.
+    private bool initialPauseSpotting;
+    private bool initialIsPatrolWaypoint;
+    private bool initialLoopPatrolWaypoints;
 
     private void Start()
     {
@@ -119,6 +175,12 @@ public class _Enemy_Boss : MonoBehaviour
         
         // Store default angular speed for restoration
         defaultAngularSpeed = navAgent.angularSpeed;
+        defaultMoveSpeed = navAgent.speed;
+
+        // Snapshot startup toggles so reset restores designer-configured defaults.
+        initialPauseSpotting = pauseSpotting;
+        initialIsPatrolWaypoint = isPatrolWaypoint;
+        initialLoopPatrolWaypoints = loopPatrolWaypoints;
         
         // Ensure updateRotation is enabled (critical for angularSpeed to work)
         if (!navAgent.updateRotation)
@@ -147,8 +209,8 @@ public class _Enemy_Boss : MonoBehaviour
         if (playerCaught)
             return;
 
-        // Skip detection and awareness updates while catching player
-        if (currentState != EnemyState.CaughtPlayer)
+        // Skip detection and awareness updates while paused or while catching player
+        if (!pauseSpotting && currentState != EnemyState.CaughtPlayer)
         {
             // OPTIMIZATION: Check for player at intervals (more frequently during chase)
             float currentInterval = currentState == EnemyState.Alerted || currentState == EnemyState.SearchMode ? 0.05f : detectionInterval;
@@ -157,6 +219,12 @@ public class _Enemy_Boss : MonoBehaviour
             {
                 nextDetectionTime = Time.time + currentInterval;
                 isPlayerVisible = IsPlayerInLOS();
+            }
+
+            // If aggravated, always maintain LOS on spotted player
+            if (isAggravated && spottedPlayers.Count > 0)
+            {
+                isPlayerVisible = true;
             }
 
             // Update awareness based on player visibility
@@ -202,11 +270,102 @@ public class _Enemy_Boss : MonoBehaviour
     #region State Handlers
     private void HandleIdle()
     {
-        // Stationary guard - stays at post, watches for player
-        // Play patrol timeline on entry (set once)
+        // If using waypoint patrol, handle patrol behavior
+        if (isPatrolWaypoint && patrolWaypoints != null && patrolWaypoints.Length > 0)
+        {
+            HandlePatrol();
+            return;
+        }
+        
+        // Otherwise, use timeline-based patrol/idle animation
         if (patrolTimeline != null && patrolTimeline.state != PlayState.Playing)
         {
             patrolTimeline.Play();
+        }
+    }
+
+    private void HandlePatrol()
+    {
+        // Disable patrol when aggravated - always chase instead
+        if (isAggravated)
+            return;
+
+        if (patrolWaypoints.Length == 0 || navAgent == null)
+            return;
+
+        // Ensure patrol can actually move (speed may be zeroed by other states)
+        if (navAgent.speed <= 0.01f)
+        {
+            PatrolWaypoint speedSource = patrolWaypoints[Mathf.Clamp(currentPatrolWaypointIndex, 0, patrolWaypoints.Length - 1)];
+            float fallbackSpeed = speedSource.moveSpeed > 0.01f
+                ? speedSource.moveSpeed
+                : (defaultMoveSpeed > 0.01f ? defaultMoveSpeed : chaseSpeed);
+            navAgent.speed = fallbackSpeed;
+        }
+
+        // Check if waiting at waypoint
+        if (isWaitingAtWaypoint)
+        {
+            // Face the waypoint's forward direction (Z+) while waiting
+            PatrolWaypoint currentWaypoint = patrolWaypoints[currentPatrolWaypointIndex];
+            if (currentWaypoint.position != null)
+            {
+                Vector3 waypointForward = currentWaypoint.position.forward;
+                if (waypointForward.sqrMagnitude > 0.001f)
+                {
+                    Quaternion targetRotation = Quaternion.LookRotation(waypointForward);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, waypointRotationSpeed * Time.deltaTime);
+                }
+            }
+            
+            waypointWaitTimer -= Time.deltaTime;
+            if (waypointWaitTimer <= 0f)
+            {
+                isWaitingAtWaypoint = false;
+                OnAfterDurationFinished?.Invoke();
+                MoveToNextPatrolWaypoint();
+            }
+            return;
+        }
+
+        // If current destination is invalid/partial, skip to next patrol point
+        if (!navAgent.pathPending &&
+            (navAgent.pathStatus == NavMeshPathStatus.PathInvalid || navAgent.pathStatus == NavMeshPathStatus.PathPartial))
+        {
+            MoveToNextPatrolWaypoint();
+            return;
+        }
+
+        // Check if reached current waypoint
+        if (!navAgent.pathPending && navAgent.remainingDistance <= waypointReachDistance)
+        {
+            // Invoke arrival event if waypoint allows it
+            PatrolWaypoint currentWaypoint = patrolWaypoints[currentPatrolWaypointIndex];
+            if (currentWaypoint.invokeArrivalEvent)
+            {
+                OnArrivedAtPatrolWaypoint?.Invoke();
+            }
+            
+            int lastIndex = patrolWaypoints.Length - 1;
+            bool isAtLastWaypoint = currentPatrolWaypointIndex == lastIndex;
+            if (isAtLastWaypoint && (loopPatrolWaypoints || !hasInvokedLastWaypointEvent))
+            {
+                OnReachedLastPatrolWaypoint?.Invoke();
+                hasInvokedLastWaypointEvent = true;
+            }
+
+            // Check if this waypoint has a wait duration
+            if (currentWaypoint.waitDuration > 0f)
+            {
+                // Start waiting at waypoint
+                isWaitingAtWaypoint = true;
+                waypointWaitTimer = currentWaypoint.waitDuration;
+            }
+            else
+            {
+                // No wait duration, proceed immediately
+                MoveToNextPatrolWaypoint();
+            }
         }
     }
 
@@ -363,6 +522,11 @@ public class _Enemy_Boss : MonoBehaviour
                 {
                     patrolTimeline.Stop();
                 }
+                // Stop patrol waypoint navigation
+                if (isPatrolWaypoint && navAgent != null && navAgent.isOnNavMesh)
+                {
+                    navAgent.ResetPath();
+                }
                 break;
 
             case EnemyState.Alerted:
@@ -396,6 +560,27 @@ public class _Enemy_Boss : MonoBehaviour
                 // Idle entry behavior
                 spottedPlayers.Clear();
                 searchTargetPlayer = null;
+                
+                // Initialize patrol if enabled (only reset index on first initialization, not when resuming from chase)
+                if (isPatrolWaypoint && patrolWaypoints != null && patrolWaypoints.Length > 0)
+                {
+                    // Only reset index if this is the first time entering patrol
+                    if (!patrolInitialized)
+                    {
+                        currentPatrolWaypointIndex = 0;
+                        patrolInitialized = true;
+                        Debug.Log($"{gameObject.name}: Starting patrol with {patrolWaypoints.Length} waypoints");
+                    }
+                    else
+                    {
+                        // Resuming from chase - continue from nearest waypoint instead of restarting
+                        Debug.Log($"{gameObject.name}: Resuming patrol from waypoint {currentPatrolWaypointIndex} (was chasing player)");
+                    }
+                    isWaitingAtWaypoint = false;
+                    waypointWaitTimer = 0f;
+                    hasInvokedLastWaypointEvent = false;
+                    MoveToCurrentPatrolWaypoint();
+                }
                 break;
 
             case EnemyState.Alerted:
@@ -710,6 +895,84 @@ public class _Enemy_Boss : MonoBehaviour
         }
     }
 
+    public void OnAnimatorTrigger(string triggerName)
+    {
+        animator.SetTrigger(triggerName);
+    }
+
+    public void OnPatrolWaypoint()
+    {
+        SetPatrolWaypointMode(true);
+    }
+
+    public void OnSetPauseSpotting(bool paused)
+    {
+        pauseSpotting = paused;
+
+        if (pauseSpotting)
+        {
+            // Freeze detection progression while paused.
+            isPlayerVisible = false;
+            nextDetectionTime = Time.time + detectionInterval;
+        }
+    }
+
+    public void OnPauseSpotting()
+    {
+        OnSetPauseSpotting(true);
+    }
+
+    public void OnResumeSpotting()
+    {
+        OnSetPauseSpotting(false);
+    }
+
+    public void OnNoPatrolWaypoint()
+    {
+        SetPatrolWaypointMode(false);
+    }
+
+    public void OnSetLoopPatrolWaypoints(bool shouldLoop)
+    {
+        loopPatrolWaypoints = shouldLoop;
+    }
+
+    public void OnEnableLoopPatrolWaypoints()
+    {
+        OnSetLoopPatrolWaypoints(true);
+    }
+
+    public void OnDisableLoopPatrolWaypoints()
+    {
+        OnSetLoopPatrolWaypoints(false);
+    }
+
+    public void SetPatrolWaypointMode(bool enabled)
+    {
+        isPatrolWaypoint = enabled;
+
+        if (!enabled)
+        {
+            isWaitingAtWaypoint = false;
+            waypointWaitTimer = 0f;
+            currentPatrolWaypointIndex = 0;
+            hasInvokedLastWaypointEvent = false;
+
+            if (navAgent != null && navAgent.isOnNavMesh)
+            {
+                navAgent.ResetPath();
+            }
+        }
+        else if (currentState == EnemyState.Idle && patrolWaypoints != null && patrolWaypoints.Length > 0)
+        {
+            currentPatrolWaypointIndex = 0;
+            isWaitingAtWaypoint = false;
+            waypointWaitTimer = 0f;
+            hasInvokedLastWaypointEvent = false;
+            MoveToCurrentPatrolWaypoint();
+        }
+    }
+
     public void OnPlayerCaught()
     {
         playerCaught = true; // Hard lock - stop all detection and movement immediately
@@ -747,6 +1010,7 @@ public class _Enemy_Boss : MonoBehaviour
                 break;
                 
             case BossType.Hanoman:
+
             case BossType.Leak:
                 Debug.Log($"{gameObject.name} ({bossType}): Player caught! You are ded!");
                 CatchPlayer();
@@ -785,6 +1049,55 @@ public class _Enemy_Boss : MonoBehaviour
         {
             Debug.LogWarning($"{gameObject.name}: Caught player component not found!");
         }
+    }
+
+    public void OnAggravated()
+    {
+        // Find all players in scene
+        GameObject[] allPlayers = GameObject.FindGameObjectsWithTag("Player");
+
+        if (allPlayers.Length == 0)
+        {
+            Debug.LogWarning($"{gameObject.name}: OnAggravated() called but no player found in scene!");
+            return;
+        }
+
+        GameObject target = allPlayers[0];
+
+        // Disable waypoint patrol - boss will ONLY chase after aggravation
+        isPatrolWaypoint = false;
+
+        // Force immediate target lock for chase systems.
+        cachedPlayer = target;
+        lastKnownPlayerPosition = target.transform.position;
+        isPlayerVisible = true;
+        currentAwareness = awarenessThreshold;
+        isAggravated = true;  // Lock onto this player - always maintain LOS
+
+        if (!spottedPlayers.Contains(target))
+        {
+            spottedPlayers.Insert(0, target);
+        }
+
+        if (pauseSpotting)
+        {
+            pauseSpotting = false;
+        }
+
+        // Immediately boost chase speed
+        if (navAgent != null && navAgent.isOnNavMesh)
+        {
+            navAgent.speed = chaseSpeed;
+            navAgent.angularSpeed = chaseRotationSpeed;
+        }
+
+        // Enter Alerted immediately (DadakMerak starts chasing in HandleAlerted).
+        if (currentState != EnemyState.CaughtPlayer)
+        {
+            TransitionToState(EnemyState.Alerted);
+        }
+
+        Debug.Log($"{gameObject.name} ({bossType}): Aggravated! Locked onto {target.name}. Chase speed set to {chaseSpeed}. LOS always maintained. Waypoint patrol disabled.");
     }
 
     public void OnPlayerSpotted()
@@ -834,12 +1147,169 @@ public class _Enemy_Boss : MonoBehaviour
             }
         }
 
+        // Visualize patrol waypoints
+        if (isPatrolWaypoint && patrolWaypoints != null && patrolWaypoints.Length > 0)
+        {
+            Gizmos.color = Color.green;
+            for (int i = 0; i < patrolWaypoints.Length; i++)
+            {
+                if (patrolWaypoints[i].position != null)
+                {
+                    Vector3 waypointPos = patrolWaypoints[i].position.position;
+                    
+                    // Draw waypoint sphere
+                    Gizmos.DrawWireSphere(waypointPos, 0.4f);
+                    
+                    // Draw forward direction (Z+)
+                    Vector3 waypointForward = patrolWaypoints[i].position.forward;
+                    Gizmos.DrawLine(waypointPos, waypointPos + waypointForward * 0.5f);
+                    
+                    // Draw line to next waypoint
+                    if (i < patrolWaypoints.Length - 1 && patrolWaypoints[i + 1].position != null)
+                    {
+                        Gizmos.DrawLine(waypointPos, patrolWaypoints[i + 1].position.position);
+                    }
+                    else if (i == patrolWaypoints.Length - 1 && patrolWaypoints[0].position != null)
+                    {
+                        // Loop line back to start
+                        Gizmos.DrawLine(waypointPos, patrolWaypoints[0].position.position);
+                    }
+                    
+                    // Highlight current patrol waypoint
+                    if (i == currentPatrolWaypointIndex)
+                    {
+                        Gizmos.color = Color.magenta;
+                        Gizmos.DrawWireSphere(waypointPos, 0.6f);
+                        Gizmos.color = Color.green;
+                    }
+                }
+            }
+        }
+
         // Visualize last known player position
         if (lastKnownPlayerPosition != Vector3.zero)
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(lastKnownPlayerPosition, 0.2f);
         }
+    }
+    #endregion
+
+    #region Patrol Methods
+    private void MoveToCurrentPatrolWaypoint()
+    {
+        if (patrolWaypoints.Length == 0 || currentPatrolWaypointIndex >= patrolWaypoints.Length)
+            return;
+
+        PatrolWaypoint targetWaypoint = patrolWaypoints[currentPatrolWaypointIndex];
+        if (targetWaypoint.position != null)
+        {
+            float patrolMoveSpeed = targetWaypoint.moveSpeed > 0.01f
+                ? targetWaypoint.moveSpeed
+                : (defaultMoveSpeed > 0.01f ? defaultMoveSpeed : chaseSpeed);
+
+            if (navAgent.speed != patrolMoveSpeed)
+            {
+                navAgent.speed = patrolMoveSpeed;
+            }
+
+            // Snap target to nearest NavMesh position to avoid jitter on unreachable points
+            if (NavMesh.SamplePosition(targetWaypoint.position.position, out NavMeshHit hit, 1.5f, NavMesh.AllAreas))
+            {
+                navAgent.SetDestination(hit.position);
+            }
+            else
+            {
+                // Waypoint is off NavMesh, skip to next
+                MoveToNextPatrolWaypoint();
+            }
+        }
+        else
+        {
+            // Null waypoint entry, skip to next
+            MoveToNextPatrolWaypoint();
+        }
+    }
+
+    private void MoveToNextPatrolWaypoint()
+    {
+        if (patrolWaypoints == null || patrolWaypoints.Length == 0)
+            return;
+
+        int lastIndex = patrolWaypoints.Length - 1;
+
+        // If looping is disabled, stop at the last waypoint.
+        if (!loopPatrolWaypoints && currentPatrolWaypointIndex >= lastIndex)
+        {
+            isWaitingAtWaypoint = false;
+            waypointWaitTimer = 0f;
+
+            if (navAgent != null && navAgent.isOnNavMesh)
+            {
+                navAgent.ResetPath();
+                navAgent.SetDestination(transform.position);
+            }
+            return;
+        }
+
+        // Move to next waypoint (loop or clamp based on setting).
+        if (loopPatrolWaypoints)
+        {
+            currentPatrolWaypointIndex = (currentPatrolWaypointIndex + 1) % patrolWaypoints.Length;
+        }
+        else
+        {
+            currentPatrolWaypointIndex = Mathf.Min(currentPatrolWaypointIndex + 1, lastIndex);
+        }
+
+        MoveToCurrentPatrolWaypoint();
+    }
+
+    private void RotateTowardsNextPatrolWaypoint()
+    {
+        if (patrolWaypoints.Length == 0)
+            return;
+
+        // Get next waypoint index
+        int nextIndex = (currentPatrolWaypointIndex + 1) % patrolWaypoints.Length;
+        PatrolWaypoint nextWaypoint = patrolWaypoints[nextIndex];
+        if (nextWaypoint.position == null)
+            return;
+
+        // Calculate direction to next waypoint
+        Vector3 directionToNext = (nextWaypoint.position.position - transform.position).normalized;
+        
+        // Ignore vertical rotation (keep enemy upright)
+        directionToNext.y = 0;
+        
+        if (directionToNext.sqrMagnitude > 0.001f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(directionToNext);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, waypointRotationSpeed * Time.deltaTime);
+        }
+    }
+
+    private int FindNearestPatrolWaypoint()
+    {
+        if (patrolWaypoints.Length == 0)
+            return 0;
+
+        int nearestIndex = 0;
+        float nearestDistance = float.MaxValue;
+
+        for (int i = 0; i < patrolWaypoints.Length; i++)
+        {
+            if (patrolWaypoints[i].position == null)
+                continue;
+
+            float distance = Vector3.Distance(transform.position, patrolWaypoints[i].position.position);
+            if (distance < nearestDistance)
+            {
+                nearestDistance = distance;
+                nearestIndex = i;
+            }
+        }
+        return nearestIndex;
     }
     #endregion
 
@@ -851,6 +1321,9 @@ public class _Enemy_Boss : MonoBehaviour
     {
         // Clear all detection and awareness
         playerCaught = false; // Release hard lock so boss can detect again after reset
+        pauseSpotting = initialPauseSpotting;
+        isPatrolWaypoint = initialIsPatrolWaypoint;
+        loopPatrolWaypoints = initialLoopPatrolWaypoints;
         currentAwareness = 0f;
         detectedPlayers.Clear();
         spottedPlayers.Clear();
@@ -858,6 +1331,7 @@ public class _Enemy_Boss : MonoBehaviour
         triggerPlayer = null;
         caughtPlayerComponent = null;
         isPlayerVisible = false;
+        nextDetectionTime = 0f;
         lastKnownPlayerPosition = Vector3.zero;
         searchStateTimer = 0f;
         searchTargetPlayer = null;
@@ -866,6 +1340,14 @@ public class _Enemy_Boss : MonoBehaviour
         dynamicWaypoints.Clear();
         currentWaypointIndex = 0;
         lastSpawnedWaypointPosition = Vector3.zero;
+        
+        // Clear patrol state
+        currentPatrolWaypointIndex = 0;
+        isWaitingAtWaypoint = false;
+        waypointWaitTimer = 0f;
+        hasInvokedLastWaypointEvent = false;
+        patrolInitialized = false;  // Reset so patrol reinitializes on respawn
+        isAggravated = false;  // Reset aggravation lock
 
         // Stop current timelines
         if (deathTimeline != null && deathTimeline.state == PlayState.Playing)
@@ -888,7 +1370,7 @@ public class _Enemy_Boss : MonoBehaviour
         if (navAgent != null)
         {
             navAgent.ResetPath();
-            navAgent.speed = 0f;
+            navAgent.speed = defaultMoveSpeed > 0.01f ? defaultMoveSpeed : navAgent.speed;
             navAgent.angularSpeed = defaultAngularSpeed;
         }
 
