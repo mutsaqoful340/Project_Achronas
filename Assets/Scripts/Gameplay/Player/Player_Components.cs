@@ -540,6 +540,36 @@ public class Player_Components : Sys_GameplayBehaviour
         }
     }
 
+    public void SetCrouchState(bool shouldCrouch)
+    {
+        // Cannot crouch while carrying
+        var carrySystem = GetComponent<GP_PlayerCarrySystem>();
+        if (carrySystem != null && carrySystem.IsCarrying && shouldCrouch)
+        {
+            Debug.Log("Cannot crouch while carrying");
+            return;
+        }
+
+        if (shouldCrouch && !IsCrouching)
+        {
+            animator.SetTrigger("DoCrouch");
+            controller.height = crouchHeight;
+            controller.center = new Vector3(0, crouchHeight / 2f, 0);
+            IsCrouching = true;
+            currentActionState = ActionState.Crouch;
+            Debug.Log("Crouch state set.");
+        }
+        else if (!shouldCrouch && IsCrouching)
+        {
+            animator.SetTrigger("DoUncrouch");
+            controller.height = standingHeight;
+            controller.center = new Vector3(0, standingHeight / 2f, 0);
+            IsCrouching = false;
+            currentActionState = ActionState.Idle;
+            Debug.Log("Uncrouch state set.");
+        }
+    }
+
     public void HandleThrow()
     {
         var throwModule = GetComponent<_GP_ThrowItem>();
