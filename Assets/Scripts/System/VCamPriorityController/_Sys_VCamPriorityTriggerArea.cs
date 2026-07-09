@@ -22,10 +22,9 @@ public class _Sys_VCamPriorityTriggerArea : MonoBehaviour
     [Header("Additional Events")]
     public UnityEvent onBothPlayersInside;
     public UnityEvent onPlayerExit;
-
-    public TextMeshProUGUI debugText; // Optional UI text element for debugging purposes
     
     [Header("Debugging")]
+    public TextMeshProUGUI debugText; // Optional UI text element for debugging purposes
     [SerializeField] private bool isAreaActive = false;
     [SerializeField] private Player_Components[] playerInside = new Player_Components[PlayerSlotCount];
 
@@ -156,5 +155,41 @@ public class _Sys_VCamPriorityTriggerArea : MonoBehaviour
         string playerOneName = playerInside.Length > 0 && playerInside[0] != null ? playerInside[0].gameObject.name : "None";
         string playerTwoName = playerInside.Length > 1 && playerInside[1] != null ? playerInside[1].gameObject.name : "None";
         debugText.text = $"{areaName}\nInside: {GetPlayerCount()}\nSlot 1: {playerOneName}\nSlot 2: {playerTwoName}";
+    }
+
+    public void ActivatePriorityCamera()
+    {
+        if (priorityController != null && areaCinemachineCamera != null)
+        {
+            priorityController.SetCameraActive(areaCinemachineCamera);
+            Debug.Log($"<color=cyan>[{areaName}] Priority camera activated via signal</color>");
+        }
+        else
+        {
+            if (priorityController == null)
+                Debug.LogError($"<color=red>[{areaName}] priorityController is NULL!</color>");
+            if (areaCinemachineCamera == null)
+                Debug.LogError($"<color=red>[{areaName}] areaCinemachineCamera is NULL!</color>");
+        }
+    }
+
+    public void ResetSplineDolly()
+    {
+        if (areaCinemachineCamera == null)
+        {
+            Debug.LogError($"<color=red>[{areaName}] areaCinemachineCamera is NULL!</color>");
+            return;
+        }
+
+        var splineDolly = areaCinemachineCamera.GetComponent<CinemachineSplineDolly>();
+        if (splineDolly != null)
+        {
+            splineDolly.CameraPosition = 0f;
+            Debug.Log($"<color=cyan>[{areaName}] Spline Dolly reset to position 0</color>");
+        }
+        else
+        {
+            Debug.LogError($"<color=red>[{areaName}] CinemachineSplineDolly component not found!</color>");
+        }
     }
 }

@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Gameplay/PlayerLocomotion/_PlayerLocomotion.unity
     guid: 29a593b7d67c18343b330b6adf9b640e
   m_configObjects:
+    com.unity.adaptivePerformance.basic.provider_settings: {fileID: 11400000, guid: 541f6a119e2ba894e8d7550361d978d4, type: 2}
+    com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 11ea85f09506d84409f2ec2c7b97d6b1, type: 2}
+    com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: 1d713beae7f7d5d45913b62de5245d73, type: 2}
     com.unity.dt.app-ui: {fileID: 11400000, guid: 99f9c9493070a9d4c979a8fec7c5a8d3, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 35845fe01580c41289b024647b1d1c53, type: 3}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 44d96be175a14c149be936d4bdea38a5, type: 2}

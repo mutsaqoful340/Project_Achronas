@@ -112,10 +112,10 @@ public class _Enemy_Boss : MonoBehaviour
     [Header("Patrol Events")]
     [Tooltip("Invoked when the boss reaches the last patrol waypoint")]
     public UnityEvent OnReachedLastPatrolWaypoint;
-    [Tooltip("Invoked after the wait duration at a patrol waypoint has finished")]
-    public UnityEvent OnAfterDurationFinished;
     [Tooltip("Invoked on each waypoint arrival immediately before waiting (if wait duration > 0)")]
     public UnityEvent OnArrivedAtPatrolWaypoint;
+    [Tooltip("Invoked after the wait duration at a patrol waypoint has finished")]
+    public UnityEvent OnAfterDurationFinished;
 
     // State management
     private EnemyState currentState = EnemyState.Idle;
@@ -1359,22 +1359,41 @@ public class _Enemy_Boss : MonoBehaviour
             patrolTimeline.Stop();
         }
 
-        // Reset position and rotation
-        transform.position = initialPosition;
-        transform.rotation = initialRotation;
-
-        // Transition back to idle
-        TransitionToState(EnemyState.Idle);
-        
-        // Reset NavMesh agent
-        if (navAgent != null)
+        // Reset NavMesh agent and teleport to initial position
+        if (navAgent != null && navAgent.isOnNavMesh)
         {
+            // Disable NavMeshAgent to allow teleportation
+            navAgent.enabled = false;
+            transform.position = initialPosition;
+            transform.rotation = initialRotation;
+            navAgent.enabled = true;
+            
+            // Reset NavMeshAgent state
             navAgent.ResetPath();
             navAgent.speed = defaultMoveSpeed > 0.01f ? defaultMoveSpeed : navAgent.speed;
             navAgent.angularSpeed = defaultAngularSpeed;
+            
+            Debug.Log($"[RESET] {gameObject.name} teleported to initial position {initialPosition}");
+        }
+        else if (navAgent != null)
+        {
+            // NavMeshAgent exists but not on NavMesh - just set position directly
+            transform.position = initialPosition;
+            transform.rotation = initialRotation;
+            Debug.Log($"[RESET] {gameObject.name} reset position (NavMeshAgent off mesh)");
+        }
+        else
+        {
+            // No NavMeshAgent - just set position
+            transform.position = initialPosition;
+            transform.rotation = initialRotation;
+            Debug.Log($"[RESET] {gameObject.name} reset position (no NavMeshAgent)");
         }
 
-        Debug.Log($"[RESET] {gameObject.name} reset to initial state at position {initialPosition}");
+        // Transition back to idle
+        TransitionToState(EnemyState.Idle);
+
+        Debug.Log($"[RESET] {gameObject.name} reset to initial state");
     }
     #endregion
 }

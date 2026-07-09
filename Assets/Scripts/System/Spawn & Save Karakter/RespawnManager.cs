@@ -177,30 +177,20 @@ public class RespawnManager : MonoBehaviour
 
     private void WarpPlayer(Player_Components player, Vector3 spawnPos)
     {
-        // Ensure player is detached from any boss/grab slot before repositioning.
+        // Ensure player is detached from any boss/grab slot before repositioning
         if (player.transform.parent != null)
         {
             player.transform.SetParent(null, true);
         }
 
         CharacterController cc = player.GetComponent<CharacterController>();
-        if (cc != null && cc.enabled)
+        if (cc != null)
         {
-            // Use CharacterController.Move() to warp while controller is active
-            // This avoids collision settling issues that occur when disabling/re-enabling
-            Vector3 currentPos = player.transform.position;
-            Vector3 displacement = spawnPos - currentPos;
-            cc.Move(displacement);
-            Debug.Log($"[RESPAWN] Warped {player.gameObject.name} to {spawnPos} using Move()");
-        }
-        else if (cc != null)
-        {
-            // Fallback: controller is disabled, use traditional disable/enable method
+            // Disable CC, set position, then re-enable to clear internal physics state
             cc.enabled = false;
-            Vector3 adjustedPos = spawnPos + Vector3.up * 1.0f;
-            player.transform.position = adjustedPos;
+            player.transform.position = spawnPos;
             cc.enabled = true;
-            Debug.Log($"[RESPAWN] Warped {player.gameObject.name} to {adjustedPos} (controller was disabled)");
+            Debug.Log($"[RESPAWN] Warped {player.gameObject.name} to {spawnPos}");
         }
         else
         {
