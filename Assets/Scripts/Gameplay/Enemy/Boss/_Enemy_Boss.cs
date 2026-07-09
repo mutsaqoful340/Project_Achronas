@@ -18,7 +18,11 @@ public class _Enemy_Boss : MonoBehaviour
         [Tooltip("Move speed when transitioning to this waypoint (<= 0 uses default speed)")]
         public float moveSpeed;
         [Tooltip("If true, invoke OnArrivedAtPatrolWaypoint event when reaching this waypoint")]
-        public bool invokeArrivalEvent;
+        public bool invokePointEvent;
+        [Tooltip("Animator trigger to invoke upon arrival at this waypoint (optional)")]
+        public string animatorArrivelTrigger;
+        [Tooltip("Animator trigger to invoke upon departure from this waypoint (optional)")]
+        public string animatorDepartTrigger;
     }
 
     public enum BossType {DadakMerak, Leak, Hanoman}
@@ -110,12 +114,13 @@ public class _Enemy_Boss : MonoBehaviour
     public UnityEvent OnSpottingPlayer;
 
     [Header("Patrol Events")]
-    [Tooltip("Invoked when the boss reaches the last patrol waypoint")]
-    public UnityEvent OnReachedLastPatrolWaypoint;
     [Tooltip("Invoked on each waypoint arrival immediately before waiting (if wait duration > 0)")]
     public UnityEvent OnArrivedAtPatrolWaypoint;
     [Tooltip("Invoked after the wait duration at a patrol waypoint has finished")]
     public UnityEvent OnAfterDurationFinished;
+    [Tooltip("Invoked when the boss reaches the last patrol waypoint")]
+    public UnityEvent OnReachedLastPatrolWaypoint;
+
 
     // State management
     private EnemyState currentState = EnemyState.Idle;
@@ -321,9 +326,21 @@ public class _Enemy_Boss : MonoBehaviour
             waypointWaitTimer -= Time.deltaTime;
             if (waypointWaitTimer <= 0f)
             {
+                // Invoke global post-wait event and optional per-waypoint animator trigger.
+                if (currentWaypoint.invokePointEvent)
+                {
+                    OnAfterDurationFinished?.Invoke();
+
+                    if (animator != null && !string.IsNullOrWhiteSpace(currentWaypoint.animatorDepartTrigger))
+                    {
+                        animator.SetTrigger(currentWaypoint.animatorDepartTrigger);
+                    }
+                }
+
                 isWaitingAtWaypoint = false;
-                OnAfterDurationFinished?.Invoke();
+                int finishedWaypointIndex = currentPatrolWaypointIndex;
                 MoveToNextPatrolWaypoint();
+                Debug.Log(gameObject.name + ": Finished waiting at waypoint " + finishedWaypointIndex + ". Moving to next waypoint.");
             }
             return;
         }
@@ -339,11 +356,16 @@ public class _Enemy_Boss : MonoBehaviour
         // Check if reached current waypoint
         if (!navAgent.pathPending && navAgent.remainingDistance <= waypointReachDistance)
         {
-            // Invoke arrival event if waypoint allows it
+            // Invoke global arrival event and optional per-waypoint animator trigger.
             PatrolWaypoint currentWaypoint = patrolWaypoints[currentPatrolWaypointIndex];
-            if (currentWaypoint.invokeArrivalEvent)
+            if (currentWaypoint.invokePointEvent)
             {
                 OnArrivedAtPatrolWaypoint?.Invoke();
+
+                if (animator != null && !string.IsNullOrWhiteSpace(currentWaypoint.animatorArrivelTrigger))
+                {
+                    animator.SetTrigger(currentWaypoint.animatorArrivelTrigger);
+                }
             }
             
             int lastIndex = patrolWaypoints.Length - 1;

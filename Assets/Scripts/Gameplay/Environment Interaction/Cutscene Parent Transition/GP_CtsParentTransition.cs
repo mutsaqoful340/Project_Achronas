@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class GP_CtsParentTransition : MonoBehaviour
 {
@@ -11,6 +12,12 @@ public class GP_CtsParentTransition : MonoBehaviour
     private Transform currentChild;
     private bool isTransitioning = false;
 
+    // Cache movement components so we can restore their previous enabled state.
+    private CharacterController cachedCharacterController;
+    private NavMeshAgent cachedNavMeshAgent;
+    private bool wasCharacterControllerEnabled;
+    private bool wasNavMeshAgentEnabled;
+
     public void OnTransition(GameObject child)
     {
         currentChild = child.transform;
@@ -18,11 +25,22 @@ public class GP_CtsParentTransition : MonoBehaviour
         currentChild.SetParent(transform);
         isTransitioning = true;
         positionVelocity = Vector3.zero;
-        
-        // Disable player controller
-        // CharacterController characterController = currentChild.GetComponent<CharacterController>();
-        // if (characterController != null)
-        //     characterController.enabled = false;
+
+        // Disable movement components while transitioning (supports player and boss).
+        cachedCharacterController = currentChild.GetComponent<CharacterController>();
+        if (cachedCharacterController != null)
+        {
+            wasCharacterControllerEnabled = cachedCharacterController.enabled;
+            cachedCharacterController.enabled = false;
+        }
+
+        cachedNavMeshAgent = currentChild.GetComponent<NavMeshAgent>();
+        if (cachedNavMeshAgent != null)
+        {
+            wasNavMeshAgentEnabled = cachedNavMeshAgent.enabled;
+            cachedNavMeshAgent.enabled = false;
+        }
+
         Player_Components playerComponents = currentChild.GetComponent<Player_Components>();
         if (playerComponents != null)
         {
@@ -77,16 +95,27 @@ public class GP_CtsParentTransition : MonoBehaviour
         currentChild.position = worldPos;
         currentChild.rotation = worldRot;
 
-        // Re-enable player controller
-        CharacterController characterController = currentChild.GetComponent<CharacterController>();
-        if (characterController != null)
-            characterController.enabled = true;
+        // Restore movement component states to what they were before transition.
+        if (cachedCharacterController != null)
+        {
+            cachedCharacterController.enabled = wasCharacterControllerEnabled;
+        }
+
+        if (cachedNavMeshAgent != null)
+        {
+            cachedNavMeshAgent.enabled = wasNavMeshAgentEnabled;
+        }
         
         Player_Components playerComponents = currentChild.GetComponent<Player_Components>();
         if (playerComponents != null)
         {
             playerComponents.HandleInCutscene(false);
         }
+
+        cachedCharacterController = null;
+        cachedNavMeshAgent = null;
+        wasCharacterControllerEnabled = false;
+        wasNavMeshAgentEnabled = false;
 
         currentChild = null;
         oldParent = null;
