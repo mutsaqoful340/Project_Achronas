@@ -127,4 +127,16 @@ public class _GP_ThrowItem : MonoBehaviour
             _itemToThrow = null;
         }
     }
+
+    public void DropItem()
+    {
+        if (_itemToThrow != null)
+        {
+            _itemToThrow.transform.SetParent(null);
+            Rigidbody rb = _itemToThrow.GetComponent<Rigidbody>();
+            if (rb != null)
+                rb.isKinematic = false;
+            _itemToThrow = null;
+        }
+    }
 }

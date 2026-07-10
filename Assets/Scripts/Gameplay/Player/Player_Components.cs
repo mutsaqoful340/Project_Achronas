@@ -596,6 +596,15 @@ public class Player_Components : Sys_GameplayBehaviour
         IsPicking = !IsPicking;
     }
 
+    public void HandleDropItem()
+    {
+        var throwModule = GetComponent<_GP_ThrowItem>();
+        if (throwModule != null)
+        {
+            throwModule.DropItem();
+        }
+    }
+    
     public void HandleInteract()
     {
         var carrySystem = GetComponent<GP_PlayerCarrySystem>();

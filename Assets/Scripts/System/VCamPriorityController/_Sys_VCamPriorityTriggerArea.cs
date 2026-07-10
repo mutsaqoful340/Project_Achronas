@@ -69,6 +69,42 @@ public class _Sys_VCamPriorityTriggerArea : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if (!other.CompareTag("Player")) return;
+
+        Player_Components playerComponent = other.GetComponent<Player_Components>();
+        if (playerComponent == null) return;
+
+        // Foolproof player registration - handles teleport/respawn cases
+        if (!IsPlayerAlreadyInside(playerComponent))
+        {
+            AddPlayer(playerComponent);
+            UpdateDebugState();
+            Debug.Log($"<color=yellow>[{areaName}] Player {playerComponent.gameObject.name} registered via OnTriggerStay (likely teleported/respawned)</color>");
+        }
+
+        // Check if both players are now inside and activate camera if needed
+        if (GetPlayerCount() == PlayerSlotCount && !isAreaActive)
+        {
+            isAreaActive = true;
+            
+            if (priorityController != null && areaCinemachineCamera != null)
+            {
+                priorityController.SetCameraActive(areaCinemachineCamera);
+                onBothPlayersInside?.Invoke();
+                Debug.Log($"<color=cyan>[{areaName}] Both players inside (via OnTriggerStay), activated camera</color>");
+            }
+            else
+            {
+                if (priorityController == null)
+                    Debug.LogError($"<color=red>[{areaName}] priorityController is NULL! Please assign it in inspector!</color>");
+                if (areaCinemachineCamera == null)
+                    Debug.LogError($"<color=red>[{areaName}] areaCinemachineCamera is NULL! Please assign it in inspector!</color>");
+            }
+        }
+    }
+
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))

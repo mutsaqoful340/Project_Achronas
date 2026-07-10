@@ -119,10 +119,34 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
 
     public void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (!other.CompareTag("Player")) return;
+
+        // Foolproof player registration - handles teleport/respawn cases
+        Player_Components playerComponent = other.GetComponent<Player_Components>();
+        int playerIndex = GetPlayerRefIndex(playerComponent);
+
+        if (playerIndex != -1)
         {
-            NormalizePlayersPosition();
+            // Ensure player is registered even if they were teleported here
+            int entryIndex = GetEntryIndex(other.gameObject);
+            if (entryIndex == -1)
+            {
+                RegisterPlayerEntry(other.gameObject);
+                Debug.Log($"Player {playerIndex} registered via OnTriggerStay (likely teleported/respawned)");
+            }
+
+            // Ensure subscription exists (in case it was lost during respawn)
+            if (playerActionDelegates[playerIndex] == null)
+            {
+                SubscribeToPlayer(playerIndex, playerComponent);
+                Debug.Log($"Player {playerIndex} re-subscribed via OnTriggerStay");
+            }
+
+            // Show icon if not already shown
+            ShowInteractionIcon(true);
         }
+
+        NormalizePlayersPosition();
     }
 
     public void OnTriggerExit(Collider other)
