@@ -1344,7 +1344,7 @@ public class _Enemy_Boss : MonoBehaviour
         // Clear all detection and awareness
         playerCaught = false; // Release hard lock so boss can detect again after reset
         pauseSpotting = initialPauseSpotting;
-        isPatrolWaypoint = initialIsPatrolWaypoint;
+        // isPatrolWaypoint = initialIsPatrolWaypoint;
         loopPatrolWaypoints = initialLoopPatrolWaypoints;
         currentAwareness = 0f;
         detectedPlayers.Clear();
@@ -1380,6 +1380,8 @@ public class _Enemy_Boss : MonoBehaviour
         {
             patrolTimeline.Stop();
         }
+
+        animator.SetTrigger("Reset"); // Reset animator to default state
 
         // Reset NavMesh agent and teleport to initial position
         if (navAgent != null && navAgent.isOnNavMesh)

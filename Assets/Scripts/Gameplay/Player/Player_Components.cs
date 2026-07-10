@@ -650,7 +650,6 @@ public class Player_Components : Sys_GameplayBehaviour
     {
         IsStumble = false;
         isStumbling = false;
-        IsDepressed = false;
         isStrafeDetectionPaused = false;
         currentActionState = ActionState.Idle;
 
@@ -669,11 +668,22 @@ public class Player_Components : Sys_GameplayBehaviour
             controller.enabled = true;
         }
 
+        // Sync animator with player state - use SetCrouchState to properly trigger animations
+        SetCrouchState(false);
+        
+        // Clear depressed state and sync animator
+        if (IsDepressed)
+        {
+            IsDepressed = false;
+            if (animator != null)
+            {
+                animator.SetBool("IsDepressed", false);
+            }
+        }
+
         if (animator != null)
         {
             animator.SetFloat("Move", 0f);
-            animator.SetBool("IsCrouching", false);
-            animator.SetBool("IsDepressed", false);
             animator.SetTrigger("DoRevive");
         }
 
