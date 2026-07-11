@@ -899,21 +899,11 @@ public class _Enemy_Boss : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             GameObject enteredPlayer = other.gameObject;
-            
-            // Determine which player should be the valid catch target based on current state
-            GameObject validTarget = currentState == EnemyState.SearchMode ? searchTargetPlayer : (spottedPlayers.Count > 0 ? spottedPlayers[0] : null);
-            
-            // Only catch if the entered player is the one we're actually chasing
-            if (enteredPlayer == validTarget)
-            {
-                Debug.Log($"{gameObject.name}: Target player {enteredPlayer.name} entered trigger zone. Catching!");
-                triggerPlayer = enteredPlayer;
-                TransitionToState(EnemyState.CaughtPlayer);
-            }
-            else
-            {
-                Debug.LogWarning($"{gameObject.name}: Non-target player {enteredPlayer.name} entered trigger zone, but current target is {validTarget?.name ?? "none"}. Ignoring catch.");
-            }
+
+            // Catch any player that enters the trigger zone.
+            Debug.Log($"{gameObject.name}: Player {enteredPlayer.name} entered trigger zone. Catching!");
+            triggerPlayer = enteredPlayer;
+            TransitionToState(EnemyState.CaughtPlayer);
         }
     }
 
