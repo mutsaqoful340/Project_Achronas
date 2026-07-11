@@ -191,6 +191,8 @@ public class SaveManager : MonoBehaviour
 
         File.Delete(path);
         Debug.Log($"[SaveManager] Slot '{slot}' dihapus.");
+
+        ResetMinimapProgress();
         return true;
     }
 
@@ -261,6 +263,26 @@ public class SaveManager : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public void ResetMinimapProgress()
+    {
+        string visited = PlayerPrefs.GetString("VisitedRooms", "");
+        foreach (string id in visited.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+        {
+            PlayerPrefs.DeleteKey("MinimapRoom_" + id);
+        }
+        PlayerPrefs.DeleteKey("VisitedRooms");
+        PlayerPrefs.DeleteKey("lastRoomID");
+        PlayerPrefs.DeleteKey("spawnP1");
+        PlayerPrefs.DeleteKey("spawnP2");
+        PlayerPrefs.Save();
+
+        // Paksa refresh visual semua MinimapRoom yang lagi aktif di scene
+        foreach (var room in FindObjectsOfType<MinimapRoom>())
+            room.LoadVisitedState();
+
+        Debug.Log("[SaveManager] Minimap progress & PlayerPrefs direset, visual di-refresh.");
     }
 
 }
