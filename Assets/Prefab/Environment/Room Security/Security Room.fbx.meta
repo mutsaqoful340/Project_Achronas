@@ -3,7 +3,1017 @@ guid: ceb55a0268675634a8a9fd8c9c3ad678
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_LampBox1
+    second: {fileID: 2100000, guid: 958253593ac20b34ca59988728cdc925, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_LampBox1_WireLong
+    second: {fileID: 2100000, guid: 233fa598a00225e498d323cd19159ecf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_LampBox1_WireShort
+    second: {fileID: 2100000, guid: 223391d813c58974f864fb0246c32533, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_LampBox2_Base
+    second: {fileID: 2100000, guid: 81cde76869f02f64a87b0a123db0712e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_LampBox2_Glass
+    second: {fileID: 2100000, guid: 3adab745a589834469a79f16b003a7fe, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_LokerBesi
+    second: {fileID: 2100000, guid: fcaef4a0bb07e484c93149201f08424a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_LokerBesi_DoorA1
+    second: {fileID: 2100000, guid: c795c2d3585a2ef48bc258f58f4ea49d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_LokerBesi_DoorA2
+    second: {fileID: 2100000, guid: d4afd3b28e1ede04682fbf8ec7acb008, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_LokerBesi_DoorA3
+    second: {fileID: 2100000, guid: e914ce3bcdbdf534b98218019ef74b17, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_LokerBesi_DoorA4
+    second: {fileID: 2100000, guid: 93f2f17b721f3054a93d961aa98fcfe3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_LokerBesi_DoorB1
+    second: {fileID: 2100000, guid: 6a34bdcb3b4e1df4fa0df807360869ef, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_LokerBesi_DoorB2
+    second: {fileID: 2100000, guid: cc973d94c0201534d9ca79302efa119f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_LokerBesi_DoorB3
+    second: {fileID: 2100000, guid: 854b8bfd631fbdf4fb574f9ef46bbf2c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_LokerBesi_DoorB4
+    second: {fileID: 2100000, guid: 502f8c740911be74abdee90652ad5b50, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_LokerBesi_DoorHandleA1
+    second: {fileID: 2100000, guid: 46be47c0d2972e7468deba030d325f32, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_LokerBesi_DoorHandleA2
+    second: {fileID: 2100000, guid: 563684ff961881643ae0913a42f51ab9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_LokerBesi_DoorHandleA3
+    second: {fileID: 2100000, guid: 7e4febaa203abd945be5afae03cef99d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_LokerBesi_DoorHandleA4
+    second: {fileID: 2100000, guid: 4cbac42c719a93c4b9df26341c4c629e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_LokerBesi_DoorHandleB1
+    second: {fileID: 2100000, guid: e285db529bfa15e49abf3b965897ffd9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_LokerBesi_DoorHandleB2
+    second: {fileID: 2100000, guid: 7b43ad8d7b6c0224aa5a41f0c131a286, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_LokerBesi_DoorHandleB3
+    second: {fileID: 2100000, guid: c7a815b734b593346aed4d56f7ab5544, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_LokerBesi_DoorHandleB4
+    second: {fileID: 2100000, guid: 446549bc545069043ac9659eb76e571f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Meja_Kaki2
+    second: {fileID: 2100000, guid: 760e516c647f05e4b97f5bedd0825760, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Meja_Top2
+    second: {fileID: 2100000, guid: 5ad331b3b420072478d2dcddfca3eed1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_MonitorBig_Screen1
+    second: {fileID: 2100000, guid: f90097970d9afc745a11b5882d32146a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_MonitorBig_Screen2
+    second: {fileID: 2100000, guid: 3dd2fa05150be4048acf28fa4a5b0747, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_MonitorBig_Screen3
+    second: {fileID: 2100000, guid: 411d49a591d061c4cba743636466689f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_MonitorBig_Screen3.001
+    second: {fileID: 2100000, guid: 3f20a8f70f5b769489603704fb0fd0db, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_MonitorEmbed1
+    second: {fileID: 2100000, guid: 2cb62213b2dc6c743a6e15843d33940a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_MonitorEmbed2
+    second: {fileID: 2100000, guid: f318c84f6e2aba04b9eddc51c34e5cbd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_MonitorEmbed3
+    second: {fileID: 2100000, guid: d7c74103dd184644eb9da50dc02451c6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_MonitorEmbed4
+    second: {fileID: 2100000, guid: aa31248e7d402a4448f01a58ec65e7e3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_MonitorEmbed_Base
+    second: {fileID: 2100000, guid: 9329a50505f6a2a44a3e51d0a641721a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_MonitorSmol2_Screen
+    second: {fileID: 2100000, guid: 6dd2b442f1ed9324d9ec9c3b26bff9b4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_MonitorSmol2_Screen.001
+    second: {fileID: 2100000, guid: f8637efc1072ffd41ba1117db5500039, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_MonitorSmol2_Screen.002
+    second: {fileID: 2100000, guid: 8169ecd982c5dfc4e91ca243f37b60a1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_MonitorSmol2_Screen.003
+    second: {fileID: 2100000, guid: 0bf9af8399b4e0c4d9083c3a750417ef, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Monitor_Stand
+    second: {fileID: 2100000, guid: 10e9c3694bf7fb4469562e33761be184, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Monitor_Stand.001
+    second: {fileID: 2100000, guid: 914f3d9fc7b2f3a4891c0d68b153f0c3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Note.001
+    second: {fileID: 2100000, guid: f2307a8e9edc7044180f28b5f36acecb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Note.002
+    second: {fileID: 2100000, guid: 95c42eaa0e6c49747b75c1b6ffad365b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Note.003
+    second: {fileID: 2100000, guid: b34f6945665b7454aacb2f190e49c1ab, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_PinBoard
+    second: {fileID: 2100000, guid: 8f4dab85acf083c41b8fa36fd06610f3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Plane.006
+    second: {fileID: 2100000, guid: d5e05659371672e48b1948992276b385, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_PresensiBox
+    second: {fileID: 2100000, guid: 9a8f6e0726c40fa4c9d78cb899345b42, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Tuas
+    second: {fileID: 2100000, guid: b7cc67713a119634b94b319f72f48b96, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Tuas_Bar
+    second: {fileID: 2100000, guid: fd5a4b2d7c53dd04eb6695e9983a70c5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Tuas_BarHandle
+    second: {fileID: 2100000, guid: 969ae55f1ea6cc04b91a58ab7bb707a7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Tuas_Base
+    second: {fileID: 2100000, guid: 24bebd2ee993b664ab3d227f7f689b51, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_WallHang_Base
+    second: {fileID: 2100000, guid: 6c638bdf7bbab9646ad07babd1cd717a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_WallHang_Hanger
+    second: {fileID: 2100000, guid: ad8f7e360f3ac254f940ba077edfa61a, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LampBox1_AlbedoTransparency
+    second: {fileID: 2800000, guid: efc1bfa8a9ef7b843bb1db1543d96f1e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LampBox1_MetallicSmoothness
+    second: {fileID: 2800000, guid: 2235003a6d0bad14e9f5958702afc7c9, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LampBox1_Normal
+    second: {fileID: 2800000, guid: 469b5e65543c87e4c9a37923ada94740, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LampBox1_WireLong_AlbedoTransparency
+    second: {fileID: 2800000, guid: 543fe60a2d46c9b458785874748a8d29, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LampBox1_WireLong_MetallicSmoothness
+    second: {fileID: 2800000, guid: bc74b022ff0c4714c82e3c22be50c929, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LampBox1_WireLong_Normal
+    second: {fileID: 2800000, guid: 26dcdea434aa7c246813ca71488899ba, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LampBox1_WireShort_AlbedoTransparency
+    second: {fileID: 2800000, guid: 7088b661482109648ba98c1ea43843cd, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LampBox1_WireShort_MetallicSmoothness
+    second: {fileID: 2800000, guid: 20b8151b9dae80c4392d2d372b5773ad, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LampBox1_WireShort_Normal
+    second: {fileID: 2800000, guid: 6a03629821cf45740a1519876532eb75, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LampBox2_Base_AlbedoTransparency
+    second: {fileID: 2800000, guid: 4d6d69cda0217bf44b9f0ecb9a56dd36, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LampBox2_Base_MetallicSmoothness
+    second: {fileID: 2800000, guid: d37f6b7050d6ad842a727adc7eaab62f, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LampBox2_Base_Normal
+    second: {fileID: 2800000, guid: 7b501400ce12860489394e9ae0c75fee, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LampBox2_Glass_AlbedoTransparency
+    second: {fileID: 2800000, guid: cedae29eaf771a24182f7226fa6dc8be, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LampBox2_Glass_MetallicSmoothness
+    second: {fileID: 2800000, guid: de2a8f16018ca764fb46b1fde4d312a8, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LampBox2_Glass_Normal
+    second: {fileID: 2800000, guid: b2211e28ce2cdb44d90d41071ae50b2a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_AlbedoTransparency
+    second: {fileID: 2800000, guid: cb522334913eba94f85c341006045e9e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorA1_AlbedoTransparency
+    second: {fileID: 2800000, guid: 05fac566c37045543b0aab802ff4e53e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorA1_MetallicSmoothness
+    second: {fileID: 2800000, guid: 18b0bc713f03a2c45aaa89867442c267, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorA1_Normal
+    second: {fileID: 2800000, guid: 907288bea29fa18468dd354eb8ed6b68, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorA2_AlbedoTransparency
+    second: {fileID: 2800000, guid: 504cbb76bab69f74a9539ee2e7a7d4a5, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorA2_MetallicSmoothness
+    second: {fileID: 2800000, guid: 1c6a1ebda5bf24a4fb3ba8ca000225e5, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorA2_Normal
+    second: {fileID: 2800000, guid: 0370c65025be3b9408b15a502b76bb87, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorA3_AlbedoTransparency
+    second: {fileID: 2800000, guid: 6bf2d21f3dd96da47aca935128a7e50a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorA3_MetallicSmoothness
+    second: {fileID: 2800000, guid: 40c24c55f7ab3c44da114ead4ae1c138, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorA3_Normal
+    second: {fileID: 2800000, guid: 433d891885018b24bad8b4d0bbc2a1ab, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorA4_AlbedoTransparency
+    second: {fileID: 2800000, guid: f4eb4f0d8fffc574188db32601895b4c, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorA4_MetallicSmoothness
+    second: {fileID: 2800000, guid: 0fdd7ca8bd3a975489eed92e859f112a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorA4_Normal
+    second: {fileID: 2800000, guid: b7ff259b61d0f1744a6bfa99cde32a0c, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorB1_AlbedoTransparency
+    second: {fileID: 2800000, guid: ed09f322c4d9b4c41b537840cc7dbe3a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorB1_MetallicSmoothness
+    second: {fileID: 2800000, guid: 6a78b76484f0b8f4ab275c28ded7eded, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorB1_Normal
+    second: {fileID: 2800000, guid: bc42545e8e2201948982d7a36d23670e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorB2_AlbedoTransparency
+    second: {fileID: 2800000, guid: 2e05a99cd896206459fe3f2308be9c49, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorB2_MetallicSmoothness
+    second: {fileID: 2800000, guid: 1b0e937799822e9459cae71160ef28bd, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorB2_Normal
+    second: {fileID: 2800000, guid: 5d657a20cb72669419d438ea6ba4be88, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorB3_AlbedoTransparency
+    second: {fileID: 2800000, guid: e66ec0f3dfead7047ac6e639bfe84b82, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorB3_MetallicSmoothness
+    second: {fileID: 2800000, guid: b76eeba563473f947bbfe42f204efc7e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorB3_Normal
+    second: {fileID: 2800000, guid: fa4c83692dc335f428667a85b7dd0314, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorB4_AlbedoTransparency
+    second: {fileID: 2800000, guid: e9e472c0b2d08d24eb6d9a20585f8428, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorB4_MetallicSmoothness
+    second: {fileID: 2800000, guid: b26e3e850b3d45e4f9883818baf43905, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorB4_Normal
+    second: {fileID: 2800000, guid: 24cd4183ead33b944a752e1865f7f32d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorHandleA1_AlbedoTransparency
+    second: {fileID: 2800000, guid: 18c0642c9a1e6284ebc891687a9f35e9, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorHandleA1_MetallicSmoothness
+    second: {fileID: 2800000, guid: 2fe9313f54a97ef47923d9c48cac04bd, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorHandleA1_Normal
+    second: {fileID: 2800000, guid: 7d818a9a788b7a04cab37ceb76550caa, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorHandleA2_AlbedoTransparency
+    second: {fileID: 2800000, guid: dda2918e1ba69a643b2bebb2f993e798, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorHandleA2_MetallicSmoothness
+    second: {fileID: 2800000, guid: 50b50c0ef83b6174daa315d8af3a9e3e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorHandleA2_Normal
+    second: {fileID: 2800000, guid: fdfc29ba8f2c2f44f88b193e23facf0f, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorHandleA3_AlbedoTransparency
+    second: {fileID: 2800000, guid: 90b99740bfc7f164f9d97940dca7d3d6, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorHandleA3_MetallicSmoothness
+    second: {fileID: 2800000, guid: 2e8e198a3dfeb13438a03e09004a6d14, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorHandleA3_Normal
+    second: {fileID: 2800000, guid: 71aa1b6a15692b342a249fe512c7bde9, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorHandleA4_AlbedoTransparency
+    second: {fileID: 2800000, guid: 6d2c5235dd840f9449fc587a0fa16483, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorHandleA4_MetallicSmoothness
+    second: {fileID: 2800000, guid: b718e9aa770776e4c840de81303d8655, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorHandleA4_Normal
+    second: {fileID: 2800000, guid: 73a3066249fd61145a8ea2a3c27f08a6, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorHandleB1_AlbedoTransparency
+    second: {fileID: 2800000, guid: 9b1ba266fc468ee41bc28d9fe88b393d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorHandleB1_MetallicSmoothness
+    second: {fileID: 2800000, guid: c04b4e325ce803e4b9f023f75683ce31, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorHandleB1_Normal
+    second: {fileID: 2800000, guid: 8f198a022754e5843ad394b7af07030d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorHandleB2_AlbedoTransparency
+    second: {fileID: 2800000, guid: 9d88ddddacc57e048a50015f4710a499, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorHandleB2_MetallicSmoothness
+    second: {fileID: 2800000, guid: 3e8a1510d6c1210469bb89c66d0499db, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorHandleB2_Normal
+    second: {fileID: 2800000, guid: b453b9fb49cc5b34bb98dc1565a2cb3e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorHandleB3_AlbedoTransparency
+    second: {fileID: 2800000, guid: 25d79f69d5010b741a9e7875b01e64af, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorHandleB3_MetallicSmoothness
+    second: {fileID: 2800000, guid: 45339ed860748344195181c3bfc76c6a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorHandleB3_Normal
+    second: {fileID: 2800000, guid: 17aed55ae9a1e1a45b94d4f432fe4072, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorHandleB4_AlbedoTransparency
+    second: {fileID: 2800000, guid: 87e17a81d2eea194f98aecf7173d8f91, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorHandleB4_MetallicSmoothness
+    second: {fileID: 2800000, guid: 3c1bfbbde563b3345a08cc5c99aacc91, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_DoorHandleB4_Normal
+    second: {fileID: 2800000, guid: 5e574c44684289749997f21453b76cd0, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_MetallicSmoothness
+    second: {fileID: 2800000, guid: cbb39fe58ce23fc418e4991d1b77bc5f, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_LokerBesi_Normal
+    second: {fileID: 2800000, guid: dae4ecc644594324e9de6aa46446f805, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_Meja_Kaki2_AlbedoTransparency
+    second: {fileID: 2800000, guid: 29afd7599a4662a4dbe5cafb42fc9db4, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_Meja_Kaki2_MetallicSmoothness
+    second: {fileID: 2800000, guid: 52ad28a46c1d1524994ad9dc7f1651b1, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_Meja_Kaki2_Normal
+    second: {fileID: 2800000, guid: 04156975e013d154a89771c53b98f139, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_Meja_Top2_AlbedoTransparency
+    second: {fileID: 2800000, guid: c2a452f0411c5c6449158bcf12405e12, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_Meja_Top2_MetallicSmoothness
+    second: {fileID: 2800000, guid: 1205600da3de3414dba4b4462d7c6382, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_Meja_Top2_Normal
+    second: {fileID: 2800000, guid: 3d76bfbe3d3429d4b9b2917a258694be, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorBig_Screen1_AlbedoTransparency
+    second: {fileID: 2800000, guid: 23448f2521ea39140832e5ff78e594bc, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorBig_Screen1_MetallicSmoothness
+    second: {fileID: 2800000, guid: 97b7383d9cef62e4e91494f455312783, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorBig_Screen1_Normal
+    second: {fileID: 2800000, guid: 1a78689897bd8034c99fd9574b56e2d4, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorBig_Screen2_AlbedoTransparency
+    second: {fileID: 2800000, guid: 3c9096c6dfd091345b457a691bd333fa, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorBig_Screen2_MetallicSmoothness
+    second: {fileID: 2800000, guid: 2227a822418f24349b0dbb761827acd8, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorBig_Screen2_Normal
+    second: {fileID: 2800000, guid: b42164b6e8363c74eb890db3ef97cecd, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorBig_Screen3.001_AlbedoTransparency
+    second: {fileID: 2800000, guid: 66f922ac16fc8e54fa18dd66036c8906, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorBig_Screen3.001_MetallicSmoothness
+    second: {fileID: 2800000, guid: 236b560e0ff61a34b835b3015e6d6e4e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorBig_Screen3.001_Normal
+    second: {fileID: 2800000, guid: 54d336c13364ea544820c457d8537b2a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorBig_Screen3_AlbedoTransparency
+    second: {fileID: 2800000, guid: ca3067a7888cc274ba3e2ed9cd287839, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorBig_Screen3_MetallicSmoothness
+    second: {fileID: 2800000, guid: 3e41a5f7f1a5a3f47ab068f535d6fc08, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorBig_Screen3_Normal
+    second: {fileID: 2800000, guid: aa5676d5ba3107a408b4003926eb1706, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorEmbed1_AlbedoTransparency
+    second: {fileID: 2800000, guid: 389d37ef4e3360f48988c90aff4548aa, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorEmbed1_MetallicSmoothness
+    second: {fileID: 2800000, guid: 7caa167f8bd81054f9ac0bb38b2d243b, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorEmbed1_Normal
+    second: {fileID: 2800000, guid: 185259cdef237e947a2626beb448aa76, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorEmbed2_AlbedoTransparency
+    second: {fileID: 2800000, guid: abd2f5b9110272f4bafade589a354172, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorEmbed2_MetallicSmoothness
+    second: {fileID: 2800000, guid: 8cc544a6476e13f44b7eb5110a3c2006, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorEmbed2_Normal
+    second: {fileID: 2800000, guid: 9810146f778485340a1a8fe7b4ac19ed, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorEmbed3_AlbedoTransparency
+    second: {fileID: 2800000, guid: 0a02572c2aa2cb7448b1d5f8cd4a97ea, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorEmbed3_MetallicSmoothness
+    second: {fileID: 2800000, guid: 9396f2f50d0148641bc95c81ed9b3acf, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorEmbed3_Normal
+    second: {fileID: 2800000, guid: 92561bca73f3c514f954b5fc3534fbd1, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorEmbed4_AlbedoTransparency
+    second: {fileID: 2800000, guid: 33da871b0316d1642802e2c957e5864c, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorEmbed4_MetallicSmoothness
+    second: {fileID: 2800000, guid: c5214435aa7ad464c9565c9d26389761, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorEmbed4_Normal
+    second: {fileID: 2800000, guid: 748a4de5375318b41a0d05c1265d7863, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorEmbed_Base_AlbedoTransparency
+    second: {fileID: 2800000, guid: 99d99e0b5e4513d41af5fa9f049ad888, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorEmbed_Base_MetallicSmoothness
+    second: {fileID: 2800000, guid: 5de5c65877d2cdd44b991ddb42353244, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorEmbed_Base_Normal
+    second: {fileID: 2800000, guid: 561966bc21509484c8bfd3d5afc39e60, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorSmol2_Screen.001_AlbedoTransparency
+    second: {fileID: 2800000, guid: 3d317dfefa2fd0f468a90a1937512f3d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorSmol2_Screen.001_MetallicSmoothness
+    second: {fileID: 2800000, guid: 8e86b1654a12d034fb96772c9a69d11d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorSmol2_Screen.001_Normal
+    second: {fileID: 2800000, guid: ebdc06da09fed9949a190a25519929ab, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorSmol2_Screen.002_AlbedoTransparency
+    second: {fileID: 2800000, guid: 8acb9773830501c45bbe8e17bb0f90af, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorSmol2_Screen.002_MetallicSmoothness
+    second: {fileID: 2800000, guid: 4677b79f124d4a644a104c851c053004, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorSmol2_Screen.002_Normal
+    second: {fileID: 2800000, guid: 0ff6f7b7cd119a743a62ac73a4c14b1b, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorSmol2_Screen.003_AlbedoTransparency
+    second: {fileID: 2800000, guid: f6b6329876e62fc4687718a6de681409, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorSmol2_Screen.003_MetallicSmoothness
+    second: {fileID: 2800000, guid: 7841b960bd0f76c45a19e278c16cfc15, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorSmol2_Screen.003_Normal
+    second: {fileID: 2800000, guid: a9858a3cb7bc7914d858c95d26d993f3, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorSmol2_Screen_AlbedoTransparency
+    second: {fileID: 2800000, guid: 37cf4d729c9347544b7f04bb81a93a03, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorSmol2_Screen_MetallicSmoothness
+    second: {fileID: 2800000, guid: 588d33312e2864742b155b347c99c17b, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_MonitorSmol2_Screen_Normal
+    second: {fileID: 2800000, guid: d5c71e3811cb28244b4263af5ff9d686, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_Monitor_Stand.001_AlbedoTransparency
+    second: {fileID: 2800000, guid: 9f656bcec2bb9e543a41b7d52147de29, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_Monitor_Stand.001_MetallicSmoothness
+    second: {fileID: 2800000, guid: 30cc4dffec34a9341a555f9ba264dad9, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_Monitor_Stand.001_Normal
+    second: {fileID: 2800000, guid: 40fbd8c08999b4542a511cb7f7e589a7, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_Monitor_Stand_AlbedoTransparency
+    second: {fileID: 2800000, guid: 3b731e2a031521540b7354693afd717d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_Monitor_Stand_MetallicSmoothness
+    second: {fileID: 2800000, guid: e5e43c1a0c6c0e64a8eca3ced3f7cbde, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_Monitor_Stand_Normal
+    second: {fileID: 2800000, guid: 76617b49735a18a48993046ddb9c6790, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_Note.001_AlbedoTransparency
+    second: {fileID: 2800000, guid: c5c5389e2e3c66b4fa9a58827cdc95cb, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_Note.001_MetallicSmoothness
+    second: {fileID: 2800000, guid: bc24a6a84ad21464f8e65671d9fd44ac, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_Note.001_Normal
+    second: {fileID: 2800000, guid: 5335f25e7509dea4b8c97e3711e26a2f, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_Note.002_AlbedoTransparency
+    second: {fileID: 2800000, guid: ad20e300157100b499a9c99d5d7bcbc3, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_Note.002_MetallicSmoothness
+    second: {fileID: 2800000, guid: 9e44e38c1521d06419bd2e89bdf5141f, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_Note.002_Normal
+    second: {fileID: 2800000, guid: 385614e8f579b1f46aea96a00d0b7a88, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_Note.003_AlbedoTransparency
+    second: {fileID: 2800000, guid: fc310758050af7d48b1a25ffa76e4ee1, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_Note.003_MetallicSmoothness
+    second: {fileID: 2800000, guid: 5b1a92c62e1cd9247a90bd9e027bb25a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_Note.003_Normal
+    second: {fileID: 2800000, guid: 78fec10a91ce8c34ea6af0e6d2c0d11b, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_PinBoard_AlbedoTransparency
+    second: {fileID: 2800000, guid: e58c10bf408f8b648bf53cb35c26c57b, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_PinBoard_MetallicSmoothness
+    second: {fileID: 2800000, guid: 55680f654ecb0ed4e8eefb823888b917, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_PinBoard_Normal
+    second: {fileID: 2800000, guid: 977039b64bdb74746b5b67f7005495cf, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_Plane.006_AlbedoTransparency
+    second: {fileID: 2800000, guid: 067976c9016fdb94b8ab2b3ee448921f, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_Plane.006_MetallicSmoothness
+    second: {fileID: 2800000, guid: 14e8ccd95c5c6884db2da5db0f30b597, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_Plane.006_Normal
+    second: {fileID: 2800000, guid: b9b93e61a1bd74e49b613c47694c1265, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_PresensiBox_AlbedoTransparency
+    second: {fileID: 2800000, guid: 148bb304c3e6fb647b9fc21d511c44ce, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_PresensiBox_MetallicSmoothness
+    second: {fileID: 2800000, guid: cded8d7b9ae09444bb6d78c31f4497f1, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_PresensiBox_Normal
+    second: {fileID: 2800000, guid: b8f416c9383d4a746a68892bfc731285, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_Tuas_AlbedoTransparency
+    second: {fileID: 2800000, guid: 84d3997c95a4dfd43b8d1cc3147024f1, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_Tuas_BarHandle_AlbedoTransparency
+    second: {fileID: 2800000, guid: b0f8a437f5b7fb44d99fb92bfa19cde6, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_Tuas_BarHandle_MetallicSmoothness
+    second: {fileID: 2800000, guid: cd740aa9dc1a8b04995d9ab3f5bf7984, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_Tuas_BarHandle_Normal
+    second: {fileID: 2800000, guid: 6bf70512d0b99784c960d4b8a01532cf, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_Tuas_Bar_AlbedoTransparency
+    second: {fileID: 2800000, guid: 98fc203e54764614c895534e257e1cff, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_Tuas_Bar_MetallicSmoothness
+    second: {fileID: 2800000, guid: 4c366293f202d6349b1f9d9c273ebac0, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_Tuas_Bar_Normal
+    second: {fileID: 2800000, guid: 2ac3d7bdf08e071409c70b63c9733db1, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_Tuas_Base_AlbedoTransparency
+    second: {fileID: 2800000, guid: 8a60632d424e2db44a2ee2395feccac6, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_Tuas_Base_MetallicSmoothness
+    second: {fileID: 2800000, guid: 3e104fd15257adb4d9265648571fbb64, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_Tuas_Base_Normal
+    second: {fileID: 2800000, guid: 02fd0879d92bd56438fb67e17d33588c, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_WallHang_Base_AlbedoTransparency
+    second: {fileID: 2800000, guid: faeae1f0265a0a145bac09c044fcd7f7, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_WallHang_Base_MetallicSmoothness
+    second: {fileID: 2800000, guid: 4690cf1cce9d80e4f89178447819f6d2, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_WallHang_Base_Normal
+    second: {fileID: 2800000, guid: 67421ed09c0310e4495bf3ffa3e596aa, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_WallHang_Hanger_AlbedoTransparency
+    second: {fileID: 2800000, guid: 8ec209ad6bfd73045a1ef1f77e864413, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_WallHang_Hanger_MetallicSmoothness
+    second: {fileID: 2800000, guid: 8a3643c05370e27428a5a101d2a9814f, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Security Room1_MT_WallHang_Hanger_Normal
+    second: {fileID: 2800000, guid: 7ef5333b6f96b3f41b0b17fd2afdb06e, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
