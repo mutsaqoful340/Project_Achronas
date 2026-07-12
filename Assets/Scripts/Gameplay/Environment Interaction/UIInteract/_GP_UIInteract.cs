@@ -14,6 +14,25 @@ public class _GP_UIInteract : MonoBehaviour
         }
     }
 
+    public Animator interactIconAnimator;
+
+    void OnEnable()
+    {
+        interactIconAnimator = interactIcon.GetComponent<Animator>();
+        if (interactIconAnimator == null)
+        {
+            interactIconAnimator.SetTrigger("Show");
+        }
+    }
+
+    void OnDisable()
+    {
+        if (interactIconAnimator != null)
+        {
+            interactIconAnimator.SetTrigger("Hide");
+        }
+    }
+
     // void Update()
     // {
     //     OnUIOrientationController();

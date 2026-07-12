@@ -5,6 +5,7 @@ using UnityEngine.Events;
 public class UniversalTriggerCollider : MonoBehaviour
 {
     public UnityEvent onTriggerEnterEvent;
+    public UnityEvent onTriggerExitEvent;
 
     private const int PlayerSlotCount = 2;
     [SerializeField] private Player_Components[] playerInside = new Player_Components[PlayerSlotCount];
@@ -67,6 +68,11 @@ public class UniversalTriggerCollider : MonoBehaviour
         if (!twoPlayerMode || GetPlayerCount() < PlayerSlotCount)
         {
             isTriggerActive = false;
+        }
+
+        if (!twoPlayerMode || GetPlayerCount() < PlayerSlotCount)
+        {
+            onTriggerExitEvent?.Invoke();
         }
     }
 
