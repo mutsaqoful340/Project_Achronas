@@ -128690,6 +128690,10 @@ PrefabInstance:
       propertyPath: detectionLayer.m_Bits
       value: 1545
       objectReference: {fileID: 0}
+    - target: {fileID: 5207132261930931121, guid: 80ced78ffa711324b94ca88dd7d6602a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 97f8f62c0fe58c64ba2845a57a1791b2, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -157400,7 +157404,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1475484202}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.33154178, y: 0.7422757, z: 0.53170156, w: -0.23748754}
+  m_LocalRotation: {x: -0.33154178, y: 0.7422757, z: 0.53170156, w: -0.23748752}
   m_LocalPosition: {x: 7.1000004, y: -7.909992, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -157558,6 +157562,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Manekin_F (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 7380252035450975385, guid: 92150a5068508c046b408060a206794e, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 97f8f62c0fe58c64ba2845a57a1791b2, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -258772,6 +258780,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Manekin_F (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7380252035450975385, guid: 92150a5068508c046b408060a206794e, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 97f8f62c0fe58c64ba2845a57a1791b2, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -283357,6 +283369,10 @@ PrefabInstance:
       propertyPath: detectionLayer.m_Bits
       value: 1545
       objectReference: {fileID: 0}
+    - target: {fileID: 5207132261930931121, guid: 80ced78ffa711324b94ca88dd7d6602a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 97f8f62c0fe58c64ba2845a57a1791b2, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
