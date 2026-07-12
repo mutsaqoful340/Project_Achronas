@@ -1,0 +1,245 @@
+fileFormatVersion: 2
+guid: 62df5b33d9978254ea75f145fd796d99
+ModelImporter:
+  serializedVersion: 24200
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Lamp2
+    second: {fileID: 2100000, guid: e57a3d35a76806046878500fb98bac6a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Lamp2_Frame
+    second: {fileID: 2100000, guid: c73d623cafd3be34087c8abe04930be5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Lamp2_Glass
+    second: {fileID: 2100000, guid: 6de00a81ff52af74ea486edc4435d0e6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Lamp2_LowClosure
+    second: {fileID: 2100000, guid: 34808adef388771418a71d8b2b0e139f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Lamp2_Support1
+    second: {fileID: 2100000, guid: a883f11024fe75a4997607030232a522, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Lamp2_Support2
+    second: {fileID: 2100000, guid: 89f0b65ffbe64e24c849a477ccd50489, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Lamp2_TopClosure
+    second: {fileID: 2100000, guid: e43cbd5875fd1264b82bd73e450b2b3e, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp2_AlbedoTransparency
+    second: {fileID: 2800000, guid: a72e7394e71dace4fb4fdd3c626472a2, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp2_Frame_AlbedoTransparency
+    second: {fileID: 2800000, guid: 34e104b064d2c55459ac151fc8db0ec1, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp2_Frame_MetallicSmoothness
+    second: {fileID: 2800000, guid: a5b4ddefd61b3f04b958c4ee7e796379, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp2_Frame_Normal
+    second: {fileID: 2800000, guid: dbf5da7d18d882648be20667def51f30, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp2_Glass_BaseMap
+    second: {fileID: 2800000, guid: 51d7fb5f2faeebe48a17a4a485c57bfe, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp2_Glass_Normal
+    second: {fileID: 2800000, guid: b0131fa4f4ad361418e74a50d6f9b2e5, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp2_LowClosure_AlbedoTransparency
+    second: {fileID: 2800000, guid: 9c7ce5585fdd5744bb68a534e842ab38, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp2_LowClosure_MetallicSmoothness
+    second: {fileID: 2800000, guid: 03f4ec0e4f653844196004c13341ddb5, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp2_LowClosure_Normal
+    second: {fileID: 2800000, guid: 043245f006dbc7241b17ffab0e079902, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp2_MetallicSmoothness
+    second: {fileID: 2800000, guid: 80bc98a6d59a28c408e188fda5347752, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp2_Normal
+    second: {fileID: 2800000, guid: 8e68b6902bf54854ab186d8d7996c490, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp2_Support1_AlbedoTransparency
+    second: {fileID: 2800000, guid: 59c52b233807d0d41bcd461606198451, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp2_Support1_MetallicSmoothness
+    second: {fileID: 2800000, guid: 12ebe9b1b2505d34a972e70b24a7f239, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp2_Support1_Normal
+    second: {fileID: 2800000, guid: a6b76dbac8badda4db7bbc687afe71f5, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp2_Support2_AlbedoTransparency
+    second: {fileID: 2800000, guid: 1caa2510df84ea546a6e92cfd4939883, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp2_Support2_MetallicSmoothness
+    second: {fileID: 2800000, guid: ae9a1ac6a441874419dd2df8e56cf96a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp2_Support2_Normal
+    second: {fileID: 2800000, guid: 82272c2f2fa288547993e86c7a7f383f, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp2_TopClosure_AlbedoTransparency
+    second: {fileID: 2800000, guid: 2d11fbb1565ee774288e026f87f6fcc6, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp2_TopClosure_MetallicSmoothness
+    second: {fileID: 2800000, guid: 0e698ab6a8568ea44af8c8ac50633aed, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp2_TopClosure_Normal
+    second: {fileID: 2800000, guid: 2f8f6f2a24de74e46873ca570db2821a, type: 3}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 1
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    generateMeshLods: 0
+    meshLodGenerationFlags: 0
+    maximumMeshLod: -1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

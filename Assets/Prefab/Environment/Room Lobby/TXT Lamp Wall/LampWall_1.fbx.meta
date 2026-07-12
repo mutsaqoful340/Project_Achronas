@@ -1,0 +1,315 @@
+fileFormatVersion: 2
+guid: bcd29eb8fa5b9e84aabdd4852e73fd46
+ModelImporter:
+  serializedVersion: 24200
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Lamp_Base.001
+    second: {fileID: 2100000, guid: af4bfce86e7d4474c97e1b01c4a2ad80, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Lamp_Cagak.001
+    second: {fileID: 2100000, guid: 62a4ffbb60002704f8e43ba8b74b733c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Lamp_Cagak_Support.001
+    second: {fileID: 2100000, guid: d434dff50cfb72c4c9c1ed52f6db3b28, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Lamp_Glass_Wire_1.001
+    second: {fileID: 2100000, guid: 5982c2999762b9c44b0c3d992a1b19f0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Lamp_Main.001
+    second: {fileID: 2100000, guid: 3bf9ae9100a06134d85a72b1021aa569, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Lamp_Pole.001
+    second: {fileID: 2100000, guid: da3b415f429de1b459430ba897917419, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Lamp_Pole_Base.001
+    second: {fileID: 2100000, guid: c81d825b702025a4b8c26ac473f9179e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Lamp_Screws.001
+    second: {fileID: 2100000, guid: 18c63bf096d96614ca01f0f6d9d83c1c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Lamp_Stick.001
+    second: {fileID: 2100000, guid: 749d6d73233a2b547ad9140ef2df8927, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Lamp_Tip_1.001
+    second: {fileID: 2100000, guid: e7d3cfe7f9de80049a070e46f576cf14, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Lamp_Tip_2.001
+    second: {fileID: 2100000, guid: ff1304762ff43154c891a0647680172b, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp_Base.001_AlbedoTransparency
+    second: {fileID: 2800000, guid: 12b1f8bd92c99384fbe3da9555971792, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp_Base.001_MetallicSmoothness
+    second: {fileID: 2800000, guid: d8f3d8cb0b9d4ad44a71cb10de6d99ec, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp_Base.001_Normal
+    second: {fileID: 2800000, guid: 149c3f3df6a580944bc20b72f2c1f48a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp_Cagak.001_AlbedoTransparency
+    second: {fileID: 2800000, guid: 71f01d3ab9974684a8ad2657d444a57b, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp_Cagak.001_MetallicSmoothness
+    second: {fileID: 2800000, guid: 568fa4d7dfba38c4caa9ea55564344b7, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp_Cagak.001_Normal
+    second: {fileID: 2800000, guid: 376aac6a4dd615d4e8bbb6d21c918d68, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp_Glass_Wire_1.001_AlbedoTransparency
+    second: {fileID: 2800000, guid: 17d5f75fe251efd468c82c37173f4db1, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp_Glass_Wire_1.001_MetallicSmoothness
+    second: {fileID: 2800000, guid: 05ede9e39ad7f254e9c6bcb09221a4d9, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp_Glass_Wire_1.001_Normal
+    second: {fileID: 2800000, guid: 77d3e964ec414974998531a238e0293c, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp_Main.001_AlbedoTransparency
+    second: {fileID: 2800000, guid: 42727dc3144ef6247868258750bc94f4, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp_Main.001_MetallicSmoothness
+    second: {fileID: 2800000, guid: 867e3ecfa56136b4e8a3e8877dc5206a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp_Main.001_Normal
+    second: {fileID: 2800000, guid: 1434561d5f96ffc4dadd4fb73eba0cd3, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp_Pole.001_AlbedoTransparency
+    second: {fileID: 2800000, guid: 91c1dc5fc2e103948a7557db6a86cc80, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp_Pole.001_MetallicSmoothness
+    second: {fileID: 2800000, guid: da49383282fd0e04cb702eba80a86b91, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp_Pole.001_Normal
+    second: {fileID: 2800000, guid: 42e79534a848bb84db79dadd6dbe87b1, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp_Pole_Base.001_AlbedoTransparency
+    second: {fileID: 2800000, guid: f9a28652bf92cf644901a7f7a2f75f53, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp_Pole_Base.001_MetallicSmoothness
+    second: {fileID: 2800000, guid: 25cd29a4faaafe64fadc8dea423a99f1, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp_Pole_Base.001_Normal
+    second: {fileID: 2800000, guid: 2422c1a6f9f6b2747a09d2ffdcc13c91, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp_Screws.001_AlbedoTransparency
+    second: {fileID: 2800000, guid: b8899dd449324dd4eaa9b682ec7bb27d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp_Screws.001_MetallicSmoothness
+    second: {fileID: 2800000, guid: 820384f29ca8b634c9b1036426ccd636, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp_Screws.001_Normal
+    second: {fileID: 2800000, guid: 497d5ad1ff752ad458a6b9157a7a8b91, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp_Stick.001_AlbedoTransparency
+    second: {fileID: 2800000, guid: 6d2c275f79a846547a67a5e4256ab9cb, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp_Stick.001_MetallicSmoothness
+    second: {fileID: 2800000, guid: 7fd84bbae1374814abfa3ee167a597ac, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp_Stick.001_Normal
+    second: {fileID: 2800000, guid: 64b06fd15b9683448ae8f563feafd2b1, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp_Tip_1.001_AlbedoTransparency
+    second: {fileID: 2800000, guid: cc4df5ffa42d43940a27b02d1fe83496, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp_Tip_1.001_MetallicSmoothness
+    second: {fileID: 2800000, guid: 727e5c24ad4d0ff4f926927ed66423ab, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp_Tip_1.001_Normal
+    second: {fileID: 2800000, guid: 69d7314f55bac344d8bc0eb95ec1cb8b, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp_Tip_2.001_AlbedoTransparency
+    second: {fileID: 2800000, guid: 3e55f562cdea86147beb8dad20b80355, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp_Tip_2.001_MetallicSmoothness
+    second: {fileID: 2800000, guid: e60045d24d3b0994197aba4ed970c6ca, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati Properties_MT_Lamp_Tip_2.001_Normal
+    second: {fileID: 2800000, guid: 2bdde1d8a16f82f448598b2cf086b2f3, type: 3}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 1
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    generateMeshLods: 0
+    meshLodGenerationFlags: 0
+    maximumMeshLod: -1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
