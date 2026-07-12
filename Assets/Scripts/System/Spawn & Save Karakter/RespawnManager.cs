@@ -20,6 +20,10 @@ public class RespawnManager : MonoBehaviour
     [Header("Reset Managers")]
     public Sys_ObjResetManager[] resetManager;
 
+    [Header("Transition")]
+    [Tooltip("Fade to black transition sebelum respawn diproses")]
+    public DeathTransition deathTransition;
+
     [Header("Events")]
     public UnityEvent onRespawn;
 
@@ -37,7 +41,11 @@ public class RespawnManager : MonoBehaviour
 
     private IEnumerator RespawnAll()
     {
-        yield return new WaitForSeconds(respawnDelay);
+        // Fade ke hitam dulu sebelum proses respawn dimulai
+        if (deathTransition != null)
+            yield return StartCoroutine(deathTransition.PlayDeathTransition());
+        else
+            yield return new WaitForSeconds(respawnDelay);
 
         if (reloadSceneOnRespawn)
         {
@@ -45,7 +53,7 @@ public class RespawnManager : MonoBehaviour
             // MODE 1: FULL SCENE RELOAD (resets all enemies)
             // ═══════════════════════════════════════════════════════════
             Debug.Log("[RESPAWN] Reloading scene from last checkpoint...");
-            
+
             // Get last saved slot and room
             if (!PlayerPrefs.HasKey("lastRoomID"))
             {
@@ -54,7 +62,7 @@ public class RespawnManager : MonoBehaviour
             }
 
             string lastRoomID = PlayerPrefs.GetString("lastRoomID");
-            
+
             if (SaveManager.Instance != null)
             {
                 string slot = SaveManager.Instance.FindSlotByRoomID(lastRoomID);
@@ -62,20 +70,20 @@ public class RespawnManager : MonoBehaviour
                 {
                     // Load from checkpoint (resets player positions and room state)
                     SaveManager.Instance.Load(slot, player1.transform, player2.transform);
-                    
+
                     // Reload scene asynchronously and wait for it to complete
                     string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
                     AsyncOperation sceneLoad = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(sceneName);
-                    
+
                     // Wait for scene to fully load
                     while (!sceneLoad.isDone)
                     {
                         yield return null;
                     }
-                    
+
                     // Scene is now loaded - reassign devices to the new player instances
                     yield return new WaitForEndOfFrame(); // Extra frame to ensure all Start() methods have run
-                    
+
                     Sys_CharacterAssignmentManager assignmentManager = FindAnyObjectByType<Sys_CharacterAssignmentManager>();
                     if (assignmentManager != null)
                     {
@@ -86,11 +94,11 @@ public class RespawnManager : MonoBehaviour
                     {
                         Debug.LogWarning("[RESPAWN] CharacterAssignmentManager not found in scene!");
                     }
-                    
+
                     yield break;
                 }
             }
-            
+
             Debug.LogWarning("[RESPAWN] SaveManager not found or checkpoint slot not found!");
         }
         else
@@ -119,14 +127,14 @@ public class RespawnManager : MonoBehaviour
                 spawnP1 = JsonUtility.FromJson<Vector3>(PlayerPrefs.GetString("spawnP1"));
                 spawnP2 = JsonUtility.FromJson<Vector3>(PlayerPrefs.GetString("spawnP2"));
                 Debug.Log($"[RESPAWN] Loaded spawn positions from PlayerPrefs - P1: {spawnP1}, P2: {spawnP2}");
-                
+
                 // Clamp spawn Y to minimum 0.5 to prevent low spawn points
-                if (spawnP1.y < 0.5f) 
+                if (spawnP1.y < 0.5f)
                 {
                     spawnP1.y = 0.5f;
                     Debug.Log($"[RESPAWN] Clamped P1 Y to 0.5 (was too low)");
                 }
-                if (spawnP2.y < 0.5f) 
+                if (spawnP2.y < 0.5f)
                 {
                     spawnP2.y = 0.5f;
                     Debug.Log($"[RESPAWN] Clamped P2 Y to 0.5 (was too low)");
@@ -145,7 +153,7 @@ public class RespawnManager : MonoBehaviour
             player2.HandleIdle();
             player2.ResetAfterRespawn();
             player1.ResetAfterRespawn();
-            
+
             // Reset all enemies in scene to initial state
             ResetAllEnemies();
 
@@ -163,6 +171,10 @@ public class RespawnManager : MonoBehaviour
             isRespawning = false;
 
             Debug.Log("[RESPAWN] Kedua player respawn!");
+
+            // Fade balik terang setelah semua state selesai di-reset
+            if (deathTransition != null)
+                yield return StartCoroutine(deathTransition.FadeBackIn());
         }
 
         for (int i = 0; i < resetManager.Length; i++)
