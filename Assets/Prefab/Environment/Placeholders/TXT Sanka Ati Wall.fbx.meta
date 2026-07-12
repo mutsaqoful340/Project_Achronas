@@ -1,0 +1,470 @@
+fileFormatVersion: 2
+guid: 9d5f3c23f12d6f74bae7b32043a42663
+ModelImporter:
+  serializedVersion: 24200
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Foto_Floor
+    second: {fileID: 2100000, guid: b5e9cef6138d4664398d2929855bb087, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Foto_Wall
+    second: {fileID: 2100000, guid: 27df3724c0f8f9e40a13e00fa5d04f6f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Garden_Floor
+    second: {fileID: 2100000, guid: 91971ee3b135e33468970ebb923f0fad, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Garden_Wall
+    second: {fileID: 2100000, guid: 861ffc1898f8666439579cbe935ae109, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Hanoman_Floor
+    second: {fileID: 2100000, guid: fbc663c2b370b0a438491362fb37d4d8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Hanoman_Wall
+    second: {fileID: 2100000, guid: 42990e0ba2a2881499dd60b16373a097, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Lobby_Floor
+    second: {fileID: 2100000, guid: 69cd48fcbef0a4a48b03ef29f6465b29, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Lobby_Wall
+    second: {fileID: 2100000, guid: 27b6f4da0dd9444418f5fbf16532d21f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_LorongKiri_Floor
+    second: {fileID: 2100000, guid: c46586a1ebc67d940a23ff5e058ca128, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_LorongKiri_Wall
+    second: {fileID: 2100000, guid: 1418096149fb7a046915a24c9202c8f0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_LorongUtama_Floor
+    second: {fileID: 2100000, guid: 486bee175a1f62d4e9bc6095d713879e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_LorongUtama_Wall
+    second: {fileID: 2100000, guid: 6d965f92fbf0fd544858bee036215b34, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Panggung_Floor
+    second: {fileID: 2100000, guid: 17f79622db761084db73a21e978c63bd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Panggung_Wall
+    second: {fileID: 2100000, guid: 493406e8affb8f2478e3904ccac077e6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_SecRoom_Floor
+    second: {fileID: 2100000, guid: 86b772615eae7014caef83902f005f23, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_SecRoom_Wall
+    second: {fileID: 2100000, guid: fb3b67bb7a4abbb429aa4b0a3a261e29, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Wayang_Floor
+    second: {fileID: 2100000, guid: c1d09aa5907c88d4a99adb1d07fd2220, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Wayang_Wall
+    second: {fileID: 2100000, guid: eecb6b4380fa1614a937cc2dd16fd036, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_Foto_Floor_AlbedoTransparency
+    second: {fileID: 2800000, guid: 3af0b8fb3afef7e4c9dab882a1538cb9, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_Foto_Floor_MetallicSmoothness
+    second: {fileID: 2800000, guid: 01f63d224d321ec4094cbb815764f751, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_Foto_Floor_Normal
+    second: {fileID: 2800000, guid: a07810fb68a1ee94797604000c642c07, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_Foto_Wall_AlbedoTransparency
+    second: {fileID: 2800000, guid: d14f8a3b0f2418d4aa677bc463b3a166, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_Foto_Wall_MetallicSmoothness
+    second: {fileID: 2800000, guid: 09a0ce5133d826746bb1952d196c1f77, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_Foto_Wall_Normal
+    second: {fileID: 2800000, guid: b00d5cfbf068472438df0855dd3bf798, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_Garden_Floor_AlbedoTransparency
+    second: {fileID: 2800000, guid: 11025623f57a3f640b775ec01f6570e0, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_Garden_Floor_MetallicSmoothness
+    second: {fileID: 2800000, guid: 71af124e34479294ca0cdf92dedeccda, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_Garden_Floor_Normal
+    second: {fileID: 2800000, guid: d705c3ddca5f99049b700ea4517e989b, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_Garden_Wall_AlbedoTransparency
+    second: {fileID: 2800000, guid: e781681a4a529f1479c80d3fff555a50, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_Garden_Wall_MetallicSmoothness
+    second: {fileID: 2800000, guid: 837aef5ec9ef4b240aadb4dc347f0fc4, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_Garden_Wall_Normal
+    second: {fileID: 2800000, guid: bbe6b7c331d3e2943873d954f57981a4, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_Hanoman_Floor_AlbedoTransparency
+    second: {fileID: 2800000, guid: cc4fdfc5e29419043800aadc28914928, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_Hanoman_Floor_MetallicSmoothness
+    second: {fileID: 2800000, guid: b5fb8af4fb62fbd4a8a8e92a95f97a16, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_Hanoman_Floor_Normal
+    second: {fileID: 2800000, guid: 3458fec8bc6bbb74c99ed19268451209, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_Hanoman_Wall_AlbedoTransparency
+    second: {fileID: 2800000, guid: 629f882022260514ea8fe3fc5b5d4686, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_Hanoman_Wall_MetallicSmoothness
+    second: {fileID: 2800000, guid: c5797922fd97d8642ac2672f98e77886, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_Hanoman_Wall_Normal
+    second: {fileID: 2800000, guid: 11f4e823763d80d4a99e96d4ca3338a9, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_Lobby_Floor_AlbedoTransparency
+    second: {fileID: 2800000, guid: 1df38d26f09aaf14e9e1b89bed32910b, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_Lobby_Floor_MetallicSmoothness
+    second: {fileID: 2800000, guid: 72245079869dc334f99e60fe62c41b83, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_Lobby_Floor_Normal
+    second: {fileID: 2800000, guid: 7334b929b859d1e40a4b2da577745a8d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_Lobby_Wall_AlbedoTransparency
+    second: {fileID: 2800000, guid: 0efb2967daef1984b9de8ed7f5e0fa2f, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_Lobby_Wall_MetallicSmoothness
+    second: {fileID: 2800000, guid: 60a56ad8b98db524abe28531b1740613, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_Lobby_Wall_Normal
+    second: {fileID: 2800000, guid: 3b4056a9ce3a7d842896dc56e25c87aa, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_LorongKiri_Floor_AlbedoTransparency
+    second: {fileID: 2800000, guid: e9138562957bdc8438f98ff1f777caea, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_LorongKiri_Floor_MetallicSmoothness
+    second: {fileID: 2800000, guid: caedd63a5655e564c8fa2f87d512281f, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_LorongKiri_Floor_Normal
+    second: {fileID: 2800000, guid: afe548985150d5e478c7024b35a75a48, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_LorongKiri_Wall_AlbedoTransparency
+    second: {fileID: 2800000, guid: 85a22d82d88095547a2ff7e5d8ed81c7, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_LorongKiri_Wall_MetallicSmoothness
+    second: {fileID: 2800000, guid: d967aed962743ad49b32f5dc13864806, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_LorongKiri_Wall_Normal
+    second: {fileID: 2800000, guid: e9044fb5e308957479e20a8d274a8be0, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_LorongUtama_Floor_AlbedoTransparency
+    second: {fileID: 2800000, guid: 6067aed2bc81f454887f234d536b1e58, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_LorongUtama_Floor_MetallicSmoothness
+    second: {fileID: 2800000, guid: 936914234eb8a5340ba73c70e4bf6ffc, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_LorongUtama_Floor_Normal
+    second: {fileID: 2800000, guid: 351e5a7d61a6cc248ba9f77a57523c39, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_LorongUtama_Wall_AlbedoTransparency
+    second: {fileID: 2800000, guid: 90b12fc645d74064fa48b79b6cbc9c0e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_LorongUtama_Wall_MetallicSmoothness
+    second: {fileID: 2800000, guid: afd947362baf7694aa0c1d68d99961e8, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_LorongUtama_Wall_Normal
+    second: {fileID: 2800000, guid: ad446bb9328cd3b489ea27ecaa8730bf, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_Panggung_Floor_AlbedoTransparency
+    second: {fileID: 2800000, guid: ef04dbf2c6e87844482004f0ab7ad832, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_Panggung_Floor_MetallicSmoothness
+    second: {fileID: 2800000, guid: 9426afa64d40cf64d8785f341d876e35, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_Panggung_Floor_Normal
+    second: {fileID: 2800000, guid: c5a16404a9f944447b32dc88eed9fb8c, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_Panggung_Wall_AlbedoTransparency
+    second: {fileID: 2800000, guid: 098015941e2d42a48a794ede9b78196f, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_Panggung_Wall_MetallicSmoothness
+    second: {fileID: 2800000, guid: 008536bba30ae574f972746dc2afdd37, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_Panggung_Wall_Normal
+    second: {fileID: 2800000, guid: d8d5af608191de346bb8d38c3bf9be4d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_SecRoom_Floor_AlbedoTransparency
+    second: {fileID: 2800000, guid: 17dfae5cdb853c54c8aab25634152de2, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_SecRoom_Floor_MetallicSmoothness
+    second: {fileID: 2800000, guid: cd0b91679b82b784a864045cd6f467d6, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_SecRoom_Floor_Normal
+    second: {fileID: 2800000, guid: 81f8e8c8439a46a458541334f3701d14, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_SecRoom_Wall_AlbedoTransparency
+    second: {fileID: 2800000, guid: 7bfdee365cc6d4a4fb526bd90575bd60, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_SecRoom_Wall_MetallicSmoothness
+    second: {fileID: 2800000, guid: 362a9ca1a5a7d6d439c58d1e39ae0b1c, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_SecRoom_Wall_Normal
+    second: {fileID: 2800000, guid: b612b82b581e2454c9c7ddfde5baef83, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_Wayang_Floor_AlbedoTransparency
+    second: {fileID: 2800000, guid: 21f45e1c27898e54daa788f4be7c9bef, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_Wayang_Floor_MetallicSmoothness
+    second: {fileID: 2800000, guid: a76db5975e2c5d346888aa679e884a5b, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_Wayang_Floor_Normal
+    second: {fileID: 2800000, guid: ba07b3a8f3e49424fb959660dc09b0ed, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_Wayang_Wall_AlbedoTransparency
+    second: {fileID: 2800000, guid: 8de6fcf54f974264b9b837839d71754a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_Wayang_Wall_MetallicSmoothness
+    second: {fileID: 2800000, guid: 019b9f639b4d11c49b608467d055cac5, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sanka Ati_D_MT_Wayang_Wall_Normal
+    second: {fileID: 2800000, guid: 345b860b45f6ee842a88e99f0de1d4dc, type: 3}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 1
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    generateMeshLods: 0
+    meshLodGenerationFlags: 0
+    maximumMeshLod: -1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
