@@ -1,0 +1,310 @@
+fileFormatVersion: 2
+guid: 53be31ba0d1e87b45b20cffa9c42830e
+ModelImporter:
+  serializedVersion: 24200
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Lamp_Base.001
+    second: {fileID: 2100000, guid: 4ff915e59accfc44d80d563da3359626, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Lamp_Cagak.001
+    second: {fileID: 2100000, guid: 5453589bd094eb944a13763ea4c36574, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Lamp_Glass_Wire_1.001
+    second: {fileID: 2100000, guid: 4de44980b92839b4ca664ca37c4d8e63, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Lamp_Main.001
+    second: {fileID: 2100000, guid: 374607499c6e1d840b5593d7f259ae02, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Lamp_Pole.001
+    second: {fileID: 2100000, guid: dd6c591c628bbba4da36b28c63ac5d4a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Lamp_Pole_Base.001
+    second: {fileID: 2100000, guid: 0e5c4c272ea5cfc42913abca0e2ce220, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Lamp_Screws.001
+    second: {fileID: 2100000, guid: 5bb8e0c9e521da443a425e5fa9bb9162, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Lamp_Stick.001
+    second: {fileID: 2100000, guid: ba7226dd873665343af47959d32a5328, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Lamp_Tip_1.001
+    second: {fileID: 2100000, guid: 7db5b07713cc49446b466cf35389f029, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Lamp_Tip_2.001
+    second: {fileID: 2100000, guid: e32fca09478f92d4ea4e2f6ad438f6af, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: lamp poke _MT_Lamp_Base.001_AlbedoTransparency
+    second: {fileID: 2800000, guid: 7f215fa3e8e858346aa3302fab902452, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: lamp poke _MT_Lamp_Base.001_MetallicSmoothness
+    second: {fileID: 2800000, guid: 71737be95739ebb4ea4a268a5887cd75, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: lamp poke _MT_Lamp_Base.001_Normal
+    second: {fileID: 2800000, guid: 28c2b567156d53a43b2d8e718bb2db63, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: lamp poke _MT_Lamp_Cagak.001_AlbedoTransparency
+    second: {fileID: 2800000, guid: 7966d8fcdd13289488b3b15344219a0d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: lamp poke _MT_Lamp_Cagak.001_MetallicSmoothness
+    second: {fileID: 2800000, guid: 857fabe030894ca44a5194c0f47fc5fa, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: lamp poke _MT_Lamp_Cagak.001_Normal
+    second: {fileID: 2800000, guid: 8ba0eba1ef01b574ea769e6d95302f47, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: lamp poke _MT_Lamp_Glass_Wire_1.001_AlbedoTransparency
+    second: {fileID: 2800000, guid: c0d68c995e46be945a51168e339e053d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: lamp poke _MT_Lamp_Glass_Wire_1.001_MetallicSmoothness
+    second: {fileID: 2800000, guid: ca2988cfdbd69f04ca624b6dbde7e35c, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: lamp poke _MT_Lamp_Glass_Wire_1.001_Normal
+    second: {fileID: 2800000, guid: 73226e421fa76f24795eac95046ae604, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: lamp poke _MT_Lamp_Main.001_AlbedoTransparency
+    second: {fileID: 2800000, guid: e7924d7f5c68ead4192a0f663d454883, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: lamp poke _MT_Lamp_Main.001_MetallicSmoothness
+    second: {fileID: 2800000, guid: 262631e8ab34c5648ad7a9f4946e62b2, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: lamp poke _MT_Lamp_Main.001_Normal
+    second: {fileID: 2800000, guid: e845e7e589229ca43a38594f85f72609, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: lamp poke _MT_Lamp_Pole.001_AlbedoTransparency
+    second: {fileID: 2800000, guid: 2d6ed179ca3a8814bbe45d15ff051248, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: lamp poke _MT_Lamp_Pole.001_MetallicSmoothness
+    second: {fileID: 2800000, guid: 4972ad2a801c362408dac79f6f41ac92, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: lamp poke _MT_Lamp_Pole.001_Normal
+    second: {fileID: 2800000, guid: cf1e262efd987a7409d23fbabb1390f6, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: lamp poke _MT_Lamp_Pole_Base.001_AlbedoTransparency
+    second: {fileID: 2800000, guid: dba629bcccd956f4aab91f5b5f0e13ab, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: lamp poke _MT_Lamp_Pole_Base.001_MetallicSmoothness
+    second: {fileID: 2800000, guid: 4e75a42e6203f81428534ee71340c68d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: lamp poke _MT_Lamp_Pole_Base.001_Normal
+    second: {fileID: 2800000, guid: afa0042d3c6fa7b43ba679b3a16d9ec5, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: lamp poke _MT_Lamp_Tip_1.001_AlbedoTransparency
+    second: {fileID: 2800000, guid: 2698e8bc71311c8499f930d3cc096b81, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: lamp poke _MT_Lamp_Tip_1.001_MetallicSmoothness
+    second: {fileID: 2800000, guid: 5bf881d5a8575934492fc2f9374f95ed, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: lamp poke _MT_Lamp_Tip_1.001_Normal
+    second: {fileID: 2800000, guid: 20cfe8e9d83878b47bb03d1ea0019b44, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: lamp poke _MT_Lamp_Tip_2.001_AlbedoTransparency
+    second: {fileID: 2800000, guid: 1fa08d49b3007d245af081c78b2d8d74, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: lamp poke _MT_Lamp_Tip_2.001_MetallicSmoothness
+    second: {fileID: 2800000, guid: 13af9c215c1cafc4b9519b5251dc7136, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: lamp poke _MT_Lamp_Tip_2.001_Normal
+    second: {fileID: 2800000, guid: 292ba8a5c132b3a448854ca9c70cd47e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: poke _MT_Lamp_Screws.001_AlbedoTransparency
+    second: {fileID: 2800000, guid: e2c14a5407424844bb5f2873f67fbced, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: poke _MT_Lamp_Screws.001_MetallicSmoothness
+    second: {fileID: 2800000, guid: a8d01d1bbaf6d4641ac04e47abf038c5, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: poke _MT_Lamp_Screws.001_Normal
+    second: {fileID: 2800000, guid: 5982447e3fa00604ab80472f9d187f02, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: poke _MT_Lamp_Stick.001_AlbedoTransparency
+    second: {fileID: 2800000, guid: 5f38dfcdf653c0c46ba3e854cb80c210, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: poke _MT_Lamp_Stick.001_MetallicSmoothness
+    second: {fileID: 2800000, guid: 89f92a1f3d0913443872477b8fbdc0cb, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: poke _MT_Lamp_Stick.001_Normal
+    second: {fileID: 2800000, guid: 32c7142662a9d5543aed88007e1a9405, type: 3}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 1
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    generateMeshLods: 0
+    meshLodGenerationFlags: 0
+    maximumMeshLod: -1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

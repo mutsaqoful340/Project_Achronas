@@ -32,6 +32,12 @@ public class RoomSaveZone : MonoBehaviour
             Save();
     }
 
+    // private void OnTriggerStay(Collider other)
+    // {
+    //     if (other.CompareTag("Player"))
+    //         Save();
+    // }
+
     // ═══════════════════════════════════════════════════════════
     // SAVE
     // ═══════════════════════════════════════════════════════════

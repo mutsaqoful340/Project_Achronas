@@ -157,6 +157,9 @@ public class RespawnManager : MonoBehaviour
             // Reset all enemies in scene to initial state
             ResetAllEnemies();
 
+            // Reset all camera trigger areas to clear player references and deactivate cameras
+            ResetAllTriggerAreas();
+
             // Switch to Player mode so players can control their characters again
             if (Sys_GameModeSwitch.Instance != null)
             {
@@ -238,6 +241,31 @@ public class RespawnManager : MonoBehaviour
                 // Reset mannequin to idle state
                 mannequin.ResetToInitialState();
                 Debug.Log($"[RESPAWN] Reset {mannequin.gameObject.name} to initial state");
+            }
+        }
+    }
+
+    /// <summary>
+    /// Reset all camera trigger areas to clear player references and deactivate cameras
+    /// </summary>
+    private void ResetAllTriggerAreas()
+    {
+        _Sys_VCamPriorityTriggerArea[] triggerAreas = FindObjectsByType<_Sys_VCamPriorityTriggerArea>();
+        foreach (var triggerArea in triggerAreas)
+        {
+            if (triggerArea != null)
+            {
+                triggerArea.ResetTriggerArea();
+                Debug.Log($"[RESPAWN] Reset trigger area {triggerArea.gameObject.name}");
+            }
+        }
+
+        // Refresh all trigger areas to re-detect players now at spawn positions
+        foreach (var triggerArea in triggerAreas)
+        {
+            if (triggerArea != null)
+            {
+                triggerArea.RefreshTriggerArea();
             }
         }
     }

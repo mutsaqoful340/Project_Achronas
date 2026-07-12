@@ -209,6 +209,72 @@ public class _Sys_VCamPriorityTriggerArea : MonoBehaviour
         }
     }
 
+    public void DeactivateAreaCamera()
+    {
+        if (areaCinemachineCamera == null)
+        {
+            Debug.LogError($"<color=red>[{areaName}] areaCinemachineCamera is NULL!</color>");
+            return;
+        }
+
+        areaCinemachineCamera.Priority = 0;
+        Debug.Log($"<color=cyan>[{areaName}] Camera priority set to 0</color>");
+    }
+
+    public void ResetTriggerArea()
+    {
+        // Clear all player references
+        for (int i = 0; i < playerInside.Length; i++)
+        {
+            playerInside[i] = null;
+        }
+
+        // Reset area state
+        isAreaActive = false;
+
+        // Deactivate camera as safeguard
+        DeactivateAreaCamera();
+
+        UpdateDebugState();
+        Debug.Log($"<color=yellow>[{areaName}] Trigger area reset - player references cleared, area deactivated</color>");
+    }
+
+    public void RefreshTriggerArea()
+    {
+        // After reset, manually check if players are already inside the trigger area
+        Collider triggerCollider = GetComponent<Collider>();
+        if (triggerCollider == null) return;
+
+        // Get all Player_Components in the scene
+        Player_Components[] allPlayers = FindObjectsByType<Player_Components>();
+        foreach (var player in allPlayers)
+        {
+            if (player != null && triggerCollider.bounds.Contains(player.transform.position))
+            {
+                if (!IsPlayerAlreadyInside(player))
+                {
+                    AddPlayer(player);
+                    Debug.Log($"<color=yellow>[{areaName}] Player {player.gameObject.name} re-registered during refresh</color>");
+                }
+            }
+        }
+
+        UpdateDebugState();
+
+        // If both players are now inside, activate the camera
+        if (GetPlayerCount() == PlayerSlotCount && !isAreaActive)
+        {
+            isAreaActive = true;
+            
+            if (priorityController != null && areaCinemachineCamera != null)
+            {
+                priorityController.SetCameraActive(areaCinemachineCamera);
+                onBothPlayersInside?.Invoke();
+                Debug.Log($"<color=cyan>[{areaName}] Both players detected during refresh, activated camera</color>");
+            }
+        }
+    }
+
     public void ResetSplineDolly()
     {
         if (areaCinemachineCamera == null)

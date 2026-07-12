@@ -96,6 +96,8 @@ public class Player_Components : Sys_GameplayBehaviour
     private bool strafeTriggered = false;
     private bool isStrafeDetectionPaused = false;
     private bool jumpRequested = false;
+    private bool isJumping = false;
+    private bool isNearInteraction = false;
     #endregion
 
     #region Public Properties
@@ -135,6 +137,15 @@ public class Player_Components : Sys_GameplayBehaviour
     public bool HasDevice()
     {
         return assignedDevice != null;
+    }
+
+    /// <summary>
+    /// Set the player's current action state externally (e.g., from cutscene or door interaction systems)
+    /// </summary>
+    public void CurrentState(ActionState state)
+    {
+        currentActionState = state;
+        Debug.Log($"Player {gameObject.name} state set to: {state}");
     }
     
     /// <summary>
@@ -197,6 +208,13 @@ public class Player_Components : Sys_GameplayBehaviour
 
         // Improved ground check using SphereCast
         isGrounded = CheckGround();
+        
+        // Reset jump flag when player lands after jumping
+        if (isJumping && isGrounded)
+        {
+            isJumping = false;
+        }
+        
         if (isGrounded && velocity.y < 0)
             velocity.y = -2f;
 
@@ -485,11 +503,18 @@ public class Player_Components : Sys_GameplayBehaviour
 
     public void HandleJump()
     {
+        // Prevent jump if already jumping (blocks animation event retriggering)
+        if (isJumping)
+        {
+            return;
+        }
+
         if (!jumpRequested)
         {
             return;
         }
 
+        // Only allow jump when grounded
         if (isGrounded && !IsCrouching && (currentActionState != ActionState.Stumble) && (currentActionState != ActionState.Depressed) && (currentActionState != ActionState.Dead) && !isStumbling)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
@@ -497,10 +522,10 @@ public class Player_Components : Sys_GameplayBehaviour
             Debug.Log("Jump executed.");
             currentActionState = ActionState.Jump;
             jumpRequested = false;
+            isJumping = true;  // Flag that jump is active - reset only on landing
         }
         else
         {
-            // 
             return;
         }
     }
@@ -604,9 +629,41 @@ public class Player_Components : Sys_GameplayBehaviour
             throwModule.DropItem();
         }
     }
+
+    /// <summary>
+    /// Public method to set animator trigger from Timeline signals or other external sources
+    /// </summary>
+    public void SetAnimatorTrigger(string triggerName)
+    {
+        if (animator != null)
+        {
+            animator.SetTrigger(triggerName);
+            Debug.Log($"Animator trigger '{triggerName}' set on {gameObject.name}");
+        }
+        else
+        {
+            Debug.LogWarning($"Animator not assigned on {gameObject.name}");
+        }
+    }
+    
+
+    /// <summary>
+    /// Set whether player is near a universal interaction (door, NPC, etc.)
+    /// When true, item pickup is blocked to prioritize interaction
+    /// </summary>
+    public void SetNearInteraction(bool value)
+    {
+        isNearInteraction = value;
+    }
     
     public void HandleInteract()
     {
+        // Prioritize universal interactions (door, NPC, etc.) over item pickup
+        if (isNearInteraction)
+        {
+            return;
+        }
+
         var carrySystem = GetComponent<GP_PlayerCarrySystem>();
         var throwModule = GetComponent<_GP_ThrowItem>();
 

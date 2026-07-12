@@ -97,6 +97,7 @@ public class _Enemy_Boss : MonoBehaviour
     [Header("Spotting Pause")]
     [Tooltip("Pause the spotting system if true (used for cutscenes or special events)")]
     [SerializeField] private bool pauseSpotting = false;
+    [SerializeField] private bool isPauseSpottingException = false; // Snapshot for reset
 
     [Header("Patrol Settings")]
     [Tooltip("Is this enemy using patrol waypoints? (If true, will follow patrol waypoints)")]
@@ -120,6 +121,14 @@ public class _Enemy_Boss : MonoBehaviour
     public UnityEvent OnAfterDurationFinished;
     [Tooltip("Invoked when the boss reaches the last patrol waypoint")]
     public UnityEvent OnReachedLastPatrolWaypoint;
+    
+    [Header("Periodic Event")]
+    [Tooltip("Enable periodic event that invokes at set intervals")]
+    [SerializeField] private bool enablePeriodicEvent = false;
+    [Tooltip("Interval in seconds between periodic event invocations")]
+    [SerializeField] private float periodicEventInterval = 5f;
+    [Tooltip("Event invoked at periodic intervals when enabled")]
+    [SerializeField] private UnityEvent OnPeriodicEvent;
 
 
     // State management
@@ -158,6 +167,9 @@ public class _Enemy_Boss : MonoBehaviour
     private bool isWaitingAtWaypoint = false;
     private bool hasInvokedLastWaypointEvent = false;
     private bool patrolInitialized = false;  // Track if patrol has been initialized to avoid resetting index unnecessarily
+    
+    // Periodic event timer
+    private float periodicEventTimer = 0f;
 
     // Startup config snapshots for reliable respawn reset.
     private bool initialPauseSpotting;
@@ -213,6 +225,17 @@ public class _Enemy_Boss : MonoBehaviour
         // Hard lock: once a player is caught, stop everything
         if (playerCaught)
             return;
+
+        // Handle periodic event timer
+        if (enablePeriodicEvent)
+        {
+            periodicEventTimer -= Time.deltaTime;
+            if (periodicEventTimer <= 0f)
+            {
+                OnPeriodicEvent?.Invoke();
+                periodicEventTimer = periodicEventInterval; // Reset timer to configured interval
+            }
+        }
 
         // Skip detection and awareness updates while paused or while catching player
         if (!pauseSpotting && currentState != EnemyState.CaughtPlayer)
@@ -959,6 +982,25 @@ public class _Enemy_Boss : MonoBehaviour
         OnSetLoopPatrolWaypoints(false);
     }
 
+    public void OnSetPeriodicEvent(bool enabled)
+    {
+        enablePeriodicEvent = enabled;
+        if (enabled)
+        {
+            periodicEventTimer = periodicEventInterval; // Reset timer when enabling
+        }
+    }
+
+    public void OnEnablePeriodicEvent()
+    {
+        OnSetPeriodicEvent(true);
+    }
+
+    public void OnDisablePeriodicEvent()
+    {
+        OnSetPeriodicEvent(false);
+    }
+
     public void SetPatrolWaypointMode(bool enabled)
     {
         isPatrolWaypoint = enabled;
@@ -1333,7 +1375,15 @@ public class _Enemy_Boss : MonoBehaviour
     {
         // Clear all detection and awareness
         playerCaught = false; // Release hard lock so boss can detect again after reset
-        pauseSpotting = initialPauseSpotting;
+        if (isPauseSpottingException)
+        {
+            pauseSpotting = false; // Override pause if exception is set
+        }
+        else
+        {
+            pauseSpotting = initialPauseSpotting;
+        }
+
         // isPatrolWaypoint = initialIsPatrolWaypoint;
         loopPatrolWaypoints = initialLoopPatrolWaypoints;
         currentAwareness = 0f;
@@ -1360,6 +1410,9 @@ public class _Enemy_Boss : MonoBehaviour
         hasInvokedLastWaypointEvent = false;
         patrolInitialized = false;  // Reset so patrol reinitializes on respawn
         isAggravated = false;  // Reset aggravation lock
+        
+        // Reset periodic event timer
+        periodicEventTimer = periodicEventInterval;
 
         // Stop current timelines
         if (deathTimeline != null && deathTimeline.state == PlayState.Playing)
@@ -1372,6 +1425,7 @@ public class _Enemy_Boss : MonoBehaviour
         }
 
         animator.SetTrigger("Reset"); // Reset animator to default state
+        Debug.Log($"[RESET] {gameObject.name}: Animator reset to default state");
 
         // Reset NavMesh agent and teleport to initial position
         if (navAgent != null && navAgent.isOnNavMesh)

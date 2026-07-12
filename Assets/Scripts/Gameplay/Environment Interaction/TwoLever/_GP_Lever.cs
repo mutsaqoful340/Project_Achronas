@@ -83,11 +83,17 @@ public class _GP_Lever : MonoBehaviour
         if (tempPlayerLever == null)
             return;
         
-        // Simply disable player movement component
+        // Lock player to InCutscene state and disable CharacterController
         Player_Components playerComponent = tempPlayerLever.GetComponent<Player_Components>();
         if (playerComponent != null)
         {
-            playerComponent.enabled = false;
+            playerComponent.CurrentState(ActionState.InCutscene);
+        }
+        
+        CharacterController cc = tempPlayerLever.GetComponent<CharacterController>();
+        if (cc != null)
+        {
+            cc.enabled = false;
         }
     }
     
@@ -100,11 +106,17 @@ public class _GP_Lever : MonoBehaviour
         // Unparent the player
         tempPlayerLever.transform.SetParent(null);
         
-        // Re-enable player movement component
+        // Restore player to Idle state and re-enable CharacterController
         Player_Components playerComponent = tempPlayerLever.GetComponent<Player_Components>();
         if (playerComponent != null)
         {
-            playerComponent.enabled = true;
+            playerComponent.CurrentState(ActionState.Idle);
+        }
+        
+        CharacterController cc = tempPlayerLever.GetComponent<CharacterController>();
+        if (cc != null)
+        {
+            cc.enabled = true;
         }
     }
 }

@@ -34,6 +34,7 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
     [Header("Key Requirement (Optional)")]
     [Tooltip("Assign a GP_Key if this door requires keys to open. Leave empty for no lock.")]
     public GP_Key requiredKey;
+    public UnityEvent onDoorFailedToOpen; // Event triggered when the door fails to open due to missing keys
 
     // Simplified state tracking
     private GameObject[] playersEntered = new GameObject[PLAYER_COUNT];
@@ -62,7 +63,12 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
         {
             if (IsPlayerInUI(i) && playerReferences[i] != null && CheckCancelInput(playerReferences[i]))
             {
-                ExitDoorInteraction(i);
+                // Only allow cancel if the other player hasn't interacted yet (prevents mid-sequence exit)
+                int playersInteractedCount = (playersInteracted[0] != null ? 1 : 0) + (playersInteracted[1] != null ? 1 : 0);
+                if (playersInteractedCount < 2)
+                {
+                    ExitDoorInteraction(i);
+                }
             }
         }
 
@@ -93,6 +99,7 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
 
         if (playerIndex == -1) return;
 
+        playerComponent.SetNearInteraction(true);
         // Subscribe to input event
         SubscribeToPlayer(playerIndex, playerComponent);
 
@@ -111,7 +118,11 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
                 Player_Components secondPlayer = playersInteracted[entryIndex].GetComponent<Player_Components>();
                 if (secondPlayer != null)
                 {
-                    SwitchPlayerUIMode(playerIndex, true);
+                    int secondPlayerIndex = GetPlayerRefIndex(secondPlayer);
+                    if (secondPlayerIndex != -1)
+                    {
+                        SwitchPlayerUIMode(secondPlayerIndex, true);
+                    }
                 }
             }
         }
@@ -158,6 +169,7 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
 
         if (playerIndex == -1) return;
 
+        playerComponent.SetNearInteraction(false);
         // Unsubscribe from input event
         UnsubscribeFromPlayer(playerIndex);
 
@@ -193,7 +205,7 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
 
         if (requiredKey != null && !requiredKey.isCollected)
         {
-            Debug.Log("Door is locked — collect all keys first!");
+            onDoorFailedToOpen?.Invoke();
             return;
         }
 
@@ -223,7 +235,12 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
 
         if (enableUI)
         {
+            playerReferences[playerIndex].CurrentState(ActionState.InCutscene);
             SubscribeToPlayer(playerIndex, playerReferences[playerIndex]);
+        }
+        else
+        {
+            playerReferences[playerIndex].CurrentState(ActionState.Idle);
         }
     }
     
@@ -234,7 +251,10 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
 
         int entryIndex = GetInteractedIndex(playerReferences[playerRefIndex].gameObject);
         if (entryIndex != -1)
+        {
             DetachPlayer(entryIndex);
+            Debug.Log($"DetachPlayer called for entry {entryIndex}. Remaining interacted: P0={playersInteracted[0] != null}, P1={playersInteracted[1] != null}");
+        }
     }
 
     private void NormalizePlayersPosition()
@@ -291,6 +311,7 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
 
         if (currentDoorState != newState)
         {
+            Debug.Log($"Door state changing: {currentDoorState} -> {newState} (playersReady: {playersReady})");
             currentDoorState = newState;
             OnDoorState();
         }
@@ -310,6 +331,7 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
                 break;
             case DoorState.open:
                 PlayTimeline(timelineOpen, "OPEN");
+                doorInteractionIcon.SetActive(false);
                 break;
             case DoorState.close:
                 if (interactCollider != null)
@@ -415,6 +437,7 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
         Player_Components playerComponent = player.GetComponent<Player_Components>();
         if (playerComponent != null)
         {
+            playerComponent.CurrentState(ActionState.Idle);
             playerComponent.enabled = true;
             int refIndex = GetPlayerRefIndex(playerComponent);
             if (Sys_GameModeSwitch.Instance != null && refIndex != -1)

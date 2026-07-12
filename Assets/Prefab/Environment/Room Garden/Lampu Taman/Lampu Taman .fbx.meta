@@ -3,7 +3,67 @@ guid: a4f312bd02c687845b1f48f132565907
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Base Lampu_
+    second: {fileID: 2100000, guid: 3cc9fb7620faee74f971971a4feb903c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Ornamen .001
+    second: {fileID: 2100000, guid: a2eec86ff32b52a48b3ca658dda6d66e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Pole
+    second: {fileID: 2100000, guid: 68bb09441e4c6e94c883d3fe80f352f4, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Lampu Taman _MT_Base Lampu _AlbedoTransparency
+    second: {fileID: 2800000, guid: aec7c0e89272ef844ab42f7d4359128f, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Lampu Taman _MT_Base Lampu _MetallicSmoothness
+    second: {fileID: 2800000, guid: e436d28a9aee3de408ccf7365cf926c8, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Lampu Taman _MT_Base Lampu _Normal
+    second: {fileID: 2800000, guid: 5dac40f46bd9a3241a0c59a820e6f90e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Lampu Taman _MT_Ornamen .001_AlbedoTransparency
+    second: {fileID: 2800000, guid: f1a0b66d43a1e8b4497234a9ccac6450, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Lampu Taman _MT_Ornamen .001_MetallicSmoothness
+    second: {fileID: 2800000, guid: 1aee5158c04ac1141a84e711587a96ac, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Lampu Taman _MT_Ornamen .001_Normal
+    second: {fileID: 2800000, guid: 5274a05754283f24a898377381251357, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Lampu Taman _MT_Pole_AlbedoTransparency
+    second: {fileID: 2800000, guid: 884831ad617ebc3449659681a678fe2b, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Lampu Taman _MT_Pole_MetallicSmoothness
+    second: {fileID: 2800000, guid: 7c0cdbc7f8fc6b145996c8ec1d95c5f3, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Lampu Taman _MT_Pole_Normal
+    second: {fileID: 2800000, guid: 95eb40a05ecd45d48aa4f3a5b7b8f6c1, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0

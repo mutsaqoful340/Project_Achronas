@@ -39,6 +39,7 @@ public class GP_RagdollManager : MonoBehaviour
 
     // Internal state
     private bool isRagdoll = false;
+    private bool ragdollOverride = false; // Prevents state handlers from interfering with ragdoll
     private float ragdollStartTime;
     private List<RagdollBone> ragdollBones = new List<RagdollBone>();
     
@@ -125,7 +126,8 @@ public class GP_RagdollManager : MonoBehaviour
 
     private void Update()
     {
-        if (isRagdoll && enableAutoRecovery)
+        // Don't process auto-recovery if ragdoll is being externally controlled (override active)
+        if (isRagdoll && enableAutoRecovery && !ragdollOverride)
         {
             // Check if enough time has passed for auto-recovery
             if (Time.time - ragdollStartTime >= autoRecoveryTime)
@@ -187,6 +189,7 @@ public class GP_RagdollManager : MonoBehaviour
         if (isRagdoll) return;
 
         isRagdoll = true;
+        ragdollOverride = true; // Set override flag to prevent state handlers from interfering
         ragdollStartTime = Time.time;
 
         // Disable animator
@@ -203,11 +206,12 @@ public class GP_RagdollManager : MonoBehaviour
             characterController.enabled = false;
         }
 
-        // Disable nav mesh agent
+        // Disable nav mesh agent explicitly
         if (navMeshAgent != null)
         {
             wasNavMeshAgentEnabled = navMeshAgent.enabled;
             navMeshAgent.enabled = false;
+            Debug.Log("[GP_RagdollManager] NavMeshAgent disabled for ragdoll");
         }
 
         // Enable ragdoll physics
@@ -215,7 +219,7 @@ public class GP_RagdollManager : MonoBehaviour
 
         if (showDebugInfo)
         {
-            Debug.Log("[GP_RagdollManager] Ragdoll enabled");
+            Debug.Log("[GP_RagdollManager] Ragdoll enabled with override flag set");
         }
     }
 
@@ -227,6 +231,7 @@ public class GP_RagdollManager : MonoBehaviour
         if (!isRagdoll) return;
 
         isRagdoll = false;
+        ragdollOverride = false; // Clear override flag to allow state handlers to resume control
 
         // Disable ragdoll physics
         SetRagdollPhysicsState(false);
@@ -251,7 +256,7 @@ public class GP_RagdollManager : MonoBehaviour
 
         if (showDebugInfo)
         {
-            Debug.Log("[GP_RagdollManager] Ragdoll disabled");
+            Debug.Log("[GP_RagdollManager] Ragdoll disabled, override flag cleared");
         }
     }
 
@@ -311,6 +316,14 @@ public class GP_RagdollManager : MonoBehaviour
     public bool IsRagdollActive()
     {
         return isRagdoll;
+    }
+
+    /// <summary>
+    /// Checks if ragdoll override is active (prevents state handlers from interfering)
+    /// </summary>
+    public bool IsRagdollOverrideActive()
+    {
+        return ragdollOverride;
     }
 
     /// <summary>
