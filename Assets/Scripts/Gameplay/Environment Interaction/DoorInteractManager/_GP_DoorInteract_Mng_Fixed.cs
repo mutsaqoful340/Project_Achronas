@@ -206,6 +206,15 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
         if (requiredKey != null && !requiredKey.isCollected)
         {
             onDoorFailedToOpen?.Invoke();
+            GP_Notification notification = FindAnyObjectByType<GP_Notification>();
+            if (notification != null)
+            {
+                notification.OnShowNotification("Door is locked! You need a key to open it.");
+            }
+            else
+            {
+                Debug.LogWarning("GP_Notification instance not found in the scene. Cannot show notification.");
+            }
             return;
         }
 

@@ -747,12 +747,13 @@ public class _Enemy_Boss : MonoBehaviour
     private void UpdateSpottedPlayersQueue()
     {
         // Remove players from spotted list if they're no longer in detectedPlayers
+        // EXCEPTION: When aggravated, never remove players from spotted list (maintain permanent LOS lock)
         for (int i = spottedPlayers.Count - 1; i >= 0; i--)
         {
             GameObject spottedPlayer = spottedPlayers[i];
-            if (!detectedPlayers.Contains(spottedPlayer))
+            if (!detectedPlayers.Contains(spottedPlayer) && !isAggravated)  // Skip removal if aggravated
             {
-                // Player exited LOS - remove from queue
+                // Player exited LOS - remove from queue (only if not aggravated)
                 spottedPlayers.RemoveAt(i);
                 Debug.Log($"{gameObject.name}: {spottedPlayer.name} exited LOS. Removed from queue. Queue size: {spottedPlayers.Count}");
                 
@@ -770,6 +771,11 @@ public class _Enemy_Boss : MonoBehaviour
                     TransitionToState(EnemyState.Idle);
                     Debug.Log($"{gameObject.name}: All targets lost LOS. Returning to Idle.");
                 }
+            }
+            else if (!detectedPlayers.Contains(spottedPlayer) && isAggravated)
+            {
+                // Aggravated mode: player lost physical LOS but stays in spotted list
+                Debug.Log($"{gameObject.name}: {spottedPlayer.name} exited physical LOS but AGGRAVATED—maintaining lock. Queue size: {spottedPlayers.Count}");
             }
         }
         
