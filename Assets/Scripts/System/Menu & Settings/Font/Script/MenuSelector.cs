@@ -13,6 +13,8 @@ public class MenuSelector : MonoBehaviour
     public GameObject settingsPanel;
     public GameObject gameplayPanel;
     public GameObject extrasPanel;
+    public GameObject creditsPanel;
+    public GameObject galleryPanel;
     public GameObject audioPanel;
     public GameObject videoPanel;
     public GameObject controlPanel;
@@ -27,6 +29,8 @@ public class MenuSelector : MonoBehaviour
 
     bool inSettings = false;
     bool inExtras = false;
+    bool inCredits = false;
+    bool inGallery = false;
     bool inSinglePlayer = false;
 
     public bool isInSetting = false;
@@ -41,6 +45,8 @@ public class MenuSelector : MonoBehaviour
         public GameObject panel;
         public bool wasInSettings;
         public bool wasInExtras;
+        public bool wasInCredits;
+        public bool wasInGallery;
         public bool wasInControlPanel;
         public bool wasInSinglePlayer;
     }
@@ -75,8 +81,9 @@ public class MenuSelector : MonoBehaviour
         if (slotSelector != null && slotSelector.IsPopupOpen()) return;
         // Block kalau semua panel nonaktif (sedang gameplay)
         if (!mainPanel.activeSelf && !settingsPanel.activeSelf && !extrasPanel.activeSelf
-            && !gameplayPanel.activeSelf && !controlPanel.activeSelf && !audioPanel.activeSelf
-            && !videoPanel.activeSelf && !playPanel.activeSelf && !continuePanel.activeSelf)
+        && !gameplayPanel.activeSelf && !controlPanel.activeSelf && !audioPanel.activeSelf
+        && !videoPanel.activeSelf && !playPanel.activeSelf && !continuePanel.activeSelf
+        && !creditsPanel.activeSelf && !galleryPanel.activeSelf)   // <-- tambah ini
             return;
 
         GoBack();
@@ -88,6 +95,8 @@ public class MenuSelector : MonoBehaviour
             panel = currentPanel,
             wasInSettings = inSettings,
             wasInExtras = inExtras,
+            wasInCredits = inCredits,
+            wasInGallery = inGallery,
             wasInSinglePlayer = inSinglePlayer,
             wasInControlPanel = isInControlPanel
         });
@@ -105,6 +114,8 @@ public class MenuSelector : MonoBehaviour
         prev.panel.SetActive(true);
         inSettings = prev.wasInSettings;
         inExtras = prev.wasInExtras;
+        inCredits = prev.wasInCredits;
+        inGallery = prev.wasInGallery;
         isInControlPanel = prev.wasInControlPanel;
         inSinglePlayer = prev.wasInSinglePlayer;
         isInContinuePanel = false;
@@ -277,6 +288,22 @@ public class MenuSelector : MonoBehaviour
         isInVideoPanel = false;
     }
 
+    public void OpenPanel_Credits()
+    {
+        PushCurrentState(mainPanel);
+        OpenPanelInternal(creditsPanel);
+        SelectFirstButton(creditsPanel);
+        inCredits = true;
+    }
+
+    public void OpenPanel_Gallery()
+    {
+        PushCurrentState(mainPanel);
+        OpenPanelInternal(galleryPanel);
+        SelectFirstButton(galleryPanel);
+        inGallery = true;
+    }
+
 
     public void DisableAll()
     {
@@ -289,5 +316,7 @@ public class MenuSelector : MonoBehaviour
         videoPanel.SetActive(false);
         playPanel.SetActive(false);
         continuePanel.SetActive(false);
+        creditsPanel.SetActive(false);
+        galleryPanel.SetActive(false);
     }
 }
