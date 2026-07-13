@@ -24,6 +24,10 @@ public class RespawnManager : MonoBehaviour
     [Tooltip("Fade to black transition sebelum respawn diproses")]
     public DeathTransition deathTransition;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource deathAudioSource;
+    [SerializeField] private AudioClip deathClip;
+
     [Header("Events")]
     public UnityEvent onRespawn;
 
@@ -35,6 +39,10 @@ public class RespawnManager : MonoBehaviour
         if (player1.IsDead || player2.IsDead)
         {
             isRespawning = true;
+
+            if (deathAudioSource != null && deathClip != null)
+                deathAudioSource.PlayOneShot(deathClip);
+
             StartCoroutine(RespawnAll());
         }
     }
