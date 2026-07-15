@@ -155,6 +155,28 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
 
             // Show icon if not already shown
             ShowInteractionIcon(true);
+
+            // Auto-assign second player if first already interacted (robust detection for players already in zone)
+            bool someoneInteracted = playersInteracted[0] != null || playersInteracted[1] != null;
+            bool notBothInteracted = playersInteracted[0] == null || playersInteracted[1] == null;
+            if (someoneInteracted && notBothInteracted && GetInteractedIndex(other.gameObject) == -1)
+            {
+                int interactedIndex = GetEntryIndex(other.gameObject);
+                if (interactedIndex != -1)
+                {
+                    playersInteracted[interactedIndex] = other.gameObject;
+                    Player_Components secondPlayer = playersInteracted[interactedIndex].GetComponent<Player_Components>();
+                    if (secondPlayer != null)
+                    {
+                        int secondPlayerIndex = GetPlayerRefIndex(secondPlayer);
+                        if (secondPlayerIndex != -1)
+                        {
+                            SwitchPlayerUIMode(secondPlayerIndex, true);
+                            Debug.Log($"Player {secondPlayerIndex} auto-assigned via OnTriggerStay (was already in zone)");
+                        }
+                    }
+                }
+            }
         }
 
         NormalizePlayersPosition();
