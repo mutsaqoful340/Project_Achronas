@@ -29,10 +29,6 @@ public class _GP_LeverManager : MonoBehaviour
     [Header("Events")]
     public UnityEvent onBothLeversActivated;
 
-    void Start()
-    {
-    }
-
     public void SetPlayerLever(GameObject player)
     {
         if (playerLever1 == null)

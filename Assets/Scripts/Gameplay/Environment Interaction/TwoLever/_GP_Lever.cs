@@ -73,7 +73,7 @@ public class _GP_Lever : MonoBehaviour
     
     private void OnPlayerParent()
     {
-        tempPlayerLever.transform.SetParent(playerOnLeverPosition);
+        tempPlayerLever.transform.SetParent(playerOnLeverPosition); 
         tempPlayerLever.transform.localPosition = Vector3.zero;
         tempPlayerLever.transform.localRotation = Quaternion.identity;
     }
