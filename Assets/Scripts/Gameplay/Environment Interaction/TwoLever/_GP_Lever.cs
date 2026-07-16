@@ -118,5 +118,26 @@ public class _GP_Lever : MonoBehaviour
         {
             cc.enabled = true;
         }
+        
+        // Complete cleanup to prevent leaks and re-interaction issues
+        CleanupPlayerReferences();
+    }
+    
+    // Complete cleanup of all player references and subscriptions
+    private void CleanupPlayerReferences()
+    {
+        // Unsubscribe from input events
+        if (playerInputModule != null)
+        {
+            playerInputModule.OnAction -= HandlePlayerAction;
+            playerInputModule = null;
+        }
+        
+        // Clear all references
+        tempPlayerLever = null;
+        playerAnimator = null;
+        leverAnimator = null;
+        
+        Debug.Log($"Lever {gameObject.name} - All player references cleaned up");
     }
 }

@@ -7,8 +7,7 @@ public class _GP_LeverManager : MonoBehaviour
     public enum LeverState
     {
         idle,
-        active,
-        finish
+        active
     }
 
     [Header("Player References")]
@@ -25,6 +24,7 @@ public class _GP_LeverManager : MonoBehaviour
 
     [Header("State")]
     public LeverState currentLeverState = LeverState.idle;
+    [SerializeField] private bool isLeverAlreadyActivated = false;
 
     [Header("Events")]
     public UnityEvent onBothLeversActivated;
@@ -50,8 +50,14 @@ public class _GP_LeverManager : MonoBehaviour
     {
         if (playerLever1 != null && playerLever2 != null)
         {
+            if (isLeverAlreadyActivated)
+            {
+                Debug.Log("Both levers are already activated. No further action taken.");
+                return;
+            }
             // Both levers are activated, trigger the desired event
             Debug.Log("Both levers activated! Playing timeline...");
+            isLeverAlreadyActivated = true;
             currentLeverState = LeverState.active;
             PlayTimeline(timelineActive, "ACTIVE");
             onBothLeversActivated?.Invoke();
@@ -75,9 +81,12 @@ public class _GP_LeverManager : MonoBehaviour
         playerLever1 = null;
         playerLever2 = null;
         
-        currentLeverState = LeverState.finish;
+        // Reset activation flag to allow re-use
+        isLeverAlreadyActivated = false;
+        
+        currentLeverState = LeverState.idle;
         PlayTimeline(timelineFinish, "FINISH");
-        Debug.Log("Both players detached from levers, references cleared");
+        Debug.Log("Both players detached from levers, references cleared, system reset for re-use");
     }
 
     private void PlayTimeline(PlayableDirector timeline, string stateName)
