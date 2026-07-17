@@ -27,6 +27,7 @@ public class _Enemy_Mannequin : MonoBehaviour
 
     [Header("Enemy Properties")]
     public Light detectionLight;
+    [SerializeField] private Animator enemyAnimator;
 
     [Header("Patrol Settings")]
     [Tooltip("Array of waypoint transforms for patrol route")]
@@ -70,6 +71,8 @@ public class _Enemy_Mannequin : MonoBehaviour
     [SerializeField] private float chaseSpeed = 5f;
     [Tooltip("How fast enemy rotates when chasing player (degrees per second)")]
     [SerializeField] private float chaseRotationSpeed = 360f;
+    [SerializeField] private string chaseAnimatorTrigger = "Catch";
+    [SerializeField] private string resetAnimatorTrigger = "Reset";
     
     [Header("Light Reaction")]
     public UnityEvent onLitByPlayerLight;
@@ -108,6 +111,10 @@ public class _Enemy_Mannequin : MonoBehaviour
     private void Start()
     {
         navAgent = GetComponent<NavMeshAgent>();
+        if (enemyAnimator == null)
+        {
+            enemyAnimator = GetComponent<Animator>();
+        }
         
         if (navAgent == null)
         {
@@ -307,7 +314,7 @@ public class _Enemy_Mannequin : MonoBehaviour
             if (isPlayerVisible)
             {
                 Debug.Log($"{gameObject.name}: Player spotted during investigation! Chasing...");
-                currentState = EnemyState.Chase;
+                EnterChaseState();
                 return;
             }
             
@@ -347,6 +354,25 @@ public class _Enemy_Mannequin : MonoBehaviour
         navAgent.angularSpeed = defaultAngularSpeed;
     }
 
+    private void EnterChaseState()
+    {
+        currentState = EnemyState.Chase;
+        TriggerAnimator(chaseAnimatorTrigger);
+    }
+
+    private void TriggerResetAnimation()
+    {
+        TriggerAnimator(resetAnimatorTrigger);
+    }
+
+    private void TriggerAnimator(string triggerName)
+    {
+        if (enemyAnimator == null || string.IsNullOrWhiteSpace(triggerName))
+            return;
+
+        enemyAnimator.SetTrigger(triggerName);
+    }
+
     public void OnTriggerEnter(Collider other)
     {
         TryCatchPlayerFromTrigger(other);
@@ -384,6 +410,8 @@ public class _Enemy_Mannequin : MonoBehaviour
         {
             currentState = EnemyState.Idle;
         }
+
+        TriggerResetAnimation();
 
         Debug.Log($"{gameObject.name}: StopChasing() called. Chase cancelled.");
     }
@@ -534,7 +562,7 @@ public class _Enemy_Mannequin : MonoBehaviour
                     if (isPlayerVisible && cachedPlayer != null)
                     {
                         Debug.Log($"{gameObject.name}: Player detected and visible! Chasing...");
-                        currentState = EnemyState.Chase;
+                        EnterChaseState();
                     }
                     else
                     {
@@ -684,7 +712,7 @@ public class _Enemy_Mannequin : MonoBehaviour
         isPlayerVisible = true;
         
         // Force transition to Chase state immediately
-        currentState = EnemyState.Chase;
+        EnterChaseState();
         
         Debug.Log($"{gameObject.name} ({enemyType}): Aggravated! Immediately chasing {cachedPlayer.name}!");
     }
@@ -770,6 +798,8 @@ public class _Enemy_Mannequin : MonoBehaviour
         {
             currentState = EnemyState.Idle;
         }
+
+        TriggerResetAnimation();
 
         Debug.Log($"[RESET] {gameObject.name} reset to initial state at position {initialPosition}");
     }
