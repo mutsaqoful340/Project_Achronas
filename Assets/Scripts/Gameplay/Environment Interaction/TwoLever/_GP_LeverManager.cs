@@ -20,7 +20,7 @@ public class _GP_LeverManager : MonoBehaviour
 
     [Header("Timeline References")]
     public PlayableDirector timelineActive;
-    public PlayableDirector timelineFinish;
+    public PlayableDirector timelineAlreadyActivated;
 
     [Header("State")]
     public LeverState currentLeverState = LeverState.idle;
@@ -41,6 +41,20 @@ public class _GP_LeverManager : MonoBehaviour
         }
         CheckBothLeversActivated();
     }
+    
+    public void RemovePlayerLever(GameObject player)
+    {
+        if (playerLever1 == player)
+        {
+            playerLever1 = null;
+            Debug.Log("Player 1 removed from lever");
+        }
+        else if (playerLever2 == player)
+        {
+            playerLever2 = null;
+            Debug.Log("Player 2 removed from lever");
+        }
+    }
 
     private void CheckBothLeversActivated()
     {
@@ -49,14 +63,17 @@ public class _GP_LeverManager : MonoBehaviour
             if (isLeverAlreadyActivated)
             {
                 Debug.Log("Both levers are already activated. No further action taken.");
-                return;
+                PlayTimeline(timelineAlreadyActivated, "ALREADY ACTIVATED");
             }
-            // Both levers are activated, trigger the desired event
-            Debug.Log("Both levers activated! Playing timeline...");
-            isLeverAlreadyActivated = true;
-            currentLeverState = LeverState.active;
-            PlayTimeline(timelineActive, "ACTIVE");
-            onBothLeversActivated?.Invoke();
+            else
+            {
+                // Both levers are activated, trigger the desired event
+                Debug.Log("Both levers activated! Playing timeline...");
+                isLeverAlreadyActivated = true;
+                currentLeverState = LeverState.active;
+                PlayTimeline(timelineActive, "ACTIVE");
+                onBothLeversActivated?.Invoke();
+            }
         }
     }
 
@@ -78,10 +95,9 @@ public class _GP_LeverManager : MonoBehaviour
         playerLever2 = null;
         
         // Reset activation flag to allow re-use
-        isLeverAlreadyActivated = false;
         
         currentLeverState = LeverState.idle;
-        PlayTimeline(timelineFinish, "FINISH");
+        // PlayTimeline(timelineFinish, "FINISH");
         Debug.Log("Both players detached from levers, references cleared, system reset for re-use");
     }
 

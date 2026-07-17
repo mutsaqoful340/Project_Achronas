@@ -19,6 +19,25 @@ public class _GP_Lever : MonoBehaviour
 
     // Private reference to player's input module
     private _ModuleInputPlay playerInputModule;
+    
+    // Track if player is currently interacting with this lever
+    private bool isPlayerInteracting = false;
+    
+    // Cache original player scale to restore after unparenting
+    private Vector3 originalPlayerScale;
+    
+    void Update()
+    {
+        // Check for cancel input while player is interacting
+        if (isPlayerInteracting && tempPlayerLever != null && CheckCancelInput())
+        {
+            // Only allow cancel if both levers haven't been activated yet
+            if (leverManager.currentLeverState != _GP_LeverManager.LeverState.active)
+            {
+                ExitLeverInteraction();
+            }
+        }
+    }
 
     public void OnTriggerEnter(Collider other)
     {
@@ -63,6 +82,7 @@ public class _GP_Lever : MonoBehaviour
             OnSendPlayerReference();
             OnPlayerParent();
             OnSwitchGamemode();
+            isPlayerInteracting = true;
         }
     }
 
@@ -73,6 +93,9 @@ public class _GP_Lever : MonoBehaviour
     
     private void OnPlayerParent()
     {
+        // Cache original scale before parenting
+        originalPlayerScale = tempPlayerLever.transform.localScale;
+        
         tempPlayerLever.transform.SetParent(playerOnLeverPosition); 
         tempPlayerLever.transform.localPosition = Vector3.zero;
         tempPlayerLever.transform.localRotation = Quaternion.identity;
@@ -97,6 +120,31 @@ public class _GP_Lever : MonoBehaviour
         }
     }
     
+    private bool CheckCancelInput()
+    {
+        Player_Components playerComponent = tempPlayerLever.GetComponent<Player_Components>();
+        if (playerComponent != null && playerComponent.assignedDevice != null)
+        {
+            var gamepad = playerComponent.assignedDevice as UnityEngine.InputSystem.Gamepad;
+            if (gamepad != null && gamepad.buttonEast.wasPressedThisFrame)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    private void ExitLeverInteraction()
+    {
+        Debug.Log($"Player exited lever interaction on {gameObject.name}");
+        
+        // Tell manager to remove this player
+        leverManager.RemovePlayerLever(tempPlayerLever);
+        
+        // Restore player control
+        RestorePlayerControl();
+    }
+    
     // Call this method when the player should exit lever interaction (e.g., from animation event or manager)
     public void RestorePlayerControl()
     {
@@ -105,6 +153,9 @@ public class _GP_Lever : MonoBehaviour
         
         // Unparent the player
         tempPlayerLever.transform.SetParent(null);
+        
+        // Restore original scale
+        tempPlayerLever.transform.localScale = originalPlayerScale;
         
         // Restore player to Idle state and re-enable CharacterController
         Player_Components playerComponent = tempPlayerLever.GetComponent<Player_Components>();
@@ -137,6 +188,8 @@ public class _GP_Lever : MonoBehaviour
         tempPlayerLever = null;
         playerAnimator = null;
         leverAnimator = null;
+        isPlayerInteracting = false;
+        originalPlayerScale = Vector3.one;
         
         Debug.Log($"Lever {gameObject.name} - All player references cleaned up");
     }
