@@ -9,6 +9,7 @@ public class MenuSelector : MonoBehaviour
 {
     [Header("UI Panels")]
     // ===== PANEL =====
+    public GameObject TitleScreen;
     public GameObject mainPanel;
     public GameObject settingsPanel;
     public GameObject gameplayPanel;
@@ -59,7 +60,7 @@ public class MenuSelector : MonoBehaviour
     {
         playerMovement.enabled = false;
         DisableAll();
-        ShowMainMenu();
+        ShowTitleScreen();
     }
 
     void OnEnable()
@@ -83,7 +84,7 @@ public class MenuSelector : MonoBehaviour
         if (!mainPanel.activeSelf && !settingsPanel.activeSelf && !extrasPanel.activeSelf
         && !gameplayPanel.activeSelf && !controlPanel.activeSelf && !audioPanel.activeSelf
         && !videoPanel.activeSelf && !playPanel.activeSelf && !continuePanel.activeSelf
-        && !creditsPanel.activeSelf && !galleryPanel.activeSelf)   // <-- tambah ini
+        && !creditsPanel.activeSelf && !galleryPanel.activeSelf && !TitleScreen.activeSelf)
             return;
 
         GoBack();
@@ -124,10 +125,17 @@ public class MenuSelector : MonoBehaviour
         SelectFirstButton(prev.panel);
     }
 
+    public void ShowTitleScreen()
+    {
+        DisableAll();
+        TitleScreen.SetActive(true);
+    }
+
     public void ShowMainMenu()
     {
         DisableAll();
         mainPanel.SetActive(true);
+        SelectFirstButton(mainPanel);
     }
 
     // ===== PANEL OPENING METHODS =====
@@ -252,7 +260,7 @@ public class MenuSelector : MonoBehaviour
         inSinglePlayer = false;
         panelHistory.Clear();
 
-        GameLoader gameLoader = FindObjectOfType<GameLoader>();
+        GameLoader gameLoader = FindAnyObjectByType<GameLoader>();
         if (gameLoader != null)
             gameLoader.LoadGame(lastSlot);
     }
@@ -307,6 +315,7 @@ public class MenuSelector : MonoBehaviour
 
     public void DisableAll()
     {
+        TitleScreen.SetActive(false);
         mainPanel.SetActive(false);
         settingsPanel.SetActive(false);
         extrasPanel.SetActive(false);
