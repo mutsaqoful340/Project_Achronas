@@ -34600,8 +34600,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 327766030}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.4824322, y: -0.46711123, z: -0.5154379, w: 0.532344}
-  m_LocalPosition: {x: 14.1975975, y: 14.253632, z: -0.8810005}
+  m_LocalRotation: {x: 0.19686359, y: 0.6791501, z: 0.67915, w: 0.19686356}
+  m_LocalPosition: {x: 13.582193, y: -13.1694565, z: -0.619997}
   m_LocalScale: {x: 0.07608999, y: 0.04562001, z: 0.06368001}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -34622,9 +34622,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineSplineDolly
   m_SplineSettings:
     Spline: {fileID: 28870255}
-    Position: 0
+    Position: 53.820072
     Units: 0
-  SplineOffset: {x: 0, y: 0, z: 0}
+  SplineOffset: {x: 0, y: 0, z: 3}
   CameraRotation: 1
   Damping:
     Enabled: 1
@@ -34633,17 +34633,19 @@ MonoBehaviour:
   AutomaticDolly:
     Enabled: 1
     Method:
-      rid: 9204454048075612266
+      rid: 9204454304087277652
   m_LegacyPosition: -1
   m_LegacyUnits: 0
   m_LegacySpline: {fileID: 0}
   references:
     version: 2
     RefIds:
-    - rid: 9204454048075612266
-      type: {class: SplineAutoDolly/FixedSpeed, ns: Unity.Cinemachine, asm: Unity.Cinemachine}
+    - rid: 9204454304087277652
+      type: {class: SplineAutoDolly/NearestPointToTarget, ns: Unity.Cinemachine, asm: Unity.Cinemachine}
       data:
-        Speed: 2
+        PositionOffset: 0
+        SearchResolution: 128
+        SearchIteration: 128
 --- !u!114 &327766034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174847,8 +174849,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1475484202}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.14705108, y: 0.69164723, z: 0.69164735, w: -0.14705107}
-  m_LocalPosition: {x: 22.153599, y: -56.06193, z: 0}
+  m_LocalRotation: {x: -0.32860854, y: 0.7445299, z: 0.53163344, w: -0.23464365}
+  m_LocalPosition: {x: 7.1000004, y: -7.909992, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -248027,7 +248029,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1997372961
 Transform:
   m_ObjectHideFlags: 0

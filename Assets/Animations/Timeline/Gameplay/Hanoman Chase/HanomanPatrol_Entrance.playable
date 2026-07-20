@@ -1177,13 +1177,13 @@ MonoBehaviour:
     m_Start: 3.1
     m_ClipIn: 0
     m_Asset: {fileID: 7502091094055413253}
-    m_Duration: 5.333333333333334
-    m_TimeScale: 1.3560606060606049
+    m_Duration: 4.017957351290683
+    m_TimeScale: 1.7999999999999996
     m_ParentTrack: {fileID: -2152472206826084046}
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
     m_BlendInDuration: -1
-    m_BlendOutDuration: 0.2666666666666675
+    m_BlendOutDuration: 0.3679573512906824
     m_MixInCurve:
       serializedVersion: 2
       m_Curve:
@@ -1243,15 +1243,15 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: Naya|Fix Bangkit
   - m_Version: 1
-    m_Start: 8.166666666666666
+    m_Start: 6.75
     m_ClipIn: 0.38333333333333375
     m_Asset: {fileID: -3039095885221191309}
-    m_Duration: 2.9833333333333325
+    m_Duration: 4.399999999999999
     m_TimeScale: 1
     m_ParentTrack: {fileID: -2152472206826084046}
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
-    m_BlendInDuration: 0.2666666666666675
+    m_BlendInDuration: 0.3679573512906824
     m_BlendOutDuration: 0.16666666666666607
     m_MixInCurve:
       serializedVersion: 2
@@ -1324,25 +1324,7 @@ MonoBehaviour:
     m_BlendOutDuration: -1
     m_MixInCurve:
       serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
+      m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -2549,13 +2531,13 @@ MonoBehaviour:
     m_Start: 0.75
     m_ClipIn: 0
     m_Asset: {fileID: 7480195602897789788}
-    m_Duration: 7.683333333333334
+    m_Duration: 6.4
     m_TimeScale: 1
     m_ParentTrack: {fileID: 5445850016135242022}
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
     m_BlendInDuration: -1
-    m_BlendOutDuration: 0.2666666666666675
+    m_BlendOutDuration: 0.40000000000000036
     m_MixInCurve:
       serializedVersion: 2
       m_Curve:
@@ -2615,15 +2597,15 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0.75
     m_DisplayName: Armature_Jatuh
   - m_Version: 1
-    m_Start: 8.166666666666666
-    m_ClipIn: 0.38333333333333375
+    m_Start: 6.75
+    m_ClipIn: 0
     m_Asset: {fileID: 5731744783754200239}
-    m_Duration: 2.9833333333333325
+    m_Duration: 4.399999999999999
     m_TimeScale: 1
     m_ParentTrack: {fileID: 5445850016135242022}
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
-    m_BlendInDuration: 0.2666666666666675
+    m_BlendInDuration: 0.40000000000000036
     m_BlendOutDuration: 0.1666666666666643
     m_MixInCurve:
       serializedVersion: 2
@@ -2696,25 +2678,7 @@ MonoBehaviour:
     m_BlendOutDuration: -1
     m_MixInCurve:
       serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
+      m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -3379,7 +3343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 030f85c3f73729f4f976f66ffb23b875, type: 3}
   m_Name: AnimationPlayableAsset
   m_EditorClassIdentifier: Unity.Timeline::UnityEngine.Timeline.AnimationPlayableAsset
-  m_Clip: {fileID: 7400000, guid: defe66ad21ecb674bb22fcadbcb35fc0, type: 2}
+  m_Clip: {fileID: 1725298326480008094, guid: ea345d6a64b267346a1172eee1f27fd8, type: 3}
   m_Position: {x: 0, y: 0, z: 0}
   m_EulerAngles: {x: 0, y: 0, z: 0}
   m_UseTrackMatchFields: 1
