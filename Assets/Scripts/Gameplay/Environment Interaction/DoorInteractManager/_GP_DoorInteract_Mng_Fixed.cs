@@ -40,6 +40,9 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
     private GameObject[] playersEntered = new GameObject[PLAYER_COUNT];
     private GameObject[] playersInteracted = new GameObject[PLAYER_COUNT];
     private UnityAction<ActionState>[] playerActionDelegates = new UnityAction<ActionState>[PLAYER_COUNT];
+    private GameObject[] playerOldParents = new GameObject[PLAYER_COUNT];  // Track old parents for reparenting on detach
+    private Vector3[] playerInteractWorldPos = new Vector3[PLAYER_COUNT];  // Track world position at time of interaction
+    private bool[] hasPositionSaved = new bool[PLAYER_COUNT];  // Track whether position was actually saved
     
     private Collider interactCollider;
 
@@ -213,7 +216,7 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
         {
             if (playersInteracted[i] != null)
             {
-                DetachPlayer(i);
+                DetachPlayer(i, isCancel: false);  // Normal completion, don't restore cached position
             }
         }
 
@@ -244,6 +247,15 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
         int entryIndex = GetEntryIndex(playerGO);
         if (entryIndex == -1) return;
 
+        // Only save world position for the first player to interact with door
+        bool isFirstPlayer = playersInteracted[0] == null && playersInteracted[1] == null;
+        if (isFirstPlayer)
+        {
+            playerInteractWorldPos[entryIndex] = playerGO.transform.position;
+            hasPositionSaved[entryIndex] = true;
+            Debug.Log($"Saved first player world position at slot {entryIndex}: {playerInteractWorldPos[entryIndex]}");
+        }
+        
         // Only lock the interacting player — the other player remains free to walk up
         playersInteracted[entryIndex] = playerGO;
         SwitchPlayerUIMode(playerRefIndex, true);
@@ -257,6 +269,9 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
         UnsubscribeFromPlayer(playerIndex);
         
         playerReferences[playerIndex].enabled = !enableUI;
+        
+        // Disable CharacterController when entering UI mode, re-enable when leaving
+        UpdatePlayerCharacterController(playerReferences[playerIndex].gameObject, !enableUI);
         
         if (Sys_GameModeSwitch.Instance != null)
         {
@@ -283,8 +298,11 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
         int entryIndex = GetInteractedIndex(playerReferences[playerRefIndex].gameObject);
         if (entryIndex != -1)
         {
-            DetachPlayer(entryIndex);
+            DetachPlayer(entryIndex, isCancel: true);  // Cancel interaction, restore cached position
             Debug.Log($"DetachPlayer called for entry {entryIndex}. Remaining interacted: P0={playersInteracted[0] != null}, P1={playersInteracted[1] != null}");
+            
+            // Immediately update door state to play idle timeline when cancelling
+            UpdateDoorState();
         }
     }
 
@@ -306,8 +324,10 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
     {
         Transform playerTransform = playersInteracted[playerIndex].transform;
         
+        // Save old parent before reparenting (for restoration on detach)
         if (playerTransform.parent != interactPositions[playerIndex])
         {
+            playerOldParents[playerIndex] = playerTransform.parent != null ? playerTransform.parent.gameObject : null;
             playerTransform.SetParent(interactPositions[playerIndex], false);
         }
 
@@ -453,17 +473,57 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
         if (playersEntered[1] == playerGO)
             playersEntered[1] = null;
         if (playersInteracted[0] == playerGO)
+        {
             playersInteracted[0] = null;
+            playerOldParents[0] = null;
+        }
         if (playersInteracted[1] == playerGO)
+        {
             playersInteracted[1] = null;
+            playerOldParents[1] = null;
+        }
     }
 
-    private void DetachPlayer(int entryIndex)
+    private void DetachPlayer(int entryIndex, bool isCancel = false)
     {
         GameObject player = playersInteracted[entryIndex];
         if (player == null) return;
 
-        player.transform.SetParent(null);
+        // Only restore cached world position if this is a cancel AND we saved a position
+        Vector3 positionToRestore = player.transform.position;
+        if (isCancel && hasPositionSaved[entryIndex])
+        {
+            positionToRestore = playerInteractWorldPos[entryIndex];
+            Debug.Log($"Cancel detected at slot {entryIndex} - restoring player to cached position: {positionToRestore} (saved flag: {hasPositionSaved[entryIndex]})");
+        }
+        else if (!isCancel)
+        {
+            Debug.Log($"Normal completion at slot {entryIndex} - keeping current position: {positionToRestore}");
+        }
+        else if (isCancel && !hasPositionSaved[entryIndex])
+        {
+            Debug.Log($"Cancel at slot {entryIndex} but no position was saved, keeping current: {positionToRestore}");
+        }
+
+        Quaternion worldRot = player.transform.rotation;
+
+        // Disable CharacterController BEFORE reparenting to allow position changes
+        UpdatePlayerCharacterController(player, false);
+
+        // Reparent to old parent (or null if no old parent existed)
+        if (playerOldParents[entryIndex] != null)
+        {
+            player.transform.SetParent(playerOldParents[entryIndex].transform);
+        }
+        else
+        {
+            player.transform.SetParent(null);
+        }
+
+        // Apply position after reparenting (while CharacterController is disabled)
+        player.transform.position = positionToRestore;
+        player.transform.rotation = worldRot;
+        Debug.Log($"Position applied to player at slot {entryIndex}: {player.transform.position}");
         
         Player_Components playerComponent = player.GetComponent<Player_Components>();
         if (playerComponent != null)
@@ -477,8 +537,12 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
             }
         }
 
+        // Re-enable CharacterController AFTER position is set
         UpdatePlayerCharacterController(player, true);
         playersInteracted[entryIndex] = null;
+        playerOldParents[entryIndex] = null;  // Clear old parent reference
+        playerInteractWorldPos[entryIndex] = Vector3.zero;  // Clear saved position
+        hasPositionSaved[entryIndex] = false;  // Clear position saved flag
     }
 
     private void ResetDoorState()
@@ -487,12 +551,21 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
         playersEntered[1] = null;
         playersInteracted[0] = null;
         playersInteracted[1] = null;
+        playerOldParents[0] = null;
+        playerOldParents[1] = null;
+        playerInteractWorldPos[0] = Vector3.zero;
+        playerInteractWorldPos[1] = Vector3.zero;
+        hasPositionSaved[0] = false;
+        hasPositionSaved[1] = false;
         currentDoorState = DoorState.idle;
         
         if (interactCollider != null)
         {
             interactCollider.enabled = true;
         }
+
+        // Play idle timeline when resetting door state
+        OnDoorState();
     }
 
     private void ShowInteractionIcon(bool show)

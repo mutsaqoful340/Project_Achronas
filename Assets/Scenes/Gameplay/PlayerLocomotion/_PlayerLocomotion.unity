@@ -20919,67 +20919,7 @@ MonoBehaviour:
   onTriggerEnterEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: _Enemy_Mannequin, Assembly-CSharp
-        m_MethodName: StopChasing
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: _Enemy_Mannequin, Assembly-CSharp
-        m_MethodName: StopChasing
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: _Enemy_Mannequin, Assembly-CSharp
-        m_MethodName: StopChasing
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: _Enemy_Mannequin, Assembly-CSharp
-        m_MethodName: StopChasing
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 539691369}
-        m_TargetAssemblyTypeName: _Enemy_Mannequin, Assembly-CSharp
-        m_MethodName: StopChasing
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: _Enemy_Mannequin, Assembly-CSharp
         m_MethodName: StopChasing
         m_Mode: 1
@@ -20998,7 +20938,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   isTriggerActive: 0
-  twoPlayerMode: 1
+  twoPlayerMode: 0
 --- !u!65 &189948725
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -29769,7 +29709,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -33997,7 +33937,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -129734,7 +129674,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1161265795
 Transform:
   m_ObjectHideFlags: 0
@@ -222606,10 +222546,12 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1581333132}
   - {fileID: 8583708124147557207}
   - {fileID: 906839385}
   - {fileID: 257442147}
-  - {fileID: 1581333132}
+  - {fileID: 189948723}
+  - {fileID: 130193879}
   - {fileID: 533113733}
   - {fileID: 543450653564693354}
   - {fileID: 808640875}
@@ -222617,9 +222559,7 @@ Transform:
   - {fileID: 539691374}
   - {fileID: 573909129}
   - {fileID: 831812922}
-  - {fileID: 130193879}
   - {fileID: 1124251437}
-  - {fileID: 189948723}
   - {fileID: 1765868059}
   - {fileID: 215518920}
   - {fileID: 57296176}
@@ -222803,9 +222743,13 @@ PlayableDirector:
   - key: {fileID: 2845895104264756207, guid: 6cab6f0bdfb66f649b36ec6f3b7b3a6b, type: 2}
     value: {fileID: 834813117}
   - key: {fileID: 1708679015197316317, guid: 1422272b2c7d6fc41892ad8104a59e8e, type: 2}
-    value: {fileID: 0}
+    value: {fileID: 873076403}
   - key: {fileID: 2845895104264756207, guid: 1422272b2c7d6fc41892ad8104a59e8e, type: 2}
-    value: {fileID: 0}
+    value: {fileID: 834813117}
+  - key: {fileID: 6308815087815760449, guid: 1422272b2c7d6fc41892ad8104a59e8e, type: 2}
+    value: {fileID: 7893561020937782168}
+  - key: {fileID: 6187657864117249300, guid: 1422272b2c7d6fc41892ad8104a59e8e, type: 2}
+    value: {fileID: 5499802363940777128}
   m_ExposedReferences:
     m_References: []
 --- !u!4 &1795386671
@@ -267982,7 +267926,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2111516069
 Transform:
   m_ObjectHideFlags: 0
@@ -268715,9 +268659,9 @@ PlayableDirector:
     value: {fileID: 1629827471}
   - key: {fileID: 3391219715341354401, guid: 4f4a5c2f10961ff40b1765d71d245fbd, type: 2}
     value: {fileID: 1221138191}
-  - key: {fileID: -8331602665647281, guid: 4f4a5c2f10961ff40b1765d71d245fbd, type: 2}
+  - key: {fileID: 6171341629530022601, guid: 4f4a5c2f10961ff40b1765d71d245fbd, type: 2}
     value: {fileID: 7893561020937782168}
-  - key: {fileID: 3961144546888229213, guid: 4f4a5c2f10961ff40b1765d71d245fbd, type: 2}
+  - key: {fileID: 3264075661744055807, guid: 4f4a5c2f10961ff40b1765d71d245fbd, type: 2}
     value: {fileID: 5499802363940777128}
   m_ExposedReferences:
     m_References: []
@@ -391163,6 +391107,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8583708124147557207}
+  - component: {fileID: 8888757740631996243}
   m_Layer: 0
   m_Name: Door_Foto
   m_TagString: Untagged
@@ -391170,6 +391115,27 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!65 &8888757740631996243
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8888757740631996242}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 262135
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 8
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.660048, y: 0.40303922, z: 2.0313642}
+  m_Center: {x: 0, y: -4.973799e-14, z: -1.0000001}
 --- !u!65 &8891080605384648267
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -515,7 +515,11 @@ public class Player_Components : Sys_GameplayBehaviour
         }
 
         // Only allow jump when grounded
-        if (isGrounded && !IsCrouching && (currentActionState != ActionState.Stumble) && (currentActionState != ActionState.Depressed) && (currentActionState != ActionState.Dead) && !isStumbling)
+        if (isGrounded && !IsCrouching && 
+        (currentActionState != ActionState.Stumble) && 
+        (currentActionState != ActionState.Depressed) && 
+        (currentActionState != ActionState.Dead) && !isStumbling && 
+        (currentActionState != ActionState.InCutscene) && !IsInCutscene)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             animator.SetTrigger("DoJump");
@@ -854,6 +858,13 @@ public class Player_Components : Sys_GameplayBehaviour
         IsInCutscene = inCutscene;
         currentActionState = inCutscene ? ActionState.InCutscene : ActionState.Idle;
         isStrafeDetectionPaused = inCutscene;
+        
+        // Disable CharacterController when entering cutscene, enable when leaving
+        if (controller != null)
+        {
+            controller.enabled = !inCutscene;
+        }
+        
         Debug.Log($"InCutscene state set to {inCutscene}");
     }
     #endregion
@@ -861,6 +872,16 @@ public class Player_Components : Sys_GameplayBehaviour
     #region Action States
     private void Action(ActionState state)
     {
+        // Block all actions when in cutscene, dead, or stumbling
+        if (IsInCutscene || IsDead || isStumbling || 
+        currentActionState == ActionState.InCutscene || 
+        currentActionState == ActionState.Dead || 
+        currentActionState == ActionState.Stumble)
+        {
+            Debug.Log($"Action blocked: InCutscene={IsInCutscene}, IsDead={IsDead}, isStumbling={isStumbling}, currentState={currentActionState}");
+            return;
+        }
+
         switch (state)
         {
             case ActionState.Idle:
