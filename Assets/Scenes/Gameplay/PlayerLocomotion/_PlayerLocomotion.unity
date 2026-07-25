@@ -8335,6 +8335,7 @@ MonoBehaviour:
   - 5
   defaultValue: 100
   videoType: 3
+  brightnessVolume: {fileID: 0}
 --- !u!114 &65357681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15778,6 +15779,55 @@ Transform:
   m_Children: []
   m_Father: {fileID: 276742511}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!1 &143851644
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 143851645}
+  - component: {fileID: 143851646}
+  m_Layer: 0
+  m_Name: Global Volume(Global)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &143851645
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 143851644}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 810671775}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &143851646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 143851644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.Volume
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: e35b42e041cfa1f4fa1bd24cbda88009, type: 2}
 --- !u!1 &144908097
 GameObject:
   m_ObjectHideFlags: 0
@@ -20165,6 +20215,7 @@ MonoBehaviour:
   - 30
   defaultValue: 60
   videoType: 1
+  brightnessVolume: {fileID: 0}
 --- !u!95 &185700628
 Animator:
   serializedVersion: 7
@@ -20432,8 +20483,9 @@ MonoBehaviour:
   - 15
   - 10
   - 5
-  defaultValue: 100
+  defaultValue: 50
   videoType: 3
+  brightnessVolume: {fileID: 143851646}
 --- !u!95 &188258727
 Animator:
   serializedVersion: 7
@@ -57358,7 +57410,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &524695383
 RectTransform:
   m_ObjectHideFlags: 0
@@ -59524,7 +59576,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &537798879
 RectTransform:
   m_ObjectHideFlags: 0
@@ -65212,7 +65264,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &585716395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67121,8 +67173,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SettingOptionUI, Assembly-CSharp
+      - m_Target: {fileID: 188258726}
+        m_TargetAssemblyTypeName: VideoOptionUI, Assembly-CSharp
         m_MethodName: Previous
         m_Mode: 1
         m_Arguments:
@@ -75380,7 +75432,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190210
+    rgba: 130
   m_fontColor: {r: 0.509804, g: 0, b: 0, a: 0}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -86731,6 +86783,7 @@ MonoBehaviour:
   - 960 x 540
   defaultValue: 1920 x 1080
   videoType: 0
+  brightnessVolume: {fileID: 0}
 --- !u!114 &755246614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91980,6 +92033,7 @@ Transform:
   - {fileID: 525978219}
   - {fileID: 1544312914}
   - {fileID: 1964210830}
+  - {fileID: 143851645}
   m_Father: {fileID: 753528788}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &811226947
@@ -101234,7 +101288,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &896595496
 RectTransform:
   m_ObjectHideFlags: 0
@@ -114594,6 +114648,7 @@ MonoBehaviour:
   - 30
   defaultValue: 60
   videoType: 1
+  brightnessVolume: {fileID: 0}
 --- !u!114 &1044868753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119699,7 +119754,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 100
+  m_text: 50
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 50e0db212d6804a43ad5c6cc230e6d6f, type: 2}
   m_sharedMaterial: {fileID: 7155317008964744748, guid: 50e0db212d6804a43ad5c6cc230e6d6f, type: 2}
@@ -124370,6 +124425,7 @@ MonoBehaviour:
   options: []
   defaultValue: 
   videoType: 0
+  brightnessVolume: {fileID: 0}
 --- !u!114 &1121286229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128203,6 +128259,7 @@ MonoBehaviour:
   options: []
   defaultValue: 
   videoType: 0
+  brightnessVolume: {fileID: 0}
 --- !u!114 &1155715741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131219,6 +131276,7 @@ MonoBehaviour:
   - OFF
   defaultValue: ON
   videoType: 2
+  brightnessVolume: {fileID: 0}
 --- !u!95 &1172921087
 Animator:
   serializedVersion: 7
@@ -165328,6 +165386,7 @@ MonoBehaviour:
   - OFF
   defaultValue: ON
   videoType: 2
+  brightnessVolume: {fileID: 0}
 --- !u!114 &1398299139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167772,8 +167831,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SettingOptionUI, Assembly-CSharp
+      - m_Target: {fileID: 188258726}
+        m_TargetAssemblyTypeName: VideoOptionUI, Assembly-CSharp
         m_MethodName: Next
         m_Mode: 1
         m_Arguments:
@@ -187686,6 +187745,7 @@ MonoBehaviour:
   options: []
   defaultValue: 
   videoType: 0
+  brightnessVolume: {fileID: 0}
 --- !u!114 &1555740943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202113,6 +202173,7 @@ MonoBehaviour:
   - 960 x 540
   defaultValue: 1920 x 1080
   videoType: 0
+  brightnessVolume: {fileID: 0}
 --- !u!95 &1697463421
 Animator:
   serializedVersion: 7
@@ -236812,7 +236873,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1997372961
 Transform:
   m_ObjectHideFlags: 0
@@ -254242,6 +254303,7 @@ MonoBehaviour:
   options: []
   defaultValue: 
   videoType: 0
+  brightnessVolume: {fileID: 0}
 --- !u!114 &2085773791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302252,6 +302314,7 @@ MonoBehaviour:
   options: []
   defaultValue: 
   videoType: 0
+  brightnessVolume: {fileID: 0}
 --- !u!222 &3539573000799976535
 CanvasRenderer:
   m_ObjectHideFlags: 0

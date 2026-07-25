@@ -2,6 +2,8 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class VideoOptionUI : MonoBehaviour
 {
@@ -26,6 +28,11 @@ public class VideoOptionUI : MonoBehaviour
     [Header("VIDEO TYPE")]
     public VideoType videoType;
 
+    [Header("Brightness (URP)")]
+    public Volume brightnessVolume;
+
+    private ColorAdjustments colorAdjustments;
+
     int index = 0;
     private bool isInitializing = false;
 
@@ -40,6 +47,12 @@ public class VideoOptionUI : MonoBehaviour
         {
             inputActions = new InputActions();
             inputActions.UI.Enable();
+        }
+
+        if (videoType == VideoType.Brightness &&
+            brightnessVolume != null)
+        {
+            brightnessVolume.profile.TryGet(out colorAdjustments);
         }
 
         LoadSetting();
@@ -93,21 +106,25 @@ public class VideoOptionUI : MonoBehaviour
 
     public void Next()
     {
-        if (options == null || options.Length == 0) return;
+        if (options == null || options.Length == 0)
+            return;
+
         index = (index + 1) % options.Length;
         UpdateUI();
     }
 
     public void Previous()
     {
-        if (options == null || options.Length == 0) return;
+        if (options == null || options.Length == 0)
+            return;
+
         index = (index - 1 + options.Length) % options.Length;
         UpdateUI();
     }
 
     void UpdateUI()
     {
-        if (valueText != null && options != null && options.Length > 0)
+        if (valueText != null && options.Length > 0)
             valueText.text = options[index];
 
         if (!isInitializing)
@@ -116,80 +133,128 @@ public class VideoOptionUI : MonoBehaviour
 
     void LoadSetting()
     {
-        if (options == null || options.Length == 0) return;
+        if (options == null || options.Length == 0)
+            return;
 
-        string key = "Video_" + videoType.ToString();
+        if (videoType == VideoType.Brightness)
+        {
+            float savedBrightness = PlayerPrefs.GetFloat("Brightness", 50);
+
+            index = 0;
+            float closest = Mathf.Abs(float.Parse(options[0]) - savedBrightness);
+
+            for (int i = 1; i < options.Length; i++)
+            {
+                float d = Mathf.Abs(float.Parse(options[i]) - savedBrightness);
+
+                if (d < closest)
+                {
+                    closest = d;
+                    index = i;
+                }
+            }
+
+            return;
+        }
+
+        string key = "Video_" + videoType;
+
         string saved = PlayerPrefs.GetString(key, defaultValue);
 
         int savedIndex = System.Array.IndexOf(options, saved);
+
         if (savedIndex >= 0)
             index = savedIndex;
     }
 
     public void ApplySetting()
     {
-        if (options == null || options.Length == 0) return;
+        if (options == null || options.Length == 0)
+            return;
 
         string value = options[index];
-        string key = "Video_" + videoType.ToString();
-        PlayerPrefs.SetString(key, value);
-        PlayerPrefs.Save();
 
         switch (videoType)
         {
             case VideoType.DisplayMode:
+
                 string cleaned = value.Replace("×", "x").Replace(" ", "");
+
                 string[] parts = cleaned.Split('x');
+
                 if (parts.Length == 2 &&
                     int.TryParse(parts[0], out int width) &&
                     int.TryParse(parts[1], out int height))
                 {
                     Screen.SetResolution(width, height, Screen.fullScreen);
-                    Debug.Log($"[VideoOptionUI] Resolution: {width}x{height}");
                 }
+
+                PlayerPrefs.SetString("Video_DisplayMode", value);
+
                 break;
 
             case VideoType.FrameRateLimit:
+
                 if (value.ToLower() == "unlimited")
                     Application.targetFrameRate = -1;
                 else if (int.TryParse(value, out int fps))
                     Application.targetFrameRate = fps;
+
+                PlayerPrefs.SetString("Video_FrameRateLimit", value);
+
                 break;
 
             case VideoType.VSync:
-                QualitySettings.vSyncCount = value.ToLower() == "on" ? 1 : 0;
+
+                QualitySettings.vSyncCount =
+                    value.ToLower() == "on" ? 1 : 0;
+
+                PlayerPrefs.SetString("Video_VSync", value);
+
                 break;
 
             case VideoType.Brightness:
+
                 if (float.TryParse(value, out float brightness))
                 {
-                    float normalized = brightness / 100f;
-                    Screen.brightness = normalized;
-                    PlayerPrefs.SetFloat("Brightness", normalized);
-                    PlayerPrefs.Save();
+                    // 0 = gelap
+                    // 50 = normal
+                    // 100 = terang
+                    float exposure = Mathf.Lerp(-2f, 2f, brightness / 100f);
+
+                    if (colorAdjustments != null)
+                    {
+                        colorAdjustments.postExposure.value = exposure;
+                    }
+
+                    PlayerPrefs.SetFloat("Brightness", brightness);
                 }
+
                 break;
         }
 
-        Debug.Log($"[VideoOptionUI] {videoType}: {value}");
+        PlayerPrefs.Save();
     }
 
     public void ResetToDefault()
     {
-        if (options == null || options.Length == 0) return;
+        if (options == null || options.Length == 0)
+            return;
 
         int defaultIndex = System.Array.IndexOf(options, defaultValue);
+
         if (defaultIndex >= 0)
         {
             index = defaultIndex;
             UpdateUI();
-            ApplySetting();
         }
     }
 
     public string GetValue()
     {
-        if (options == null || options.Length == 0) return "";
+        if (options == null || options.Length == 0)
+            return "";
+
         return options[index];
     }
 }
