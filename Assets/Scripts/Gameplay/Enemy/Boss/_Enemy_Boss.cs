@@ -31,6 +31,7 @@ public class _Enemy_Boss : MonoBehaviour
 
     [Header("References")]
     public Animator animator;
+    public Collider CaughtCollider;
 
     [Header("Enemy Type")]
     public BossType bossType;
@@ -207,6 +208,7 @@ public class _Enemy_Boss : MonoBehaviour
 
         // Start in idle state
         TransitionToState(EnemyState.Idle);
+        UpdateCaughtColliderState();
         Debug.Log($"{gameObject.name}: Initialized. Waiting for player detection.");
         detectionLight.enabled = true; // Ensure detection light is on at start
 
@@ -665,8 +667,28 @@ public class _Enemy_Boss : MonoBehaviour
                 OnPlayerCaught(); // Called once when player is caught
                 break;
         }
+
+        UpdateCaughtColliderState();
     }
     #endregion
+
+    private void UpdateCaughtColliderState()
+    {
+        if (CaughtCollider == null)
+            return;
+
+        // Keep collider enabled while chasing/aggravated and while in CaughtPlayer.
+        // It will be disabled again when reset returns the boss to Idle.
+        bool shouldEnableCatchCollider =
+            currentState == EnemyState.Alerted ||
+            currentState == EnemyState.CaughtPlayer ||
+            isAggravated;
+
+        if (CaughtCollider.enabled != shouldEnableCatchCollider)
+        {
+            CaughtCollider.enabled = shouldEnableCatchCollider;
+        }
+    }
 
     #region Detection Methods
     private bool IsPlayerInLOS()
@@ -1157,6 +1179,8 @@ public class _Enemy_Boss : MonoBehaviour
             TransitionToState(EnemyState.Alerted);
         }
 
+        UpdateCaughtColliderState();
+
         Debug.Log($"{gameObject.name} ({bossType}): Aggravated! Locked onto {target.name}. Chase speed set to {chaseSpeed}. LOS always maintained. Waypoint patrol disabled.");
     }
 
@@ -1466,6 +1490,13 @@ public class _Enemy_Boss : MonoBehaviour
 
         // Transition back to idle
         TransitionToState(EnemyState.Idle);
+
+        if (CaughtCollider != null)
+        {
+            CaughtCollider.enabled = false;
+        }
+
+        UpdateCaughtColliderState();
 
         Debug.Log($"[RESET] {gameObject.name} reset to initial state");
     }
