@@ -3556,8 +3556,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 34166436}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.49080035, y: -0.50903344, z: -0.4908004, w: 0.5090334}
-  m_LocalPosition: {x: 0.107393146, y: -8.97995, z: 1.300003}
+  m_LocalRotation: {x: 0.50042707, y: -0.5004064, z: -0.49959335, w: 0.4995725}
+  m_LocalPosition: {x: 0.10888687, y: -8.981949, z: 0.8890381}
   m_LocalScale: {x: 0.07609, y: 0.045620006, z: 0.06368001}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3577,7 +3577,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineSplineDolly
   m_SplineSettings:
     Spline: {fileID: 1219532045}
-    Position: 13.757144
+    Position: 13.776905
     Units: 0
   SplineOffset: {x: 0, y: 0, z: 0}
   CameraRotation: 1
@@ -41402,7 +41402,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
   m_UsePipelineSettings: 1
-  m_AdditionalLightsShadowResolutionTier: 2
+  m_AdditionalLightsShadowResolutionTier: 0
   m_CustomShadowLayers: 0
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
@@ -41956,6 +41956,112 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 307546129}
   m_CullTransparentMesh: 1
+--- !u!1 &309003127
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 309003128}
+  - component: {fileID: 309003130}
+  - component: {fileID: 309003129}
+  m_Layer: 14
+  m_Name: Spline_Taman_Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &309003128
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 309003127}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 5.082, y: -0, z: 2.546}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 478450277}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &309003129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 309003127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5342500578afb24a9b83d6343d32a0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineSplineSmoother
+  AutoSmooth: 0
+--- !u!114 &309003130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 309003127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dab5c7d4c32e743048dfca98e2d5914f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Splines::UnityEngine.Splines.SplineContainer
+  m_Spline:
+    m_EditModeType: 1
+    m_Knots: []
+    m_MetaData: []
+    m_Closed: 0
+    m_IntData:
+      m_Data: []
+    m_FloatData:
+      m_Data: []
+    m_Float4Data:
+      m_Data: []
+    m_ObjectData:
+      m_Data: []
+  m_Splines:
+  - m_EditModeType: 1
+    m_Knots:
+    - Position:
+        x: 0
+        y: 0
+        z: 0
+      TangentIn:
+        x: 0
+        y: 0
+        z: -0
+      TangentOut:
+        x: 0
+        y: 0
+        z: 0
+      Rotation:
+        value:
+          x: 0
+          y: 0
+          z: 0
+          w: 1
+    m_MetaData:
+    - Mode: 4
+      Tension: 0.5
+    m_Closed: 0
+    m_IntData:
+      m_Data: []
+    m_FloatData:
+      m_Data: []
+    m_Float4Data:
+      m_Data: []
+    m_ObjectData:
+      m_Data: []
+  m_Knots:
+    m_KnotsLink: []
 --- !u!1 &309490789
 GameObject:
   m_ObjectHideFlags: 0
@@ -59619,6 +59725,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2147330953}
+  - {fileID: 309003128}
   - {fileID: 1254788047}
   m_Father: {fileID: 1397194462}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -75168,7 +75275,7 @@ Transform:
   m_GameObject: {fileID: 587717734}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 13.284, y: -0.954, z: -11.08}
+  m_LocalPosition: {x: 13.168, y: -0.954, z: -11.08}
   m_LocalScale: {x: 0.130542, y: 0.13054201, z: 0.13054334}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -91257,7 +91364,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4573735325377947393, guid: 15d35140cebef6f4fb146750148c857e, type: 3}
       propertyPath: m_Intensity
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8858386531651923220, guid: 15d35140cebef6f4fb146750148c857e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -106305,7 +106412,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4573735325377947393, guid: 15d35140cebef6f4fb146750148c857e, type: 3}
       propertyPath: m_Intensity
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8858386531651923220, guid: 15d35140cebef6f4fb146750148c857e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -133020,18 +133127,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: LampBox1 (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 1444436204321964477, guid: 15d35140cebef6f4fb146750148c857e, type: 3}
-      propertyPath: m_AdditionalLightsShadowResolutionTier
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4341262316850987396, guid: 15d35140cebef6f4fb146750148c857e, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4573735325377947393, guid: 15d35140cebef6f4fb146750148c857e, type: 3}
-      propertyPath: m_Intensity
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8858386531651923220, guid: 15d35140cebef6f4fb146750148c857e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.08
@@ -135106,7 +135201,7 @@ Transform:
   m_GameObject: {fileID: 1100997208}
   serializedVersion: 2
   m_LocalRotation: {x: -0.003934691, y: 0.70707035, z: -0.0057682954, w: 0.70710874}
-  m_LocalPosition: {x: 0.001, y: -0.064, z: 0.003}
+  m_LocalPosition: {x: 0.001, y: -0.0578, z: 0.003}
   m_LocalScale: {x: 0.57818705, y: 0.578187, z: 0.578187}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -135152,8 +135247,8 @@ Light:
   serializedVersion: 13
   m_Type: 2
   m_Color: {r: 0.4113207, g: 0.17130083, b: 0.10787464, a: 1}
-  m_Intensity: 1.14
-  m_Range: 0.23
+  m_Intensity: 1
+  m_Range: 0.18
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}
@@ -135194,7 +135289,7 @@ Light:
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
+  m_BounceIntensity: 0
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
@@ -148200,13 +148295,13 @@ MonoBehaviour:
         y: 1.3000066
         z: 8.979942
       TangentIn:
-        x: -1.3780003
-        y: 0
+        x: -2.323
+        y: 0.0000009536743
         z: 0
       TangentOut:
-        x: 1.01
-        y: 0
-        z: 0
+        x: 5.5459995
+        y: -0.000002503395
+        z: -0.0019989014
       Rotation:
         value:
           x: 0.00000021974263
@@ -148214,24 +148309,64 @@ MonoBehaviour:
           z: -9.605255e-15
           w: -0.00000004371139
     - Position:
-        x: -11.219521
-        y: 1.300007
-        z: 8.979942
+        x: 0.07047991
+        y: 0.8890067
+        z: 8.981941
       TangentIn:
-        x: 0
+        x: 2.5
         y: 0
-        z: -0
+        z: 0
       TangentOut:
-        x: 0
+        x: -2.21
         y: 0
         z: 0
       Rotation:
         value:
-          x: -0.03014007
-          y: -8.738666e-11
-          z: -0.028484859
-          w: 0.99913967
+          x: 0
+          y: 0
+          z: 0
+          w: 1
+    - Position:
+        x: -4.15452
+        y: 1.3000066
+        z: 8.981941
+      TangentIn:
+        x: 0
+        y: 0.00000023841858
+        z: -2.375
+      TangentOut:
+        x: 0
+        y: 0.00000011920929
+        z: 0.79799986
+      Rotation:
+        value:
+          x: -0.00000007748814
+          y: 0.70710677
+          z: 0.00000009829491
+          w: -0.70710677
+    - Position:
+        x: -8.560083
+        y: 1.3000069
+        z: 8.980942
+      TangentIn:
+        x: -0.00000011920929
+        y: -0.00000011920929
+        z: -1.4752284
+      TangentOut:
+        x: 0
+        y: 0.0000000037252903
+        z: 1.4752293
+      Rotation:
+        value:
+          x: 0.014666402
+          y: 0.7070744
+          z: -0.014661435
+          w: -0.7068349
     m_MetaData:
+    - Mode: 4
+      Tension: 0.5
+    - Mode: 4
+      Tension: 0.5
     - Mode: 4
       Tension: 0.5
     - Mode: 4
@@ -176573,7 +176708,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
   m_UsePipelineSettings: 1
-  m_AdditionalLightsShadowResolutionTier: 2
+  m_AdditionalLightsShadowResolutionTier: 0
   m_CustomShadowLayers: 0
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
@@ -194523,7 +194658,7 @@ Transform:
   m_GameObject: {fileID: 1528630673}
   serializedVersion: 2
   m_LocalRotation: {x: -0.003934691, y: 0.70707035, z: -0.0057682954, w: 0.70710874}
-  m_LocalPosition: {x: 0.001, y: -0.064, z: 0.003}
+  m_LocalPosition: {x: 0.001, y: -0.0578, z: 0.003}
   m_LocalScale: {x: 0.57818705, y: 0.578187, z: 0.578187}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -194569,8 +194704,8 @@ Light:
   serializedVersion: 13
   m_Type: 2
   m_Color: {r: 0.4113207, g: 0.17130083, b: 0.10787464, a: 1}
-  m_Intensity: 1.14
-  m_Range: 0.23
+  m_Intensity: 1
+  m_Range: 0.18
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}
@@ -194611,7 +194746,7 @@ Light:
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
+  m_BounceIntensity: 0
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
@@ -204009,7 +204144,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4573735325377947393, guid: 15d35140cebef6f4fb146750148c857e, type: 3}
       propertyPath: m_Intensity
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8858386531651923220, guid: 15d35140cebef6f4fb146750148c857e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -209801,7 +209936,7 @@ Transform:
   m_GameObject: {fileID: 1634959245}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 13.284, y: -0.954, z: -7.596}
+  m_LocalPosition: {x: 13.167999, y: -0.954, z: -7.596}
   m_LocalScale: {x: 0.130542, y: 0.13054201, z: 0.13054334}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -267509,9 +267644,9 @@ MonoBehaviour:
         y: 0
         z: 0
       TangentOut:
-        x: 7.220001
-        y: -0.0036847591
-        z: 1.4708471
+        x: 5.8910027
+        y: -0.0040512085
+        z: 1.0425501
       Rotation:
         value:
           x: -0.012906777
@@ -267519,13 +267654,13 @@ MonoBehaviour:
           z: 0.012906777
           w: 0.7069889
     - Position:
-        x: 7.838315
-        y: 1.0000036
-        z: -5.6391773
+        x: 8.997315
+        y: -1.3999968
+        z: -3.8191738
       TangentIn:
-        x: -6.5
-        y: 0
-        z: -0.4799993
+        x: -4.869999
+        y: 1.4700003
+        z: -1.8399994
       TangentOut:
         x: 0
         y: 0
@@ -273269,7 +273404,7 @@ GameObject:
   - component: {fileID: 2147330951}
   - component: {fileID: 2147330952}
   m_Layer: 14
-  m_Name: Spline_Taman
+  m_Name: Spline_Taman_Side
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -276232,18 +276367,6 @@ PrefabInstance:
     - target: {fileID: 1159199633334337896, guid: 15d35140cebef6f4fb146750148c857e, type: 3}
       propertyPath: m_Name
       value: LampBox1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1444436204321964477, guid: 15d35140cebef6f4fb146750148c857e, type: 3}
-      propertyPath: m_AdditionalLightsShadowResolutionTier
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4341262316850987396, guid: 15d35140cebef6f4fb146750148c857e, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4573735325377947393, guid: 15d35140cebef6f4fb146750148c857e, type: 3}
-      propertyPath: m_Intensity
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8858386531651923220, guid: 15d35140cebef6f4fb146750148c857e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -282509,7 +282632,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 1
   m_IsActive: 1
 --- !u!1 &919132147930932197
 GameObject:
@@ -282529,7 +282652,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 1
   m_IsActive: 1
 --- !u!1 &919132148282002537
 GameObject:
@@ -289352,7 +289475,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
+  m_StaticShadowCaster: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -289450,7 +289573,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
+  m_StaticShadowCaster: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
