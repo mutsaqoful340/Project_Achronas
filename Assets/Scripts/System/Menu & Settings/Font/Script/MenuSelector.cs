@@ -78,7 +78,6 @@ public class MenuSelector : MonoBehaviour
 
     private void OnCancelInput(InputAction.CallbackContext context)
     {
-
         if (slotSelector != null && slotSelector.IsPopupOpen()) return;
         // Block kalau semua panel nonaktif (sedang gameplay)
         if (!mainPanel.activeSelf && !settingsPanel.activeSelf && !extrasPanel.activeSelf
@@ -89,6 +88,7 @@ public class MenuSelector : MonoBehaviour
 
         GoBack();
     }
+
     void PushCurrentState(GameObject currentPanel)
     {
         panelHistory.Push(new PanelState
@@ -110,7 +110,6 @@ public class MenuSelector : MonoBehaviour
         PanelState prev = panelHistory.Pop();
 
         DisableAll();
-        
 
         prev.panel.SetActive(true);
         inSettings = prev.wasInSettings;
@@ -198,7 +197,6 @@ public class MenuSelector : MonoBehaviour
         SelectFirstButton(audioPanel);
     }
 
-
     public void OpenPanel_Continue()
     {
         PushCurrentState(playPanel);
@@ -226,7 +224,6 @@ public class MenuSelector : MonoBehaviour
         inSinglePlayer = false;
         panelHistory.Clear();
     }
-
 
     public void SelectLoadGame()
     {
@@ -311,7 +308,6 @@ public class MenuSelector : MonoBehaviour
         SelectFirstButton(galleryPanel);
         inGallery = true;
     }
-
 
     public void DisableAll()
     {
