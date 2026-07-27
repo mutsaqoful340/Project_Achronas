@@ -16,6 +16,7 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
     
     [Header("State")]
     public DoorState currentDoorState = DoorState.idle;
+    public bool isLocketDesk = false; // Optional flag for locked desk doors
 
     [Header("Timeline References")]
     public PlayableDirector timelineIdle;
@@ -43,6 +44,7 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
     private GameObject[] playerOldParents = new GameObject[PLAYER_COUNT];  // Track old parents for reparenting on detach
     private Vector3[] playerInteractWorldPos = new Vector3[PLAYER_COUNT];  // Track world position at time of interaction
     private bool[] hasPositionSaved = new bool[PLAYER_COUNT];  // Track whether position was actually saved
+    private Animator[] playerAnimators = new Animator[PLAYER_COUNT];  // Optional: Track animators for additional control
     
     private Collider interactCollider;
 
@@ -212,16 +214,24 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
     {
         Debug.Log("OnDetachPlayers called - releasing players from door interaction");
         
-        for (int i = 0; i < PLAYER_COUNT; i++)
+        // If isLocketDesk is enabled, skip automatic detachment - timeline must call individual methods
+        if (!isLocketDesk)
         {
-            if (playersInteracted[i] != null)
+            for (int i = 0; i < PLAYER_COUNT; i++)
             {
-                DetachPlayer(i, isCancel: false);  // Normal completion, don't restore cached position
+                if (playersInteracted[i] != null)
+                {
+                    DetachPlayer(i, isCancel: false);  // Normal completion, don't restore cached position
+                }
             }
+            
+            ResetDoorState();
+            Debug.Log("Players detached, door reset to idle state");
         }
-
-        ResetDoorState();
-        Debug.Log("Players detached, door reset to idle state");
+        else
+        {
+            Debug.Log("isLocketDesk enabled - waiting for timeline to call individual DetachPlayerSlot methods");
+        }
     }
 
     private void HandlePlayerAction(ActionState state, int playerRefIndex)
@@ -484,7 +494,29 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
         }
     }
 
-    private void DetachPlayer(int entryIndex, bool isCancel = false)
+    /// <summary>
+    /// Individual detachment method for slot 0. Call from timeline signals when isLocketDesk is enabled.
+    /// </summary>
+    public void DetachPlayerSlot0()
+    {
+        if (playersInteracted[0] != null)
+        {
+            DetachPlayer(0, isCancel: false);
+        }
+    }
+
+    /// <summary>
+    /// Individual detachment method for slot 1. Call from timeline signals when isLocketDesk is enabled.
+    /// </summary>
+    public void DetachPlayerSlot1()
+    {
+        if (playersInteracted[1] != null)
+        {
+            DetachPlayer(1, isCancel: false);
+        }
+    }
+
+    public void DetachPlayer(int entryIndex, bool isCancel = false)
     {
         GameObject player = playersInteracted[entryIndex];
         if (player == null) return;

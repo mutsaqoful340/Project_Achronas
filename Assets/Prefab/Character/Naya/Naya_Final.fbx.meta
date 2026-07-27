@@ -461,8 +461,7 @@ ModelImporter:
       might lower retargeting quality:\nNote: Activate translation DOF on avatar
       to improve retargeting quality.\n\t'FK.Foot.L' is inbetween humanoid transforms
       and has rotation animation that will be discarded.\n\t'Arm.L' is inbetween
-      humanoid transforms and has rotation animation that will be discarded.\n\t'Fk.Head'
-      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'IK.Head'
+      humanoid transforms and has rotation animation that will be discarded.\n\t'IK.Head'
       is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'Arm.R'
       is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'FK.Foot.R'
       is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
@@ -496,7 +495,6 @@ ModelImporter:
       'Fix Bangkit' has import animation warnings that might lower retargeting quality:\nNote:
       Activate translation DOF on avatar to improve retargeting quality.\n\t'FK.Foot.L'
       is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'Arm.L'
-      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'Fk.Head'
       is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'IK.Head'
       is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'Arm.R'
       is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'FK.Foot.R'
@@ -519,8 +517,7 @@ ModelImporter:
       'Jatuh' has import animation warnings that might lower retargeting quality:\nNote:
       Activate translation DOF on avatar to improve retargeting quality.\n\t'FK.Arm.L'
       has translation animation that will be discarded.\n\t'Arm.L' is inbetween humanoid
-      transforms and has rotation animation that will be discarded.\n\t'Fk.Head'
-      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'IK.Head'
+      transforms and has rotation animation that will be discarded.\n\t'IK.Head'
       is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'FK.Arm.R'
       has translation animation that will be discarded.\n\t'Arm.R' is inbetween humanoid
       transforms and has rotation animation that will be discarded.\n\t'FK.Foot.R'
@@ -545,7 +542,6 @@ ModelImporter:
       transforms and has rotation animation that will be discarded.\n\nClip 'Nyentuh
       Objek' has import animation warnings that might lower retargeting quality:\nNote:
       Activate translation DOF on avatar to improve retargeting quality.\n\t'Arm.L'
-      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'Fk.Head'
       is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'IK.Head'
       is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'Arm.R'
       is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
@@ -565,8 +561,7 @@ ModelImporter:
       'Tired' has import animation warnings that might lower retargeting quality:\nNote:
       Activate translation DOF on avatar to improve retargeting quality.\n\t'FK.Arm.L'
       has translation animation that will be discarded.\n\t'Arm.L' is inbetween humanoid
-      transforms and has rotation animation that will be discarded.\n\t'Fk.Head'
-      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'IK.Head'
+      transforms and has rotation animation that will be discarded.\n\t'IK.Head'
       is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'FK.Arm.R'
       has translation animation that will be discarded.\n\t'Arm.R' is inbetween humanoid
       transforms and has rotation animation that will be discarded.\n\t'FK.Foot.R'
@@ -1441,7 +1436,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: Front.Eyenrow.L
+    - boneName: Eyes.L
       humanName: LeftEye
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -1449,7 +1444,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: Front.Eyenrow.R
+    - boneName: Eyes.R
       humanName: RightEye
       limit:
         min: {x: 0, y: 0, z: 0}
