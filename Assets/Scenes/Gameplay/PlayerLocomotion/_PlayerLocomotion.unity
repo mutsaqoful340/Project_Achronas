@@ -28846,6 +28846,42 @@ MonoBehaviour:
   onTriggerEnterEvent:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 5866666021776044305}
+        m_TargetAssemblyTypeName: _Enemy_Mannequin, Assembly-CSharp
+        m_MethodName: StopChasing
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 808640876}
+        m_TargetAssemblyTypeName: _Enemy_Mannequin, Assembly-CSharp
+        m_MethodName: StopChasing
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5866666021302161177}
+        m_TargetAssemblyTypeName: _Enemy_Mannequin, Assembly-CSharp
+        m_MethodName: StopChasing
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 539691369}
         m_TargetAssemblyTypeName: _Enemy_Mannequin, Assembly-CSharp
         m_MethodName: StopChasing
@@ -90687,9 +90723,9 @@ Transform:
   m_GameObject: {fileID: 707549841}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.283, y: 3.22, z: 2.289}
+  m_LocalPosition: {x: 2.47, y: 0, z: 2.48}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2103944576}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -116133,9 +116169,9 @@ Transform:
   m_GameObject: {fileID: 942619891}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.343, y: 3.22, z: 2.289}
+  m_LocalPosition: {x: 1.41, y: 0, z: 2.48}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2103944576}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

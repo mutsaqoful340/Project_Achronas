@@ -51,10 +51,14 @@ public class SaveManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
         Directory.CreateDirectory(SaveDirectory);
-        Debug.Log(Application.persistentDataPath);
+
+        // Tampilkan informasi lokasi save
+        PrintSaveInfo();
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -94,7 +98,22 @@ public class SaveManager : MonoBehaviour
             string json = JsonUtility.ToJson(data, prettyPrint: true);
             string content = useEncryption ? Encrypt(json) : json;
 
+
             File.WriteAllText(SlotPath(slot), content, Encoding.UTF8);
+            Debug.Log("========== SAVE ==========");
+            Debug.Log($"Slot        : {slot}");
+            Debug.Log($"File Path   : {SlotPath(slot)}");
+            Debug.Log($"File Exists : {File.Exists(SlotPath(slot))}");
+
+            if (File.Exists(SlotPath(slot)))
+            {
+                FileInfo info = new FileInfo(SlotPath(slot));
+
+                Debug.Log($"File Size   : {info.Length} bytes");
+                Debug.Log($"Saved At    : {info.LastWriteTime}");
+            }
+
+            Debug.Log("==========================");
 
             Debug.Log($"[SaveManager] Tersimpan ke slot '{slot}': {SlotPath(slot)}");
             OnSaveSuccess?.Invoke(slot);
@@ -114,6 +133,11 @@ public class SaveManager : MonoBehaviour
     public SaveData Load(string slot, Transform player1, Transform player2)
     {
         string path = SlotPath(slot);
+        Debug.Log("========== LOAD ==========");
+        Debug.Log($"Slot        : {slot}");
+        Debug.Log($"File Path   : {path}");
+        Debug.Log($"File Exists : {File.Exists(path)}");
+        Debug.Log("==========================");
 
         if (!File.Exists(path))
         {
@@ -283,6 +307,38 @@ public class SaveManager : MonoBehaviour
             room.LoadVisitedState();
 
         Debug.Log("[SaveManager] Minimap progress & PlayerPrefs direset, visual di-refresh.");
+    }
+
+    private void PrintSaveInfo()
+    {
+        Debug.Log("========== SAVE MANAGER ==========");
+        Debug.Log($"Persistent Path : {Application.persistentDataPath}");
+        Debug.Log($"Save Directory  : {SaveDirectory}");
+        Debug.Log($"Company Name    : {Application.companyName}");
+        Debug.Log($"Product Name    : {Application.productName}");
+        Debug.Log($"Platform        : {Application.platform}");
+        Debug.Log($"Folder Exists   : {Directory.Exists(SaveDirectory)}");
+
+        if (Directory.Exists(SaveDirectory))
+        {
+            string[] files = Directory.GetFiles(SaveDirectory);
+
+            Debug.Log($"Jumlah File Save : {files.Length}");
+
+            foreach (string file in files)
+            {
+                FileInfo info = new FileInfo(file);
+
+                Debug.Log(
+                    $"- {info.Name}\n" +
+                    $"  Path : {info.FullName}\n" +
+                    $"  Size : {info.Length} bytes\n" +
+                    $"  Last Write : {info.LastWriteTime}"
+                );
+            }
+        }
+
+        Debug.Log("===============================");
     }
 
 }
