@@ -23,7 +23,7 @@ public class MenuSelector : MonoBehaviour
     public GameObject continuePanel;
 
     [Header("EXTERNAL REFERENCES")]
-    public MonoBehaviour playerMovement;
+    // public MonoBehaviour playerMovement;
     public LoadingScreen loadingScreen;
     public PauseMenuSelector pauseMenu;
     public SlotSelector slotSelector;
@@ -58,7 +58,7 @@ public class MenuSelector : MonoBehaviour
 
     void Start()
     {
-        playerMovement.enabled = false;
+        // playerMovement.enabled = false;
         DisableAll();
         ShowTitleScreen();
     }
@@ -220,7 +220,7 @@ public class MenuSelector : MonoBehaviour
         PlayerPrefs.DeleteAll();
         DisableAll();
         AudioManager.Instance.StopMainMenuBGM();
-        playerMovement.enabled = true;
+        // playerMovement.enabled = true;
         inSinglePlayer = false;
         panelHistory.Clear();
     }
@@ -253,7 +253,7 @@ public class MenuSelector : MonoBehaviour
         }
 
         DisableAll();
-        playerMovement.enabled = true;
+        // playerMovement.enabled = true;
         inSinglePlayer = false;
         panelHistory.Clear();
 

@@ -25,6 +25,7 @@ MonoBehaviour:
     m_Objects:
     - {fileID: 4453716671595734909}
     - {fileID: 1626494546224091}
+    - {fileID: 8719647828922696864}
 --- !u!114 &-3097574543061805042
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1841,3 +1842,19 @@ MonoBehaviour:
   m_Retroactive: 0
   m_EmitOnce: 0
   m_Asset: {fileID: 11400000, guid: 04baa7f99156a994c9cfab6a1da90225, type: 2}
+--- !u!114 &8719647828922696864
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
+  m_Name: Signal Emitter
+  m_EditorClassIdentifier: Unity.Timeline::UnityEngine.Timeline.SignalEmitter
+  m_Time: 0
+  m_Retroactive: 0
+  m_EmitOnce: 0
+  m_Asset: {fileID: 11400000, guid: e5bced6a3c91d5441ab67e5582198009, type: 2}

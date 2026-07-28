@@ -257,7 +257,7 @@ public class SlotSelector : MonoBehaviour
         SaveManager.Instance.Load(slot, player1Transform, player2Transform);
 
         menuSelector.DisableAll();
-        menuSelector.playerMovement.enabled = true;
+        // menuSelector.playerMovement.enabled = true;
         menuSelector.panelHistory.Clear();
     }
 
