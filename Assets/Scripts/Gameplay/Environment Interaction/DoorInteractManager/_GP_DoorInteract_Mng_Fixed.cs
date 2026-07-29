@@ -11,9 +11,9 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
         open,
         close
     }
-    
+
     private const int PLAYER_COUNT = 2;
-    
+
     [Header("State")]
     public DoorState currentDoorState = DoorState.idle;
     public bool isLocketDesk = false; // Optional flag for locked desk doors
@@ -45,7 +45,7 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
     private Vector3[] playerInteractWorldPos = new Vector3[PLAYER_COUNT];  // Track world position at time of interaction
     private bool[] hasPositionSaved = new bool[PLAYER_COUNT];  // Track whether position was actually saved
     private Animator[] playerAnimators = new Animator[PLAYER_COUNT];  // Optional: Track animators for additional control
-    
+
     private Collider interactCollider;
 
     void Start()
@@ -54,13 +54,13 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
         {
             doorInteractionIcon.SetActive(false);
         }
-        
+
         if (interactCollider == null)
         {
             interactCollider = GetComponent<Collider>();
         }
     }
-    
+
     void Update()
     {
         // Check for cancel input for players in UI mode
@@ -79,7 +79,7 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
 
         NormalizePlayersPosition();
     }
-    
+
     private bool CheckCancelInput(Player_Components player)
     {
         if (player.assignedDevice != null)
@@ -213,7 +213,7 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
     public void OnDetachPlayers()
     {
         Debug.Log("OnDetachPlayers called - releasing players from door interaction");
-        
+
         // If isLocketDesk is enabled, skip automatic detachment - timeline must call individual methods
         if (!isLocketDesk)
         {
@@ -224,7 +224,7 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
                     DetachPlayer(i, isCancel: false);  // Normal completion, don't restore cached position
                 }
             }
-            
+
             ResetDoorState();
             Debug.Log("Players detached, door reset to idle state");
         }
@@ -265,24 +265,24 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
             hasPositionSaved[entryIndex] = true;
             Debug.Log($"Saved first player world position at slot {entryIndex}: {playerInteractWorldPos[entryIndex]}");
         }
-        
+
         // Only lock the interacting player — the other player remains free to walk up
         playersInteracted[entryIndex] = playerGO;
         SwitchPlayerUIMode(playerRefIndex, true);
         Debug.Log($"Player {playerRefIndex} interacted with door → interact position [{entryIndex}]. Waiting for other player...");
     }
-    
+
     private void SwitchPlayerUIMode(int playerIndex, bool enableUI)
     {
         if (playerReferences[playerIndex] == null) return;
 
         UnsubscribeFromPlayer(playerIndex);
-        
+
         playerReferences[playerIndex].enabled = !enableUI;
-        
+
         // Disable CharacterController when entering UI mode, re-enable when leaving
         UpdatePlayerCharacterController(playerReferences[playerIndex].gameObject, !enableUI);
-        
+
         if (Sys_GameModeSwitch.Instance != null)
         {
             var targetMode = enableUI ? Sys_GameModeSwitch.GameMode.UI : Sys_GameModeSwitch.GameMode.Player;
@@ -291,15 +291,15 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
 
         if (enableUI)
         {
-            playerReferences[playerIndex].CurrentState(ActionState.InCutscene);
+            playerReferences[playerIndex].HandleInCutscene(true);
             SubscribeToPlayer(playerIndex, playerReferences[playerIndex]);
         }
         else
         {
-            playerReferences[playerIndex].CurrentState(ActionState.Idle);
+            playerReferences[playerIndex].HandleInCutscene(false);
         }
     }
-    
+
     private void ExitDoorInteraction(int playerRefIndex)
     {
         Debug.Log($"Player {playerRefIndex} exited door UI mode.");
@@ -310,7 +310,7 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
         {
             DetachPlayer(entryIndex, isCancel: true);  // Cancel interaction, restore cached position
             Debug.Log($"DetachPlayer called for entry {entryIndex}. Remaining interacted: P0={playersInteracted[0] != null}, P1={playersInteracted[1] != null}");
-            
+
             // Immediately update door state to play idle timeline when cancelling
             UpdateDoorState();
         }
@@ -333,7 +333,7 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
     private void NormalizePlayerTransform(int playerIndex)
     {
         Transform playerTransform = playersInteracted[playerIndex].transform;
-        
+
         // Save old parent before reparenting (for restoration on detach)
         if (playerTransform.parent != interactPositions[playerIndex])
         {
@@ -381,7 +381,7 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
     private void OnDoorState()
     {
         Debug.Log($"OnDoorState called with state: {currentDoorState}");
-        
+
         switch (currentDoorState)
         {
             case DoorState.idle:
@@ -417,7 +417,7 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
     }
 
     #region Helper Methods
-    
+
     private int GetPlayerRefIndex(Player_Components player)
     {
         if (player == playerReferences[0]) return 0;
@@ -556,7 +556,7 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
         player.transform.position = positionToRestore;
         player.transform.rotation = worldRot;
         Debug.Log($"Position applied to player at slot {entryIndex}: {player.transform.position}");
-        
+
         Player_Components playerComponent = player.GetComponent<Player_Components>();
         if (playerComponent != null)
         {
@@ -590,7 +590,7 @@ public class GP_DoorInteract_Mng_Fixed : MonoBehaviour
         hasPositionSaved[0] = false;
         hasPositionSaved[1] = false;
         currentDoorState = DoorState.idle;
-        
+
         if (interactCollider != null)
         {
             interactCollider.enabled = true;

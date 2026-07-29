@@ -19,13 +19,13 @@ public class _GP_Lever : MonoBehaviour
 
     // Private reference to player's input module
     private _ModuleInputPlay playerInputModule;
-    
+
     // Track if player is currently interacting with this lever
     private bool isPlayerInteracting = false;
-    
+
     // Cache original player scale to restore after unparenting
     private Vector3 originalPlayerScale;
-    
+
     void Update()
     {
         // Check for cancel input while player is interacting
@@ -44,7 +44,7 @@ public class _GP_Lever : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             tempPlayerLever = other.gameObject;
-            
+
             // Get player's input module and subscribe to interact action
             Player_Components playerComponents = tempPlayerLever.GetComponent<Player_Components>();
             playerAnimator = tempPlayerLever.GetComponent<Animator>();
@@ -67,13 +67,13 @@ public class _GP_Lever : MonoBehaviour
                 playerInputModule.OnAction -= HandlePlayerAction;
                 playerInputModule = null;
             }
-            
+
             tempPlayerLever = null;
             playerAnimator = null;
             leverAnimator = null;
         }
     }
-    
+
     // Handle player action input
     private void HandlePlayerAction(ActionState actionState)
     {
@@ -90,13 +90,13 @@ public class _GP_Lever : MonoBehaviour
     {
         leverManager.SetPlayerLever(tempPlayerLever);
     }
-    
+
     private void OnPlayerParent()
     {
         // Cache original scale before parenting
         originalPlayerScale = tempPlayerLever.transform.localScale;
-        
-        tempPlayerLever.transform.SetParent(playerOnLeverPosition); 
+
+        tempPlayerLever.transform.SetParent(playerOnLeverPosition);
         tempPlayerLever.transform.localPosition = Vector3.zero;
         tempPlayerLever.transform.localRotation = Quaternion.identity;
     }
@@ -105,21 +105,15 @@ public class _GP_Lever : MonoBehaviour
     {
         if (tempPlayerLever == null)
             return;
-        
+
         // Lock player to InCutscene state and disable CharacterController
         Player_Components playerComponent = tempPlayerLever.GetComponent<Player_Components>();
         if (playerComponent != null)
         {
-            playerComponent.CurrentState(ActionState.InCutscene);
-        }
-        
-        CharacterController cc = tempPlayerLever.GetComponent<CharacterController>();
-        if (cc != null)
-        {
-            cc.enabled = false;
+            playerComponent.HandleInCutscene(true);
         }
     }
-    
+
     private bool CheckCancelInput()
     {
         Player_Components playerComponent = tempPlayerLever.GetComponent<Player_Components>();
@@ -133,47 +127,41 @@ public class _GP_Lever : MonoBehaviour
         }
         return false;
     }
-    
+
     private void ExitLeverInteraction()
     {
         Debug.Log($"Player exited lever interaction on {gameObject.name}");
-        
+
         // Tell manager to remove this player
         leverManager.RemovePlayerLever(tempPlayerLever);
-        
+
         // Restore player control
         RestorePlayerControl();
     }
-    
+
     // Call this method when the player should exit lever interaction (e.g., from animation event or manager)
     public void RestorePlayerControl()
     {
         if (tempPlayerLever == null)
             return;
-        
+
         // Unparent the player
         tempPlayerLever.transform.SetParent(null);
-        
+
         // Restore original scale
         tempPlayerLever.transform.localScale = originalPlayerScale;
-        
+
         // Restore player to Idle state and re-enable CharacterController
         Player_Components playerComponent = tempPlayerLever.GetComponent<Player_Components>();
         if (playerComponent != null)
         {
-            playerComponent.CurrentState(ActionState.Idle);
+            playerComponent.HandleInCutscene(false);
         }
-        
-        CharacterController cc = tempPlayerLever.GetComponent<CharacterController>();
-        if (cc != null)
-        {
-            cc.enabled = true;
-        }
-        
+
         // Complete cleanup to prevent leaks and re-interaction issues
         CleanupPlayerReferences();
     }
-    
+
     // Complete cleanup of all player references and subscriptions
     private void CleanupPlayerReferences()
     {
@@ -183,14 +171,14 @@ public class _GP_Lever : MonoBehaviour
             playerInputModule.OnAction -= HandlePlayerAction;
             playerInputModule = null;
         }
-        
+
         // Clear all references
         tempPlayerLever = null;
         playerAnimator = null;
         leverAnimator = null;
         isPlayerInteracting = false;
         originalPlayerScale = Vector3.one;
-        
+
         Debug.Log($"Lever {gameObject.name} - All player references cleaned up");
     }
 }

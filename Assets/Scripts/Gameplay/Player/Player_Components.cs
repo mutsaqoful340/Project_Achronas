@@ -103,11 +103,11 @@ public class Player_Components : Sys_GameplayBehaviour
     #region Public Properties
     public Vector3 Velocity => velocity;
     #endregion
-    
+
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
-        
+
         if (moduleInputPlay != null)
         {
             moduleInputPlay.OnAction += Action;
@@ -147,7 +147,7 @@ public class Player_Components : Sys_GameplayBehaviour
         currentActionState = state;
         Debug.Log($"Player {gameObject.name} state set to: {state}");
     }
-    
+
     /// <summary>
     /// Debug method to check player status
     /// </summary>
@@ -159,7 +159,7 @@ public class Player_Components : Sys_GameplayBehaviour
         Debug.Log($"assignedDevice: {(assignedDevice != null ? $"{assignedDevice.name} (ID: {assignedDevice.deviceId})" : "NULL")}");
         Debug.Log($"moduleInputPlay: {(moduleInputPlay != null ? "Assigned" : "NULL")}");
         Debug.Log($"controller: {(controller != null ? "Assigned" : "NULL")}");
-        
+
         if (assignedDevice != null && moduleInputPlay != null)
         {
             Vector3 input = moduleInputPlay.GetMoveInput(assignedDevice);
@@ -208,19 +208,19 @@ public class Player_Components : Sys_GameplayBehaviour
 
         // Improved ground check using SphereCast
         isGrounded = CheckGround();
-        
+
         // Reset jump flag when player lands after jumping
         if (isJumping && isGrounded)
         {
             isJumping = false;
         }
-        
+
         if (isGrounded && velocity.y < 0)
             velocity.y = -2f;
 
 
         HandleMove();
-        
+
         // Apply gravity
         velocity.y += gravity * Time.deltaTime;
     }
@@ -230,7 +230,7 @@ public class Player_Components : Sys_GameplayBehaviour
     {
         // Get the bottom center of the CharacterController (player's feet)
         Vector3 spherePosition = transform.position + (Vector3.down * controller.height / 2f) + (Vector3.up * controller.center.y);
-        
+
         // Perform sphere check at the feet
         return Physics.CheckSphere(spherePosition, groundCheckRadius, groundLayers, QueryTriggerInteraction.Ignore);
     }
@@ -238,10 +238,10 @@ public class Player_Components : Sys_GameplayBehaviour
     // Get movement input from InputActions, resolve camera-relative direction, and return normalized movement vector
     private Vector3 GetMovementInput()
     {
-        Vector3 inputDir = (moduleInputPlay != null && assignedDevice != null) 
-            ? moduleInputPlay.GetMoveInput(assignedDevice) 
+        Vector3 inputDir = (moduleInputPlay != null && assignedDevice != null)
+            ? moduleInputPlay.GetMoveInput(assignedDevice)
             : Vector3.zero;
-        
+
         // Detect strafe behavior based on rotation changes
         DetectStrafe(inputDir);
 
@@ -277,11 +277,11 @@ public class Player_Components : Sys_GameplayBehaviour
         float currentYRotation = transform.eulerAngles.y;
         float rotationDelta = Mathf.DeltaAngle(lastYRotation, currentYRotation);
         float absDelta = Mathf.Abs(rotationDelta);
-        
+
         // Accumulate rotation speed
         rotationSpeedAccumulator += absDelta;
         rotationSpeedResetTimer += Time.deltaTime;
-        
+
         // Count direction reversals (direction changes) — only meaningful rotations
         if (absDelta > minRotationDeltaForDetection)
         {
@@ -292,15 +292,15 @@ public class Player_Components : Sys_GameplayBehaviour
             }
             lastRotationDelta = rotationDelta;
         }
-        
+
         // Reset if time window expires
         if (rotationSpeedResetTimer > rotationChangeWindow)
         {
             float avgRotationSpeed = rotationSpeedAccumulator / rotationSpeedResetTimer;
-            
+
             // Trigger ONLY if both conditions met: high speed AND reversals
-            if (avgRotationSpeed > minRotationDeltaForDetection && 
-                reversalCount >= rotationChangesForStrafe && 
+            if (avgRotationSpeed > minRotationDeltaForDetection &&
+                reversalCount >= rotationChangesForStrafe &&
                 !strafeTriggered)
             {
                 strafeTriggered = true;
@@ -308,42 +308,42 @@ public class Player_Components : Sys_GameplayBehaviour
                 HandleStumble();
                 Debug.Log($"Aggressive strafing detected! Speed: {avgRotationSpeed:F1}°/sec, Reversals: {reversalCount}");
             }
-            
+
             rotationSpeedAccumulator = 0f;
             rotationSpeedResetTimer = 0f;
             reversalCount = 0;
             strafeTriggered = false;
         }
-        
+
         lastYRotation = currentYRotation;
     }
 
-// Determines the target speed based on player state and input, and updates the Move parameter for animations
+    // Determines the target speed based on player state and input, and updates the Move parameter for animations
     private float CalculateTargetSpeed()
     {
         bool isSprinting = moduleInputPlay != null && currentActionState == ActionState.Sprint;
-        
+
         // Prevent sprinting when carrying
         GP_PlayerCarrySystem carrySystem = GetComponent<GP_PlayerCarrySystem>();
         if (carrySystem != null && carrySystem.IsCarrying)
         {
             isSprinting = false; // Force walk only
         }
-        
-        Vector3 inputDir = (moduleInputPlay != null && assignedDevice != null) 
-            ? moduleInputPlay.GetMoveInput(assignedDevice) 
+
+        Vector3 inputDir = (moduleInputPlay != null && assignedDevice != null)
+            ? moduleInputPlay.GetMoveInput(assignedDevice)
             : Vector3.zero;
         bool isMoving = inputDir.sqrMagnitude > 0.01f;
-        
+
         float targetMoveValue = 0f;
         float targetSpeed = walkSpeed;
-        
+
         // Debug: Log if Move value is unexpectedly high
         if (currentMoveValue >= 1.9f && !isSprinting && isMoving)
         {
             Debug.LogWarning($"{gameObject.name}: Move={currentMoveValue:F2}, isSprinting={isSprinting}, actionState={currentActionState}");
         }
-        
+
         if (!isMoving)
         {
             // Idle - no movement input
@@ -368,13 +368,13 @@ public class Player_Components : Sys_GameplayBehaviour
 
         // Smoothly interpolate the animator parameter
         currentMoveValue = Mathf.Lerp(currentMoveValue, targetMoveValue, moveAnimationSpeed * Time.deltaTime);
-        
+
         // Snap to target if close enough to avoid floating point precision issues
         if (Mathf.Abs(currentMoveValue - targetMoveValue) < 0.01f)
         {
             currentMoveValue = targetMoveValue;
         }
-        
+
         if (animator != null)
             animator.SetFloat("Move", currentMoveValue);
 
@@ -390,7 +390,7 @@ public class Player_Components : Sys_GameplayBehaviour
 
         // Calculate acceleration rate
         float accelRate = (desiredVelocity.sqrMagnitude > 0.01f) ? maxAcceleration : maxDeceleration;
-        if (!isGrounded) 
+        if (!isGrounded)
             accelRate *= airControl;
 
         // Apply acceleration
@@ -420,7 +420,7 @@ public class Player_Components : Sys_GameplayBehaviour
         if (lookDir.sqrMagnitude > 0.01f)
         {
             Quaternion targetRot = Quaternion.LookRotation(lookDir);
-            
+
             // Reduce rotation speed when carrying
             float effectiveRotationSpeed = rotationSpeed;
             GP_PlayerCarrySystem carrySystem = GetComponent<GP_PlayerCarrySystem>();
@@ -428,7 +428,7 @@ public class Player_Components : Sys_GameplayBehaviour
             {
                 effectiveRotationSpeed *= 0.5f; // Halve rotation speed when carrying
             }
-            
+
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, effectiveRotationSpeed * Time.deltaTime);
         }
     }
@@ -466,14 +466,14 @@ public class Player_Components : Sys_GameplayBehaviour
                 animator.SetFloat("Move", 0f);
             return;
         }
-        
+
         Vector3 moveDir = GetMovementInput();
         float targetSpeed = CalculateTargetSpeed();
         Vector3 horizontalVelocity = ApplyMovementPhysics(moveDir, targetSpeed);
-        
+
         velocity.x = horizontalVelocity.x;
         velocity.z = horizontalVelocity.z;
-        
+
         // Apply carry sway if currently carrying - blend smoothly to avoid spinning
         GP_PlayerCarrySystem carrySystem = GetComponent<GP_PlayerCarrySystem>();
         if (carrySystem != null && carrySystem.IsCarrying)
@@ -481,20 +481,20 @@ public class Player_Components : Sys_GameplayBehaviour
             // Set animator blend tree parameters for carry animations
             animator.SetFloat("BalanceY", currentMoveValue);  // 0=idle, 1=walk
             animator.SetFloat("BalanceX", carrySystem.BalanceMeter);  // -1=left sway, 1=right sway
-            
+
             // Clamp sway velocity to prevent excessive movement (tunable value)
             Vector3 clampedSway = Vector3.ClampMagnitude(carrySystem.SwayVelocity, carrySystem.SwayClampMax);
-            
+
             // Blend sway into velocity instead of adding directly (tunable blending)
             velocity.x = Mathf.Lerp(velocity.x, clampedSway.x, carrySystem.SwayBlendFactor);
             velocity.z = Mathf.Lerp(velocity.z, clampedSway.z, carrySystem.SwayBlendFactor);
         }
-        
+
         if (!isStumbling)
         {
             RotateTowardsMovement(horizontalVelocity);
         }
-        
+
         if (controller.enabled != false)
         {
             controller.Move(velocity * Time.deltaTime);
@@ -515,10 +515,10 @@ public class Player_Components : Sys_GameplayBehaviour
         }
 
         // Only allow jump when grounded
-        if (isGrounded && !IsCrouching && 
-        (currentActionState != ActionState.Stumble) && 
-        (currentActionState != ActionState.Depressed) && 
-        (currentActionState != ActionState.Dead) && !isStumbling && 
+        if (isGrounded && !IsCrouching &&
+        (currentActionState != ActionState.Stumble) &&
+        (currentActionState != ActionState.Depressed) &&
+        (currentActionState != ActionState.Dead) && !isStumbling &&
         (currentActionState != ActionState.InCutscene) && !IsInCutscene)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
@@ -543,7 +543,7 @@ public class Player_Components : Sys_GameplayBehaviour
             Debug.Log("Cannot crouch while carrying");
             return;
         }
-        
+
         if (isGrounded)
         {
             IsCrouching = !IsCrouching;
@@ -649,17 +649,23 @@ public class Player_Components : Sys_GameplayBehaviour
             Debug.LogWarning($"Animator not assigned on {gameObject.name}");
         }
     }
-    
+
 
     /// <summary>
     /// Set whether player is near a universal interaction (door, NPC, etc.)
     /// When true, item pickup is blocked to prioritize interaction
     /// </summary>
+    /// 
+    public void Start()
+    {
+        Application.targetFrameRate = 60;
+    }
+    
     public void SetNearInteraction(bool value)
     {
         isNearInteraction = value;
     }
-    
+
     public void HandleInteract()
     {
         // Prioritize universal interactions (door, NPC, etc.) over item pickup
@@ -686,7 +692,7 @@ public class Player_Components : Sys_GameplayBehaviour
         // }
 
         // Otherwise, try to pick up or carry
-    // Try to carry nearby depressed player (only if one is nearby)
+        // Try to carry nearby depressed player (only if one is nearby)
         if (carrySystem != null && carrySystem.HasNearbyDepressedPlayer())
         {
             carrySystem.AttemptCarry();
@@ -740,7 +746,7 @@ public class Player_Components : Sys_GameplayBehaviour
 
         // Sync animator with player state - use SetCrouchState to properly trigger animations
         SetCrouchState(false);
-        
+
         // Clear depressed state and sync animator
         if (IsDepressed)
         {
@@ -807,7 +813,7 @@ public class Player_Components : Sys_GameplayBehaviour
         {
             currentActionState = ActionState.Depressed;
             animator.SetBool("IsDepressed", true);
-            
+
             // Enable carry detection collider when depressed
             var carryCollider = GetComponent<Collider>();
             if (carryCollider != null)
@@ -826,7 +832,7 @@ public class Player_Components : Sys_GameplayBehaviour
         {
             currentActionState = ActionState.Idle;
             animator.SetBool("IsDepressed", false);
-            
+
             // Disable carry detection collider when no longer depressed
             var carryCollider = GetComponent<Collider>();
             if (carryCollider != null)
@@ -858,13 +864,13 @@ public class Player_Components : Sys_GameplayBehaviour
         IsInCutscene = inCutscene;
         currentActionState = inCutscene ? ActionState.InCutscene : ActionState.Idle;
         isStrafeDetectionPaused = inCutscene;
-        
+
         // Disable CharacterController when entering cutscene, enable when leaving
         if (controller != null)
         {
             controller.enabled = !inCutscene;
         }
-        
+
         Debug.Log($"InCutscene state set to {inCutscene}");
     }
     #endregion
@@ -873,9 +879,9 @@ public class Player_Components : Sys_GameplayBehaviour
     private void Action(ActionState state)
     {
         // Block all actions when in cutscene, dead, or stumbling
-        if (IsInCutscene || IsDead || isStumbling || 
-        currentActionState == ActionState.InCutscene || 
-        currentActionState == ActionState.Dead || 
+        if (IsInCutscene || IsDead || isStumbling ||
+        currentActionState == ActionState.InCutscene ||
+        currentActionState == ActionState.Dead ||
         currentActionState == ActionState.Stumble)
         {
             Debug.Log($"Action blocked: InCutscene={IsInCutscene}, IsDead={IsDead}, isStumbling={isStumbling}, currentState={currentActionState}");
