@@ -21,6 +21,7 @@ public class MenuSelector : MonoBehaviour
     public GameObject controlPanel;
     public GameObject playPanel;
     public GameObject continuePanel;
+    public GameObject openingCutscene;
 
     [Header("EXTERNAL REFERENCES")]
     // public MonoBehaviour playerMovement;
@@ -39,6 +40,7 @@ public class MenuSelector : MonoBehaviour
     public bool isInAudioPanel = false;
     public bool isInVideoPanel = false;
     public bool isInContinuePanel = false;
+    public bool isInCutscene = false;
 
     // ===== HISTORY =====
     public struct PanelState
@@ -105,7 +107,7 @@ public class MenuSelector : MonoBehaviour
 
     public void GoBack()
     {
-        if (panelHistory.Count == 0) return;
+        if (panelHistory.Count == 0 || isInCutscene) return;
 
         PanelState prev = panelHistory.Pop();
 
@@ -135,6 +137,14 @@ public class MenuSelector : MonoBehaviour
         DisableAll();
         mainPanel.SetActive(true);
         SelectFirstButton(mainPanel);
+    }
+
+    public void ShowOpeningCutscene()
+    {
+        DisableAll();
+        openingCutscene.SetActive(true);
+        isInCutscene = true;
+        SelectFirstButton(openingCutscene);
     }
 
     // ===== PANEL OPENING METHODS =====
@@ -221,6 +231,8 @@ public class MenuSelector : MonoBehaviour
         DisableAll();
         AudioManager.Instance.StopMainMenuBGM();
         // playerMovement.enabled = true;
+        isInCutscene = true;
+        ShowOpeningCutscene();
         inSinglePlayer = false;
         panelHistory.Clear();
     }
