@@ -5,6 +5,7 @@ using UnityEngine.Events;
 public class GP_UniversalInteraction : MonoBehaviour
 {
     public UnityEvent onInteract;
+    public bool isNotifyOnInteract = false;
 
     private readonly Dictionary<Player_Components, UnityAction<ActionState>> _subscribedPlayers
         = new Dictionary<Player_Components, UnityAction<ActionState>>();
@@ -17,7 +18,10 @@ public class GP_UniversalInteraction : MonoBehaviour
         if (player == null || player.moduleInputPlay == null) return;
         if (_subscribedPlayers.ContainsKey(player)) return;
 
-        player.SetNearInteraction(true);
+        if (!isNotifyOnInteract)
+        {
+            player.SetNearInteraction(true);
+        }
         UnityAction<ActionState> handler = (state) => OnPlayerAction(state);
         player.moduleInputPlay.OnAction += handler;
         _subscribedPlayers.Add(player, handler);
@@ -30,7 +34,10 @@ public class GP_UniversalInteraction : MonoBehaviour
         Player_Components player = other.GetComponent<Player_Components>();
         if (player == null) return;
 
-        player.SetNearInteraction(false);
+        if (!isNotifyOnInteract)
+        {
+            player.SetNearInteraction(false);
+        }
         Unsubscribe(player);
     }
 
