@@ -3,7 +3,37 @@ guid: 0903398fbb9cce8479ed5c8189a4fd58
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Bunga_MT_Bunga _AlbedoTransparency
+    second: {fileID: 2800000, guid: 5dd0c109c84dffa4da55ab28f6abfc32, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Bunga_MT_Bunga _MetallicSmoothness
+    second: {fileID: 2800000, guid: 55557ac6c048cec4190e77e8748226c7, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Bunga_MT_Bunga _Normal
+    second: {fileID: 2800000, guid: 7b47f73b8d6bb8c449c9b370908b81ab, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: tangkai _DefaultMaterial_AlbedoTransparency
+    second: {fileID: 2800000, guid: 0e30cff2d6270c241a2a5230b2580de5, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: tangkai _DefaultMaterial_MetallicSmoothness
+    second: {fileID: 2800000, guid: 16b893072fac4914191312f0171c07e2, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: tangkai _DefaultMaterial_Normal
+    second: {fileID: 2800000, guid: cf91c46621e881a49ac667fbd470c8e1, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
