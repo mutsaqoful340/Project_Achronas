@@ -102,8 +102,7 @@ public class Sys_CharacterSelection : MonoBehaviour
         foreach (var gamepad in Gamepad.all)
         {
             // Skip if this device is already assigned
-            if ((player1Device != null && player1Device.deviceId == gamepad.deviceId) ||
-                (player2Device != null && player2Device.deviceId == gamepad.deviceId))
+            if (IsDeviceAssigned(gamepad))
             {
                 continue;
             }
@@ -111,33 +110,44 @@ public class Sys_CharacterSelection : MonoBehaviour
             // Check if any button was pressed on this gamepad
             if (gamepad.wasUpdatedThisFrame && IsAnyButtonPressed(gamepad))
             {
-                // Assign to Player 1 if not logged in
-                if (!player1LoggedIn)
-                {
-                    player1Device = gamepad;
-                    player1LoggedIn = true;
-                    player1CursorTransform.SetActive(true);
-                    player1CusorVisual.SetActive(true);
-                    Debug.Log("Player 1 logged in with device: " + gamepad.deviceId);
-                    
-                    // Update debug UI
-                    if (Player1Device != null)
-                        Player1Device.text = $"Player 1: {gamepad.name} (ID: {gamepad.deviceId.ToString()})";
-                }
-                // Assign to Player 2 if not logged in
-                else if (!player2LoggedIn)
-                {
-                    player2Device = gamepad;
-                    player2LoggedIn = true;
-                    player2CursorTransform.SetActive(true);
-                    player2CusorVisual.SetActive(true);
-                    Debug.Log("Player 2 logged in with device: " + gamepad.deviceId);
-                    
-                    // Update debug UI
-                    if (Player2Device != null)
-                        Player2Device.text = $"Player 2: {gamepad.name} (ID: {gamepad.deviceId.ToString()})";
-                }
+                LoginDevice(gamepad);
             }
+        }
+
+        Keyboard keyboard = Keyboard.current;
+        if (keyboard != null && !IsDeviceAssigned(keyboard) && IsAnyKeyboardControlPressed(keyboard))
+            LoginDevice(keyboard);
+    }
+
+    bool IsDeviceAssigned(InputDevice device)
+    {
+        return (player1Device != null && player1Device.deviceId == device.deviceId) ||
+               (player2Device != null && player2Device.deviceId == device.deviceId);
+    }
+
+    void LoginDevice(InputDevice device)
+    {
+        if (!player1LoggedIn)
+        {
+            player1Device = device;
+            player1LoggedIn = true;
+            player1CursorTransform.SetActive(true);
+            player1CusorVisual.SetActive(true);
+            Debug.Log("Player 1 logged in with device: " + device.deviceId);
+
+            if (Player1Device != null)
+                Player1Device.text = $"Player 1: {device.name} (ID: {device.deviceId})";
+        }
+        else if (!player2LoggedIn)
+        {
+            player2Device = device;
+            player2LoggedIn = true;
+            player2CursorTransform.SetActive(true);
+            player2CusorVisual.SetActive(true);
+            Debug.Log("Player 2 logged in with device: " + device.deviceId);
+
+            if (Player2Device != null)
+                Player2Device.text = $"Player 2: {device.name} (ID: {device.deviceId})";
         }
     }
 
@@ -160,19 +170,74 @@ public class Sys_CharacterSelection : MonoBehaviour
                gamepad.dpad.right.wasPressedThisFrame;
     }
 
+    bool IsAnyKeyboardControlPressed(Keyboard keyboard)
+    {
+        return keyboard.aKey.wasPressedThisFrame ||
+               keyboard.dKey.wasPressedThisFrame ||
+               keyboard.leftArrowKey.wasPressedThisFrame ||
+               keyboard.rightArrowKey.wasPressedThisFrame ||
+               keyboard.enterKey.wasPressedThisFrame ||
+               keyboard.numpadEnterKey.wasPressedThisFrame ||
+               keyboard.spaceKey.wasPressedThisFrame ||
+               keyboard.escapeKey.wasPressedThisFrame ||
+               keyboard.backspaceKey.wasPressedThisFrame;
+    }
+
+    bool TryGetHorizontalInput(InputDevice device, out float horizontalInput)
+    {
+        if (device is Gamepad gamepad)
+        {
+            horizontalInput = gamepad.leftStick.x.ReadValue();
+            return true;
+        }
+
+        if (device is Keyboard keyboard)
+        {
+            bool leftPressed = keyboard.aKey.isPressed || keyboard.leftArrowKey.isPressed;
+            bool rightPressed = keyboard.dKey.isPressed || keyboard.rightArrowKey.isPressed;
+            horizontalInput = leftPressed == rightPressed ? 0f : (rightPressed ? 1f : -1f);
+            return true;
+        }
+
+        horizontalInput = 0f;
+        return false;
+    }
+
+    bool IsConfirmPressed(InputDevice device)
+    {
+        if (device is Gamepad gamepad)
+            return gamepad.buttonSouth.wasPressedThisFrame;
+
+        if (device is Keyboard keyboard)
+            return keyboard.enterKey.wasPressedThisFrame ||
+                   keyboard.numpadEnterKey.wasPressedThisFrame ||
+                   keyboard.spaceKey.wasPressedThisFrame;
+
+        return false;
+    }
+
+    bool IsCancelPressed(InputDevice device)
+    {
+        if (device is Gamepad gamepad)
+            return gamepad.buttonEast.wasPressedThisFrame;
+
+        if (device is Keyboard keyboard)
+            return keyboard.escapeKey.wasPressedThisFrame || keyboard.backspaceKey.wasPressedThisFrame;
+
+        return false;
+    }
+
     void HandleCharacterSelection()
     {
         // Player 1 character selection
-        if (!player1Confirmed && player1Device is Gamepad gamepad1)
+        if (!player1Confirmed && TryGetHorizontalInput(player1Device, out float horizontalInput1))
         {
-            float horizontalInput = gamepad1.leftStick.x.ReadValue();
-            
-            if ((horizontalInput > 0.5f || horizontalInput < -0.5f) && !IsInputCooldown(1))
+            if ((horizontalInput1 > 0.5f || horizontalInput1 < -0.5f) && !IsInputCooldown(1))
             {
                 if (!player1HasStartedSelecting)
                 {
                     // First movement from neutral - go to left (1) or right (2) based on direction
-                    player1SelectedCharacter = (horizontalInput > 0) ? 1 : 2;
+                    player1SelectedCharacter = (horizontalInput1 > 0) ? 1 : 2;
                     player1HasStartedSelecting = true;
                     Debug.Log($"Player 1 started selecting: {GetIndexName(player1SelectedCharacter)}");
                 }
@@ -189,16 +254,14 @@ public class Sys_CharacterSelection : MonoBehaviour
         }
 
         // Player 2 character selection
-        if (!player2Confirmed && player2Device is Gamepad gamepad2)
+        if (!player2Confirmed && TryGetHorizontalInput(player2Device, out float horizontalInput2))
         {
-            float horizontalInput = gamepad2.leftStick.x.ReadValue();
-            
-            if ((horizontalInput > 0.5f || horizontalInput < -0.5f) && !IsInputCooldown(2))
+            if ((horizontalInput2 > 0.5f || horizontalInput2 < -0.5f) && !IsInputCooldown(2))
             {
                 if (!player2HasStartedSelecting)
                 {
                     // First movement from neutral - go to left (1) or right (2) based on direction
-                    player2SelectedCharacter = (horizontalInput > 0) ? 1 : 2;
+                    player2SelectedCharacter = (horizontalInput2 > 0) ? 1 : 2;
                     player2HasStartedSelecting = true;
                     Debug.Log($"Player 2 started selecting: {GetIndexName(player2SelectedCharacter)}");
                 }
@@ -233,10 +296,9 @@ public class Sys_CharacterSelection : MonoBehaviour
         }
         
         // Player 1 confirmation
-        if (player1Device is Gamepad gamepad1)
+        if (player1Device != null)
         {
-            // Confirm with A button (buttonSouth)
-            if (!player1Confirmed && gamepad1.buttonSouth.wasPressedThisFrame)
+            if (!player1Confirmed && IsConfirmPressed(player1Device))
             {
                 if (player1HasStartedSelecting) // Must have selected a character
                 {
@@ -249,8 +311,7 @@ public class Sys_CharacterSelection : MonoBehaviour
                     Debug.LogWarning("Player 1 cannot confirm - please select a character first!");
                 }
             }
-            // Cancel with B button (buttonEast)
-            else if (player1Confirmed && gamepad1.buttonEast.wasPressedThisFrame)
+            else if (player1Confirmed && IsCancelPressed(player1Device))
             {
                 player1Confirmed = false;
                 bothPlayersConfirmed = false; // Reset on cancel
@@ -260,10 +321,9 @@ public class Sys_CharacterSelection : MonoBehaviour
         }
 
         // Player 2 confirmation
-        if (player2Device is Gamepad gamepad2)
+        if (player2Device != null)
         {
-            // Confirm with A button (buttonSouth)
-            if (!player2Confirmed && gamepad2.buttonSouth.wasPressedThisFrame)
+            if (!player2Confirmed && IsConfirmPressed(player2Device))
             {
                 if (player2HasStartedSelecting) // Must have selected a character
                 {
@@ -276,8 +336,7 @@ public class Sys_CharacterSelection : MonoBehaviour
                     Debug.LogWarning("Player 2 cannot confirm - please select a character first!");
                 }
             }
-            // Cancel with B button (buttonEast)
-            else if (player2Confirmed && gamepad2.buttonEast.wasPressedThisFrame)
+            else if (player2Confirmed && IsCancelPressed(player2Device))
             {
                 player2Confirmed = false;
                 bothPlayersConfirmed = false; // Reset on cancel

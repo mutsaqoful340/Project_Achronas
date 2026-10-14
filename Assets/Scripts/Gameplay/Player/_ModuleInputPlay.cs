@@ -56,9 +56,6 @@ public class _ModuleInputPlay : ScriptableObject
         // Create fresh InputActions
         inputActions = new InputActions();
         
-        // Disable all devices first
-        InputSystem.DisableDevice(Keyboard.current);
-        
         // Set device requirements to only listen to the assigned device
         if (device != null)
         {
