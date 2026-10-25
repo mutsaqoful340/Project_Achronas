@@ -2944,8 +2944,16 @@ MonoBehaviour:
   player1: {fileID: 6045018772432971382}
   player2: {fileID: 6919085297550892910}
   respawnDelay: 3
+  reloadSceneOnRespawn: 0
   defaultSpawnP1: {fileID: 942619892}
   defaultSpawnP2: {fileID: 707549842}
+  resetManager: []
+  deathTransition: {fileID: 0}
+  deathAudioSource: {fileID: 0}
+  deathClip: {fileID: 0}
+  onRespawn:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &45300817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4627,6 +4635,7 @@ MonoBehaviour:
   - 5
   defaultValue: 100
   videoType: 3
+  brightnessVolume: {fileID: 0}
 --- !u!114 &65357681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10601,6 +10610,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   debugText: {fileID: 0}
+  isAreaActive: 0
+  playerInside:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &101510177
 GameObject:
   m_ObjectHideFlags: 0
@@ -18411,7 +18424,9 @@ MonoBehaviour:
   settingsAudioPanel: {fileID: 677966288}
   settingsVideoPanel: {fileID: 604424989}
   kontrolPanel: {fileID: 1280504957}
+  mapPanel: {fileID: 0}
   menuSelector: {fileID: 948190250}
+  mapController: {fileID: 0}
 --- !u!1 &134373053
 GameObject:
   m_ObjectHideFlags: 0
@@ -20064,6 +20079,7 @@ MonoBehaviour:
   - 30
   defaultValue: 60
   videoType: 1
+  brightnessVolume: {fileID: 0}
 --- !u!95 &185700628
 Animator:
   serializedVersion: 7
@@ -20291,6 +20307,7 @@ MonoBehaviour:
   - 5
   defaultValue: 100
   videoType: 3
+  brightnessVolume: {fileID: 0}
 --- !u!95 &188258727
 Animator:
   serializedVersion: 7
@@ -21619,6 +21636,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   debugText: {fileID: 0}
+  isAreaActive: 0
+  playerInside:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &223701640
 GameObject:
   m_ObjectHideFlags: 0
@@ -28231,6 +28252,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   debugText: {fileID: 0}
+  isAreaActive: 0
+  playerInside:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &321563613
 GameObject:
   m_ObjectHideFlags: 0
@@ -28279,8 +28304,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02d5dac389f686844a5acd4b4502eeec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniversalTriggerCollider
-  useSpecificName: 0
-  specificName: Player
   onTriggerEnterEvent:
     m_PersistentCalls:
       m_Calls:
@@ -28296,6 +28319,14 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  playerInside:
+  - {fileID: 0}
+  - {fileID: 0}
+  isTriggerActive: 0
+  twoPlayerMode: 1
 --- !u!65 &321563616
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -30821,6 +30852,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   debugText: {fileID: 0}
+  isAreaActive: 0
+  playerInside:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!64 &403961615
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -33246,8 +33281,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02d5dac389f686844a5acd4b4502eeec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_OnTriggerTester
-  useSpecificName: 0
-  specificName: Player
   onTriggerEnterEvent:
     m_PersistentCalls:
       m_Calls:
@@ -33263,6 +33296,14 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  playerInside:
+  - {fileID: 0}
+  - {fileID: 0}
+  isTriggerActive: 0
+  twoPlayerMode: 1
 --- !u!65 &471897055
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -33777,6 +33818,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   debugText: {fileID: 0}
+  isAreaActive: 0
+  playerInside:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!64 &480241638
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -44487,7 +44532,10 @@ MonoBehaviour:
   playerLever2: {fileID: 0}
   lever1Reference: {fileID: 742384334}
   lever2Reference: {fileID: 1598063455}
-  leverAnimator: {fileID: 0}
+  timelineActive: {fileID: 0}
+  timelineAlreadyActivated: {fileID: 0}
+  currentLeverState: 0
+  isLeverAlreadyActivated: 0
   onBothLeversActivated:
     m_PersistentCalls:
       m_Calls: []
@@ -44889,6 +44937,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_GP_SingaBarong
   enemyType: 0
   detectionLight: {fileID: 266494393}
+  enemyAnimator: {fileID: 0}
   patrolWaypoints: []
   waypointReachDistance: 0.5
   waypointWaitTime: 2
@@ -44906,7 +44955,10 @@ MonoBehaviour:
   currentAwareness: 0
   investigateTimer: 0
   investigationDuration: 5
+  chaseSpeed: 5
   chaseRotationSpeed: 360
+  chaseAnimatorTrigger: Catch
+  resetAnimatorTrigger: Reset
   onLitByPlayerLight:
     m_PersistentCalls:
       m_Calls:
@@ -44922,6 +44974,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onAggravatedCaught:
+    m_PersistentCalls:
+      m_Calls: []
+  caughtPlayer: {fileID: 0}
 --- !u!143 &688913043
 CharacterController:
   m_ObjectHideFlags: 0
@@ -50298,6 +50354,10 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   debugText: {fileID: 0}
+  isAreaActive: 0
+  playerInside:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &729969746
 GameObject:
   m_ObjectHideFlags: 0
@@ -51281,6 +51341,7 @@ MonoBehaviour:
   - 960 x 540
   defaultValue: 1920 x 1080
   videoType: 0
+  brightnessVolume: {fileID: 0}
 --- !u!114 &755246614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53481,6 +53542,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   debugText: {fileID: 0}
+  isAreaActive: 0
+  playerInside:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &805481487
 GameObject:
   m_ObjectHideFlags: 0
@@ -57494,6 +57559,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   debugText: {fileID: 0}
+  isAreaActive: 0
+  playerInside:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &846465704
 GameObject:
   m_ObjectHideFlags: 0
@@ -65139,16 +65208,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f8edf5d6ffca9841a8f2bfeccb5e338, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MenuSelector
+  TitleScreen: {fileID: 0}
   mainPanel: {fileID: 224318202}
   settingsPanel: {fileID: 1663190212}
   gameplayPanel: {fileID: 585716394}
   extrasPanel: {fileID: 1750958690}
+  creditsPanel: {fileID: 0}
+  galleryPanel: {fileID: 0}
   audioPanel: {fileID: 1247054018}
   videoPanel: {fileID: 1247926401}
   controlPanel: {fileID: 431608906}
   playPanel: {fileID: 990859451}
   continuePanel: {fileID: 1197585392}
-  playerMovement: {fileID: 0}
+  openingCutscene: {fileID: 0}
   loadingScreen: {fileID: 1332586707}
   pauseMenu: {fileID: 1392976580}
   slotSelector: {fileID: 1197585393}
@@ -65157,6 +65229,7 @@ MonoBehaviour:
   isInAudioPanel: 0
   isInVideoPanel: 0
   isInContinuePanel: 0
+  isInCutscene: 0
 --- !u!114 &948190251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70906,6 +70979,7 @@ MonoBehaviour:
   - 30
   defaultValue: 60
   videoType: 1
+  brightnessVolume: {fileID: 0}
 --- !u!114 &1044868753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71428,9 +71502,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5995b1731260994478874515fee3883e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_GP_EnemySingaBarong
+  animator: {fileID: 1052290693}
+  CaughtCollider: {fileID: 0}
   bossType: 1
   detectionLight: {fileID: 451944972}
-  animator: {fileID: 1052290693}
   detectionRange: 10
   detectionAngle: 60
   detectionLayer:
@@ -71445,9 +71520,40 @@ MonoBehaviour:
   caughtPlayerSlot: {fileID: 0}
   caughtPlayerComponent: {fileID: 0}
   enemyMannequin: []
+  chaseSpeed: 10
+  chaseRotationSpeed: 360
+  waypointSpawnDistance: 2
+  waypointDynamicReachDistance: 0.5
+  searchStateDuration: 10
+  deathTimeline: {fileID: 0}
+  patrolTimeline: {fileID: 0}
+  pauseSpotting: 0
+  isPauseSpottingException: 0
+  isPatrolWaypoint: 0
+  loopPatrolWaypoints: 0
+  patrolWaypoints: []
+  waypointReachDistance: 0.5
+  waypointRotationSpeed: 5
   OnSpottingPlayer:
     m_PersistentCalls:
       m_Calls: []
+  OnArrivedAtPatrolWaypoint:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAfterDurationFinished:
+    m_PersistentCalls:
+      m_Calls: []
+  OnReachedLastPatrolWaypoint:
+    m_PersistentCalls:
+      m_Calls: []
+  enablePeriodicEvent: 0
+  periodicEventInterval: 5
+  OnPeriodicEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  detectedPlayers: []
+  spottedPlayers: []
+  dynamicWaypoints: []
 --- !u!95 &1052290693
 Animator:
   serializedVersion: 7
@@ -74609,6 +74715,7 @@ MonoBehaviour:
   options: []
   defaultValue: 
   videoType: 0
+  brightnessVolume: {fileID: 0}
 --- !u!114 &1121286229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78919,6 +79026,7 @@ MonoBehaviour:
   options: []
   defaultValue: 
   videoType: 0
+  brightnessVolume: {fileID: 0}
 --- !u!114 &1155715741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79253,8 +79361,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02d5dac389f686844a5acd4b4502eeec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniversalTriggerCollider
-  useSpecificName: 0
-  specificName: Player
   onTriggerEnterEvent:
     m_PersistentCalls:
       m_Calls:
@@ -79270,6 +79376,14 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  playerInside:
+  - {fileID: 0}
+  - {fileID: 0}
+  isTriggerActive: 0
+  twoPlayerMode: 1
 --- !u!65 &1161063843
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -85792,6 +85906,7 @@ MonoBehaviour:
   - OFF
   defaultValue: ON
   videoType: 2
+  brightnessVolume: {fileID: 0}
 --- !u!95 &1172921087
 Animator:
   serializedVersion: 7
@@ -86215,6 +86330,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   debugText: {fileID: 0}
+  isAreaActive: 0
+  playerInside:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &1179473331
 GameObject:
   m_ObjectHideFlags: 0
@@ -88841,8 +88960,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02d5dac389f686844a5acd4b4502eeec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniversalTriggerCollider
-  useSpecificName: 1
-  specificName: Player_Rinda
   onTriggerEnterEvent:
     m_PersistentCalls:
       m_Calls:
@@ -88894,6 +89011,14 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  playerInside:
+  - {fileID: 0}
+  - {fileID: 0}
+  isTriggerActive: 0
+  twoPlayerMode: 1
 --- !u!320 &1220813659
 PlayableDirector:
   m_ObjectHideFlags: 0
@@ -89117,6 +89242,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   debugText: {fileID: 0}
+  isAreaActive: 0
+  playerInside:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1001 &1221438253
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -97239,6 +97368,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   debugText: {fileID: 0}
+  isAreaActive: 0
+  playerInside:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &1246670611
 GameObject:
   m_ObjectHideFlags: 0
@@ -104442,7 +104575,7 @@ PrefabInstance:
     - target: {fileID: 2011781106430218503, guid: e3dae96754308704ba9b67edddba32ba, type: 3}
       propertyPath: pausePanel
       value: 
-      objectReference: {fileID: 1671767111}
+      objectReference: {fileID: 0}
     - target: {fileID: 2011781106430218503, guid: e3dae96754308704ba9b67edddba32ba, type: 3}
       propertyPath: menuSelector
       value: 
@@ -104450,43 +104583,43 @@ PrefabInstance:
     - target: {fileID: 2011781106430218503, guid: e3dae96754308704ba9b67edddba32ba, type: 3}
       propertyPath: tabletAnimator
       value: 
-      objectReference: {fileID: 1671767110}
+      objectReference: {fileID: 0}
     - target: {fileID: 2011781106430218503, guid: e3dae96754308704ba9b67edddba32ba, type: 3}
       propertyPath: saveTabletSelector
       value: 
-      objectReference: {fileID: 1671767112}
+      objectReference: {fileID: 0}
     - target: {fileID: 2011781106430218503, guid: e3dae96754308704ba9b67edddba32ba, type: 3}
       propertyPath: 'pauseBg.Array.data[0]'
       value: 
-      objectReference: {fileID: 1671767120}
+      objectReference: {fileID: 0}
     - target: {fileID: 2011781106430218503, guid: e3dae96754308704ba9b67edddba32ba, type: 3}
       propertyPath: 'pauseBg.Array.data[1]'
       value: 
-      objectReference: {fileID: 1671767118}
+      objectReference: {fileID: 0}
     - target: {fileID: 2011781106430218503, guid: e3dae96754308704ba9b67edddba32ba, type: 3}
       propertyPath: 'pauseBg.Array.data[2]'
       value: 
-      objectReference: {fileID: 1671767116}
+      objectReference: {fileID: 0}
     - target: {fileID: 2011781106430218503, guid: e3dae96754308704ba9b67edddba32ba, type: 3}
       propertyPath: 'pauseBg.Array.data[3]'
       value: 
-      objectReference: {fileID: 1671767114}
+      objectReference: {fileID: 0}
     - target: {fileID: 2011781106430218503, guid: e3dae96754308704ba9b67edddba32ba, type: 3}
       propertyPath: 'pauseTexts.Array.data[0]'
       value: 
-      objectReference: {fileID: 1671767119}
+      objectReference: {fileID: 0}
     - target: {fileID: 2011781106430218503, guid: e3dae96754308704ba9b67edddba32ba, type: 3}
       propertyPath: 'pauseTexts.Array.data[1]'
       value: 
-      objectReference: {fileID: 1671767117}
+      objectReference: {fileID: 0}
     - target: {fileID: 2011781106430218503, guid: e3dae96754308704ba9b67edddba32ba, type: 3}
       propertyPath: 'pauseTexts.Array.data[2]'
       value: 
-      objectReference: {fileID: 1671767115}
+      objectReference: {fileID: 0}
     - target: {fileID: 2011781106430218503, guid: e3dae96754308704ba9b67edddba32ba, type: 3}
       propertyPath: 'pauseTexts.Array.data[3]'
       value: 
-      objectReference: {fileID: 1671767113}
+      objectReference: {fileID: 0}
     - target: {fileID: 2298846947366779676, guid: e3dae96754308704ba9b67edddba32ba, type: 3}
       propertyPath: m_LocalPosition.x
       value: 749.53705
@@ -104618,6 +104751,7 @@ MonoBehaviour:
   armLength: 59.3
   pauseGameWhenOpen: 1
   isOpen: 0
+  isUIFocus: 0
 --- !u!114 &1394467152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104632,6 +104766,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MapInputHandler
   mapController: {fileID: 1394467151}
   menuSelector: {fileID: 948190250}
+  slotSelector: {fileID: 0}
+  mapBackButton: {fileID: 0}
   panKeySensitivity: 1
   panDragSensitivity: 0.25
   rotateSensitivity: 1
@@ -104642,7 +104778,6 @@ MonoBehaviour:
   gamepadPitchSensitivity: 1
   gamepadZoomSensitivity: 1
   stickDeadzone: 0.15
-  slotSelector: {fileID: 0}
 --- !u!1 &1396277140
 GameObject:
   m_ObjectHideFlags: 0
@@ -104823,6 +104958,7 @@ MonoBehaviour:
   - OFF
   defaultValue: ON
   videoType: 2
+  brightnessVolume: {fileID: 0}
 --- !u!114 &1398299139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107203,6 +107339,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   debugText: {fileID: 0}
+  isAreaActive: 0
+  playerInside:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &1447556434
 GameObject:
   m_ObjectHideFlags: 0
@@ -111515,6 +111655,7 @@ MonoBehaviour:
   options: []
   defaultValue: 
   videoType: 0
+  brightnessVolume: {fileID: 0}
 --- !u!114 &1555740943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111630,8 +111771,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02d5dac389f686844a5acd4b4502eeec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniversalTriggerCollider
-  useSpecificName: 0
-  specificName: Player
   onTriggerEnterEvent:
     m_PersistentCalls:
       m_Calls:
@@ -111647,6 +111786,14 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  playerInside:
+  - {fileID: 0}
+  - {fileID: 0}
+  isTriggerActive: 0
+  twoPlayerMode: 1
 --- !u!65 &1556328190
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -118128,8 +118275,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02d5dac389f686844a5acd4b4502eeec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniversalTriggerCollider
-  useSpecificName: 0
-  specificName: Player
   onTriggerEnterEvent:
     m_PersistentCalls:
       m_Calls:
@@ -118145,6 +118290,14 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  playerInside:
+  - {fileID: 0}
+  - {fileID: 0}
+  isTriggerActive: 0
+  twoPlayerMode: 1
 --- !u!65 &1658148964
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -118655,310 +118808,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 3876417673033324027, guid: dede1e8051111be44b00f02a72e7db4f, type: 3}
---- !u!1001 &1671767109
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1499931963882710929, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: pauseMenu
-      value: 
-      objectReference: {fileID: 1392976580}
-    - target: {fileID: 2750064120101701844, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_Name
-      value: Tablet
-      objectReference: {fileID: 0}
-    - target: {fileID: 2750064120101701844, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4359045586901611214, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4359045586901611214, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4359045586901611214, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 107.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4359045586901611214, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 83.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4359045586901611214, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 49.999992
-      objectReference: {fileID: 0}
-    - target: {fileID: 4359045586901611214, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 8.150002
-      objectReference: {fileID: 0}
-    - target: {fileID: 4532951661987894816, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4532951661987894816, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4532951661987894816, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 107.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4532951661987894816, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 83.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4532951661987894816, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -90.80001
-      objectReference: {fileID: 0}
-    - target: {fileID: 4532951661987894816, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -108.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 4926209487629843339, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4926209487629843339, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4926209487629843339, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 107.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4926209487629843339, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 83.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4926209487629843339, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 190.79999
-      objectReference: {fileID: 0}
-    - target: {fileID: 4926209487629843339, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 8.150002
-      objectReference: {fileID: 0}
-    - target: {fileID: 5232389068742212114, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 749.53705
-      objectReference: {fileID: 0}
-    - target: {fileID: 5232389068742212114, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1263.9833
-      objectReference: {fileID: 0}
-    - target: {fileID: 5232389068742212114, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 170.67636
-      objectReference: {fileID: 0}
-    - target: {fileID: 5232389068742212114, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5232389068742212114, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5232389068742212114, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5232389068742212114, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5232389068742212114, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5232389068742212114, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5232389068742212114, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6856328929273655494, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6856328929273655494, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6856328929273655494, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 107.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 6856328929273655494, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 83.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6856328929273655494, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -90.80001
-      objectReference: {fileID: 0}
-    - target: {fileID: 6856328929273655494, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 8.150002
-      objectReference: {fileID: 0}
-    - target: {fileID: 6887121777496727043, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7670374713554055577, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7670374713554055577, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7670374713554055577, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 107.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 7670374713554055577, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 83.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7670374713554055577, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 49.999992
-      objectReference: {fileID: 0}
-    - target: {fileID: 7670374713554055577, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -108.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 9036384955940628775, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9036384955940628775, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9036384955940628775, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 107.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 9036384955940628775, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 83.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 9036384955940628775, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 190.79999
-      objectReference: {fileID: 0}
-    - target: {fileID: 9036384955940628775, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -108.15
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
---- !u!114 &1671767110 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1499931963882710929, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-  m_PrefabInstance: {fileID: 1671767109}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a1167a79157db64ca4564ca2a08ccb9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TabletAnimator
---- !u!1 &1671767111 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6887121777496727043, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-  m_PrefabInstance: {fileID: 1671767109}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1671767112 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8571852065810894377, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-  m_PrefabInstance: {fileID: 1671767109}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab2b7d1e0a9cf624882018637aa44628, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SaveTabletSelector
---- !u!114 &1671767113 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4398197321789642883, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-  m_PrefabInstance: {fileID: 1671767109}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
---- !u!1 &1671767114 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3157075115165809514, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-  m_PrefabInstance: {fileID: 1671767109}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1671767115 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2182088773869995291, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-  m_PrefabInstance: {fileID: 1671767109}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
---- !u!1 &1671767116 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4653462029055917458, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-  m_PrefabInstance: {fileID: 1671767109}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1671767117 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3121586490974481437, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-  m_PrefabInstance: {fileID: 1671767109}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
---- !u!1 &1671767118 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6293618543686962187, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-  m_PrefabInstance: {fileID: 1671767109}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1671767119 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7506451838213859366, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-  m_PrefabInstance: {fileID: 1671767109}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
---- !u!1 &1671767120 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7789432775258495378, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-  m_PrefabInstance: {fileID: 1671767109}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1672361899
 GameObject:
   m_ObjectHideFlags: 0
@@ -119866,6 +119715,7 @@ MonoBehaviour:
   - 960 x 540
   defaultValue: 1920 x 1080
   videoType: 0
+  brightnessVolume: {fileID: 0}
 --- !u!95 &1697463421
 Animator:
   serializedVersion: 7
@@ -120750,6 +120600,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   debugText: {fileID: 0}
+  isAreaActive: 0
+  playerInside:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &1715734819
 GameObject:
   m_ObjectHideFlags: 0
@@ -127372,9 +127226,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5995b1731260994478874515fee3883e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_GP_EnemySingaBarong
+  animator: {fileID: 914007556}
+  CaughtCollider: {fileID: 0}
   bossType: 0
   detectionLight: {fileID: 2057185049}
-  animator: {fileID: 914007556}
   detectionRange: 10
   detectionAngle: 60
   detectionLayer:
@@ -127389,9 +127244,40 @@ MonoBehaviour:
   caughtPlayerSlot: {fileID: 0}
   caughtPlayerComponent: {fileID: 0}
   enemyMannequin: []
+  chaseSpeed: 10
+  chaseRotationSpeed: 360
+  waypointSpawnDistance: 2
+  waypointDynamicReachDistance: 0.5
+  searchStateDuration: 10
+  deathTimeline: {fileID: 0}
+  patrolTimeline: {fileID: 0}
+  pauseSpotting: 0
+  isPauseSpottingException: 0
+  isPatrolWaypoint: 0
+  loopPatrolWaypoints: 0
+  patrolWaypoints: []
+  waypointReachDistance: 0.5
+  waypointRotationSpeed: 5
   OnSpottingPlayer:
     m_PersistentCalls:
       m_Calls: []
+  OnArrivedAtPatrolWaypoint:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAfterDurationFinished:
+    m_PersistentCalls:
+      m_Calls: []
+  OnReachedLastPatrolWaypoint:
+    m_PersistentCalls:
+      m_Calls: []
+  enablePeriodicEvent: 0
+  periodicEventInterval: 5
+  OnPeriodicEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  detectedPlayers: []
+  spottedPlayers: []
+  dynamicWaypoints: []
 --- !u!65 &1870421685
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -127713,6 +127599,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_GP_SingaBarong
   enemyType: 2
   detectionLight: {fileID: 27455582}
+  enemyAnimator: {fileID: 0}
   patrolWaypoints: []
   waypointReachDistance: 0.5
   waypointWaitTime: 2
@@ -127730,10 +127617,17 @@ MonoBehaviour:
   currentAwareness: 0
   investigateTimer: 0
   investigationDuration: 5
+  chaseSpeed: 5
   chaseRotationSpeed: 360
+  chaseAnimatorTrigger: Catch
+  resetAnimatorTrigger: Reset
   onLitByPlayerLight:
     m_PersistentCalls:
       m_Calls: []
+  onAggravatedCaught:
+    m_PersistentCalls:
+      m_Calls: []
+  caughtPlayer: {fileID: 0}
 --- !u!143 &1875081050
 CharacterController:
   m_ObjectHideFlags: 0
@@ -131305,6 +131199,10 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   debugText: {fileID: 0}
+  isAreaActive: 0
+  playerInside:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!64 &1976894788
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -134415,6 +134313,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_GP_SingaBarong
   enemyType: 0
   detectionLight: {fileID: 548843788}
+  enemyAnimator: {fileID: 0}
   patrolWaypoints:
   - {fileID: 326501731}
   - {fileID: 2088984126}
@@ -134436,10 +134335,17 @@ MonoBehaviour:
   currentAwareness: 0
   investigateTimer: 0
   investigationDuration: 5
+  chaseSpeed: 5
   chaseRotationSpeed: 360
+  chaseAnimatorTrigger: Catch
+  resetAnimatorTrigger: Reset
   onLitByPlayerLight:
     m_PersistentCalls:
       m_Calls: []
+  onAggravatedCaught:
+    m_PersistentCalls:
+      m_Calls: []
+  caughtPlayer: {fileID: 0}
 --- !u!143 &2050218605
 CharacterController:
   m_ObjectHideFlags: 0
@@ -135208,6 +135114,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   debugText: {fileID: 0}
+  isAreaActive: 0
+  playerInside:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &2059650151
 GameObject:
   m_ObjectHideFlags: 0
@@ -142664,6 +142574,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_GP_SingaBarong
   enemyType: 1
   detectionLight: {fileID: 1054350079}
+  enemyAnimator: {fileID: 0}
   patrolWaypoints: []
   waypointReachDistance: 0.5
   waypointWaitTime: 2
@@ -142681,10 +142592,17 @@ MonoBehaviour:
   currentAwareness: 0
   investigateTimer: 0
   investigationDuration: 5
+  chaseSpeed: 5
   chaseRotationSpeed: 360
+  chaseAnimatorTrigger: Catch
+  resetAnimatorTrigger: Reset
   onLitByPlayerLight:
     m_PersistentCalls:
       m_Calls: []
+  onAggravatedCaught:
+    m_PersistentCalls:
+      m_Calls: []
+  caughtPlayer: {fileID: 0}
 --- !u!143 &2079309918
 CharacterController:
   m_ObjectHideFlags: 0
@@ -143062,6 +142980,7 @@ MonoBehaviour:
   options: []
   defaultValue: 
   videoType: 0
+  brightnessVolume: {fileID: 0}
 --- !u!114 &2085773791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -143368,6 +143287,10 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   debugText: {fileID: 0}
+  isAreaActive: 0
+  playerInside:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &2091090479
 GameObject:
   m_ObjectHideFlags: 0
@@ -178263,6 +178186,7 @@ MonoBehaviour:
   options: []
   defaultValue: 
   videoType: 0
+  brightnessVolume: {fileID: 0}
 --- !u!222 &3539573000799976535
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -195944,6 +195868,7 @@ MonoBehaviour:
   _itemToThrow: {fileID: 0}
   _throwItemSlot: {fileID: 0}
   _throwForce: 10
+  _maxPickupDistance: 2.5
 --- !u!137 &5361879304758183572
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
@@ -202700,6 +202625,9 @@ MonoBehaviour:
   IsDepressed: 0
   IsStumble: 0
   IsDead: 0
+  IsPicking: 0
+  IsThrowing: 0
+  IsInCutscene: 0
   currentActionState: 0
 --- !u!137 &6047433472789753704
 SkinnedMeshRenderer:
@@ -209244,6 +209172,7 @@ MonoBehaviour:
   _itemToThrow: {fileID: 0}
   _throwItemSlot: {fileID: 0}
   _throwForce: 10
+  _maxPickupDistance: 2.5
 --- !u!1 &6869617015450541861
 GameObject:
   m_ObjectHideFlags: 0
@@ -209701,6 +209630,9 @@ MonoBehaviour:
   IsDepressed: 0
   IsStumble: 0
   IsDead: 0
+  IsPicking: 0
+  IsThrowing: 0
+  IsInCutscene: 0
   currentActionState: 0
 --- !u!4 &6927180546533415463
 Transform:
@@ -228123,16 +228055,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f8edf5d6ffca9841a8f2bfeccb5e338, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MenuSelector
+  TitleScreen: {fileID: 0}
   mainPanel: {fileID: 7662716560911921624}
   settingsPanel: {fileID: 7105203541143913354}
   gameplayPanel: {fileID: 1475149363205141012}
   extrasPanel: {fileID: 2574404809287331384}
+  creditsPanel: {fileID: 0}
+  galleryPanel: {fileID: 0}
   audioPanel: {fileID: 8308959353859368208}
   videoPanel: {fileID: 4561050164090929720}
   controlPanel: {fileID: 5311365166868657882}
   playPanel: {fileID: 0}
   continuePanel: {fileID: 6002325658982489211}
-  playerMovement: {fileID: 0}
+  openingCutscene: {fileID: 0}
   loadingScreen: {fileID: 7972044157479344854}
   pauseMenu: {fileID: 1392976580}
   slotSelector: {fileID: 3994720638543060340}
@@ -228141,6 +228076,7 @@ MonoBehaviour:
   isInAudioPanel: 0
   isInVideoPanel: 0
   isInContinuePanel: 0
+  isInCutscene: 0
 --- !u!1 &8984546460819073599
 GameObject:
   m_ObjectHideFlags: 0
@@ -229603,6 +229539,5 @@ SceneRoots:
   - {fileID: 1138544895}
   - {fileID: 307017167}
   - {fileID: 1392976579}
-  - {fileID: 1671767109}
   - {fileID: 5755125022101794102}
   - {fileID: 5545408334751848209}

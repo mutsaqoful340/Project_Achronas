@@ -3392,6 +3392,9 @@ MonoBehaviour:
   defaultSpawnP1: {fileID: 942619892}
   defaultSpawnP2: {fileID: 707549842}
   resetManager: []
+  deathTransition: {fileID: 0}
+  deathAudioSource: {fileID: 0}
+  deathClip: {fileID: 0}
   onRespawn:
     m_PersistentCalls:
       m_Calls:
@@ -5616,6 +5619,7 @@ MonoBehaviour:
   - 5
   defaultValue: 100
   videoType: 3
+  brightnessVolume: {fileID: 0}
 --- !u!114 &65357681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6728,6 +6732,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_Enemy_Mannequin
   enemyType: 2
   detectionLight: {fileID: 1900666561}
+  enemyAnimator: {fileID: 0}
   patrolWaypoints: []
   waypointReachDistance: 0.5
   waypointWaitTime: 2
@@ -6747,6 +6752,8 @@ MonoBehaviour:
   investigationDuration: 5
   chaseSpeed: 3
   chaseRotationSpeed: 360
+  chaseAnimatorTrigger: Catch
+  resetAnimatorTrigger: Reset
   onLitByPlayerLight:
     m_PersistentCalls:
       m_Calls: []
@@ -9445,6 +9452,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+  isNotifyOnInteract: 0
 --- !u!65 &130193882
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12167,6 +12175,7 @@ MonoBehaviour:
   - 30
   defaultValue: 60
   videoType: 1
+  brightnessVolume: {fileID: 0}
 --- !u!95 &185700628
 Animator:
   serializedVersion: 7
@@ -12425,6 +12434,7 @@ MonoBehaviour:
   - 5
   defaultValue: 100
   videoType: 3
+  brightnessVolume: {fileID: 0}
 --- !u!95 &188258727
 Animator:
   serializedVersion: 7
@@ -12729,6 +12739,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
   playerInside:
   - {fileID: 0}
   - {fileID: 0}
@@ -15964,6 +15977,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GP_DoorInteract_Mng_Fixed
   currentDoorState: 0
+  isLocketDesk: 0
   timelineIdle: {fileID: 1795386670}
   timelineOpen: {fileID: 1054140254}
   timelineClose: {fileID: 344834930}
@@ -15975,6 +15989,9 @@ MonoBehaviour:
   - {fileID: 834813116}
   doorInteractionIcon: {fileID: 313085306}
   requiredKey: {fileID: 0}
+  onDoorFailedToOpen:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!65 &257442149
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19601,6 +19618,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
   playerInside:
   - {fileID: 0}
   - {fileID: 0}
@@ -30355,6 +30375,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_Enemy_Mannequin
   enemyType: 2
   detectionLight: {fileID: 1655657465}
+  enemyAnimator: {fileID: 0}
   patrolWaypoints: []
   waypointReachDistance: 0.5
   waypointWaitTime: 2
@@ -30374,6 +30395,8 @@ MonoBehaviour:
   investigationDuration: 5
   chaseSpeed: 3
   chaseRotationSpeed: 360
+  chaseAnimatorTrigger: Catch
+  resetAnimatorTrigger: Reset
   onLitByPlayerLight:
     m_PersistentCalls:
       m_Calls: []
@@ -31943,6 +31966,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
   playerInside:
   - {fileID: 0}
   - {fileID: 0}
@@ -37965,7 +37991,10 @@ MonoBehaviour:
   playerLever2: {fileID: 0}
   lever1Reference: {fileID: 742384334}
   lever2Reference: {fileID: 1598063455}
-  leverAnimator: {fileID: 0}
+  timelineActive: {fileID: 0}
+  timelineAlreadyActivated: {fileID: 0}
+  currentLeverState: 0
+  isLeverAlreadyActivated: 0
   onBothLeversActivated:
     m_PersistentCalls:
       m_Calls: []
@@ -38251,6 +38280,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GP_DoorInteract_Mng_Fixed
   currentDoorState: 0
+  isLocketDesk: 0
   timelineIdle: {fileID: 2007925115}
   timelineOpen: {fileID: 2042385501}
   timelineClose: {fileID: 458904483}
@@ -38262,6 +38292,9 @@ MonoBehaviour:
   - {fileID: 543271545}
   doorInteractionIcon: {fileID: 667173306}
   requiredKey: {fileID: 0}
+  onDoorFailedToOpen:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &688913039
 GameObject:
   m_ObjectHideFlags: 0
@@ -38334,6 +38367,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_GP_SingaBarong
   enemyType: 0
   detectionLight: {fileID: 266494393}
+  enemyAnimator: {fileID: 0}
   patrolWaypoints: []
   waypointReachDistance: 0.5
   waypointWaitTime: 2
@@ -38353,6 +38387,8 @@ MonoBehaviour:
   investigationDuration: 5
   chaseSpeed: 5
   chaseRotationSpeed: 360
+  chaseAnimatorTrigger: Catch
+  resetAnimatorTrigger: Reset
   onLitByPlayerLight:
     m_PersistentCalls:
       m_Calls:
@@ -41693,6 +41729,7 @@ MonoBehaviour:
   - 960 x 540
   defaultValue: 1920 x 1080
   videoType: 0
+  brightnessVolume: {fileID: 0}
 --- !u!114 &755246614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44615,6 +44652,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_Enemy_Mannequin
   enemyType: 2
   detectionLight: {fileID: 258332933}
+  enemyAnimator: {fileID: 0}
   patrolWaypoints: []
   waypointReachDistance: 0.5
   waypointWaitTime: 2
@@ -44634,6 +44672,8 @@ MonoBehaviour:
   investigationDuration: 5
   chaseSpeed: 3
   chaseRotationSpeed: 360
+  chaseAnimatorTrigger: Catch
+  resetAnimatorTrigger: Reset
   onLitByPlayerLight:
     m_PersistentCalls:
       m_Calls: []
@@ -45581,6 +45621,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
   playerInside:
   - {fileID: 0}
   - {fileID: 0}
@@ -49983,6 +50026,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GP_DoorInteract_Mng_Fixed
   currentDoorState: 0
+  isLocketDesk: 0
   timelineIdle: {fileID: 2121050690}
   timelineOpen: {fileID: 129375144}
   timelineClose: {fileID: 1641292766}
@@ -49994,6 +50038,9 @@ MonoBehaviour:
   - {fileID: 1221138190}
   doorInteractionIcon: {fileID: 1806994129}
   requiredKey: {fileID: 0}
+  onDoorFailedToOpen:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!65 &906839387
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -51609,16 +51656,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f8edf5d6ffca9841a8f2bfeccb5e338, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MenuSelector
+  TitleScreen: {fileID: 0}
   mainPanel: {fileID: 224318202}
   settingsPanel: {fileID: 1663190212}
   gameplayPanel: {fileID: 585716394}
   extrasPanel: {fileID: 1750958690}
+  creditsPanel: {fileID: 0}
+  galleryPanel: {fileID: 0}
   audioPanel: {fileID: 1247054018}
   videoPanel: {fileID: 1247926401}
   controlPanel: {fileID: 431608906}
   playPanel: {fileID: 990859451}
   continuePanel: {fileID: 1197585392}
-  playerMovement: {fileID: 0}
+  openingCutscene: {fileID: 0}
   loadingScreen: {fileID: 1332586707}
   pauseMenu: {fileID: 1392976580}
   slotSelector: {fileID: 1197585393}
@@ -51627,6 +51677,7 @@ MonoBehaviour:
   isInAudioPanel: 0
   isInVideoPanel: 0
   isInContinuePanel: 0
+  isInCutscene: 0
 --- !u!114 &948190251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53765,6 +53816,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GP_DoorInteract_Mng_Fixed
   currentDoorState: 0
+  isLocketDesk: 0
   timelineIdle: {fileID: 645645994}
   timelineOpen: {fileID: 69919208}
   timelineClose: {fileID: 108778211}
@@ -53776,6 +53828,9 @@ MonoBehaviour:
   - {fileID: 439561496}
   doorInteractionIcon: {fileID: 1748810269}
   requiredKey: {fileID: 0}
+  onDoorFailedToOpen:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!65 &992197391
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -56597,6 +56652,7 @@ MonoBehaviour:
   - 30
   defaultValue: 60
   videoType: 1
+  brightnessVolume: {fileID: 0}
 --- !u!114 &1044868753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57062,6 +57118,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5995b1731260994478874515fee3883e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_GP_EnemySingaBarong
+  animator: {fileID: 0}
+  CaughtCollider: {fileID: 0}
   bossType: 0
   detectionLight: {fileID: 451944972}
   detectionRange: 10
@@ -57086,14 +57144,33 @@ MonoBehaviour:
   deathTimeline: {fileID: 26051963}
   patrolTimeline: {fileID: 1052380048}
   pauseSpotting: 0
+  isPauseSpottingException: 0
   isPatrolWaypoint: 0
+  loopPatrolWaypoints: 0
   patrolWaypoints:
   - position: {fileID: 0}
     waitDuration: 0
     moveSpeed: 0
+    invokePointEvent: 0
+    animatorArrivelTrigger: 
+    animatorDepartTrigger: 
   waypointReachDistance: 0.5
   waypointRotationSpeed: 5
   OnSpottingPlayer:
+    m_PersistentCalls:
+      m_Calls: []
+  OnArrivedAtPatrolWaypoint:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAfterDurationFinished:
+    m_PersistentCalls:
+      m_Calls: []
+  OnReachedLastPatrolWaypoint:
+    m_PersistentCalls:
+      m_Calls: []
+  enablePeriodicEvent: 0
+  periodicEventInterval: 5
+  OnPeriodicEvent:
     m_PersistentCalls:
       m_Calls: []
   detectedPlayers: []
@@ -61036,6 +61113,7 @@ MonoBehaviour:
   options: []
   defaultValue: 
   videoType: 0
+  brightnessVolume: {fileID: 0}
 --- !u!114 &1121286229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62101,6 +62179,7 @@ MonoBehaviour:
   options: []
   defaultValue: 
   videoType: 0
+  brightnessVolume: {fileID: 0}
 --- !u!114 &1155715741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62482,6 +62561,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
   playerInside:
   - {fileID: 0}
   - {fileID: 0}
@@ -63806,6 +63888,7 @@ MonoBehaviour:
   - OFF
   defaultValue: ON
   videoType: 2
+  brightnessVolume: {fileID: 0}
 --- !u!95 &1172921087
 Animator:
   serializedVersion: 7
@@ -65415,7 +65498,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
+  m_VoxelSize: 0.06666667
   m_MinRegionArea: 1
   m_NavMeshData: {fileID: 23800000, guid: 40c894b8ecf702b4eb92bd6a1c001910, type: 2}
   m_BuildHeightMesh: 0
@@ -67618,6 +67701,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
   playerInside:
   - {fileID: 0}
   - {fileID: 0}
@@ -72630,6 +72716,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
   playerInside:
   - {fileID: 0}
   - {fileID: 0}
@@ -77529,7 +77618,7 @@ PrefabInstance:
     - target: {fileID: 2011781106430218503, guid: e3dae96754308704ba9b67edddba32ba, type: 3}
       propertyPath: pausePanel
       value: 
-      objectReference: {fileID: 1671767111}
+      objectReference: {fileID: 0}
     - target: {fileID: 2011781106430218503, guid: e3dae96754308704ba9b67edddba32ba, type: 3}
       propertyPath: menuSelector
       value: 
@@ -77537,43 +77626,43 @@ PrefabInstance:
     - target: {fileID: 2011781106430218503, guid: e3dae96754308704ba9b67edddba32ba, type: 3}
       propertyPath: tabletAnimator
       value: 
-      objectReference: {fileID: 1671767110}
+      objectReference: {fileID: 0}
     - target: {fileID: 2011781106430218503, guid: e3dae96754308704ba9b67edddba32ba, type: 3}
       propertyPath: saveTabletSelector
       value: 
-      objectReference: {fileID: 1671767112}
+      objectReference: {fileID: 0}
     - target: {fileID: 2011781106430218503, guid: e3dae96754308704ba9b67edddba32ba, type: 3}
       propertyPath: 'pauseBg.Array.data[0]'
       value: 
-      objectReference: {fileID: 1671767120}
+      objectReference: {fileID: 0}
     - target: {fileID: 2011781106430218503, guid: e3dae96754308704ba9b67edddba32ba, type: 3}
       propertyPath: 'pauseBg.Array.data[1]'
       value: 
-      objectReference: {fileID: 1671767118}
+      objectReference: {fileID: 0}
     - target: {fileID: 2011781106430218503, guid: e3dae96754308704ba9b67edddba32ba, type: 3}
       propertyPath: 'pauseBg.Array.data[2]'
       value: 
-      objectReference: {fileID: 1671767116}
+      objectReference: {fileID: 0}
     - target: {fileID: 2011781106430218503, guid: e3dae96754308704ba9b67edddba32ba, type: 3}
       propertyPath: 'pauseBg.Array.data[3]'
       value: 
-      objectReference: {fileID: 1671767114}
+      objectReference: {fileID: 0}
     - target: {fileID: 2011781106430218503, guid: e3dae96754308704ba9b67edddba32ba, type: 3}
       propertyPath: 'pauseTexts.Array.data[0]'
       value: 
-      objectReference: {fileID: 1671767119}
+      objectReference: {fileID: 0}
     - target: {fileID: 2011781106430218503, guid: e3dae96754308704ba9b67edddba32ba, type: 3}
       propertyPath: 'pauseTexts.Array.data[1]'
       value: 
-      objectReference: {fileID: 1671767117}
+      objectReference: {fileID: 0}
     - target: {fileID: 2011781106430218503, guid: e3dae96754308704ba9b67edddba32ba, type: 3}
       propertyPath: 'pauseTexts.Array.data[2]'
       value: 
-      objectReference: {fileID: 1671767115}
+      objectReference: {fileID: 0}
     - target: {fileID: 2011781106430218503, guid: e3dae96754308704ba9b67edddba32ba, type: 3}
       propertyPath: 'pauseTexts.Array.data[3]'
       value: 
-      objectReference: {fileID: 1671767113}
+      objectReference: {fileID: 0}
     - target: {fileID: 2298846947366779676, guid: e3dae96754308704ba9b67edddba32ba, type: 3}
       propertyPath: m_LocalPosition.x
       value: 749.53705
@@ -77902,6 +77991,7 @@ MonoBehaviour:
   - OFF
   defaultValue: ON
   videoType: 2
+  brightnessVolume: {fileID: 0}
 --- !u!114 &1398299139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78796,6 +78886,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  isNotifyOnInteract: 0
 --- !u!1 &1408796488
 GameObject:
   m_ObjectHideFlags: 0
@@ -83248,6 +83339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GP_DoorInteract_Mng_Fixed
   currentDoorState: 0
+  isLocketDesk: 0
   timelineIdle: {fileID: 691245697}
   timelineOpen: {fileID: 1113568282}
   timelineClose: {fileID: 1022678927}
@@ -83259,6 +83351,9 @@ MonoBehaviour:
   - {fileID: 1641586318}
   doorInteractionIcon: {fileID: 1377081015}
   requiredKey: {fileID: 130193880}
+  onDoorFailedToOpen:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!65 &1489588915
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -83456,6 +83551,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5995b1731260994478874515fee3883e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_GP_EnemySingaBarong
+  animator: {fileID: 0}
+  CaughtCollider: {fileID: 0}
   bossType: 0
   detectionLight: {fileID: 2049296514}
   detectionRange: 10
@@ -83480,11 +83577,27 @@ MonoBehaviour:
   deathTimeline: {fileID: 780645151}
   patrolTimeline: {fileID: 1054160290}
   pauseSpotting: 0
+  isPauseSpottingException: 0
   isPatrolWaypoint: 0
+  loopPatrolWaypoints: 0
   patrolWaypoints: []
   waypointReachDistance: 0.5
   waypointRotationSpeed: 5
   OnSpottingPlayer:
+    m_PersistentCalls:
+      m_Calls: []
+  OnArrivedAtPatrolWaypoint:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAfterDurationFinished:
+    m_PersistentCalls:
+      m_Calls: []
+  OnReachedLastPatrolWaypoint:
+    m_PersistentCalls:
+      m_Calls: []
+  enablePeriodicEvent: 0
+  periodicEventInterval: 5
+  OnPeriodicEvent:
     m_PersistentCalls:
       m_Calls: []
   detectedPlayers: []
@@ -86773,6 +86886,7 @@ MonoBehaviour:
   options: []
   defaultValue: 
   videoType: 0
+  brightnessVolume: {fileID: 0}
 --- !u!114 &1555740943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86958,6 +87072,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
   playerInside:
   - {fileID: 0}
   - {fileID: 0}
@@ -90530,6 +90647,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GP_DoorInteract_Mng_Fixed
   currentDoorState: 0
+  isLocketDesk: 0
   timelineIdle: {fileID: 2125973837}
   timelineOpen: {fileID: 1211377190}
   timelineClose: {fileID: 1336035374}
@@ -90541,6 +90659,9 @@ MonoBehaviour:
   - {fileID: 364886104}
   doorInteractionIcon: {fileID: 247630038}
   requiredKey: {fileID: 0}
+  onDoorFailedToOpen:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!65 &1611795556
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -91288,6 +91409,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_Enemy_Mannequin
   enemyType: 2
   detectionLight: {fileID: 1178470026}
+  enemyAnimator: {fileID: 0}
   patrolWaypoints: []
   waypointReachDistance: 0.5
   waypointWaitTime: 2
@@ -91307,6 +91429,8 @@ MonoBehaviour:
   investigationDuration: 5
   chaseSpeed: 3
   chaseRotationSpeed: 360
+  chaseAnimatorTrigger: Catch
+  resetAnimatorTrigger: Reset
   onLitByPlayerLight:
     m_PersistentCalls:
       m_Calls: []
@@ -93023,6 +93147,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
   playerInside:
   - {fileID: 0}
   - {fileID: 0}
@@ -93812,310 +93939,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1381926879}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1671767109
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1499931963882710929, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: pauseMenu
-      value: 
-      objectReference: {fileID: 1392976580}
-    - target: {fileID: 2750064120101701844, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_Name
-      value: Tablet
-      objectReference: {fileID: 0}
-    - target: {fileID: 2750064120101701844, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4359045586901611214, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4359045586901611214, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4359045586901611214, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 107.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4359045586901611214, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 83.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4359045586901611214, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 49.999992
-      objectReference: {fileID: 0}
-    - target: {fileID: 4359045586901611214, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 8.150002
-      objectReference: {fileID: 0}
-    - target: {fileID: 4532951661987894816, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4532951661987894816, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4532951661987894816, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 107.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4532951661987894816, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 83.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4532951661987894816, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -90.80001
-      objectReference: {fileID: 0}
-    - target: {fileID: 4532951661987894816, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -108.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 4926209487629843339, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4926209487629843339, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4926209487629843339, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 107.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4926209487629843339, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 83.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4926209487629843339, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 190.79999
-      objectReference: {fileID: 0}
-    - target: {fileID: 4926209487629843339, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 8.150002
-      objectReference: {fileID: 0}
-    - target: {fileID: 5232389068742212114, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 749.53705
-      objectReference: {fileID: 0}
-    - target: {fileID: 5232389068742212114, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1263.9833
-      objectReference: {fileID: 0}
-    - target: {fileID: 5232389068742212114, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 170.67636
-      objectReference: {fileID: 0}
-    - target: {fileID: 5232389068742212114, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5232389068742212114, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5232389068742212114, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5232389068742212114, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5232389068742212114, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5232389068742212114, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5232389068742212114, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6856328929273655494, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6856328929273655494, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6856328929273655494, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 107.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 6856328929273655494, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 83.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6856328929273655494, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -90.80001
-      objectReference: {fileID: 0}
-    - target: {fileID: 6856328929273655494, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 8.150002
-      objectReference: {fileID: 0}
-    - target: {fileID: 6887121777496727043, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7670374713554055577, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7670374713554055577, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7670374713554055577, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 107.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 7670374713554055577, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 83.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7670374713554055577, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 49.999992
-      objectReference: {fileID: 0}
-    - target: {fileID: 7670374713554055577, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -108.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 9036384955940628775, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9036384955940628775, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9036384955940628775, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 107.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 9036384955940628775, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 83.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 9036384955940628775, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 190.79999
-      objectReference: {fileID: 0}
-    - target: {fileID: 9036384955940628775, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -108.15
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
---- !u!114 &1671767110 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1499931963882710929, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-  m_PrefabInstance: {fileID: 1671767109}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a1167a79157db64ca4564ca2a08ccb9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TabletAnimator
---- !u!1 &1671767111 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6887121777496727043, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-  m_PrefabInstance: {fileID: 1671767109}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1671767112 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8571852065810894377, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-  m_PrefabInstance: {fileID: 1671767109}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab2b7d1e0a9cf624882018637aa44628, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SaveTabletSelector
---- !u!114 &1671767113 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4398197321789642883, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-  m_PrefabInstance: {fileID: 1671767109}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
---- !u!1 &1671767114 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3157075115165809514, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-  m_PrefabInstance: {fileID: 1671767109}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1671767115 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2182088773869995291, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-  m_PrefabInstance: {fileID: 1671767109}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
---- !u!1 &1671767116 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4653462029055917458, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-  m_PrefabInstance: {fileID: 1671767109}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1671767117 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3121586490974481437, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-  m_PrefabInstance: {fileID: 1671767109}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
---- !u!1 &1671767118 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6293618543686962187, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-  m_PrefabInstance: {fileID: 1671767109}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1671767119 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7506451838213859366, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-  m_PrefabInstance: {fileID: 1671767109}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
---- !u!1 &1671767120 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7789432775258495378, guid: 13a67a331a6378c4b818c7d58257d238, type: 3}
-  m_PrefabInstance: {fileID: 1671767109}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1675514571
 GameObject:
   m_ObjectHideFlags: 0
@@ -94998,6 +94821,7 @@ MonoBehaviour:
   - 960 x 540
   defaultValue: 1920 x 1080
   videoType: 0
+  brightnessVolume: {fileID: 0}
 --- !u!95 &1697463421
 Animator:
   serializedVersion: 7
@@ -95546,6 +95370,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+  onTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
   playerInside:
   - {fileID: 0}
   - {fileID: 0}
@@ -96440,6 +96267,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5995b1731260994478874515fee3883e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Enemy_Boss
+  animator: {fileID: 0}
+  CaughtCollider: {fileID: 0}
   bossType: 0
   detectionLight: {fileID: 1255991744}
   detectionRange: 10
@@ -96464,35 +96293,75 @@ MonoBehaviour:
   deathTimeline: {fileID: 1300899032}
   patrolTimeline: {fileID: 0}
   pauseSpotting: 0
+  isPauseSpottingException: 0
   isPatrolWaypoint: 0
+  loopPatrolWaypoints: 0
   patrolWaypoints:
   - position: {fileID: 128336071}
     waitDuration: 2
     moveSpeed: 1
+    invokePointEvent: 0
+    animatorArrivelTrigger: 
+    animatorDepartTrigger: 
   - position: {fileID: 1101869742}
     waitDuration: 3
     moveSpeed: 1
+    invokePointEvent: 0
+    animatorArrivelTrigger: 
+    animatorDepartTrigger: 
   - position: {fileID: 363671302}
     waitDuration: 5
     moveSpeed: 1
+    invokePointEvent: 0
+    animatorArrivelTrigger: 
+    animatorDepartTrigger: 
   - position: {fileID: 2112988604}
     waitDuration: 3
     moveSpeed: 1
+    invokePointEvent: 0
+    animatorArrivelTrigger: 
+    animatorDepartTrigger: 
   - position: {fileID: 50704421}
     waitDuration: 5
     moveSpeed: 1
+    invokePointEvent: 0
+    animatorArrivelTrigger: 
+    animatorDepartTrigger: 
   - position: {fileID: 840752242}
     waitDuration: 2
     moveSpeed: 1
+    invokePointEvent: 0
+    animatorArrivelTrigger: 
+    animatorDepartTrigger: 
   - position: {fileID: 924244695}
     waitDuration: 4
     moveSpeed: 1
+    invokePointEvent: 0
+    animatorArrivelTrigger: 
+    animatorDepartTrigger: 
   - position: {fileID: 2008725514}
     waitDuration: 6
     moveSpeed: 1
+    invokePointEvent: 0
+    animatorArrivelTrigger: 
+    animatorDepartTrigger: 
   waypointReachDistance: 0.5
   waypointRotationSpeed: 5
   OnSpottingPlayer:
+    m_PersistentCalls:
+      m_Calls: []
+  OnArrivedAtPatrolWaypoint:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAfterDurationFinished:
+    m_PersistentCalls:
+      m_Calls: []
+  OnReachedLastPatrolWaypoint:
+    m_PersistentCalls:
+      m_Calls: []
+  enablePeriodicEvent: 0
+  periodicEventInterval: 5
+  OnPeriodicEvent:
     m_PersistentCalls:
       m_Calls: []
   detectedPlayers: []
@@ -99718,6 +99587,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GP_DoorInteract_Mng_Fixed
   currentDoorState: 0
+  isLocketDesk: 0
   timelineIdle: {fileID: 1212406220}
   timelineOpen: {fileID: 1376293744}
   timelineClose: {fileID: 2096002551}
@@ -99729,6 +99599,9 @@ MonoBehaviour:
   - {fileID: 1518252070}
   doorInteractionIcon: {fileID: 377718729}
   requiredKey: {fileID: 0}
+  onDoorFailedToOpen:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!65 &1797244824
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -104480,6 +104353,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5995b1731260994478874515fee3883e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_GP_EnemySingaBarong
+  animator: {fileID: 0}
+  CaughtCollider: {fileID: 0}
   bossType: 0
   detectionLight: {fileID: 2057185049}
   detectionRange: 10
@@ -104504,11 +104379,27 @@ MonoBehaviour:
   deathTimeline: {fileID: 0}
   patrolTimeline: {fileID: 0}
   pauseSpotting: 0
+  isPauseSpottingException: 0
   isPatrolWaypoint: 0
+  loopPatrolWaypoints: 0
   patrolWaypoints: []
   waypointReachDistance: 0.5
   waypointRotationSpeed: 5
   OnSpottingPlayer:
+    m_PersistentCalls:
+      m_Calls: []
+  OnArrivedAtPatrolWaypoint:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAfterDurationFinished:
+    m_PersistentCalls:
+      m_Calls: []
+  OnReachedLastPatrolWaypoint:
+    m_PersistentCalls:
+      m_Calls: []
+  enablePeriodicEvent: 0
+  periodicEventInterval: 5
+  OnPeriodicEvent:
     m_PersistentCalls:
       m_Calls: []
   detectedPlayers: []
@@ -104815,6 +104706,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GP_DoorInteract_Mng_Fixed
   currentDoorState: 0
+  isLocketDesk: 0
   timelineIdle: {fileID: 1605966943}
   timelineOpen: {fileID: 1415159564}
   timelineClose: {fileID: 30617449}
@@ -104826,6 +104718,9 @@ MonoBehaviour:
   - {fileID: 64736540}
   doorInteractionIcon: {fileID: 1021012002}
   requiredKey: {fileID: 0}
+  onDoorFailedToOpen:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!65 &1873004335
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -105079,6 +104974,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_GP_SingaBarong
   enemyType: 2
   detectionLight: {fileID: 27455582}
+  enemyAnimator: {fileID: 0}
   patrolWaypoints: []
   waypointReachDistance: 0.5
   waypointWaitTime: 2
@@ -105098,6 +104994,8 @@ MonoBehaviour:
   investigationDuration: 5
   chaseSpeed: 5
   chaseRotationSpeed: 360
+  chaseAnimatorTrigger: Catch
+  resetAnimatorTrigger: Reset
   onLitByPlayerLight:
     m_PersistentCalls:
       m_Calls: []
@@ -113608,6 +113506,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GP_DoorInteract_Mng_Fixed
   currentDoorState: 0
+  isLocketDesk: 0
   timelineIdle: {fileID: 1809030411}
   timelineOpen: {fileID: 361225516}
   timelineClose: {fileID: 873340795}
@@ -113619,6 +113518,9 @@ MonoBehaviour:
   - {fileID: 1744736938}
   doorInteractionIcon: {fileID: 1346572685}
   requiredKey: {fileID: 0}
+  onDoorFailedToOpen:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!65 &2036376330
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -114613,6 +114515,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_GP_SingaBarong
   enemyType: 0
   detectionLight: {fileID: 548843788}
+  enemyAnimator: {fileID: 0}
   patrolWaypoints:
   - {fileID: 326501731}
   - {fileID: 2088984126}
@@ -114636,6 +114539,8 @@ MonoBehaviour:
   investigationDuration: 5
   chaseSpeed: 5
   chaseRotationSpeed: 360
+  chaseAnimatorTrigger: Catch
+  resetAnimatorTrigger: Reset
   onLitByPlayerLight:
     m_PersistentCalls:
       m_Calls: []
@@ -116026,6 +115931,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_GP_SingaBarong
   enemyType: 1
   detectionLight: {fileID: 1054350079}
+  enemyAnimator: {fileID: 0}
   patrolWaypoints: []
   waypointReachDistance: 0.5
   waypointWaitTime: 2
@@ -116045,6 +115951,8 @@ MonoBehaviour:
   investigationDuration: 5
   chaseSpeed: 5
   chaseRotationSpeed: 360
+  chaseAnimatorTrigger: Catch
+  resetAnimatorTrigger: Reset
   onLitByPlayerLight:
     m_PersistentCalls:
       m_Calls: []
@@ -116373,6 +116281,7 @@ MonoBehaviour:
   options: []
   defaultValue: 
   videoType: 0
+  brightnessVolume: {fileID: 0}
 --- !u!114 &2085773791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154632,6 +154541,7 @@ MonoBehaviour:
   options: []
   defaultValue: 
   videoType: 0
+  brightnessVolume: {fileID: 0}
 --- !u!222 &3539573000799976535
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -179190,6 +179100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_Enemy_Mannequin
   enemyType: 2
   detectionLight: {fileID: 433568859}
+  enemyAnimator: {fileID: 0}
   patrolWaypoints: []
   waypointReachDistance: 0.5
   waypointWaitTime: 2
@@ -179209,6 +179120,8 @@ MonoBehaviour:
   investigationDuration: 5
   chaseSpeed: 3
   chaseRotationSpeed: 360
+  chaseAnimatorTrigger: Catch
+  resetAnimatorTrigger: Reset
   onLitByPlayerLight:
     m_PersistentCalls:
       m_Calls: []
@@ -179356,6 +179269,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_Enemy_Mannequin
   enemyType: 2
   detectionLight: {fileID: 444235018}
+  enemyAnimator: {fileID: 0}
   patrolWaypoints: []
   waypointReachDistance: 0.5
   waypointWaitTime: 2
@@ -179375,6 +179289,8 @@ MonoBehaviour:
   investigationDuration: 5
   chaseSpeed: 3
   chaseRotationSpeed: 360
+  chaseAnimatorTrigger: Catch
+  resetAnimatorTrigger: Reset
   onLitByPlayerLight:
     m_PersistentCalls:
       m_Calls: []
@@ -208825,16 +208741,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f8edf5d6ffca9841a8f2bfeccb5e338, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MenuSelector
+  TitleScreen: {fileID: 0}
   mainPanel: {fileID: 7662716560911921624}
   settingsPanel: {fileID: 7105203541143913354}
   gameplayPanel: {fileID: 1475149363205141012}
   extrasPanel: {fileID: 2574404809287331384}
+  creditsPanel: {fileID: 0}
+  galleryPanel: {fileID: 0}
   audioPanel: {fileID: 8308959353859368208}
   videoPanel: {fileID: 4561050164090929720}
   controlPanel: {fileID: 5311365166868657882}
   playPanel: {fileID: 0}
   continuePanel: {fileID: 6002325658982489211}
-  playerMovement: {fileID: 0}
+  openingCutscene: {fileID: 0}
   loadingScreen: {fileID: 7972044157479344854}
   pauseMenu: {fileID: 1392976580}
   slotSelector: {fileID: 3994720638543060340}
@@ -208843,6 +208762,7 @@ MonoBehaviour:
   isInAudioPanel: 0
   isInVideoPanel: 0
   isInContinuePanel: 0
+  isInCutscene: 0
 --- !u!1 &8984546460819073599
 GameObject:
   m_ObjectHideFlags: 0
@@ -210479,5 +210399,4 @@ SceneRoots:
   - {fileID: 1525131561}
   - {fileID: 1138544895}
   - {fileID: 1392976579}
-  - {fileID: 1671767109}
   - {fileID: 945688962}

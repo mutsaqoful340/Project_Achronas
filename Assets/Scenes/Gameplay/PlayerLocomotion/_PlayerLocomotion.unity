@@ -33233,7 +33233,7 @@ Transform:
   m_GameObject: {fileID: 188828390}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0.091, y: 3.82, z: -11.73}
+  m_LocalPosition: {x: 0, y: 3.82, z: -11.73}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -33252,7 +33252,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
   m_UsePipelineSettings: 0
-  m_AdditionalLightsShadowResolutionTier: 2
+  m_AdditionalLightsShadowResolutionTier: 1
   m_CustomShadowLayers: 0
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
@@ -33279,10 +33279,10 @@ Light:
   serializedVersion: 13
   m_Type: 0
   m_Color: {r: 0.5320754, g: 0.52103233, b: 0.52103233, a: 1}
-  m_Intensity: 10
-  m_Range: 6.94
-  m_SpotAngle: 179
-  m_InnerSpotAngle: 98.18566
+  m_Intensity: 15
+  m_Range: 5.69
+  m_SpotAngle: 150.33661
+  m_InnerSpotAngle: 66.01246
   m_CookieSize2D: {x: 0.5, y: 0.5}
   m_Shadows:
     m_Type: 2
@@ -33318,7 +33318,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 2
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 0
@@ -34325,10 +34325,10 @@ Light:
   serializedVersion: 13
   m_Type: 0
   m_Color: {r: 0.82641506, g: 0.62354684, b: 0.4599857, a: 1}
-  m_Intensity: 1.2
-  m_Range: 4.77
-  m_SpotAngle: 106.3
-  m_InnerSpotAngle: 0
+  m_Intensity: 8
+  m_Range: 5.81
+  m_SpotAngle: 109.63753
+  m_InnerSpotAngle: 36.918747
   m_CookieSize2D: {x: 0.5, y: 0.5}
   m_Shadows:
     m_Type: 2
@@ -54581,7 +54581,7 @@ Transform:
   m_GameObject: {fileID: 397964531}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0.091, y: 3.8, z: -4.43}
+  m_LocalPosition: {x: 0, y: 3.8, z: -4.43}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -54600,7 +54600,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
   m_UsePipelineSettings: 0
-  m_AdditionalLightsShadowResolutionTier: 2
+  m_AdditionalLightsShadowResolutionTier: 1
   m_CustomShadowLayers: 0
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
@@ -54627,10 +54627,10 @@ Light:
   serializedVersion: 13
   m_Type: 0
   m_Color: {r: 0.5320754, g: 0.52103233, b: 0.52103233, a: 1}
-  m_Intensity: 10
-  m_Range: 6.94
-  m_SpotAngle: 179
-  m_InnerSpotAngle: 98.18566
+  m_Intensity: 15
+  m_Range: 5.69
+  m_SpotAngle: 150.33661
+  m_InnerSpotAngle: 66.01246
   m_CookieSize2D: {x: 0.5, y: 0.5}
   m_Shadows:
     m_Type: 2
@@ -54666,7 +54666,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 2
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 0
@@ -95675,7 +95675,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
   m_UsePipelineSettings: 0
-  m_AdditionalLightsShadowResolutionTier: 0
+  m_AdditionalLightsShadowResolutionTier: 1
   m_CustomShadowLayers: 0
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
@@ -95704,8 +95704,8 @@ Light:
   m_Color: {r: 0.7660377, g: 0.5888164, b: 0.47841218, a: 1}
   m_Intensity: 10
   m_Range: 33.43
-  m_SpotAngle: 97.810715
-  m_InnerSpotAngle: 67.2035
+  m_SpotAngle: 133.61072
+  m_InnerSpotAngle: 35.8
   m_CookieSize2D: {x: 0.5, y: 0.5}
   m_Shadows:
     m_Type: 2
@@ -170025,10 +170025,10 @@ Light:
   serializedVersion: 13
   m_Type: 0
   m_Color: {r: 0.82641506, g: 0.62354684, b: 0.4599857, a: 1}
-  m_Intensity: 1.2
-  m_Range: 4.77
-  m_SpotAngle: 106.3
-  m_InnerSpotAngle: 0
+  m_Intensity: 8
+  m_Range: 5.81
+  m_SpotAngle: 109.63753
+  m_InnerSpotAngle: 36.918747
   m_CookieSize2D: {x: 0.5, y: 0.5}
   m_Shadows:
     m_Type: 2
@@ -196926,7 +196926,7 @@ Transform:
   m_GameObject: {fileID: 1709874753}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0.091, y: 3.8, z: -8.04}
+  m_LocalPosition: {x: 0, y: 3.8, z: -8.04}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -196945,7 +196945,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
   m_UsePipelineSettings: 0
-  m_AdditionalLightsShadowResolutionTier: 2
+  m_AdditionalLightsShadowResolutionTier: 1
   m_CustomShadowLayers: 0
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
@@ -196972,10 +196972,10 @@ Light:
   serializedVersion: 13
   m_Type: 0
   m_Color: {r: 0.5320754, g: 0.52103233, b: 0.52103233, a: 1}
-  m_Intensity: 10
-  m_Range: 6.94
-  m_SpotAngle: 179
-  m_InnerSpotAngle: 98.18566
+  m_Intensity: 15
+  m_Range: 5.69
+  m_SpotAngle: 150.33661
+  m_InnerSpotAngle: 66.01246
   m_CookieSize2D: {x: 0.5, y: 0.5}
   m_Shadows:
     m_Type: 2
@@ -197011,7 +197011,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 2
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 0
@@ -227977,13 +227977,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1978259657}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0.091, y: 3.8, z: -1.494}
+  m_LocalRotation: {x: 0.6315968, y: -0, z: -0, w: 0.775297}
+  m_LocalPosition: {x: 0, y: 3.8, z: -2.884}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1032533880}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 78.336, y: 0, z: 0}
 --- !u!114 &1978259659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227997,7 +227997,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
   m_UsePipelineSettings: 0
-  m_AdditionalLightsShadowResolutionTier: 2
+  m_AdditionalLightsShadowResolutionTier: 1
   m_CustomShadowLayers: 0
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
@@ -228024,10 +228024,10 @@ Light:
   serializedVersion: 13
   m_Type: 0
   m_Color: {r: 0.5320754, g: 0.52103233, b: 0.52103233, a: 1}
-  m_Intensity: 10
-  m_Range: 6.94
-  m_SpotAngle: 121.25807
-  m_InnerSpotAngle: 0
+  m_Intensity: 15
+  m_Range: 5.69
+  m_SpotAngle: 150.33661
+  m_InnerSpotAngle: 66.01246
   m_CookieSize2D: {x: 0.5, y: 0.5}
   m_Shadows:
     m_Type: 2
@@ -228063,7 +228063,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 2
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 0
